@@ -187,6 +187,8 @@ public class SettingsFrame extends Window {
         settingsTab.setGObject( panes[currIndex] );
       }
     };
+    
+    settingsTab.selectedIndex = 0;
 
     startUpdateDataThread();
 

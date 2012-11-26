@@ -376,13 +376,7 @@ public class MainFrame extends Window {
           }
           MidletMain.chatFrame.chatTabs.tabEvent.stateChanged( MidletMain.chatFrame.chatTabs.selectedIndex, MidletMain.chatFrame.chatTabs.selectedIndex, MidletMain.chatFrame.chatTabs.items.size() - 1 );
           MidletMain.chatFrame.prepareGraphics();
-          //if (chatTab == null) {
-          /** There is no opened chat tab **/
-          // chatTab = new ChatTab((IcqAccountRoot) getActiveAccountRoot(), buddyItem, "/res/groups/img_icqstatus.png".hashCode(), "/res/groups/img_chat.png".hashCode());
-          // MidletMain.chatFrame.addChatTab(chatTab, true);
-          //}
-          //
-        } else {
+       } else {
           Soft notifySoft = new Soft( MidletMain.screen );
           notifySoft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
             public void actionPerformed() {
@@ -622,6 +616,7 @@ public class MainFrame extends Window {
         initEmptySoft();
       }
     } else {
+      accountTabs.validateSelection();
       if ( !getGObject().equals( accountTabs ) ) {
         setGObject( accountTabs );
       }
@@ -1990,11 +1985,9 @@ public class MainFrame extends Window {
   }
 
   public AccountRoot getActiveAccountRoot() {
+    accountTabs.validateSelection();
     if ( accountTabs.items.isEmpty() ) {
       return null;
-    }
-    if ( accountTabs.items.size() <= accountTabs.selectedIndex ) {
-      accountTabs.selectedIndex = accountTabs.items.size() - 1;
     }
     if ( accountTabs.selectedIndex == -1 ) {
       /** Pane on Main Frame **/
