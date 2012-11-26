@@ -1,0 +1,127 @@
+<!-- Out -->
+<iq xmlns="jabber:client" to="xmpp.ru" type="get" id="50">
+<query xmlns="http://jabber.org/protocol/disco#info" />
+</iq>
+
+<!-- In -->
+<iq from='xmpp.ru' to='solkin@xmpp.ru/Gajim' id='50' type='result'>
+<query xmlns='http://jabber.org/protocol/disco#info'>
+<identity category='pubsub' type='pep'/>
+<identity category='server' type='im' name='ejabberd'/>
+<x xmlns='jabber:x:data' type='result'>
+<field var='FORM_TYPE' type='hidden'>
+<value>http://jabber.org/network/serverinfo</value>
+</field>
+</x>
+<feature var='http://ejabberd.jabberstudio.org/protocol/configure'/>
+<feature var='http://jabber.org/protocol/disco#info'/>
+<feature var='http://jabber.org/protocol/disco#items'/>
+<feature var='http://jabber.org/protocol/pubsub'/>
+<feature var='http://jabber.org/protocol/pubsub#access-presence'/>
+<feature var='http://jabber.org/protocol/pubsub#auto-create'/>
+<feature var='http://jabber.org/protocol/pubsub#auto-subscribe'/>
+<feature var='http://jabber.org/protocol/pubsub#delete-items'/>
+<feature var='http://jabber.org/protocol/pubsub#filtered-notifications'/>
+<feature var='http://jabber.org/protocol/pubsub#item-ids'/>
+<feature var='http://jabber.org/protocol/pubsub#last-published'/>
+<feature var='http://jabber.org/protocol/pubsub#presence-notifications'/>
+<feature var='http://jabber.org/protocol/pubsub#presence-subscribe'/>
+<feature var='http://jabber.org/protocol/pubsub#publish'/>
+<feature var='http://jabber.org/protocol/pubsub#retract-items'/>
+<feature var='http://jabber.org/protocol/stats'/>
+<feature var='iq'/>
+<feature var='jabber:iq:last'/>
+<feature var='jabber:iq:register'/>
+<feature var='jabber:iq:time'/>
+<feature var='jabber:iq:version'/>
+<feature var='msgoffline'/>
+<feature var='presence'/>
+<feature var='presence-invisible'/>
+<feature var='urn:xmpp:ping'/>
+<feature var='urn:xmpp:time'/>
+<feature var='vcard-temp'/>
+</query>
+</iq>
+
+<!-- In -->
+<message from='456416407@icq.headcounter.org' to='solkin@xmpp.ru' id='11174' type='chat'>
+<x xmlns='jabber:x:event'>
+<composing/>
+</x>
+<active xmlns='http://jabber.org/protocol/chatstates'/>
+<body>какой он красивый)</body>
+</message>
+
+<!-- Out -->
+<iq xmlns="jabber:client" to="xmpp.ru" type="get" id="51">
+<query xmlns="http://jabber.org/protocol/disco#items" />
+</iq>
+
+<!-- In -->
+<iq from='xmpp.ru' to='solkin@xmpp.ru/Gajim' id='51' type='result'>
+<query xmlns='http://jabber.org/protocol/disco#items'>
+<item jid='conference.xmpp.ru'/>
+<item jid='presence.xmpp.ru'/>
+<item jid='proxy.xmpp.ru'/>
+</query>
+</iq>
+
+<!-- Out -->
+<iq xmlns="jabber:client" to="conference.xmpp.ru" type="get" id="52">
+<query xmlns="http://jabber.org/protocol/disco#info" />
+</iq>
+
+<!-- Out -->
+<iq xmlns="jabber:client" to="presence.xmpp.ru" type="get" id="53">
+<query xmlns="http://jabber.org/protocol/disco#info" />
+</iq>
+
+<!-- Out -->
+<iq xmlns="jabber:client" to="proxy.xmpp.ru" type="get" id="54">
+<query xmlns="http://jabber.org/protocol/disco#info" />
+</iq>
+
+<!-- In -->
+<iq from='conference.xmpp.ru' to='solkin@xmpp.ru/Gajim' id='52' type='result'>
+<query xmlns='http://jabber.org/protocol/disco#info'>
+<identity category='conference' type='text' name='Комнаты'/>
+<feature var='http://jabber.org/protocol/disco#info'/>
+<feature var='http://jabber.org/protocol/disco#items'/>
+<feature var='http://jabber.org/protocol/muc'/>
+<feature var='http://jabber.org/protocol/muc#unique'/>
+<feature var='jabber:iq:register'/>
+<feature var='http://jabber.org/protocol/rsm'/>
+<feature var='vcard-temp'/>
+<x xmlns='jabber:x:data' type='result'>
+<field var='FORM_TYPE' type='hidden'>
+<value>http://jabber.org/network/serverinfo</value>
+</field>
+</x>
+</query>
+</iq>
+
+<!-- In -->
+<iq from='presence.xmpp.ru' to='solkin@xmpp.ru/Gajim' id='53' type='result'>
+<query xmlns='http://jabber.org/protocol/disco#info'>
+<identity category='presence' type='text' name='Web Presence'/>
+<feature var='jabber:iq:register'/>
+<feature var='vcard-temp'/>
+</query>
+</iq>
+
+<!-- In -->
+<iq from='proxy.xmpp.ru' to='solkin@xmpp.ru/Gajim' id='54' type='result'>
+<query xmlns='http://jabber.org/protocol/disco#info'>
+<identity category='proxy' type='bytestreams' name='SOCKS5 Bytestreams'/>
+<feature var='http://jabber.org/protocol/disco#info'/>
+<feature var='vcard-temp'/>
+<feature var='http://jabber.org/protocol/bytestreams'/>
+<x xmlns='jabber:x:data' type='result'>
+<field var='FORM_TYPE' type='hidden'>
+<value>http://jabber.org/network/serverinfo</value>
+</field>
+</x>
+</query>
+</iq>
+
+

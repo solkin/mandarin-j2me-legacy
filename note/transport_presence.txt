@@ -1,0 +1,12 @@
+<presence from="8808780@icq.headcounter.org" to="solkin@xmpp.ru/Miranda">
+	<x xmlns="vcard-temp:x:update">
+		<photo>e94db0da7a929a821529d9486d54ea3269ec429f</photo>
+	</x>
+	<x xmlns="vcard-temp:x:update">
+		<nickname>ARX-Bot #5</nickname>
+	</x>
+	<x xmlns="jabber:x:avatar">
+		<hash>e94db0da7a929a821529d9486d54ea3269ec429f</hash>
+	</x>
+	<c xmlns="http://jabber.org/protocol/caps" node="http://pyicqt.googlecode.com//protocol/caps" ver="0.8.1.5" />
+</presence>

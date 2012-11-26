@@ -1,0 +1,34 @@
+<iq type="set" to="mandarin@conference.xmpp.ru" id="mir_25">
+<query xmlns="http://jabber.org/protocol/muc#admin">
+<item jid="solkin@limun.org" affiliation="owner" />
+</query>
+</iq>
+­
+<iq type="get" to="mandarin@conference.xmpp.ru" id="mir_26">
+<query xmlns="http://jabber.org/protocol/muc#admin">
+<item affiliation="owner" />
+</query>
+</iq>
+­
+<iq from="mandarin@conference.xmpp.ru" to="solkin@xmpp.ru/Miranda" id="mir_25" type="result">
+<query xmlns="http://jabber.org/protocol/muc#admin" />
+</iq>
+­
+<iq from="mandarin@conference.xmpp.ru" to="solkin@xmpp.ru/Miranda" id="mir_26" type="result">
+<query xmlns="http://jabber.org/protocol/muc#admin">
+<item affiliation="owner" jid="tomclaw@ya.ru">
+<reason>Luciferr.: Первый нах</reason>
+</item>
+<item affiliation="owner" jid="luciferr-arh@jabber.ru" />
+<item affiliation="owner" jid="solkin@limun.org">
+<reason />
+</item>
+<item affiliation="owner" jid="solkin@xmpp.ru">
+<reason />
+</item>
+<item affiliation="owner" jid="ezdovoi_kot@jabber.ru">
+<reason>Luciferr.: Конференция о савим</reason>
+</item>
+</query>
+</iq>
+­

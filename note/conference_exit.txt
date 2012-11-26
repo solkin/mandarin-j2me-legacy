@@ -1,0 +1,10 @@
+<presence to="mandarin@conference.xmpp.ru/solkin_" type="unavailable">
+<status>Я использую Miranda Me (http://miranda-me.ru/)</status>
+</presence>
+­
+<presence from="mandarin@conference.xmpp.ru/solkin_" to="solkin@xmpp.ru/Miranda" xml:lang="en" type="unavailable">
+<status>Я использую Miranda Me (http://miranda-me.ru/)</status>
+<x xmlns="http://jabber.org/protocol/muc#user">
+<item affiliation="owner" role="none" />
+</x>
+</presence>

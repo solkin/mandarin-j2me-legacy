@@ -1,0 +1,43 @@
+<!-- Out -->
+<iq xmlns="jabber:client" type="set" id="49">
+<query xmlns="jabber:iq:roster">
+<item jid="solkin@xmpp.ru" name="Solkin">
+<group>General</group>
+</item>
+</query>
+</iq>
+
+<!-- Out -->
+<presence xmlns="jabber:client" to="solkin@xmpp.ru" type="subscribe" id="50">
+<nick xmlns="http://jabber.org/protocol/nick">solkin</nick>
+<x xmlns="vcard-temp:x:update" />
+<c xmlns="http://jabber.org/protocol/caps" node="http://gajim.org" ver="I8g2pphLu5w2XvNV8HDES9gqRaw=" hash="sha-1" />
+<status>Вы не возражаете, если я добавлю Вас в контакт лист?</status>
+</presence>
+
+<!-- In -->
+<iq id='49' type='result' to='solkin@gajim.org/Gajim'/>
+<iq id='lx3635' type='set'>
+<query ver='1' xmlns='jabber:iq:roster'>
+<item jid='solkin@xmpp.ru' subscription='none' name='Solkin'>
+<group>General</group>
+</item>
+</query>
+</iq>
+
+<!-- Out -->
+<iq type="result" id="lx3635" />
+
+<!-- In -->
+<iq id='lx3636' type='set'>
+<query ver='2' xmlns='jabber:iq:roster'>
+<item jid='solkin@xmpp.ru' ask='subscribe' subscription='none' name='Solkin'>
+<group>General</group>
+</item>
+</query>
+</iq>
+
+<!-- Out -->
+<iq type="result" id="lx3636" />
+
+

@@ -1,0 +1,26 @@
+<!-- Out -->
+<presence xmlns="jabber:client" to="mandarin@conference.xmpp.ru/Solkin" xml:lang="en" id="gajim_muc_128_3797a0">
+<x xmlns="vcard-temp:x:update">
+<photo>ebac05f078eef7395c359a5cab1599f884b74e33</photo>
+</x>
+<c xmlns="http://jabber.org/protocol/caps" node="http://gajim.org" ver="Mh6akIO12WR2Lsda8YinHPLEatE=" hash="sha-1" />
+<x xmlns="http://jabber.org/protocol/muc">
+<history maxstanzas="20" since="2011-07-20T14:24:58Z" />
+</x>
+</presence>
+
+<!-- In -->
+<presence from='mandarin@conference.xmpp.ru/Solkin' to='solkin@xmpp.ru/Gajim' type='error' xml:lang='en' id='gajim_muc_128_3797a0'>
+<x xmlns='vcard-temp:x:update'>
+<photo>ebac05f078eef7395c359a5cab1599f884b74e33</photo>
+</x>
+<c xmlns='http://jabber.org/protocol/caps' node='http://gajim.org' ver='Mh6akIO12WR2Lsda8YinHPLEatE=' hash='sha-1'/>
+<x xmlns='http://jabber.org/protocol/muc'>
+<history maxstanzas='20' since='2011-07-20T14:24:58Z'/>
+</x>
+<error code='409' type='cancel'>
+<conflict xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/>
+<text xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'>That nickname is already in use by another occupant</text>
+</error>
+</presence>
+

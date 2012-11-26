@@ -1,0 +1,53 @@
+<iq type="set" to="ezdovoi_kot@jabber.ru/BombusQD" id="mir_55">
+<si xmlns="http://jabber.org/protocol/si" id="47241386" mime-type="binary/octet-stream" profile="http://jabber.org/protocol/si/profile/file-transfer">
+<file xmlns="http://jabber.org/protocol/si/profile/file-transfer" name="tcuilite_def.tth" size="700">
+<desc></desc>
+</file>
+<feature xmlns="http://jabber.org/protocol/feature-neg">
+<x xmlns="jabber:x:data" type="form">
+<field var="stream-method" type="list-single">
+<option>
+<value>http://jabber.org/protocol/ibb</value>
+</option>
+</field>
+</x>
+</feature>
+</si>
+</iq>
+­
+<iq from="ezdovoi_kot@jabber.ru/BombusQD" to="solkin@xmpp.ru/Miranda" xml:lang="ru" type="result" id="mir_55">
+<si xmlns="http://jabber.org/protocol/si">
+<feature xmlns="http://jabber.org/protocol/feature-neg">
+<x xmlns="jabber:x:data" type="submit">
+<field var="stream-method">
+<value>http://jabber.org/protocol/ibb</value>
+</field>
+</x>
+</feature>
+</si>
+</iq>
+­
+<iq type="set" to="ezdovoi_kot@jabber.ru/BombusQD" id="mir_59">
+<open xmlns="http://jabber.org/protocol/ibb" sid="47241386" block-size="2048" stanza="message" />
+</iq>
+­
+<iq from="ezdovoi_kot@jabber.ru/BombusQD" to="solkin@xmpp.ru/Miranda" xml:lang="ru" type="result" id="mir_59" />
+­
+<message to="ezdovoi_kot@jabber.ru/BombusQD" id="mir_60">
+<data xmlns="http://jabber.org/protocol/ibb" sid="47241386" seq="0">/726vf+tqq3/5+Pn/9bT1v/W09b/ra6t/0JBQv/e397/tbLn/6Wezv/Gvvf/3tv3/7Wq7/+lnu//rabv/73H//+Mmv//tarv/97b9/9VVVX/QkFC//////97htr/vcf//4ya//9VVVX//////7CL8P/T0f//vcf//4ya///e397//////woKCv8pLCn/AAAA/zk4Of8AAID/AAAQ/1VVVf//////1MXt//X1//+9x///jJr////3/////v//vbq9/62qrf/n4+f/1tPW/9bT1v+trq3/QkFC/97f3v+1suf/pZ7O/8a+9//e2/f/tarv/6We7/+tpu//vcf//4ya////////3d3d///////d3d3/qqqq/6qqqv+IiIj/3d3d/1VVVf//////3d3d/93d//+7qu7/zMzu/6qqzP//////9/P3///////d3d3/qqqq/6qqqv+IiIj/3d3d/5ndK/+GvQP/tehe/3jPF/8AAAD/lqN7/1VVVf//////sIvw/9PR//+9x///jJr//1VVVf//////3d3d/93d//+7qu7/zMzu/6qqzP//////9/P3///////d3d3/qqqq/6qqqv+IiIj/3d3d/1VVVf//////3d3d/93d//+7qu7/zMzu/6qqzP//////9/P3///////d3d3/qqqq/6qqqv+IiIj/3d3d//////8AAAD/7+/v/87Pzv/d3f//u6ru/8zM7v+qqsz///////fz9///////3d3d/6qqqv+qqqr/iIiI/93d3f8AAID/AAAQ/woKCv8pLCn/AAAA/wAAAP85ODn/VVVV//////+wi/D/09H//73H//+Mmv//vcf//4ya///XcwP/98Ji/+6WJ//qYwP//////3V7dP9VVVX//////93d3f/d3f//u6ru/8zM7v+qqsz/3d3d/6qqqg==</data>
+<amp xmlns="http://jabber.org/protocol/amp">
+<rule condition="deliver-at" value="stored" action="error" />
+<rule condition="match-resource" value="exact" action="error" />
+</amp>
+</message>
+­
+<iq type="set" to="ezdovoi_kot@jabber.ru/BombusQD" id="mir_61">
+<close xmlns="http://jabber.org/protocol/ibb" sid="47241386" />
+</iq>
+­
+<iq from="ezdovoi_kot@jabber.ru/BombusQD" to="solkin@xmpp.ru/Miranda" xml:lang="ru" type="result" id="mir_61" />
+­
+<message from="ezdovoi_kot@jabber.ru/BombusQD" to="solkin@xmpp.ru/Miranda" xml:lang="ru" type="chat" id="2062825252">
+<composing xmlns="http://jabber.org/protocol/chatstates" />
+</message>
+­

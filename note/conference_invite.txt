@@ -1,0 +1,7 @@
+<message to="mandarin@conference.xmpp.ru" id="mir_33">
+<x xmlns="http://jabber.org/protocol/muc#user">
+<invite to="475576699@icq.headcounter.org">
+<reason>Причина</reason>
+</invite>
+</x>
+</message>

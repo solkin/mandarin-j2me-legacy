@@ -1,0 +1,48 @@
+<!-- In -->
+<message from='gorodok@conference.jabber.ru' to='tomclaw@yandex.ru/Gajim' type='normal'>
+<spamooborona xmlns='yandex:jabber:so'>0</spamooborona>
+<x xmlns='http://jabber.org/protocol/muc#user'>
+<invite from='Luciferr-arh@jabber.ru/BombusQD'>
+<reason/>
+</invite>
+</x>
+<x xmlns='jabber:x:conference' jid='gorodok@conference.jabber.ru'/>
+<body>Luciferr-arh@jabber.ru/BombusQD приглашает вас в комнату gorodok@conference.jabber.ru</body>
+</message>
+
+<!-- In -->
+<presence from='mandarin@conference.xmpp.ru/Craig_Mabbitt' to='tomclaw@yandex.ru/Gajim' type='unavailable'>
+<status>Replaced by new connection</status>
+<x xmlns='http://jabber.org/protocol/muc#user'>
+<item jid='Vadim123491@jabber.ru/BombusQD' affiliation='member' role='none'/>
+</x>
+</presence>
+
+<!-- In -->
+<presence from='mandarin@conference.xmpp.ru/Craig_Mabbitt' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' ver='0.9.0-test (r303:308M)'>
+<c xmlns='http://jabber.org/protocol/caps' node='http://bombusmod-qd.wen.ru/caps' ver='FGhiqGBuobO2u1pSKainSjnQGHc=' hash='sha-1'/>
+<nick xmlns='http://jabber.org/protocol/nick'>Vadim123491@jabber.ru</nick>
+<x xmlns='http://jabber.org/protocol/muc#user'>
+<item jid='Vadim123491@jabber.ru/BombusQD' affiliation='member' role='participant'/>
+</x>
+</presence>
+
+<!-- In -->
+<message from='mandarin@conference.xmpp.ru/Ботэ' to='tomclaw@yandex.ru/Gajim' type='groupchat' id='973'>
+<body/>
+</message>
+
+<!-- In -->
+<message from='mandarin@conference.xmpp.ru/Ботэ' to='tomclaw@yandex.ru/Gajim' type='groupchat' id='974'>
+<body/>
+</message>
+
+<!-- In -->
+<iq from='yandex.ru' to='tomclaw@yandex.ru/Gajim' id='ping_1024' type='get'>
+<ping xmlns='urn:xmpp:ping'/>
+</iq>
+
+<!-- Out -->
+<iq xmlns="jabber:client" to="yandex.ru" from="tomclaw@yandex.ru/Gajim" id="ping_1024" type="result" />
+
+

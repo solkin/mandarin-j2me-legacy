@@ -1,0 +1,8 @@
+<presence to="mandarin@conference.xmpp.ru/Solkin__">
+	<priority>0</priority>
+	<c xmlns="http://jabber.org/protocol/caps" node="http://miranda-im.org/caps" ver="0.9.10.0" ext="mood tune activity mir_notes" />
+	<x xmlns="vcard-temp:x:update">
+	<photo>ebac05f078eef7395c359a5cab1599f884b74e33</photo>
+	</x>
+	<status>Да, я тут.</status>
+</presence>

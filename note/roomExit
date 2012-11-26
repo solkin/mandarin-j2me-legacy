@@ -1,0 +1,13 @@
+<!-- Out -->
+<presence xmlns="jabber:client" to="nero@conference.xmpp.ru/solkin" xml:lang="ru" type="unavailable" id="gajim_muc_112_63f170">
+<status>offline</status>
+</presence>
+
+<!-- In -->
+<presence from='nero@conference.xmpp.ru/solkin' to='solkin@xmpp.ru/Gajim' xml:lang='ru' type='unavailable' id='gajim_muc_112_63f170'>
+<status>offline</status>
+<x xmlns='http://jabber.org/protocol/muc#user'>
+<item affiliation='member' role='none'/>
+</x>
+</presence>
+

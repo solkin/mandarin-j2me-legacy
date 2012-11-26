@@ -1,0 +1,1124 @@
+<!-- In -->
+<message from='gorodok@conference.jabber.ru' to='tomclaw@yandex.ru/Gajim' type='normal'>
+<spamooborona xmlns='yandex:jabber:so'>0</spamooborona>
+<x xmlns='http://jabber.org/protocol/muc#user'>
+<invite from='Luciferr-arh@jabber.ru/BombusQD'>
+<reason/>
+</invite>
+</x>
+<x xmlns='jabber:x:conference' jid='gorodok@conference.jabber.ru'/>
+<body>Luciferr-arh@jabber.ru/BombusQD приглашает вас в комнату gorodok@conference.jabber.ru</body>
+</message>
+
+<!-- In -->
+<presence from='mandarin@conference.xmpp.ru/Craig_Mabbitt' to='tomclaw@yandex.ru/Gajim' type='unavailable'>
+<status>Replaced by new connection</status>
+<x xmlns='http://jabber.org/protocol/muc#user'>
+<item jid='Vadim123491@jabber.ru/BombusQD' affiliation='member' role='none'/>
+</x>
+</presence>
+
+<!-- In -->
+<presence from='mandarin@conference.xmpp.ru/Craig_Mabbitt' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' ver='0.9.0-test (r303:308M)'>
+<c xmlns='http://jabber.org/protocol/caps' node='http://bombusmod-qd.wen.ru/caps' ver='FGhiqGBuobO2u1pSKainSjnQGHc=' hash='sha-1'/>
+<nick xmlns='http://jabber.org/protocol/nick'>Vadim123491@jabber.ru</nick>
+<x xmlns='http://jabber.org/protocol/muc#user'>
+<item jid='Vadim123491@jabber.ru/BombusQD' affiliation='member' role='participant'/>
+</x>
+</presence>
+
+<!-- In -->
+<message from='mandarin@conference.xmpp.ru/Ботэ' to='tomclaw@yandex.ru/Gajim' type='groupchat' id='973'>
+<body/>
+</message>
+
+<!-- In -->
+<message from='mandarin@conference.xmpp.ru/Ботэ' to='tomclaw@yandex.ru/Gajim' type='groupchat' id='974'>
+<body/>
+</message>
+
+<!-- In -->
+<iq from='yandex.ru' to='tomclaw@yandex.ru/Gajim' id='ping_1024' type='get'>
+<ping xmlns='urn:xmpp:ping'/>
+</iq>
+
+<!-- Out -->
+<iq xmlns="jabber:client" to="yandex.ru" from="tomclaw@yandex.ru/Gajim" id="ping_1024" type="result" />
+
+<!-- In -->
+<message from='mandarin@conference.xmpp.ru/Luciferr.' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-413735974'>
+<body>Послал с qd</body>
+</message>
+
+<!-- Out -->
+<presence xmlns="jabber:client" to="gorodok@conference.jabber.ru/Игорь Солкин" xml:lang="ru" id="gajim_muc_441_6068f7">
+<x xmlns="vcard-temp:x:update">
+<photo />
+</x>
+<c xmlns="http://jabber.org/protocol/caps" node="http://gajim.org" ver="" hash="sha-1" />
+<x xmlns="http://jabber.org/protocol/muc">
+<history maxstanzas="20" since="2011-07-01T19:15:59Z" />
+</x>
+</presence>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru' to='tomclaw@yandex.ru/Gajim' id='4175115314-11839301'>
+<body>Ваши сообщения к gorodok@conference.jabber.ru блокируются. Для снятия блокировки перейдите по ссылке http://captcha.jabber.ru/captcha/4175115314-11839301</body>
+<x xmlns='jabber:x:oob'>
+<url>http://captcha.jabber.ru/captcha/4175115314-11839301</url>
+</x>
+<captcha xmlns='urn:xmpp:captcha'>
+<x xmlns='jabber:x:data' type='form'>
+<field type='hidden' var='FORM_TYPE'>
+<value>urn:xmpp:captcha</value>
+</field>
+<field type='hidden' var='from'>
+<value>gorodok@conference.jabber.ru/Игорь Солкин</value>
+</field>
+<field type='hidden' var='challenge'>
+<value>4175115314-11839301</value>
+</field>
+<field type='hidden' var='sid'>
+<value>gajim_muc_441_6068f7</value>
+</field>
+<field var='ocr' label='Введите увиденный текст'>
+<required/>
+<media xmlns='urn:xmpp:media-element'>
+<uri type='image/png'>cid:sha1+eb9ffdb5858c6036b1854a644b507a80a7134f93@bob.xmpp.org</uri>
+</media>
+</field>
+</x>
+</captcha>
+<data xmlns='urn:xmpp:bob' cid='sha1+eb9ffdb5858c6036b1854a644b507a80a7134f93@bob.xmpp.org' max-age='0' type='image/png'>iVBORw0KGgoAAAANSUhEUgAAAIwAAAA8CAIAAAFMb/WKAAAFmUlEQVR4nO1b27LbIAwknf7/L6cPnlJFl9VKYDtpzj50fDAgge5y+ng+n6OOX+7o4/HAyx4RtbnSnRAuO1Yeb+0WPpNzklwgCbwss0c6psr1OZMA/6ilt7dKDd2HpX/86ayR89Q1HEw5a+S8KbECb2r98dy9g7kBgJzQocOucS9DvpITDqbUfIqStBL1wPOUyEittGSsgs056tXvlJLFVBFlzvjE3lBw/CmPSa/EH9q0tFEKX04rZCJz2c97hFz3GnCPRWk5GLQPI7h8RMmaulS8F+9EaFASCSOqwHgtWw4lsEax7BqvWt7xe5iqHXc9bC4n90+rCHLfmkaANCTaKyLsU3KVVYVcoNAoQeM9rLM4cN55DuFKEkDFrYStG/ye61caYH35GZHJp1Re/1e0VRnbfVSC1cZSeDo4mKbs57pGaiDOqIIope6PL97r8C7YXjaThzKem0FfSoAPedlSId1QkHoZeVNA+BPNQtxyb5kGiYEct4xG9ZWsnGsBw1JdV053MNVPpdIkJ7nigTwLO35VlShNAxo7XqVain+jlCa7HACNUhesNnRvKlK5IXRyZHaRiFLxZH2asn4yQDWSoWihM3JZonIZavXZYrLEANgnG4J7dcmVWA21tx9gHVQX+rPwkUxj/IdHWu19bakcVaa3ytJiNzLtBaxvohKrpR5bCtBOiaSXVgegxABdNon+kVymJ7sy11QVh6wR3DMw6gdktaGPnCZd0dU+TeOW2R9PHluq2miCNHeQfc+RXb638/1H8gFepc2GQUjY0jrdPShZSQt22VJyk7aHBaV8Q61Qb6d5pGQUockxuVX61v90ndpJxFn0ynIsaaXKhnfTqxaNkul19EoVEHPxcsqWQD8AnMfGKLcVoZZMe7OBW3VXIlBHAhF9xPIBPM2IZCOVm4I8za9eAFazh+g8ipvjX5uYpneBB12shloX6pzzVNjFD09o7gQssdWEiHRWkRKqJZFCKl+HDZL6XqvIqMRMjrvGne48hGCBD3CvycmtUh1l3HTKuuLjVHxroW5zszbwPvwgIsEoPZkvboHV8yrRJJm/8jARyDxoIvwKqJLXG02uStr/4embHKYHpyeuSs5Ff3A99JFmMiZHrmVJY5vHk1p3o29ooObEPwKfdP0k3uJITBF1GcgOx5W4U0jATq83YZdiqfczn7ezfXPe1pvTsDx8iSt90BKrLvUU9wiJD9xkTxM0M8ASPo9NGS6lItW85ZT/dlHFzChBKidrHQvZ6pRLBuyp8uEH90XPThZvEJI6kmorR50HGy1wj4KxD5fcQ4A5ThUNiS590mzD7ZuWlrue6mm+21uKDLlGr+XUxOEGIakzRFc5/7SDkVQYumd0fvlw1XOMiZCuLxqsCNNwhffBC5VFut5vZL8QAFiX0GhkdydVMHZbMvEdtHdSklAPOC+XyloqnrZ0qcvuLor5K3DzgoaESBKzQ6larwDk94KI4mIOsid3vL1BAOokt6XKuHHezlx+mPKOxOYEv9pH6dmlvaDUEN3sK6WI/RUw972V01t0HNq6VopJLvUS6VQ5LG/85gB7itlS6ecetVGO2IXTs7mpvIs0ewZvQTY4zA87wT4p9tRJJf+W1kmMDznp3i0n2HqAU5WTF+PT5mKWtPFoGl4FbgdD3TUon4e5R7k2TR9KRyjE4EWPaWuOOe5qGePEyQ1TxtpHK3WDIg435g5nJQ5RyitBplW9HdxNeOxNzxaxn5VeZTpO7lFaWkyxzKvRqULdE5PclGZU3C4/rQFrhQwt63LBhnbCxuP0hRQJRr59E4/RZmPm9Ls27KEcjY8HoFxvIpgrcbbrYy3JtQw5+IWyuQy5kEoNrh+cgYIlWUm4SfaPwLZjW0yaE75WSOep6VK5dzzIFOhrJXQqPvWj31fhe73TB+EPk/9VD00TfFUAAAAASUVORK5CYII=</data>
+</message>
+
+<!-- Out -->
+<iq xmlns="jabber:client" to="gorodok@conference.jabber.ru" type="set" id="442">
+<captcha xmlns="urn:xmpp:captcha">
+<x xmlns="jabber:x:data" type="submit">
+<field var="FORM_TYPE" type="hidden">
+<value>urn:xmpp:captcha</value>
+</field>
+<field var="from" type="hidden">
+<value>gorodok@conference.jabber.ru/Игорь Солкин</value>
+</field>
+<field var="challenge" type="hidden">
+<value>4175115314-11839301</value>
+</field>
+<field var="sid" type="hidden">
+<value>gajim_muc_441_6068f7</value>
+</field>
+<field var="ocr" label="Введите увиденный текст">
+<required />
+<media xmlns="urn:xmpp:media-element">
+<uri type="image/png">iVBORw0KGgoAAAANSUhEUgAAAIwAAAA8CAIAAAFMb/WKAAAFmUlEQVR4nO1b27LbIAwknf7/L6cPnlJFl9VKYDtpzj50fDAgge5y+ng+n6OOX+7o4/HAyx4RtbnSnRAuO1Yeb+0WPpNzklwgCbwss0c6psr1OZMA/6ilt7dKDd2HpX/86ayR89Q1HEw5a+S8KbECb2r98dy9g7kBgJzQocOucS9DvpITDqbUfIqStBL1wPOUyEittGSsgs056tXvlJLFVBFlzvjE3lBw/CmPSa/EH9q0tFEKX04rZCJz2c97hFz3GnCPRWk5GLQPI7h8RMmaulS8F+9EaFASCSOqwHgtWw4lsEax7BqvWt7xe5iqHXc9bC4n90+rCHLfmkaANCTaKyLsU3KVVYVcoNAoQeM9rLM4cN55DuFKEkDFrYStG/ye61caYH35GZHJp1Re/1e0VRnbfVSC1cZSeDo4mKbs57pGaiDOqIIope6PL97r8C7YXjaThzKem0FfSoAPedlSId1QkHoZeVNA+BPNQtxyb5kGiYEct4xG9ZWsnGsBw1JdV053MNVPpdIkJ7nigTwLO35VlShNAxo7XqVain+jlCa7HACNUhesNnRvKlK5IXRyZHaRiFLxZH2asn4yQDWSoWihM3JZonIZavXZYrLEANgnG4J7dcmVWA21tx9gHVQX+rPwkUxj/IdHWu19bakcVaa3ytJiNzLtBaxvohKrpR5bCtBOiaSXVgegxABdNon+kVymJ7sy11QVh6wR3DMw6gdktaGPnCZd0dU+TeOW2R9PHluq2miCNHeQfc+RXb638/1H8gFepc2GQUjY0jrdPShZSQt22VJyk7aHBaV8Q61Qb6d5pGQUockxuVX61v90ndpJxFn0ynIsaaXKhnfTqxaNkul19EoVEHPxcsqWQD8AnMfGKLcVoZZMe7OBW3VXIlBHAhF9xPIBPM2IZCOVm4I8za9eAFazh+g8ipvjX5uYpneBB12shloX6pzzVNjFD09o7gQssdWEiHRWkRKqJZFCKl+HDZL6XqvIqMRMjrvGne48hGCBD3CvycmtUh1l3HTKuuLjVHxroW5zszbwPvwgIsEoPZkvboHV8yrRJJm/8jARyDxoIvwKqJLXG02uStr/4embHKYHpyeuSs5Ff3A99JFmMiZHrmVJY5vHk1p3o29ooObEPwKfdP0k3uJITBF1GcgOx5W4U0jATq83YZdiqfczn7ezfXPe1pvTsDx8iSt90BKrLvUU9wiJD9xkTxM0M8ASPo9NGS6lItW85ZT/dlHFzChBKidrHQvZ6pRLBuyp8uEH90XPThZvEJI6kmorR50HGy1wj4KxD5fcQ4A5ThUNiS590mzD7ZuWlrue6mm+21uKDLlGr+XUxOEGIakzRFc5/7SDkVQYumd0fvlw1XOMiZCuLxqsCNNwhffBC5VFut5vZL8QAFiX0GhkdydVMHZbMvEdtHdSklAPOC+XyloqnrZ0qcvuLor5K3DzgoaESBKzQ6larwDk94KI4mIOsid3vL1BAOokt6XKuHHezlx+mPKOxOYEv9pH6dmlvaDUEN3sK6WI/RUw972V01t0HNq6VopJLvUS6VQ5LG/85gB7itlS6ecetVGO2IXTs7mpvIs0ewZvQTY4zA87wT4p9tRJJf+W1kmMDznp3i0n2HqAU5WTF+PT5mKWtPFoGl4FbgdD3TUon4e5R7k2TR9KRyjE4EWPaWuOOe5qGePEyQ1TxtpHK3WDIg435g5nJQ5RyitBplW9HdxNeOxNzxaxn5VeZTpO7lFaWkyxzKvRqULdE5PclGZU3C4/rQFrhQwt63LBhnbCxuP0hRQJRr59E4/RZmPm9Ls27KEcjY8HoFxvIpgrcbbrYy3JtQw5+IWyuQy5kEoNrh+cgYIlWUm4SfaPwLZjW0yaE75WSOep6VK5dzzIFOhrJXQqPvWj31fhe73TB+EPk/9VD00TfFUAAAAASUVORK5CYII=</uri>
+</media>
+<value>222337</value>
+</field>
+</x>
+</captcha>
+</iq>
+
+<!-- In -->
+<iq from='gorodok@conference.jabber.ru' to='tomclaw@yandex.ru/Gajim' id='442' type='result'>
+<query xmlns='urn:xmpp:captcha'/>
+</iq>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru' to='tomclaw@yandex.ru/Gajim' type='groupchat'>
+<body>Эта комната фильтруется внешним сервисом</body>
+<x xmlns='http://jabber.org/protocol/muc#user'>
+<status code='100'/>
+</x>
+</message>
+
+<!-- In -->
+<presence from='gorodok@conference.jabber.ru/Леван' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' ver='0.8.1440.1008P (ru) [7128]'>
+<show>chat</show>
+<priority>111</priority>
+<status>Mango-Team. 
+Jabber</status>
+<c xmlns='http://jabber.org/protocol/caps' node='http://bombusmod.net.ru/caps' ver='ysnN37bczv5NezpWSAZNd+2RNwc=' hash='sha-1'/>
+<nick xmlns='http://jabber.org/protocol/nick'>Леван</nick>
+<x xmlns='http://jabber.org/protocol/muc#user'>
+<item affiliation='member' role='participant'/>
+</x>
+</presence>
+
+<!-- In -->
+<presence from='gorodok@conference.jabber.ru/Дарья' to='tomclaw@yandex.ru/Gajim' id='request_126'>
+<show>dnd</show>
+<status>Тружууусь</status>
+<priority>0</priority>
+<c xmlns='http://jabber.org/protocol/caps' node='http://isida-bot.com' ver='2.32'/>
+<x xmlns='http://jabber.org/protocol/muc#user'>
+<item affiliation='admin' role='moderator'/>
+</x>
+</presence>
+
+<!-- In -->
+<presence from='gorodok@conference.jabber.ru/Ангел аDа' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' ver='0.8.9 (r262)'>
+<status>Работаю на</status>
+<c xmlns='http://jabber.org/protocol/caps' node='http://bombusmod-qd.wen.ru/caps' ver='FGhiqGBuobO2u1pSKainSjnQGHc=' hash='sha-1'/>
+<nick xmlns='http://jabber.org/protocol/nick'>Luciferr.</nick>
+<x xmlns='http://jabber.org/protocol/muc#user'>
+<item affiliation='owner' role='moderator'/>
+</x>
+</presence>
+
+<!-- In -->
+<presence from='gorodok@conference.jabber.ru/Gerc' to='tomclaw@yandex.ru/Gajim' xml:lang='ru'>
+<c xmlns='http://jabber.org/protocol/caps' node='http://jimm.net.ru/caps' ver='y2E9ISC4lMHGKxqcewtcww==' hash='md5'/>
+<x xmlns='http://jabber.org/protocol/muc#user'>
+<item affiliation='member' role='participant'/>
+</x>
+</presence>
+
+<!-- In -->
+<presence from='gorodok@conference.jabber.ru/Sacuki' to='tomclaw@yandex.ru/Gajim' id='1872'>
+<status>в ожидании чуда = ^_^ = </status>
+<show>away</show>
+<x xmlns='http://jabber.org/protocol/muc#user'>
+<item affiliation='admin' role='moderator'/>
+</x>
+</presence>
+
+<!-- In -->
+<presence from='gorodok@conference.jabber.ru/jame' to='tomclaw@yandex.ru/Gajim' id='2398'>
+<status>Я развлекательно-игровой бот jame. Напишите &quot;хелп&quot; и внимательно читайте, чтобы понять как со мной играть!</status>
+<show>chat</show>
+<c xmlns='http://jabber.org/protocol/caps' node='http://qabber.ru/jame-bot' ver='11.01.20'/>
+<x xmlns='http://jabber.org/protocol/muc#user'>
+<item affiliation='admin' role='moderator'/>
+</x>
+</presence>
+
+<!-- In -->
+<presence from='gorodok@conference.jabber.ru/Игорь Солкин' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' id='gajim_muc_441_6068f7'>
+<x xmlns='vcard-temp:x:update'>
+<photo/>
+</x>
+<c xmlns='http://jabber.org/protocol/caps' node='http://gajim.org' ver='' hash='sha-1'/>
+<x xmlns='http://jabber.org/protocol/muc#user'>
+<item affiliation='none' role='participant'/>
+</x>
+</presence>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Ангел аDа' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-416466567'>
+<body>Леван: :)</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T19:30:06Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T19:30:06'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Леван' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-412772736'>
+<body>Версия mj</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T19:30:57Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T19:30:57'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Sacuki' to='tomclaw@yandex.ru/Gajim' type='groupchat' id='1871'>
+<body>Леван: Версия клиента у mj: 
+name: Mandarin IM
+version: 2.6 alpha-build 0619
+os: Nokia5230/21.0.004/sw_platform=S60;sw_platform_version=5.0;java_build_version=1.4.43 [CLDC-1.1]</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T19:31:01Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T19:31:01'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/jame' to='tomclaw@yandex.ru/Gajim' type='groupchat' id='msg1309548687.84'>
+<body>Леван: У mj:
+Клиент: Mandarin IM
+Версия: 2.6 alpha-build 0619
+ОС: Nokia5230/21.0.004/sw_platform=S60;sw_platform_version=5.0;java_build_version=1.4.43 [CLDC-1.1]</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T19:31:03Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T19:31:03'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Леван' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-412744512'>
+<body>Ангел аDа: это ты?</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T19:31:26Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T19:31:26'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/mj' to='tomclaw@yandex.ru/Gajim' type='groupchat' id='5'>
+<body>Да</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T19:32:03Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T19:32:03'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Леван' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-412579165'>
+<body>Скачал я :-)</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T19:34:11Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T19:34:11'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/mj' to='tomclaw@yandex.ru/Gajim' type='groupchat' id='10'>
+<body>Тестируй и отпишися в ту конференцию</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T19:36:25Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T19:36:25'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Леван' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-411821101'>
+<body>Ангел аDа: так себе :-) глючно еще</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T19:46:49Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T19:46:49'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Ангел аDа' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-415429434'>
+<body>Что глючно</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T19:47:24Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T19:47:24'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Леван' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-411746241'>
+<body>Ангел аDа: медленно манДарин работает :-)</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T19:48:04Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T19:48:04'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Ангел аDа' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-414947484'>
+<body>Мля я слег:(</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T19:55:25Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T19:55:25'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Леван' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-411254312'>
+<body>Ангел аDа: Ясно</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T19:56:15Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T19:56:15'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Ангел аDа' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-414874274'>
+<body>Встать с кровати не могу:(</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T19:56:39Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T19:56:39'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Леван' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-411208887'>
+<body>Ангел аDа: бывает</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T19:57:01Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T19:57:01'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Ангел аDа' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-414798726'>
+<body>Ребра болят либо сквозняк виноват либо спину надорвал</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T19:57:54Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T19:57:54'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Ангел аDа' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-414579855'>
+<body>Завтра же на работу ещё</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T20:01:33Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T20:01:33'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Леван' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-410878979'>
+<body>Ангел аDа: какая там работа с болью :)</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T20:02:32Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T20:02:32'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Ангел аDа' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-414423877'>
+<body>Надо вот только как встать</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T20:04:09Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T20:04:09'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru/Леван' to='tomclaw@yandex.ru/Gajim' xml:lang='ru' type='groupchat' id='-410259587'>
+<body>Ангел аDа: это Да</body>
+<delay xmlns='urn:xmpp:delay' from='gorodok@conference.jabber.ru' stamp='2011-07-01T20:12:50Z'/>
+<x xmlns='jabber:x:delay' stamp='20110701T20:12:50'/>
+</message>
+
+<!-- In -->
+<message from='gorodok@conference.jabber.ru' to='tomclaw@yandex.ru/Gajim' type='groupchat'>
+<subject>Добро пожаловать в ГородОК Team.
+Правило здесь одно - никого не оскорблять и не материться=)
+*****************
+Мы Вконтакте:
+http://vkontakte.ru/mobja_ru
+Наш сайты:
+http://mobja.ru
+http://gorodok-j.kmx.ru
+*****************
+НОВОСТИ от Mobja.Ru:
+Вы можете зарегистрировать себе е-mail в формате логин@mobja.ru, спасибо сервису Яндекс почта для домена.
+~~~~~~~~~~~~~~~~</subject>
+<body>Ангел аDа установил(а) тему: Добро пожаловать в ГородОК Team.
+Правило здесь одно - никого не оскорблять и не материться=)
+*****************
+Мы Вконтакте:
+http://vkontakte.ru/mobja_ru
+Наш сайты:
+http://mobja.ru
+http://gorodok-j.kmx.ru
+*****************
+НОВОСТИ от Mobja.Ru:
+Вы можете зарегистрировать себе е-mail в формате логин@mobja.ru, спасибо сервису Яндекс почта для домена.
+~~~~~~~~~~~~~~~~</body>
+</message>
+
+<!-- Out -->
+<iq xmlns="jabber:client" to="gorodok@conference.jabber.ru/Леван" type="get" id="443">
+<vCard xmlns="vcard-temp" />
+</iq>
+
+<!-- Out -->
+<iq xmlns="jabber:client" to="gorodok@conference.jabber.ru/Дарья" type="get" id="444">
+<vCard xmlns="vcard-temp" />
+</iq>
+
+<!-- Out -->
+<iq xmlns="jabber:client" to="gorodok@conference.jabber.ru/Дарья" type="get" id="445">
+<query xmlns="http://jabber.org/protocol/disco#info" />
+</iq>
+
+<!-- Out -->
+<iq xmlns="jabber:client" to="gorodok@conference.jabber.ru/Ангел аDа" type="get" id="446">
+<vCard xmlns="vcard-temp" />
+</iq>
+
+<!-- Out -->
+<iq xmlns="jabber:client" to="gorodok@conference.jabber.ru/Gerc" type="get" id="447">
+<vCard xmlns="vcard-temp" />
+</iq>
+
+<!-- In -->
+<iq from='gorodok@conference.jabber.ru/Леван' to='tomclaw@yandex.ru/Gajim' id='443' type='result'>
+<vCard xmlns='vcard-temp'>
+<NICKNAME>mr-L</NICKNAME>
+<FN>Лев</FN>
+<N>
+<PREFIX>mr</PREFIX>
+<GIVEN>Лев</GIVEN>
+<SUFFIX>L</SUFFIX>
+</N>
+<BDAY>29.05.1982</BDAY>
+<ADR>
+<LOCALITY>Белый</LOCALITY>
+<REGION>Тверская</REGION>
+<CTRY>Россия</CTRY>
+</ADR>
+<TZ>+3 Москва</TZ>
+<TEL>
+<NUMBER>Sony ericsson C510</NUMBER>
+</TEL>
+<EMAIL>
+<USERID>levon_08.82@mail.ru</USERID>
+</EMAIL>
+<JABBERID>Infolevan.ru@jabber.ru</JABBERID>
+<URL>Mango.look.in 
+
+levan.wen.ru  
+
+levander.spaces.ru       
+
+vkontakte.ru/levmikh
+                 mangojab.kmx.ru</URL>
+<DESC>Я ко всем отношусь по человечески.</DESC>
+<PHOTO>
+<BINVAL>Qk2mYgAAAAAAADYAAAAoAAAAeAAAAEYAAAABABgAAAAAAHBiAAAAAAAAAAAAAAAAAAAAAAAAAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeMTTe7+/3////////////////GBzeAADexsf3AADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADee33v////GBzeAADeAADeAADeAATe7+/3pabvxsf3UlXnAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADee33vc3XnAADee33vpabvAADeAATe3t/3GBzeUlXnxsf3AADeAADeAADeAATexsf3////////pabvAADeUlXnxsf3AADeAATexsf3////////////UlXnAADeUlXn////GBzeAADeAADeAATe7+/3////////3t/3UlXne33vpabvAADeAATe3t/3GBzeUlXnxsf3AADera7vc3XnAADeAADeAADeMTTe7+/3////1tf3xsf3CAzeMTTe1tf3GBze7+/3////tbbv////////GBzeAADera7vc3XnAADeAADeAADeAATe7+/3////////3t/3UlXne33vxsf37+/3////pabvAADee33vxsf37+/3////pabvAADeAATexsf3////////////UlXnra7vc3XnAADeAADeAADeUlXnxsf3AADera7vc3XnAADeAADeAADeMTTe7+/3////1tf3xsf3CAzeAADeUlXnxsf3AADeUlXnpabvAADeAATexsf3UlXnMTTe1tf3CAzeAADeAADeUlXnxsf3AADeAATexsf3c3XnMTTe1tf3CAzeUlXnpabvAADeAADeAADeAADeAADera7vtbbvpabvAADeAADee33vpabvAADeAATe7+/3UlXnUlXnpabvAADeAATexsf3UlXnAADeAADeAADee33vpabvAADeAADeAADeUlXnxsf3AADeUlXn////GBzeUlXnpabve33vc3XnAADera7vxsf3MTTe1tf3CAzee33vpabvAADeAADeAADee33vpabvAADeAATe7+/3UlXnUlXn////GBzeAATexsf3c3XnUlXn////GBzeAATexsf3c3XnUlXnpabvAADeAADeAADeAADee33vpaalAAAAAAAAAAAAAAAAAAAAAAAAe317paalAAAAAAAAAAAAUlVSxsf3AADeUlXn////GBzeAADeMTTe1tf3CAzeUlXnxsf3AADeAADera7vc3XnAATexsf3UlXnAADeAADeUlXnpabvAADeAADeMTTexsf3AATe3t/3GBzeUlXn////////////////xsf3AATexsf3Wl3nxsf3UlXnAADeAATe7+/3////////////c3XnUlXnxsf3AADeAADera7vc3XnAADeAADeAADeMTTe1tf3CAzeAADeAADeMTTe1tf3CAzeAATexsf3UlXne33vpabve33vc3XnAADeMTTe1tf3CAzera7vc3XnMTTe1tf3CAzeAADeAADeAATe7+/3////////////c3XnAATexsf3CAzeAADeUlXnxsf3AATexsf3CAzeAADeUlXnxsf3UlXn////////////////xsf3MTTe1tfWCAwIAAAAAAAAAAAAAAAAAAAAMTQx1tfWCAwIAAAAAAAAMTQx1tf3CAzeAATexsf3UlXnAADeAATe3t/3GBzeMTTe7+/3c3XnAADee33vc3XnAADera7vc3XnAADeAADeAATe7+/3UlXnAADeUlXnxsf3AADera7vc3XnAATe3t/3GBzeAADeUlXnxsf3AATe3t/3GBzeMTTexsf3AADeAADeQkXnAADeAADeUlXnpabvMTTe7+/3c3XnAADee33vc3XnAADeAADeAADeAATe7+/3pabvAADeAADeAATe3t/3GBzeAADera7vc3XnUlXnxsf3UlXn3t/3CAzeMTTe7+/3UlXne33vpabvAATe3t/3GBzeAADeAADeAADeQkXnAADeAADeUlXnpabvAATexsf3xsf3AADeUlXnxsf3AATexsf3xsf3AADeUlXnxsf3AATe3t/3GBzeAADeUlXnxsf3AATe7+/vpaalAAAAAAAAAAAAAAAAAAAAAAQA7+/vpaalAAAAAAAAAAQA3t/3GBzeAADera7vc3XnAADeAADera7vc3XnAATe7+/3////////////c8vnUr7n////////c3XnAADeAADeMTTe7+/3////////UlXnAADee33vpabvAHHeMabe7/f3////////GBzeMTTe1tf3CAzeAADera7vpabvAADee33v////////////UlXnAATe7+/3////////////c3XnAADeAADeAADeAATexsf3xsf3////GBzeAATexsf3UlXnAADee33vpabvAATe7+/3UlXne33v////3t/3tbbve33vxsf3UlXnAATexsf3UlXnAADeAADeAADee33v////////////UlXnAADee33vtbbv////////UlXnAADee33vtbbv////////UlXnAADeMTTe7+/3////////GBzeAATexsfGxsfG////GBwYAAAAAAAAAAAAAAQAxsfGxsfG////GBwYAAQAxsf3UlXnAADee33vpabvAADeAADee33vpabvAADeAADeAADeAKLeAADeAADeAADeUr7nxuf3AADeAADeAADeAADeAADeAADeAADeAADeAADeUlXnxsf3AEXeAI7eAI7eAI7eAHneAAjeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeUlXn////UlXnAADeAADeAATexsf3xsf3AADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeUlXnxsf3AADeAADeAADeAADeUlXnxsf3AADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADeAADeAADeAADeAADeAADeAADeUlXnxsf3AADeAADeAADeAKLeAADeAADeAADeAATe7+/3////Ur7nAADeAADeAADeAADeAADeAADeAADeMTTe1tf3AADeAADeACjeAI7eAI7eAE3eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAATe7+/3////////////pabvAADeAADeAADeUlXnxsf3AADeAADeAADeAADeAADeAADeAADeAADeAADeMTTe1tf3CAzeAADeAADeAADeMTTe1tf3CAzeAADeAADeAADeAADeAADeAADeAADeAADeAADeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAHHeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeACjeAHHeAI7eAHneADzeAADeADTeAI7eAI7eAGHeAADeAADeAADeAI7eAI7eAI7eABjeAGHeAI7eAI7eAGneACDeAADeAADeAADeAADeAADeAI7eAI7eAI7eABjeAGHeAI7eAI7eAGneACDeAADeAADeAADeAADeAADeAADeAADeADTeAGHeAI7eAI7eAI7eAGneAE3eABjeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeACjeAI7eAI7eAI7eAI7eAI7eAGHeAHneAI7eAI7eACDeAADeAADeAADeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eADTeAADeAADeAADeAADeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eADTeAADeAADeAADeAADeAAjeAGneAI7eAI7eAI7eAI7eAI7eAI7eAI7eAGneAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAGneAI7eAI7eACjeAADeACDeAHHeAI7eAI7eAI7eAAjeAADeAADeAADeAI7eAI7eAI7eAHHeABjeAADeACjeAI7eAI7eAI7eABDeAADeAADeAADeAI7eAI7eAI7eAHHeABjeAADeACjeAI7eAI7eAI7eABDeAADeAADeAADeAGneAI7eAI7eAE3eAAjeAADeAAjeACjeAGHeACDeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAAjeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eABDeAADeAADeAADeAEXeAI7eAI7eAEXeAADeAADeAADeAI7eAI7eAI7eABDeAADeAADeAADeAEXeAI7eAI7eAEXeAADeAADeADTeAI7eAI7eAFXeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAI7eAI7eAI7eACDeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeABjeAI7eAI7eAGneAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeABjeAI7eAI7eAGneAADeAADeAGneAI7eAI7eABjeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAFXeAI7eAI7eAHneADTeABjeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAAjeAGneAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeACjeAE3eAGHeAHneAI7eAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeABjeAI7eAI7eAHHeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeABjeAI7eAI7eAHHeAADeAADeAGneAI7eAI7eAAjeAADeAADeAADeAAjeAI7eAI7eAHHeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAAjeAI7eAI7eAHneAADeAADeAADeAADeAI7eAI7eAI7eAAjeAADeAADeAADeAEXeAI7eAI7eAE3eAADeAADeAADeAI7eAI7eAI7eAAjeAADeAADeAADeAEXeAI7eAI7eAE3eAADeAADeADzeAI7eAI7eADTeAADeAADeAADeADTeAI7eAI7eAE3eAADeAADeAADeAI7eAI7eAI7eADTeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeADTeAGHeACjeABDeAADeAADeAFXeAI7eAI7eAFXeAADeAADeAADeAADeAI7eAI7eAI7eAHHeABjeAADeACDeAI7eAI7eAI7eABDeAADeAADeAADeAI7eAI7eAI7eAHHeABjeAADeACDeAI7eAI7eAI7eABDeAADeAADeAADeAHneAI7eAI7eACDeAADeABjeAHneAI7eAI7eABDeAADeAADeAADeAI7eAI7eAI7eAI7eABjeAADeAE3eABjeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAGneAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eABDeAADeAADeAADeAADeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eADTeAADeAADeAADeAADeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eADTeAADeAADeAADeAADeABjeAI7eAI7eAI7eAI7eAI7eAI7eAI7eADzeAADeAADeAADeAADeAI7eAI7eAI7eAFXeAI7eAI7eAI7eAGHeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeABDeADzeAGHeAHneAI7eAI7eAI7eAFXeABDeAADeAADeAADeAADeAADeAI7eAI7eAI7eABjeAGHeAI7eAI7eAGHeACDeAADeAADeAADeAADeAADeAI7eAI7eAI7eABjeAGHeAI7eAI7eAGHeACDeAADeAADeAADeAADeAADeAADeAAjeAE3eAHneAI7eAI7eAGHeACDeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAGHeAI7eAHHeACjeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAAjeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAAjeAI7eAI7eAI7eAAjeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAHneAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAADeAFXeAI7eAI7eACjeAADeAADeAADeAADeAADeAADeAADeADzeAI7eAI7eAGHeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeACjeAI7eAI7eAI7eACDeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeACDeAI7eAI7eAGHeAADeAADeAADeAADeAADeAADeAADeAHHeAI7eAI7eACjeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAFXeAI7eAI7eAI7eAFXeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAHneAI
+
+<!-- In -->
+7eAI7eAAjeAADeAADeAADeAADeAADeABjeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAAjeAI7eAI7eAI7eAI7eAI7eAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAKLeAKLeAKLeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAEXeAI7eAI7eADzeAADeAADeAADeAADeAADeAE3eAI7eAI7eAE3eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeADTeAI7eAI7eAHneAI7eAI7eACjeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeABDeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eABjeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAGHeAI7eAI7eACDeAI7eAI7eAGHeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAGneAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAHHeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAAjeAI7eAI7eAGHeAADeAGHeAI7eAI7eAAjeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeADTeAI7eAI7eAE3eAADeAADeAADeAFXeAI7eAI7eAEXeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeADzeAI7eAI7eACjeAADeACjeAI7eAI7eADzeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAADeAADeAADeAAjeAI7eAI7eAI7eAADeAADeAADeAI7eAI7eAI7eABDeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAHHeAI7eAHneAADeAADeAADeAI7eAI7eAGneAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAADeAADeAADeAADeAFXeAI7eAI7eACjeAADeADTeAI7eAI7eAGneAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eABDeAI7eAI7eAE3eAADeAADeAADeAE3eAI7eAI7eABDeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAKLeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeACDeAI7eAI7eAGHeAADeAGneAI7eAI7eADTeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAEXeAI7eAI7eABjeAADeAADeAADeABjeAI7eAI7eAEXeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAHneAI7eAI7eABjeAI7eAI7eAI7eAAjeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAHneAI7eAGneAADeAADeAADeAADeAADeAHHeAI7eAHneAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAEXeAI7eAI7eAHneAI7eAI7eAFXeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAI7eAI7eADTeAADeAADeAADeAADeAADeADzeAI7eAI7eAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeABDeAI7eAI7eAI7eAI7eAI7eACDeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAI7eAI7eAAjeAADeAADeAADeAADeAADeAAjeAI7eAI7eAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAGneAI7eAI7eAI7eAHneAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAI7eAFXeAADeAADeAADeAADeAADeAADeAADeAGHeAI7eAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAADeAADeAADeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeADTeAI7eAI7eAI7eAE3eAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAI7eACDeAADeAADeAADeAADeAADeAADeAADeACjeAI7eAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAADeAADeAADeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAAjeAI7eAI7eAI7eABjeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAHHeAADeAADeAADeAADeAADeAADeAADeAADeAADeAHneAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAAjeAEXeAGneAI7eAI7eAI7eAGneAEXeABDeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeABjeAHneAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAEXeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAHneAI7eAI7eADzeAAjeAADeAADeACDeAGHeAI7eAI7eADzeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAFXeAI7eAI7eAAjeAADeAADeAADeAADeAAjeAI7eAI7eAHneAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAHneAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeACjeAHHeAI7eAHneADzeAADeADTeAI7eAI7eAGHeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAFXeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAADeAADeAADeAADeACjeAE3eAGHeAGHeAE3eACjeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeACjeAI7eAI7eAI7eACDeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeACjeAI7eAI7eAI7eAI7eAI7eAGHeAHneAI7eAI7eACDeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAE3eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAGHeAADeAADeAAjeAGneAI7eAI7eAI7eAI7eAI7eAI7eAGneAAjeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAFXeAI7eAI7eAI7eAFXeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAGneAI7eAI7eACjeAADeACDeAHHeAI7eAI7eAI7eAAjeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAFXeAAjeAADeAADeAHHeAI7eAI7eAEXeAADeAADeAEXeAI7eAI7eAGneAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAAjeAI7eAI7eAI7eAI7eAI7eAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAAjeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeACjeAI7eAI7eABDeAADeAADeAADeAADeAADeAADeAADeAADeAADeADTeAI7eAI7eAFXeAADeAADeAADeAADeAFXeAI7eAI7eADTeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeADTeAI7eAI7eAHneAI7eAI7eACjeAADeAADeAI7eAI7eAI7eAADeAADeAADeAI7eAI7eAI7eACDeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeACDeAI7eAI7eAI7eAI7eAGneADTeAADeAADeAADeAADeAADeAGneAI7eAI7eACDeAADeAADeAADeAADeACDeAI7eAI7eAGneAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAGHeAI7eAI7eACDeAI7eAI7eAGHeAADeAADeAI7eAI7eAI7eAADeAADeAADeAFXeAI7eAI7eAHneADTeABjeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAHHeAI7eAI7eAI7eAI7eAI7eAI7eAFXeAADeAADeAADeAADeAI7eAI7eAI7eAAjeAADeAADeAADeAADeAAjeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAAjeAI7eAI7eAGHeAADeAGHeAI7eAI7eAAjeAADeAI7eAI7eAI7eAADeAADeAADeAAjeAGneAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAEXeAI7eAI7eAGHeAAjeAADeAFXeAI7eAI7eACjeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeADzeAI7eAI7eACjeAADeACjeAI7eAI7eADzeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeACjeAE3eAGHeAHneAI7eAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAHneAI7eAI7eABDeAADeAADeAAjeAI7eAI7eAGneAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAHHeAI7eAHneAADeAADeAADeAI7eAI7eAGneAADeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAGneAI7eAI7eABjeAADeAADeAADeAADeABjeAI7eAI7eAGneAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eABDeAI7eAI7eAE3eAADeAADeAADeAE3eAI7eAI7eABDeAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAAjeAI7eAI7eAHneAADeAADeAADeAADeAI7eAI7eAI7eABDeAADeAADeAADeAI7eAI7eAI7eAADeAADeAADeAHneAI7eAI7eABDeAADeAADeAAjeAI7eAI7eAI7eAADeAADeAADeADTeAI7eAI7eAFXeAADeAADeAADeAADeAFXeAI7eAI7eADTeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAEXeAI7eAI7eABjeAADeAADeAADeABjeAI7eAI7eAEXeAI7eAI7eAI7eAADeAADeAADeADTeAGHeACjeABDeAADeAADeAFXeAI7eAI7eAFXeAADeAADeAADeAADeAI7eAI7eAI7eAHneACjeAADeADTeAI7eAI7eAGHeAADeAADeAADeAEXeAI7eAI7eAGHeAAjeAADeAFXeAI7eAI7eAGneAADeAADeAADeAADeAHHeAI7eAI7eADzeAADeAADeADzeAI7eAI7eAHHeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAHneAI7eAGneAADeAADeAADeAADeAADeAHHeAI7eAHneAI7eAI7eAI7eAADeAADeAADeAGneAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eABDeAADeAADeAADeAADeAI7eAI7eAI7eAE3eAI7eAI7eAI7eAI7eAI7eACDeAADeAADeAADeAADeAGHeAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAI7eAADeAADeAAjeAGneAI7eAI7eAI7eAI7eAI7eAI7eAGneAAjeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAI7eAI7eADTeAADeAADeAADeAADeAADeADzeAI7eAI7eAI7eAI7eAI7eAADeAADeAADeABDeADzeAGHeAHneAI7eAI7eAI7eAFXeABDeAADeAADeAADeAADeAADeAI7eAI7eAI7eAADeACDeAGneAI7eAHHeACjeAADeAADeAADeAADeAADeAADeADTeAGneAI7eAI7eAHHeADTeADTeAEXeAGHeAHneAADeAADeAADeAADeACjeAE3eAGHeAGHeAE3eACjeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAI7eAI7eAAjeAADeAADeAADeAADeAADeAAjeAI7eAI7eAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAI7eAFXeAADeAADeAADeAADeAADeAADeAADeAGHeAI7eAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAI7eACDeAADeAADeAADeAADeAADeAADeAADeACjeAI7eAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAI7eAI7eAI7eAHHeAADeAADeAADeAADeAADeAADeAADeAADeAADeAHneAI7eAI7eAI7eAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAA
+
+<!-- In -->
+DeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADeAADe</BINVAL>
+<TYPE>image/x-ms-bmp</TYPE>
+</PHOTO>
+</vCard>
+</iq>
+
+<!-- In -->
+<iq from='gorodok@conference.jabber.ru/Дарья' to='tomclaw@yandex.ru/Gajim' id='444' type='result'>
+<vCard xmlns='vcard-temp'>
+<FN>Dawn</FN>
+<NICKNAME>dawn</NICKNAME>
+<PHOTO>
+<TYPE>image/jpeg</TYPE>
+<BINVAL>
+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</BINVAL>
+</PHOTO>
+<BDAY>2011-02-17</BDAY>
+<TITLE>админ / бот</TITLE>
+<ROLE>модерирование комнаты</ROLE>
+<ORG>
+<ORGNAME>Zi-Man`s</ORGNAME>
+<ORGUNIT>аренда ботов</ORGUNIT>
+</ORG>
+<DESC>арендовать меня можно в
+mangust@conference.jabber.ru
+админ бота Man</DESC>
+</vCard>
+</iq>
+
+<!-- In -->
+<iq from='gorodok@conference.jabber.ru/Ангел аDа' to='tomclaw@yandex.ru/Gajim' id='446' type='result'>
+<vCard xmlns='vcard-temp'>
+<FN>ВячеSлаВ</FN>
+<NICKNAME>Luciferr</NICKNAME>
+<BDAY>06-07-1990</BDAY>
+<ADR>
+<LOCALITY>Архангельск</LOCALITY>
+<REGION>Архангельская</REGION>
+<PCODE>163020</PCODE>
+<CTRY>Россия</CTRY>
+</ADR>
+<TEL>
+<NUMBER>Nokia 5230 XpressMusic</NUMBER>
+</TEL>
+<EMAIL>
+<USERID>luciferr@29.ru</USERID>
+</EMAIL>
+<JABBERID>gorodok@conference.jabber.ru</JABBERID>
+<TITLE>Админ сайта</TITLE>
+<ROLE>Автослесарь</ROLE>
+<URL>http://mobja.ru</URL>
+<DESC>http://twitter.com/luciferr29</DESC>
+<PHOTO>
+<BINVAL>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</BINVAL>
+<TYPE>image/jpeg</TYPE>
+</PHOTO>
+</vCard>
+</iq>
+
+<!-- In -->
+<iq from='gorodok@conference.jabber.ru/Gerc' to='tomclaw@yandex.ru/Gajim' id='447' type='result'>
+<vCard xmlns='vcard-temp'>
+<FN/>
+<N>
+<GIVEN/>
+<MIDDLE/>
+<FAMILY/>
+</N>
+<NICKNAME>draft9</NICKNAME>
+<BDAY/>
+<GENDER/>
+<ADR>
+<HOME/>
+<STREET/>
+<EXTADR/>
+<EXTADD/>
+<LOCALITY/>
+<REGION/>
+<PCODE/>
+<CTRY/>
+<COUNTRY/>
+</ADR>
+<ADR>
+<WORK/>
+<STREET/>
+<EXTADR/>
+<EXTADD/>
+<LOCALITY/>
+<REGION/>
+<PCODE/>
+<CTRY/>
+<COUNTRY/>
+</ADR>
+<ORG>
+<ORGNAME/>
+<ORGUNIT/>
+</ORG>
+<TITLE/>
+<ROLE/>
+<URL/>
+<DESC/>
+<PHOTO>
+<TYPE>image/png</TYPE>
+<BINVAL>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</BINVAL>
+</PHOTO>
+</vCard>
+</iq>
+
+<!-- In -->
+<iq from='gorodok@conference.jabber.ru/Дарья' to='tomclaw@yandex.ru/Gajim' id='445' type='result'>
+<query xmlns='http://jabber.org/protocol/disco#info'>
+<feature var='http://jabber.org/protocol/disco#info'/>
+<feature var='http://jabber.org/protocol/disco#items'/>
+<feature var='http://jabber.org/protocol/commands'/>
+<feature var='http://isida-bot.com/config'/>
+<identity category='client' type='bot' name='iSida Jabber Bot'/>
+</query>
+</iq>
+
+<!-- Out -->
+<iq xmlns="jabber:client" to="gorodok@conference.jabber.ru/Sacuki" type="get" id="448">
+<vCard xmlns="vcard-temp" />
+</iq>
+
+<!-- Out -->
+<iq xmlns="jabber:client" to="gorodok@conference.jabber.ru/jame" type="get" id="449">
+<vCard xmlns="vcard-temp" />
+</iq>
+
+<!-- Out -->
+<iq xmlns="jabber:client" to="gorodok@conference.jabber.ru/jame" type="get" id="450">
+<query xmlns="http://jabber.org/protocol/disco#info" />
+</iq>
+
+<!-- Out -->
+<iq xmlns="jabber:client" to="gorodok@conference.jabber.ru/Игорь Солкин" type="get" id="451">
+<vCard xmlns="vcard-temp" />
+</iq>
+
+<!-- In -->
+<iq from='gorodok@conference.jabber.ru/Sacuki' to='tomclaw@yandex.ru/Gajim' id='448' type='result'>
+<vCard xmlns='vcard-temp'>
+<FN>Talisman-Girl</FN>
+<NICKNAME>Milka-</NICKNAME>
+<PHOTO>
+<TYPE>image/jpeg</TYPE>
+<BINVAL>
+/9j/4AAQSkZJRgABAQEAYABgAAD/4QBmRXhpZgAASUkqAAgAAAAEABoBBQABAAAAPgAAABsBBQA
+BAAAARgAAACgBAwABAAAAAgAAADEBAgAQAAAATgAAAAAAAABgAAAAAQAAAGAAAAABAAAAUGFpbn
+QuTkVUIHYzLjM1AP/bAEMABQMEBAQDBQQEBAUFBQYHDAgHBwcHDwsLCQwRDxISEQ8RERMWHBcTF
+BoVEREYIRgaHR0fHx8TFyIkIh4kHB4fHv/bAEMBBQUFBwYHDggIDh4UERQeHh4eHh4eHh4eHh4e
+Hh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHv/AABEIASwBkAMBIgACEQEDEQH
+/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAg
+MABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDR
+EVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmq
+srO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+fr/xAAfAQADAQE
+BAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgv/xAC1EQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEk
+FRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTV
+FVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4
+ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2gAMAwEAAhEDEQA/APrrHze
+2aHPymk70OPlrIsFHy0qikXIHNKOo+lAC0hpab60AOHAopBSnpQAneg8ijvjNKelAB6UU0dKd2o
+AKQ0tHPagAAzR/KjOKD7UAB6Ui96XIAoAoAO9Hb2NBoycYoAKDQelFADc8Yp1IR81KRxQAgpqfe
+P8AWnAUikbzQAvXg5zRmgjnJ60vb8KAEHNLz0yaMZFJjtTQCuDt60ij5fwob0oWk9wAClH1NIet
+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
+
+<!-- In -->
+x1IOKkW4SRNrgHNc7BOzk
+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</BINVAL>
+</PHOTO>
+<BDAY>26.07.2008г</BDAY>
+<ADR>
+<HOME/>
+<LOCALITY>Новосибирск</LOCALITY>
+<CTRY>Россия</CTRY>
+</ADR>
+<ROLE>перед тем как попросить бота, добавьте его jid в админы talisman-bots@jabber.ru</ROLE>
+<DESC>перед тем как попросить бота ознакомьтесь с правилами аренды набрав слово &quot;аренда&quot; без кавычек,затем если комната проходит по правилам то добавьте его jid в админы talisman-bots@jabber.ru и свяжитесь с админом бота командой &quot;.админ&quot; без кавычек.
+Нивкоем случае бота овнером не делать!
+Офф комната бота: mangust@conference.jabber.ru</DESC>
+</vCard>
+</iq>
+
+<!-- In -->
+<iq from='gorodok@conference.jabber.ru/jame' to='tomclaw@yandex.ru/Gajim' id='449' type='result'>
+<vCard xmlns='vcard-temp'>
+<FN>jame</FN>
+<NICKNAME>jame</NICKNAME>
+<ADR>
+<STREET>http://firstvds.ru/index.html?from=35386</STREET>
+</ADR>
+<ROLE>Jabber Bot</ROLE>
+<DESC>Я развлекательно-игровой бот, написанный на интерпретируемом, кросплатформенном, аспектно-объектно-ориентированном, расширяемом, встраиваемом, императивном, структурном, высокоуровневом, активно развивающемся языке программирования общего назначения с акцентом на производительность разработчика, динамической семантикой и типизацией, автоматической системой по управлению памятью, полной интроспекцией, поддержкой многопоточных вычислений и удобной высокоуровневой структурой данных - Python. 
+
+Помоги, чем можешь на WMR102966693041.
+</DESC>
+</vCard>
+</iq>
+
+<!-- In -->
+<iq from='gorodok@conference.jabber.ru/Игорь Солкин' to='tomclaw@yandex.ru/Gajim' id='451' type='result'>
+<vCard xmlns='vcard-temp'>
+<NICKNAME>tomclaw@ya.ru</NICKNAME>
+</vCard>
+</iq>
+
+<!-- In -->
+<iq from='gorodok@conference.jabber.ru/jame' to='tomclaw@yandex.ru/Gajim' id='450' xml:lang='ru' type='error'>
+<query xmlns='http://jabber.org/protocol/disco#info'/>
+<error code='404' type='cancel'>
+<item-not-found xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/>
+<text xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'>The addressed JID or item requested cannot be found.</text>
+</error>
+</iq>
+
+

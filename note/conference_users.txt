@@ -1,0 +1,164 @@
+Список участников
+
+<iq type="get" to="mandarin@conference.xmpp.ru" id="mir_10">
+<query xmlns="http://jabber.org/protocol/muc#admin">
+<item role="participant" />
+</query>
+</iq>
+­
+<iq from="mandarin@conference.xmpp.ru" to="solkin@xmpp.ru/Miranda" id="mir_10" type="result">
+<query xmlns="http://jabber.org/protocol/muc#admin">
+<item role="participant" affiliation="member" nick="Craig_Mabbitt" jid="vadim123491@jabber.ru/QIP" />
+<item role="participant" affiliation="member" nick="Димaн" jid="diman7@jabber.ru/Jimm" />
+<item role="participant" affiliation="none" nick="RealKnyaZ" jid="realknyaz@xmpp.ru/Jimm" />
+<item role="participant" affiliation="member" nick="SSKlord" jid="ssklord@jabber.ru/BombusMod/G-2 T-Mobile" />
+</query>
+</iq>
+
+Список модераторов
+
+<iq type="get" to="mandarin@conference.xmpp.ru" id="mir_11">
+<query xmlns="http://jabber.org/protocol/muc#admin">
+<item role="moderator" />
+</query>
+</iq>
+­
+<iq from="mandarin@conference.xmpp.ru" to="solkin@xmpp.ru/Miranda" id="mir_11" type="result">
+<query xmlns="http://jabber.org/protocol/muc#admin">
+<item role="moderator" affiliation="admin" nick="Sacuki" jid="isida-fps@xmpp.ru/isida-bot" />
+<item role="moderator" affiliation="owner" nick="Ездовой_кот" jid="ezdovoi_kot@jabber.ru/BombusQD" />
+<item role="moderator" affiliation="owner" nick="solkin" jid="solkin@xmpp.ru/Miranda" />
+<item role="moderator" affiliation="admin" nick="m1kc" jid="m1kc@ya.ru/Pidgin" />
+<item role="moderator" affiliation="admin" nick="Snapi-Snup" jid="bot@freize.org/Snapi-Snup" />
+</query>
+</iq>
+
+Список пользователей
+
+<iq type="get" to="mandarin@conference.xmpp.ru" id="mir_21">
+<query xmlns="http://jabber.org/protocol/muc#admin">
+<item affiliation="member" />
+</query>
+</iq>
+­
+<iq from="mandarin@conference.xmpp.ru" to="solkin@xmpp.ru/Miranda" id="mir_21" type="result">
+<query xmlns="http://jabber.org/protocol/muc#admin">
+<item affiliation="member" jid="lesli@jabber.ru">
+<reason>Luciferr.: Первый нах</reason>
+</item>
+<item affiliation="member" jid="emci32_aka_west@jabber.ru">
+<reason>Ездовой_кот:</reason>
+</item>
+<item affiliation="member" jid="jars@jabberon.ru">
+<reason>Luciferr.: Конференция о савим</reason>
+</item>
+<item affiliation="member" jid="draft9@jabber.ru">
+<reason>Luciferr.: Первый нах</reason>
+</item>
+<item affiliation="member" jid="igor4312@jabber.ru">
+<reason>Ездовой_кот:</reason>
+</item>
+<item affiliation="member" jid="-=lesli=-@jabber.ru">
+<reason>Ездовой_кот:</reason>
+</item>
+<item affiliation="member" jid="artlink@jabber.ru">
+<reason>Luciferr.: Первый нах</reason>
+</item>
+<item affiliation="member" jid="ipkes@jabberon.ru">
+<reason>Ездовой_кот:</reason>
+</item>
+<item affiliation="member" jid="c6282i@jabber.ru">
+<reason>Luciferr.: МандаринКО</reason>
+</item>
+<item affiliation="member" jid="anwaren87@gmail.com">
+<reason />
+</item>
+<item affiliation="member" jid="admin@mobja.ru">
+<reason>Luciferr.: Первый нах</reason>
+</item>
+<item affiliation="member" jid="diman7@jabber.ru">
+<reason>Luciferr.: Конференция о савим</reason>
+</item>
+<item affiliation="member" jid="darksonar@qip.ru">
+<reason>Luciferr.: Конференция о савим</reason>
+</item>
+<item affiliation="member" jid="ssklord@jabber.ru">
+<reason>Ездовой_кот:</reason>
+</item>
+<item affiliation="member" jid="ctacoh@jabber.ru">
+<reason>Ездовой_кот:</reason>
+</item>
+<item affiliation="member" jid="dankovskiy@jabber.ru">
+<reason>Luciferr.: Первый нах</reason>
+</item>
+<item affiliation="member" jid="post@jabber.org">
+<reason>Luciferr.: Первый нах</reason>
+</item>
+<item affiliation="member" jid="я2r@jabber.ru">
+<reason>Ездовой_кот:</reason>
+</item>
+<item affiliation="member" jid="vadim123491@jabber.ru">
+<reason>Luciferr.: Конференция о савим</reason>
+</item>
+<item affiliation="member" jid="devll@jabber.ru">
+<reason>Ездовой_кот:</reason>
+</item>
+<item affiliation="member" jid="infolevan.ru@jabber.ru">
+<reason>Luciferr.: Первый нах</reason>
+</item>
+<item affiliation="member" jid="espr1t@jabber.ru">
+<reason />
+</item>
+<item affiliation="member" jid="elektro@jabberon.ru">
+<reason>Luciferr.: Первый нах</reason>
+</item>
+<item affiliation="member" jid="willmind@jabber.ru">
+<reason />
+</item>
+</query>
+</iq>
+
+Список админов
+
+<iq type="get" to="mandarin@conference.xmpp.ru" id="mir_22">
+<query xmlns="http://jabber.org/protocol/muc#admin">
+<item affiliation="admin" />
+</query>
+</iq>
+­
+<iq from="mandarin@conference.xmpp.ru" to="solkin@xmpp.ru/Miranda" id="mir_22" type="result">
+<query xmlns="http://jabber.org/protocol/muc#admin">
+<item affiliation="admin" jid="isida-fps@xmpp.ru">
+<reason />
+</item>
+<item affiliation="admin" jid="bot@freize.org">
+<reason />
+</item>
+<item affiliation="admin" jid="m1kc@ya.ru">
+<reason>Ездовой_кот:</reason>
+</item>
+</query>
+</iq>
+
+Список владельцев
+
+<iq type="get" to="mandarin@conference.xmpp.ru" id="mir_23">
+<query xmlns="http://jabber.org/protocol/muc#admin">
+<item affiliation="owner" />
+</query>
+</iq>
+­
+<iq from="mandarin@conference.xmpp.ru" to="solkin@xmpp.ru/Miranda" id="mir_23" type="result">
+<query xmlns="http://jabber.org/protocol/muc#admin">
+<item affiliation="owner" jid="tomclaw@ya.ru">
+<reason>Luciferr.: Первый нах</reason>
+</item>
+<item affiliation="owner" jid="luciferr-arh@jabber.ru" />
+<item affiliation="owner" jid="solkin@xmpp.ru">
+<reason />
+</item>
+<item affiliation="owner" jid="ezdovoi_kot@jabber.ru">
+<reason>Luciferr.: Конференция о савим</reason>
+</item>
+</query>
+</iq>

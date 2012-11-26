@@ -1,0 +1,41 @@
+<!-- Out -->
+<presence xmlns="jabber:client" to="room5@conference.rulaps.com/Солкин" xml:lang="ru" id="gajim_muc_121_9b0467">
+<x xmlns="vcard-temp:x:update">
+<photo>ca9d82080f4465e4e06eeee8142f515139b78270</photo>
+</x>
+<c xmlns="http://jabber.org/protocol/caps" node="http://gajim.org" ver="Mh6akIO12WR2Lsda8YinHPLEatE=" hash="sha-1" />
+<x xmlns="http://jabber.org/protocol/muc">
+<history maxstanzas="20" since="2011-06-27T08:12:13Z" />
+<password>12345</password>
+</x>
+</presence>
+
+<!-- In -->
+<presence from='room5@conference.rulaps.com/Солкин' to='solkin@xmpp.ru/Gajim' type='error' xml:lang='ru' id='gajim_muc_121_9b0467'>
+<x xmlns='vcard-temp:x:update'>
+<photo>ca9d82080f4465e4e06eeee8142f515139b78270</photo>
+</x>
+<c xmlns='http://jabber.org/protocol/caps' node='http://gajim.org' ver='Mh6akIO12WR2Lsda8YinHPLEatE=' hash='sha-1'/>
+<x xmlns='http://jabber.org/protocol/muc'>
+<history maxstanzas='20' since='2011-06-27T08:12:13Z'/>
+<password>12345</password>
+</x>
+<error code='404' type='cancel'>
+<remote-server-not-found xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/>
+</error>
+</presence>
+
+<!-- Out -->
+<presence xmlns="jabber:client" to="room5@conference.rulaps.com/Солкин" xml:lang="ru" type="unavailable" id="gajim_muc_122_9b0467">
+<status>offline</status>
+</presence>
+
+<!-- In -->
+<presence from='room5@conference.rulaps.com/Солкин' to='solkin@xmpp.ru/Gajim' type='error' xml:lang='ru' id='gajim_muc_122_9b0467'>
+<status>offline</status>
+<error code='404' type='cancel'>
+<remote-server-not-found xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/>
+</error>
+</presence>
+
+

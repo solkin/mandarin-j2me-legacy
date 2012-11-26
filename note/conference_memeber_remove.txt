@@ -1,0 +1,9 @@
+<iq type="set" to="mandarin@conference.xmpp.ru" id="mir_34">
+<query xmlns="http://jabber.org/protocol/muc#admin">
+<item jid="solkin@limun.org" affiliation="none" />
+</query>
+</iq>
+­
+<iq from="mandarin@conference.xmpp.ru" to="solkin@xmpp.ru/Miranda" id="mir_34" type="result">
+<query xmlns="http://jabber.org/protocol/muc#admin" />
+</iq>

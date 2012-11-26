@@ -1,0 +1,178 @@
+<iq type="get" to="lager@conference.xmpp.ru" id="mir_85">
+<query xmlns="http://jabber.org/protocol/muc#owner" />
+</iq>
+­
+<iq from="lager@conference.xmpp.ru" to="solkin@xmpp.ru/Miranda" id="mir_85" type="result">
+<query xmlns="http://jabber.org/protocol/muc#owner">
+<instructions>You need an x:data capable client to configure room</instructions>
+<x xmlns="jabber:x:data" type="form">
+<title>Configuration of room lager@conference.xmpp.ru</title>
+<field type="hidden" var="FORM_TYPE">
+<value>http://jabber.org/protocol/muc#roomconfig</value>
+</field>
+<field type="text-single" label="Room title" var="muc#roomconfig_roomname">
+<value />
+</field>
+<field type="text-single" label="Room description" var="muc#roomconfig_roomdesc">
+<value />
+</field>
+<field type="boolean" label="Make room persistent" var="muc#roomconfig_persistentroom">
+<value>1</value>
+</field>
+<field type="boolean" label="Make room public searchable" var="muc#roomconfig_publicroom">
+<value>1</value>
+</field>
+<field type="boolean" label="Make participants list public" var="public_list">
+<value>1</value>
+</field>
+<field type="boolean" label="Make room password protected" var="muc#roomconfig_passwordprotectedroom">
+<value>0</value>
+</field>
+<field type="text-private" label="Password" var="muc#roomconfig_roomsecret">
+<value />
+</field>
+<field type="list-single" label="Maximum Number of Occupants" var="muc#roomconfig_maxusers">
+<value>100</value>
+<option label="5">
+<value>5</value>
+</option>
+<option label="10">
+<value>10</value>
+</option>
+<option label="20">
+<value>20</value>
+</option>
+<option label="30">
+<value>30</value>
+</option>
+<option label="50">
+<value>50</value>
+</option>
+<option label="100">
+<value>100</value>
+</option>
+</field>
+<field type="list-single" label="Present real Jabber IDs to" var="muc#roomconfig_whois">
+<value>moderators</value>
+<option label="moderators only">
+<value>moderators</value>
+</option>
+<option label="anyone">
+<value>anyone</value>
+</option>
+</field>
+<field type="text-single" label="Filter messages from unaffiliated users through Jabber ID" var="muc#roomconfig_filter_jid">
+<value />
+</field>
+<field type="boolean" label="Make room members-only" var="muc#roomconfig_membersonly">
+<value>0</value>
+</field>
+<field type="boolean" label="Make room moderated" var="muc#roomconfig_moderatedroom">
+<value>1</value>
+</field>
+<field type="boolean" label="Default users as participants" var="members_by_default">
+<value>1</value>
+</field>
+<field type="boolean" label="Allow users to change the subject" var="muc#roomconfig_changesubject">
+<value>1</value>
+</field>
+<field type="boolean" label="Allow users to send private messages" var="allow_private_messages">
+<value>1</value>
+</field>
+<field type="boolean" label="Allow users to query other users" var="allow_query_users">
+<value>1</value>
+</field>
+<field type="boolean" label="Allow users to send invites" var="muc#roomconfig_allowinvites">
+<value>0</value>
+</field>
+<field type="boolean" label="Allow visitors to send status text in presence updates" var="muc#roomconfig_allowvisitorstatus">
+<value>1</value>
+</field>
+<field type="boolean" label="Allow visitors to change nickname" var="muc#roomconfig_allowvisitornickchange">
+<value>1</value>
+</field>
+<field type="boolean" label="Make room captcha protected" var="captcha_protected">
+<value>0</value>
+</field>
+<field type="jid-multi" label="Exclude Jabber IDs from CAPTCHA challenge" var="muc#roomconfig_captcha_whitelist" />
+</x>
+</query>
+</iq>
+­
+<iq type="set" to="lager@conference.xmpp.ru" id="mir_86">
+<query xmlns="http://jabber.org/protocol/muc#owner">
+<x xmlns="jabber:x:data" type="submit">
+<field var="FORM_TYPE">
+<value>http://jabber.org/protocol/muc#roomconfig</value>
+</field>
+<field var="muc#roomconfig_roomname">
+<value></value>
+</field>
+<field var="muc#roomconfig_roomdesc">
+<value></value>
+</field>
+<field var="muc#roomconfig_persistentroom">
+<value>1</value>
+</field>
+<field var="muc#roomconfig_publicroom">
+<value>1</value>
+</field>
+<field var="public_list">
+<value>1</value>
+</field>
+<field var="muc#roomconfig_passwordprotectedroom">
+<value>0</value>
+</field>
+<field var="muc#roomconfig_roomsecret">
+<value></value>
+</field>
+<field var="muc#roomconfig_maxusers">
+<value>100</value>
+</field>
+<field var="muc#roomconfig_whois">
+<value>moderators</value>
+</field>
+<field var="muc#roomconfig_filter_jid">
+<value></value>
+</field>
+<field var="muc#roomconfig_membersonly">
+<value>0</value>
+</field>
+<field var="muc#roomconfig_moderatedroom">
+<value>1</value>
+</field>
+<field var="members_by_default">
+<value>1</value>
+</field>
+<field var="muc#roomconfig_changesubject">
+<value>1</value>
+</field>
+<field var="allow_private_messages">
+<value>1</value>
+</field>
+<field var="allow_query_users">
+<value>1</value>
+</field>
+<field var="muc#roomconfig_allowinvites">
+<value>0</value>
+</field>
+<field var="muc#roomconfig_allowvisitorstatus">
+<value>1</value>
+</field>
+<field var="muc#roomconfig_allowvisitornickchange">
+<value>1</value>
+</field>
+<field var="captcha_protected">
+<value>0</value>
+</field>
+<field var="muc#roomconfig_captcha_whitelist">
+<value></value>
+</field>
+</x>
+</query>
+</iq>
+­
+<iq from="lager@conference.xmpp.ru" to="solkin@xmpp.ru/Miranda" id="mir_86" type="result">
+<query xmlns="http://jabber.org/protocol/muc#owner" />
+</iq>
+­

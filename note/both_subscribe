@@ -1,0 +1,105 @@
+<!-- In -->
+<presence type='subscribed' to='solkin@gajim.org' from='solkin@xmpp.ru' id='87' xml:lang='ru'>
+<x xmlns='vcard-temp:x:update'>
+<photo>327bb32b9d3802b229de84db8869cf46f3eb8206</photo>
+</x>
+<c ver='I8g2pphLu5w2XvNV8HDES9gqRaw=' hash='sha-1' node='http://gajim.org' xmlns='http://jabber.org/protocol/caps'/>
+</presence>
+<iq id='lx3744' type='set'>
+<query ver='3' xmlns='jabber:iq:roster'>
+<item jid='solkin@xmpp.ru' subscription='to' name='Solkin'>
+<group>General</group>
+</item>
+</query>
+</iq>
+
+<!-- In -->
+<presence to='solkin@gajim.org' from='solkin@xmpp.ru/Gajim' id='74' xml:lang='ru'>
+<priority>50</priority>
+<x xmlns='vcard-temp:x:update'>
+<photo>327bb32b9d3802b229de84db8869cf46f3eb8206</photo>
+</x>
+<c ver='I8g2pphLu5w2XvNV8HDES9gqRaw=' hash='sha-1' node='http://gajim.org' xmlns='http://jabber.org/protocol/caps'/>
+</presence>
+
+<!-- Out -->
+<presence xmlns="jabber:client" to="solkin@xmpp.ru" type="subscribe" id="88" />
+
+<!-- Out -->
+<iq type="result" id="lx3744" />
+
+<!-- In -->
+<iq id='lx3745' type='set'>
+<query ver='3' xmlns='jabber:iq:roster'>
+<item jid='solkin@xmpp.ru' subscription='to' name='Solkin'>
+<group>General</group>
+</item>
+</query>
+</iq>
+
+<!-- Out -->
+<iq type="result" id="lx3745" />
+
+<!-- In -->
+<presence type='subscribe' to='solkin@gajim.org' from='solkin@xmpp.ru' id='90' xml:lang='ru'>
+<nick xmlns='http://jabber.org/protocol/nick'>solkin</nick>
+<x xmlns='vcard-temp:x:update'>
+<photo>327bb32b9d3802b229de84db8869cf46f3eb8206</photo>
+</x>
+<c ver='I8g2pphLu5w2XvNV8HDES9gqRaw=' hash='sha-1' node='http://gajim.org' xmlns='http://jabber.org/protocol/caps'/>
+<status>Вы не возражаете, если я добавлю Вас в контакт лист?</status>
+</presence>
+
+<!-- Out -->
+<presence xmlns="jabber:client" to="solkin@xmpp.ru" type="subscribed" id="91">
+<x xmlns="vcard-temp:x:update" />
+<c xmlns="http://jabber.org/protocol/caps" node="http://gajim.org" ver="I8g2pphLu5w2XvNV8HDES9gqRaw=" hash="sha-1" />
+</presence>
+
+<!-- In -->
+<iq id='lx3748' type='set'>
+<query ver='5' xmlns='jabber:iq:roster'>
+<item jid='solkin@xmpp.ru' subscription='both' name='Solkin'>
+<group>General</group>
+</item>
+</query>
+</iq>
+
+<!-- Out -->
+<iq type="result" id="lx3748" />
+
+<!-- In -->
+<message type='headline' to='solkin@gajim.org/Gajim' from='solkin@xmpp.ru'>
+<event xmlns='http://jabber.org/protocol/pubsub#event'>
+<items node='http://jabber.org/protocol/tune'>
+<item id='3180136712'>
+<tune xmlns='http://jabber.org/protocol/tune'/>
+</item>
+</items>
+</event>
+<delay stamp='2012-01-04T14:06:03Z' xmlns='urn:xmpp:delay'/>
+</message>
+
+<!-- In -->
+<message type='headline' to='solkin@gajim.org/Gajim' from='solkin@xmpp.ru'>
+<event xmlns='http://jabber.org/protocol/pubsub#event'>
+<items node='http://jabber.org/protocol/activity'>
+<item id='0'>
+<activity xmlns='http://jabber.org/protocol/activity'/>
+</item>
+</items>
+</event>
+<delay stamp='2012-02-01T18:58:44Z' xmlns='urn:xmpp:delay'/>
+</message>
+<message type='headline' to='solkin@gajim.org/Gajim' from='solkin@xmpp.ru'>
+<event xmlns='http://jabber.org/protocol/pubsub#event'>
+<items node='http://jabber.org/protocol/mood'>
+<item id='0'>
+<mood xmlns='http://jabber.org/protocol/mood'/>
+</item>
+</items>
+</event>
+<delay stamp='2012-02-01T18:58:44Z' xmlns='urn:xmpp:delay'/>
+</message>
+
+

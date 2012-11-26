@@ -1,0 +1,57 @@
+<!-- Out -->
+<iq xmlns="jabber:client" type="get" id="86">
+<query xmlns="jabber:iq:private">
+<storage xmlns="storage:bookmarks"/>
+</query>
+</iq>
+
+<!-- In -->
+<iq from='solkin@xmpp.ru' to='solkin@xmpp.ru/Gajim' id='86' type='result'>
+<query xmlns='jabber:iq:private'>
+<storage xmlns='storage:bookmarks'>
+<conference minimize='0' jid='narod@conference.xmpp.ru' autojoin='0' name='narod'>
+<nick>solkin</nick>
+</conference>
+<conference minimize='0' jid='mandarin@conference.xmpp.ru' autojoin='0' name='mandarin'>
+<nick>solkin</nick>
+</conference>
+<conference minimize='0' jid='nero@conference.xmpp.ru' autojoin='0' name='nero'>
+<nick>solkin</nick>
+</conference>
+</storage>
+</query>
+</iq>
+
+
+
+
+
+
+<!-- Out -->
+<iq xmlns="jabber:client" type="get" id="86">
+<query xmlns="jabber:iq:private">
+<storage xmlns="storage:bookmarks"/>
+</query>
+</iq>
+
+<!-- In -->
+<iq from='solkin@xmpp.ru' to='solkin@xmpp.ru/Gajim' id='86' type='result'>
+<query xmlns='jabber:iq:private'>
+<storage xmlns='storage:bookmarks'>
+<conference minimize='0' jid='mandarin@conference.xmpp.ru' autojoin='0' name='mandarin'>
+<nick>solkin</nick>
+</conference>
+<conference minimize='0' jid='narod@conference.xmpp.ru' autojoin='0' name='narod'>
+<nick>solkin</nick>
+</conference>
+<conference minimize='0' jid='nero@conference.xmpp.ru' autojoin='0' name='nero'>
+<nick>solkin</nick>
+</conference>
+<conference minimize='0' jid='room5@conference.rulaps.com' autojoin='0' name='Новая комната'>
+<nick>Солкин</nick>
+<password>12345</password>
+<print_status>in_and_out</print_status>
+</conference>
+</storage>
+</query>
+</iq>

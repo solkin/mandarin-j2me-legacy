@@ -1,0 +1,12 @@
+<message to="mandarin@conference.xmpp.ru" type="groupchat">
+<subject>Официальная конференция поддержки Mandarin - icq, mail.ru, jabber клиента.Оф.сайт http://www.tomclaw.com/mobile/Конструктор http://www.tomclaw.com/tomkitОткрытая тестовая версия 2.6 alpha-build 0634 с поддержкой конференций: http://www.tomclaw.com/mobile/download/index.php?act=view&file=83Команды бота:!?? помощь!?? ссылки!?? багтрекерДень рождения Mandarin! Проект принимает поздравления, пожелания и интересные идеи = )</subject>
+</message>
+­
+<message from="mandarin@conference.xmpp.ru/solkin_" to="solkin@xmpp.ru/Miranda" xml:lang="en" type="groupchat">
+<subject>Официальная конференция поддержки Mandarin - icq, mail.ru, jabber клиента.Оф.сайт http://www.tomclaw.com/mobile/Конструктор http://www.tomclaw.com/tomkitОткрытая тестовая версия 2.6 alpha-build 0634 с поддержкой конференций: http://www.tomclaw.com/mobile/download/index.php?act=view&file=83Команды бота:!?? помощь!?? ссылки!?? багтрекерДень рождения Mandarin! Проект принимает поздравления, пожелания и интересные идеи = )</subject>
+</message>
+­
+<message from="mandarin@conference.xmpp.ru/solkin_" to="solkin@xmpp.ru/Mandarin 2.6 [0629]" xml:lang="en" type="groupchat">
+<subject>Официальная конференция поддержки Mandarin - icq, mail.ru, jabber клиента.Оф.сайт http://www.tomclaw.com/mobile/Конструктор http://www.tomclaw.com/tomkitОткрытая тестовая версия 2.6 alpha-build 0634 с поддержкой конференций: http://www.tomclaw.com/mobile/download/index.php?act=view&file=83Команды бота:!?? помощь!?? ссылки!?? багтрекерДень рождения Mandarin! Проект принимает поздравления, пожелания и интересные идеи = )</subject>
+</message>
+­
