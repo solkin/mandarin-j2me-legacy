@@ -666,10 +666,6 @@ public class MainFrame extends Window {
       } else if ( accountRoot instanceof MmpAccountRoot ) {
         buddyList.imageLeftFileHash = new int[]{ "/res/groups/img_chat.png".hashCode(), "/res/groups/img_mmpstatus.png".hashCode() };
         buddyList.items = ( ( MmpAccountRoot ) accountRoot ).buddyItems;
-        if ( Splitter.getImageGroup( "/res/groups/img_mmpxstatus.png".hashCode() ) == null ) {
-          LogUtil.outMessage( "Loading 1" );
-          Splitter.splitImage( "/res/groups/img_mmpxstatus.png" );
-        }
         if ( mmpSoft == null ) {
           initMmpSoft();
         }
@@ -1431,115 +1427,55 @@ public class MainFrame extends Window {
       }
     } );
 
+    PopupItem extPopupItem = new PopupItem( Localization.getMessage( "MMP_EXT_STATUS" ) );
     PopupItem tempPopupItem;
+    PopupItem parentPopupItem = statusItem;
+    int statusImageHashCode = "/res/groups/img_mmpstatus.png".hashCode();
     for ( int c = 0; c < MmpStatusUtil.getStatusCount(); c++ ) {
       final long statusId = MmpStatusUtil.getStatus( c );
+      if ( Localization.getMessage( MmpStatusUtil.getStatusDescr( c ) ).equals( Localization._DEFAULT_STRING ) ) {
+        continue;
+      }
       tempPopupItem = new PopupItem( Localization.getMessage( MmpStatusUtil.getStatusDescr( c ) ) ) {
         public void actionPerformed() {
           final MmpAccountRoot mmpAccountRoot = ( MmpAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
-          /**
-           * Status is selected
-           */
+          /** Status is selected **/
           if ( mmpAccountRoot.statusId == 0 && statusId != 0 ) {
-            /**
-             * Need to connect
-             */
+            /** Need to connect **/
             new Thread() {
               public void run() {
-                // initAccount();
                 mmpAccountRoot.connectAction( statusId );
               }
             }.start();
           } else {
             if ( mmpAccountRoot.statusId != 0 && statusId == 0 ) {
-              /**
-               * Need go offline
-               */
+              /** Need go offline **/
               ActionExec.disconnectEvent( mmpAccountRoot );
               mmpAccountRoot.session.disconnect();
             } else {
               if ( mmpAccountRoot.statusId != 0 ) {
                 try {
-                  /**
-                   * Plain status changing
-                   */
+                  /** Plain status changing **/
                   MmpPacketSender.MRIM_CS_CHANGE_STATUS( mmpAccountRoot, statusId, mmpAccountRoot.statusText, mmpAccountRoot.statusDscr );
                   mmpAccountRoot.statusId = statusId;
                   updateAccountsStatus();
-
-                  // MidletMain.saveStatusSettings(accountRoot, accountRoot.xStatusId, accountRoot.pStatusId, accountRoot.privateBuddyId);
-                  // MidletMain.statusMessageFrame = new StatusMessageFrame(accountRoot);
-                  // MidletMain.setCurrentWindow(MidletMain.statusMessageFrame);
                 } catch ( IOException ex ) {
                   LogUtil.outMessage( "Can't set status", true );
                 }
-                /*SetStatusTextFrame setStatusTextFrame = new SetStatusTextFrame(accountRoot, statusId);
-                 setStatusTextFrame.s_prevWindow = MainFrame.this;
-                 MidletMain.screen.setActiveWindow(setStatusTextFrame);*/
               }
             }
           }
         }
       };
-      tempPopupItem.imageFileHash = "/res/groups/img_mmpstatus.png".hashCode();
+      tempPopupItem.imageFileHash = statusImageHashCode;
       tempPopupItem.imageIndex = c;
-      statusItem.addSubItem( tempPopupItem );
-    }
-    PopupItem extPopupItem = new PopupItem( Localization.getMessage( "MMP_EXT_STATUS" ) );
-    statusItem.addSubItem( extPopupItem );
-    int i = 0;
-    for ( int c = 0; c < MmpStatusUtil.getExtStatusCount(); c++ ) {
-      final long statusId = MmpStatusUtil.getExtStatus( c );
-      if ( Localization.getMessage( MmpStatusUtil.getExtStatusDescr( c ) ).equals( Localization._DEFAULT_STRING ) ) {
-        continue;
+      parentPopupItem.addSubItem( tempPopupItem );
+      if(c==MmpStatusUtil.baseStatusCount) {
+        statusItem.addSubItem( extPopupItem );
+        parentPopupItem = extPopupItem;
       }
-      tempPopupItem = new PopupItem( Localization.getMessage( MmpStatusUtil.getExtStatusDescr( c ) ) ) {
-        public void actionPerformed() {
-          final MmpAccountRoot mmpAccountRoot =
-                  ( MmpAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt(
-                  accountTabs.selectedIndex ) ).accountRoot;
-          /** Status is selected **/
-          if ( mmpAccountRoot.statusId == 0 ) {
-            /** No connection **/
-          } else {
-            try {
-              /** Plain status changing **/
-              MmpPacketSender.MRIM_CS_CHANGE_STATUS( mmpAccountRoot, statusId,
-                      mmpAccountRoot.statusText, mmpAccountRoot.statusDscr );
-              mmpAccountRoot.statusId = statusId;
-              updateAccountsStatus();
-            } catch ( IOException ex ) {
-              LogUtil.outMessage( "Can't set extended status", true );
-            }
-          }
-        }
-      };
-      tempPopupItem.imageFileHash = "/res/groups/img_mmpxstatus.png".hashCode();
-      tempPopupItem.imageIndex = i++;
-      extPopupItem.addSubItem( tempPopupItem );
     }
-
-    /* TEST: if (MidletMain.getBoolean(MidletMain.settings, "Master", "isShowEmulation")) {
-     PopupItem emulatorPopup = new PopupItem("Emulator");
-     emulatorPopup.addSubItem(new PopupItem("Buddy list") {
-        
-     public void actionPerformed() {
-     new Thread() {
-        
-     public void run() {
-     MmpAccountRoot mmpAccountRoot = (MmpAccountRoot) getActiveAccountRoot();
-     try {
-     Thread.currentThread().sleep(3000);
-     } catch (Throwable ex1) {
-     }
-     MmpEmulator.emulateBuddyList(mmpAccountRoot);
-     }
-     }.start();
-     }
-     });
-     mmpSoft.leftSoft.addSubItem(emulatorPopup);
-     }*/
-
+    
     mmpSoft.leftSoft.addSubItem( accountPopupItem );
 
     mmpSoft.leftSoft.addSubItem( settingsPopupItem );
