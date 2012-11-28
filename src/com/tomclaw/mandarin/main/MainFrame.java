@@ -376,7 +376,7 @@ public class MainFrame extends Window {
           }
           MidletMain.chatFrame.chatTabs.tabEvent.stateChanged( MidletMain.chatFrame.chatTabs.selectedIndex, MidletMain.chatFrame.chatTabs.selectedIndex, MidletMain.chatFrame.chatTabs.items.size() - 1 );
           MidletMain.chatFrame.prepareGraphics();
-       } else {
+        } else {
           Soft notifySoft = new Soft( MidletMain.screen );
           notifySoft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
             public void actionPerformed() {
@@ -666,6 +666,10 @@ public class MainFrame extends Window {
       } else if ( accountRoot instanceof MmpAccountRoot ) {
         buddyList.imageLeftFileHash = new int[]{ "/res/groups/img_chat.png".hashCode(), "/res/groups/img_mmpstatus.png".hashCode() };
         buddyList.items = ( ( MmpAccountRoot ) accountRoot ).buddyItems;
+        if ( Splitter.getImageGroup( "/res/groups/img_mmpxstatus.png".hashCode() ) == null ) {
+          LogUtil.outMessage( "Loading 1" );
+          Splitter.splitImage( "/res/groups/img_mmpxstatus.png" );
+        }
         if ( mmpSoft == null ) {
           initMmpSoft();
         }
@@ -1480,6 +1484,39 @@ public class MainFrame extends Window {
       tempPopupItem.imageFileHash = "/res/groups/img_mmpstatus.png".hashCode();
       tempPopupItem.imageIndex = c;
       statusItem.addSubItem( tempPopupItem );
+    }
+    PopupItem extPopupItem = new PopupItem( Localization.getMessage( "MMP_EXT_STATUS" ) );
+    statusItem.addSubItem( extPopupItem );
+    int i = 0;
+    for ( int c = 0; c < MmpStatusUtil.getExtStatusCount(); c++ ) {
+      final long statusId = MmpStatusUtil.getExtStatus( c );
+      if ( Localization.getMessage( MmpStatusUtil.getExtStatusDescr( c ) ).equals( Localization._DEFAULT_STRING ) ) {
+        continue;
+      }
+      tempPopupItem = new PopupItem( Localization.getMessage( MmpStatusUtil.getExtStatusDescr( c ) ) ) {
+        public void actionPerformed() {
+          final MmpAccountRoot mmpAccountRoot =
+                  ( MmpAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt(
+                  accountTabs.selectedIndex ) ).accountRoot;
+          /** Status is selected **/
+          if ( mmpAccountRoot.statusId == 0 ) {
+            /** No connection **/
+          } else {
+            try {
+              /** Plain status changing **/
+              MmpPacketSender.MRIM_CS_CHANGE_STATUS( mmpAccountRoot, statusId,
+                      mmpAccountRoot.statusText, mmpAccountRoot.statusDscr );
+              mmpAccountRoot.statusId = statusId;
+              updateAccountsStatus();
+            } catch ( IOException ex ) {
+              LogUtil.outMessage( "Can't set extended status", true );
+            }
+          }
+        }
+      };
+      tempPopupItem.imageFileHash = "/res/groups/img_mmpxstatus.png".hashCode();
+      tempPopupItem.imageIndex = i++;
+      extPopupItem.addSubItem( tempPopupItem );
     }
 
     /* TEST: if (MidletMain.getBoolean(MidletMain.settings, "Master", "isShowEmulation")) {

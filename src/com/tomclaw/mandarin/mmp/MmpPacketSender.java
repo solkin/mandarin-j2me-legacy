@@ -17,8 +17,20 @@ public class MmpPacketSender {
     Packet packet = new Packet();
     packet.seq = mmpAccountRoot.session.seqNum++;
     packet.msg = PacketType.MRIM_CS_CHANGE_STATUS;
-    packet.proto = 0x0001000e;
+    packet.proto = 0x00010016;
     byte[] temp = new byte[4];
+    DataUtil.put32_reversed( temp, 0, statusId & 7 );
+    packet.data.append( temp );
+    //packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( "status_9" ) );
+    System.out.println("MmpStatusUtil.getStatusName( statusId ) = " + MmpStatusUtil.getStatusName( statusId ));
+    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( MmpStatusUtil.getStatusName( statusId ) ) );
+    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( "Готовлю" ) );
+    DataUtil.put32_reversed( temp, 0, 0x00 );
+    packet.data.append( temp );
+    DataUtil.put32_reversed( temp, 0, -1 );
+    packet.data.append( temp );
+    packet.send( mmpAccountRoot.session.netConnection );
+    /*byte[] temp = new byte[4];
     DataUtil.put32_reversed( temp, 0, statusId );
     packet.data.append( temp );
     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( "STATUS_ONLINE" ) );
@@ -30,7 +42,7 @@ public class MmpPacketSender {
     packet.data.append( temp );
     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( mmpAccountRoot.session.clientId ) );
     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( mmpAccountRoot.session.mraVer ) );
-    packet.send( mmpAccountRoot.session.netConnection );
+    packet.send( mmpAccountRoot.session.netConnection );*/
   }
 
   public static byte[] MRIM_CS_MESSAGE( MmpAccountRoot mmpAccountRoot, String destMail, String messageText, long flags, String addon ) throws IOException {

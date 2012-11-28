@@ -106,7 +106,7 @@ public class MidletMain extends MIDlet {
   public static String build = null;
   public static int pack_count_invoke_gc = 10;
   public static int pack_count = 0;
-
+  
   public void startApp() {
     version = getAppProperty( "MIDlet-Version" );
     type = getAppProperty( "Type" );
