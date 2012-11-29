@@ -22,7 +22,7 @@ public class MmpPacketSender {
     DataUtil.put32_reversed( temp, 0, statusId & 7 );
     packet.data.append( temp );
     //packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( "status_9" ) );
-    System.out.println("MmpStatusUtil.getStatusName( statusId ) = " + MmpStatusUtil.getStatusName( statusId ));
+    System.out.println("MmpStatusUtil.getStatusName( "+statusId+" ) = " + MmpStatusUtil.getStatusName( statusId ));
     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( MmpStatusUtil.getStatusName( statusId ) ) );
     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( "Готовлю" ) );
     DataUtil.put32_reversed( temp, 0, 0x00 );

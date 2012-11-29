@@ -12,59 +12,59 @@ public class MmpStatusUtil {
   public static final long[] statusIds = new long[]{ 0x00000000, 0x00000001, 0x00000002, 0x00000104, 0x00000204, 0x80000000 };
   public static final String[] statusesNames = new String[]{ "status_0", "status_1", "status_2", "status_chat", "status_dnd", "status_3" };
   public static final String statusX = "status_";
+  public static int baseStatusCount = 5;
+  public static int extStatusCount = 50;
 
   public static boolean expectIsStatus( long status ) {
+    /** Base status **/
     for ( int c = 0; c < statusIds.length; c++ ) {
       if ( statusIds[c] == status ) {
         return true;
       }
     }
+    /** Ext status **/
+    if ( ( ( status + 0x0002 ) >> 8 ) < extStatusCount + baseStatusCount ) {
+      return true;
+    }
     return false;
   }
 
   public static String getStatusName( long statusId ) {
+    System.out.println("getStatusName("+statusId+")");
     int index = getStatusIndex( statusId );
-    if ( index == -1 ) {
-      return statusX.concat( String.valueOf( (statusId - 0x0004) >> 8 ) );
+    System.out.println("index = "+index);
+    if ( index >= statusesNames.length ) {
+      return statusX.concat( String.valueOf( index-2 ) );
     }
     return statusesNames[index];
   }
 
   public static String getStatusDescr( int index ) {
+    if ( index >= statusIds.length ) {
+      return "MMP_EXT_" + index;
+    }
     return statusesDescr[index];
   }
 
   public static int getStatusCount() {
-    return statusesDescr.length;
+    return baseStatusCount + extStatusCount;
   }
 
   public static long getStatus( int index ) {
+    if ( index >= statusIds.length ) {
+      // 0x404 - 0x3504
+      index -= 2;
+      return ( index << 8 ) | 0x0004;
+    }
     return statusIds[index];
   }
 
-  public static long getExtStatus( int index ) {
-    // 0x404 - 0x3504
-    index += 4;
-    return ( index << 8 ) | 0x0004;
-  }
-  
-  public static int getExtStatusCount() {
-    return 50;
-  }
-
-  public static String getExtStatusDescr( int index ) {
-    return "MMP_EXT_" + index;
-  }
-
-  /*public static int[] getStatuses() {
-   return (int[]) statusIds.clone();
-   }*/
   public static int getStatusIndex( long statusId ) {
     for ( int c = 0; c < statusIds.length; c++ ) {
       if ( statusId == statusIds[c] ) {
         return c;
       }
     }
-    return -1;
+    return ( int ) ( ( statusId - 0x0004 ) >> 8 )+2;
   }
 }
