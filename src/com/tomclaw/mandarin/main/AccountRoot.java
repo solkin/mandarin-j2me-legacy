@@ -47,6 +47,13 @@ public abstract class AccountRoot {
   public int selectedRow = 0;
   public int unrMsgs = 0;
   public boolean isReset;
+  
+  public AccountRoot( String userId ) {
+    this.userId = userId;
+    AccountRoot.this.construct();
+  }
+  
+  public abstract void construct();
 
   public AccountRoot init( boolean isStart ) {
     /** Loading user nick, user password **/

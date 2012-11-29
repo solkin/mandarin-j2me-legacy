@@ -40,11 +40,14 @@ public class IcqAccountRoot extends AccountRoot {
    */
   public IcqSession session;
 
+  public IcqAccountRoot(String userId) {
+    super(userId);
+  }
+  
   /**
    * Storers
    */
-  public IcqAccountRoot( String userId ) {
-    this.userId = userId;
+  public void construct() {
     host = "login.icq.com";
     port = "5190";
   }

@@ -126,7 +126,7 @@ public class XmppSession {
 
       // start stream
       xmlWriter.startTag( "stream:stream" );
-      xmlWriter.attribute( "from", xmppAccountRoot.jid.concat( "/" ).concat( xmppAccountRoot.resource ) );
+      xmlWriter.attribute( "from", xmppAccountRoot.userId.concat( "/" ).concat( xmppAccountRoot.resource ) );
       xmlWriter.attribute( "to", xmppAccountRoot.domain );
       xmlWriter.attribute( "xmlns", "jabber:client" );
       xmlWriter.attribute( "xmlns:stream", "http://etherx.jabber.org/streams" );
@@ -162,7 +162,7 @@ public class XmppSession {
 
     ActionExec.setConnectionStage( xmppAccountRoot, 9 );
 
-    XmppSender.setStatus( xmlWriter, xmppAccountRoot.jid.concat( "/" ).concat( xmppAccountRoot.resource ),
+    XmppSender.setStatus( xmlWriter, xmppAccountRoot.userId.concat( "/" ).concat( xmppAccountRoot.resource ),
             XmppStatusUtil.statuses[status], "", 5 );
 
     xmppAccountRoot.statusId = status;

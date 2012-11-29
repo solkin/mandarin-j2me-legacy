@@ -93,6 +93,7 @@ public class AccountEditorFrame extends Window {
         MidletMain.screen.setWaitScreenState( true );
         new Thread() {
           public void run() {
+            try{
             String accType = "";
             fldNick.setText( fldNick.getText().length() > 0 ? fldNick.getText()
                     : fldLogin.getText() );
@@ -138,13 +139,9 @@ public class AccountEditorFrame extends Window {
             }
             tempTabItem.imageFileHash = "/res/groups/img_".concat( accType ).concat( "status.png" ).hashCode();
             tempTabItem.protocolFileHash = tempTabItem.imageFileHash;
-            /**
-             * Saving accounts *
-             */
+            /** Saving accounts **/
             tempTabItem.accountRoot.saveAllSettings();
-            /**
-             * Applying changes on UI *
-             */
+            /** Applying changes on UI **/
             tempTabItem.accountRoot.init( !isEdit );
             if ( isEdit ) {
               tempTabItem.title = fldNick.getText();
@@ -153,7 +150,7 @@ public class AccountEditorFrame extends Window {
             }
             MidletMain.mainFrame.switchAccountRoot( MidletMain.mainFrame.getActiveAccountRoot() );
             MidletMain.screen.setActiveWindow( MidletMain.mainFrame );
-            MidletMain.screen.setWaitScreenState( false );
+            MidletMain.screen.setWaitScreenState( false );}catch(Throwable ex) {ex.printStackTrace();}
           }
         }.start();
       }

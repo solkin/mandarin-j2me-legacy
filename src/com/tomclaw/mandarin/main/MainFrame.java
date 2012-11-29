@@ -1697,7 +1697,7 @@ public class MainFrame extends Window {
               if ( xmppAccountRoot.statusId != 0 ) {
                 /** Plain status changing **/
                 try {
-                  XmppSender.setStatus( xmppAccountRoot.xmppSession.xmlWriter, xmppAccountRoot.jid.concat( "/" ).concat( xmppAccountRoot.resource ),
+                  XmppSender.setStatus( xmppAccountRoot.xmppSession.xmlWriter, xmppAccountRoot.userId.concat( "/" ).concat( xmppAccountRoot.resource ),
                           XmppStatusUtil.statuses[statusId], "", xmppAccountRoot.priority );
                   xmppAccountRoot.statusId = statusId;
                   if ( xmppAccountRoot.conferenceGroup != null && xmppAccountRoot.conferenceGroup.getChildsCount() > 0 ) {

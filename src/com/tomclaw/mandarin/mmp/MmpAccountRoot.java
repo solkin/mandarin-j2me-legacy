@@ -39,8 +39,11 @@ public class MmpAccountRoot extends AccountRoot {
    */
   public MmpSession session;
 
-  public MmpAccountRoot( String userId ) {
-    this.userId = userId;
+  public MmpAccountRoot(String userId) {
+    super(userId);
+  }
+  
+  public void construct() {
     host = "mrim.mail.ru";
     port = "2042";
   }
@@ -49,7 +52,7 @@ public class MmpAccountRoot extends AccountRoot {
     /** New session instance **/
     session = new MmpSession( this );
     serviceMessages = new ServiceMessages();
-    this.statusId = MmpStatusUtil.getStatus( 0 );
+    statusId = MmpStatusUtil.getStatus( 0 );
   }
 
   public void saveAllSettings() {

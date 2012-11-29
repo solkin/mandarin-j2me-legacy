@@ -122,7 +122,7 @@ public class XmppSender {
      </iq>
      */
     xmppSession.xmlWriter.startTag( "iq" );
-    xmppSession.xmlWriter.attribute( "from", xmppSession.xmppAccountRoot.jid.concat( "/" ).concat( xmppSession.xmppAccountRoot.resource ) );
+    xmppSession.xmlWriter.attribute( "from", xmppSession.xmppAccountRoot.userId.concat( "/" ).concat( xmppSession.xmppAccountRoot.resource ) );
     xmppSession.xmlWriter.attribute( "type", "get" );
 
     xmppSession.xmlWriter.startTag( "query" );

@@ -18,7 +18,6 @@ import java.util.Vector;
  */
 public class XmppAccountRoot extends AccountRoot {
 
-  public String jid;
   /** Data **/
   public String domain;
   public String username;
@@ -26,20 +25,23 @@ public class XmppAccountRoot extends AccountRoot {
   public int priority;
   /** Runtime **/
   public XmppSession xmppSession;
-  private String buddyListFile = null;
   public XmppGroup conferenceGroup = null;
   public XmppGroup tempGroup;
+  
+  public XmppAccountRoot(String userId) {
+    super(userId);
+  }
 
-  public XmppAccountRoot( String jid ) {
-    this.jid = jid;
+  public void construct() {
   }
 
   public void initSpecialData() {
     /** New session instance **/
     xmppSession = new XmppSession( this );
     
-    username = jid.substring( 0, jid.indexOf( '@' ) );
-    domain = jid.substring( jid.indexOf( '@' ) + 1 );
+    username = userId.substring( 0, userId.indexOf( '@' ) );
+    domain = userId.substring( userId.indexOf( '@' ) + 1 );
+    statusId = XmppStatusUtil.offlineIndex;
     //resource = MidletMain.getString( MidletMain.accounts, jid, "resource" );
     
     if ( StringUtil.isNullOrEmpty( host ) ) {
@@ -56,9 +58,9 @@ public class XmppAccountRoot extends AccountRoot {
 
   public void saveAllSettings() {
     try {
-      MidletMain.accounts.addItem( jid, "resource", resource );
-      MidletMain.accounts.addItem( jid, "isShowGroups", String.valueOf( isShowGroups ) );
-      MidletMain.accounts.addItem( jid, "isShowOffline", String.valueOf( isShowOffline ) );
+      MidletMain.accounts.addItem( userId, "resource", resource );
+      MidletMain.accounts.addItem( userId, "isShowGroups", String.valueOf( isShowGroups ) );
+      MidletMain.accounts.addItem( userId, "isShowOffline", String.valueOf( isShowOffline ) );
       LogUtil.outMessage( "isShowGroups = " + String.valueOf( isShowGroups ) );
       LogUtil.outMessage( "isShowOffline = " + String.valueOf( isShowOffline ) );
     } catch ( GroupNotFoundException ex ) {
@@ -68,18 +70,6 @@ public class XmppAccountRoot extends AccountRoot {
     }
     MidletMain.saveRmsData( true, false, false );
     LogUtil.outMessage( "RMS accounts saving complete" );
-  }
-
-  public void loadOfflineBuddyList() {
-    MidletMain.loadOfflineBuddyList( this, buddyListFile, buddyItems );
-  }
-
-  public String getUserId() {
-    return jid;
-  }
-
-  public void setUserId( String userId ) {
-    this.jid = userId;
   }
 
   public String getAccType() {
