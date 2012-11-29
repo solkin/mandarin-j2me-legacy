@@ -7,6 +7,7 @@ import com.tomclaw.mandarin.main.*;
 import com.tomclaw.tcuilite.GroupHeader;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.LogUtil;
+import com.tomclaw.utils.StringUtil;
 import java.io.IOException;
 import java.util.Vector;
 
@@ -15,89 +16,42 @@ import java.util.Vector;
  * http://www.tomclaw.com/
  * @author Solkin
  */
-public class XmppAccountRoot implements AccountRoot {
+public class XmppAccountRoot extends AccountRoot {
 
   public String jid;
-  public String name;
   /** Data **/
   public String domain;
-  public String host;
-  public String port;
   public String username;
-  public String password;
   public String resource;
   public int priority;
-  public boolean isUseSsl = true;
   /** Runtime **/
-  public int statusId = XmppStatusUtil.offlineIndex;
   public XmppSession xmppSession;
   private String buddyListFile = null;
-  public Vector buddyItems = new Vector();
   public XmppGroup conferenceGroup = null;
   public XmppGroup tempGroup;
-  /**
-   * Settings
-   */
-  public boolean isShowGroups = true;
-  public boolean isShowOffline = false;
-  /**
-   * Runtime
-   */
-  public int yOffset = 0;
-  public int selectedColumn = 0;
-  public int selectedRow = 0;
-  public int unrMsgs = 0;
-  /** Objects **/
-  public ServiceMessages serviceMessages = null;
-  public TransactionManager transactionManager = null;
-  public TransactionsFrame transactionsFrame = null;
 
   public XmppAccountRoot( String jid ) {
     this.jid = jid;
   }
 
-  public XmppAccountRoot( String jid, String name ) {
-    this.jid = jid;
-    this.name = name;
-  }
-
-  public AccountRoot init( boolean isStart ) {
-    name = MidletMain.getString( MidletMain.accounts, jid, "nick" );
+  public void initSpecialData() {
+    /** New session instance **/
+    xmppSession = new XmppSession( this );
+    
     username = jid.substring( 0, jid.indexOf( '@' ) );
     domain = jid.substring( jid.indexOf( '@' ) + 1 );
-    resource = MidletMain.getString( MidletMain.accounts, jid, "resource" );
-    password = MidletMain.getString( MidletMain.accounts, jid, "pass" );
-    host = MidletMain.getString( MidletMain.accounts, jid, "host" );
-    port = MidletMain.getString( MidletMain.accounts, jid, "port" );
-    isUseSsl = MidletMain.getBoolean( MidletMain.accounts, jid, "ussl" );
-    if ( host.length() == 0 ) {
+    //resource = MidletMain.getString( MidletMain.accounts, jid, "resource" );
+    
+    if ( StringUtil.isNullOrEmpty( host ) ) {
       host = domain;
     }
 
-    LogUtil.outMessage( "jid = " + jid );
-    LogUtil.outMessage( "username = " + username );
-    LogUtil.outMessage( "domain = " + domain );
-    LogUtil.outMessage( "resource = " + resource );
-    LogUtil.outMessage( "password = " + password );
-    LogUtil.outMessage( "host = " + host );
-    LogUtil.outMessage( "port = " + port );
-    LogUtil.outMessage( "ussl = " + isUseSsl );
-
     resource = "Mandarin IM ".concat( MidletMain.version ).concat( " [" ).concat( MidletMain.build.concat( "]" ) );
 
-    if ( isStart ) {
-      /** New session instance **/
-      xmppSession = new XmppSession( this );
-      transactionManager = new TransactionManager();
-      isShowGroups = MidletMain.getBoolean( MidletMain.accounts, jid, "isShowGroups" );
-      isShowOffline = MidletMain.getBoolean( MidletMain.accounts, jid, "isShowOffline" );
-      LogUtil.outMessage( "isShowGroups = " + String.valueOf( isShowGroups ) );
-      LogUtil.outMessage( "isShowOffline = " + String.valueOf( isShowOffline ) );
-      serviceMessages = new ServiceMessages();
-      buddyListFile = getAccType().concat( String.valueOf( jid.hashCode() ) ).concat( ".dat" );
-      loadOfflineBuddyList();
-    }
-    return this;
+    // if ( isStart ) {
+      // transactionManager = new TransactionManager();
+      // serviceMessages = new ServiceMessages();
+    // }
   }
 
   public void saveAllSettings() {
@@ -120,87 +74,23 @@ public class XmppAccountRoot implements AccountRoot {
     MidletMain.loadOfflineBuddyList( this, buddyListFile, buddyItems );
   }
 
-  public int getUnrMsgs() {
-    return unrMsgs;
-  }
-
-  public void setUnrMsgs( int unrMsgs ) {
-    this.unrMsgs = unrMsgs;
-  }
-
-  public long getStatusId() {
-    return statusId;
-  }
-
   public String getUserId() {
     return jid;
-  }
-
-  public String getUserPassword() {
-    return password;
-  }
-
-  public boolean getUseSsl() {
-    return isUseSsl;
-  }
-
-  public void setUseSsl( boolean isUseSsl ) {
-    this.isUseSsl = isUseSsl;
   }
 
   public void setUserId( String userId ) {
     this.jid = userId;
   }
 
-  public void setUserPassword( String userPassword ) {
-    this.password = userPassword;
-  }
-
-  public String getUserNick() {
-    if ( this.name == null ) {
-      return jid;
-    }
-    return name;
-  }
-
-  public void setUserNick( String userNick ) {
-    this.name = userNick;
-  }
-
   public String getAccType() {
     return "xmpp";
   }
 
-  public String getHost() {
-    return host;
-  }
-
-  public String getPort() {
-    return port;
-  }
-
   public int getStatusIndex() {
-    return statusId;
+    return (int)statusId;
   }
 
   public void sendTypingStatus( String userId, boolean b ) {
-  }
-
-  public Vector getBuddyItems() {
-    return buddyItems;
-  }
-
-  public void setBuddyItems( Vector buddyItems ) {
-    this.buddyItems = buddyItems;
-  }
-
-  public void setYOffset( int yOffset ) {
-    this.yOffset = yOffset;
-  }
-
-  public void setSelectedIndex( int selectedColumn, int selectedRow ) {
-    this.selectedColumn = selectedColumn;
-    this.selectedRow = selectedRow;
   }
 
   public byte[] sendMessage( BuddyItem buddyItem, String string, String resource ) throws IOException {
@@ -265,10 +155,6 @@ public class XmppAccountRoot implements AccountRoot {
     }
   }
 
-  public ServiceMessages getServiceMessages() {
-    return serviceMessages;
-  }
-
   public String getStatusImages() {
     return "/res/groups/img_xmppstatus.png";
   }
@@ -300,26 +186,6 @@ public class XmppAccountRoot implements AccountRoot {
   }
 
   public void sortBuddyes() {
-  }
-
-  public void updateOfflineBuddylist() {
-    MidletMain.updateOfflineBuddylist( buddyListFile, buddyItems );
-  }
-
-  public void setShowGroups( boolean isShowGroups ) {
-    this.isShowGroups = isShowGroups;
-  }
-
-  public void setShowOffline( boolean isShowOffline ) {
-    this.isShowOffline = isShowOffline;
-  }
-
-  public boolean getShowGroups() {
-    return isShowGroups;
-  }
-
-  public boolean getShowOffline() {
-    return isShowOffline;
   }
 
   public BuddyItem getItemInstance() {
@@ -357,28 +223,6 @@ public class XmppAccountRoot implements AccountRoot {
 
   public Cookie removeGroup( BuddyGroup buddyGroup ) throws IOException {
     return null;
-  }
-
-  public TransactionManager getTransactionManager() {
-    return transactionManager;
-  }
-
-  public void setTransactionManager( TransactionManager transactionManager ) {
-    this.transactionManager = transactionManager;
-  }
-
-  public TransactionsFrame getTransactionsFrame() {
-    if ( transactionsFrame == null ) {
-      transactionsFrame = new TransactionsFrame( this );
-      transactionsFrame.s_prevWindow = MidletMain.mainFrame;
-    } else {
-      transactionsFrame.updateTransactions();
-    }
-    return transactionsFrame;
-  }
-
-  public void setTransactionsFrame( TransactionsFrame transactionsFrame ) {
-    this.transactionsFrame = transactionsFrame;
   }
 
   public DirectConnection getDirectConnectionInstance() {

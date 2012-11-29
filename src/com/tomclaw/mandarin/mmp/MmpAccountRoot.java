@@ -22,68 +22,34 @@ import java.util.Vector;
  * http://www.tomclaw.com/
  * @author Solkin
  */
-public class MmpAccountRoot implements AccountRoot {
+public class MmpAccountRoot extends AccountRoot {
 
   /**
    * Data
    */
-  public String userId;
-  public String userNick;
-  public String userPassword;
-  public Vector buddyItems = new Vector();
-  public static String host = "mrim.mail.ru";
-  public static String port = "2042";
-  public long statusId = 0;
-  public int unrMsgs = 0;
   public String statusText = "Mandarin";
   public String statusDscr = MidletMain.version.concat( " [" ).concat( MidletMain.build.concat( "]" ) );
-  private String buddyListFile = null;
   /**
    * Runtime
    */
-  public int yOffset = 0;
-  public int selectedColumn = 0;
-  public int selectedRow = 0;
-  public boolean isShowGroups;
-  public boolean isShowOffline;
   public Stack queueActionStack;
   public MmpGroup phoneGroup = null;
   /**
    * Objects
    */
-  public ServiceMessages serviceMessages = null;
   public MmpSession session;
 
   public MmpAccountRoot( String userId ) {
     this.userId = userId;
-    // init();
+    host = "mrim.mail.ru";
+    port = "2042";
   }
 
-  public final AccountRoot init( boolean isStart ) {
-    /**
-     * TODO: Loading user nick, user password
-     */
-    userNick = MidletMain.getString( MidletMain.accounts, userId, "nick" );
-    userPassword = MidletMain.getString( MidletMain.accounts, userId, "pass" );
-    host = MidletMain.getString( MidletMain.accounts, userId, "host" );
-    port = MidletMain.getString( MidletMain.accounts, userId, "port" );
-    LogUtil.outMessage( userId + " : " + userNick + " : " + userPassword );
-    LogUtil.outMessage( host + " : " + port );
-    if ( isStart ) {
-      /**
-       * New session instance
-       */
-      session = new MmpSession( this );
-      serviceMessages = new ServiceMessages();
-      /**
-       * TODO: Loading settings
-       */
-      isShowGroups = MidletMain.getBoolean( MidletMain.accounts, userId, "isShowGroups" );
-      isShowOffline = MidletMain.getBoolean( MidletMain.accounts, userId, "isShowOffline" );
-      buddyListFile = getAccType().concat( String.valueOf( getUserId().hashCode() ) ).concat( ".dat" );
-      loadOfflineBuddyList();
-    }
-    return this;
+  public void initSpecialData() {
+    /** New session instance **/
+    session = new MmpSession( this );
+    serviceMessages = new ServiceMessages();
+    this.statusId = MmpStatusUtil.getStatus( 0 );
   }
 
   public void saveAllSettings() {
@@ -104,83 +70,15 @@ public class MmpAccountRoot implements AccountRoot {
   public void show() {
   }
 
-  public int getUnrMsgs() {
-    return unrMsgs;
-  }
-
-  public long getStatusId() {
-    return statusId;
-  }
-
-  public void setUserId( String userId ) {
-    this.userId = userId;
-  }
-
-  public String getUserId() {
-    return userId;
-  }
-
-  public void setUserPassword( String userPassword ) {
-    this.userPassword = userPassword;
-  }
-
-  public void setUserNick( String userNick ) {
-    this.userNick = userNick;
-  }
-
-  public String getUserNick() {
-    return userNick;
-  }
-
   public String getAccType() {
     return "mmp";
-  }
-
-  public String getUserPassword() {
-    return userPassword;
-  }
-
-  public boolean getUseSsl() {
-    return false;
-  }
-
-  public void setUseSsl( boolean isUseSsl ) {
-  }
-
-  public String getHost() {
-    return host;
-  }
-
-  public String getPort() {
-    return port;
   }
 
   public int getStatusIndex() {
     return MmpStatusUtil.getStatusIndex( statusId );
   }
 
-  public void setUnrMsgs( int unrMsgs ) {
-    this.unrMsgs = unrMsgs;
-  }
-
   public void sendTypingStatus( String userId, boolean b ) {
-  }
-
-  public Vector getBuddyItems() {
-    return buddyItems;
-  }
-
-  public void setBuddyItems( Vector buddyItems ) {
-    this.buddyItems = buddyItems;
-  }
-
-  public void setYOffset( int yOffset ) {
-    this.yOffset = yOffset;
-  }
-
-  public void setSelectedIndex( int selectedColumn, int selectedRow ) {
-    this.selectedColumn = selectedColumn;
-    this.selectedRow = selectedRow;
   }
 
   public void offlineAllBuddyes() {
@@ -195,7 +93,7 @@ public class MmpAccountRoot implements AccountRoot {
   }
 
   public byte[] sendMessage( BuddyItem buddyItem, String string, String resource ) throws IOException {
-    byte[] cookie = new byte[8];
+    byte[] cookie = new byte[ 8 ];
     if ( buddyItem.isPhone() ) {
       String userPhone = buddyItem.getUserId();
       if ( !userPhone.startsWith( "+" ) ) {
@@ -253,10 +151,6 @@ public class MmpAccountRoot implements AccountRoot {
     }
   }
 
-  public ServiceMessages getServiceMessages() {
-    return serviceMessages;
-  }
-
   public void connectAction( long statusId ) {
     do {
       if ( MidletMain.httpHiddenPing > 0 ) {
@@ -303,14 +197,6 @@ public class MmpAccountRoot implements AccountRoot {
   public void sortBuddyes() {
   }
 
-  public void loadOfflineBuddyList() {
-    MidletMain.loadOfflineBuddyList( this, buddyListFile, buddyItems );
-  }
-
-  public void updateOfflineBuddylist() {
-    MidletMain.updateOfflineBuddylist( buddyListFile, buddyItems );
-  }
-
   public String getStatusImages() {
     return "/res/groups/img_mmpstatus.png";
   }
@@ -322,28 +208,12 @@ public class MmpAccountRoot implements AccountRoot {
   public void setPrivateItems( Vector privateList ) {
   }
 
-  public void setShowGroups( boolean isShowGroups ) {
-    this.isShowGroups = isShowGroups;
-  }
-
-  public void setShowOffline( boolean isShowOffline ) {
-    this.isShowOffline = isShowOffline;
-  }
-
-  public boolean getShowGroups() {
-    return isShowGroups;
-  }
-
-  public boolean getShowOffline() {
-    return isShowOffline;
-  }
-
   public BuddyItem getItemInstance() {
     return new MmpItem();
   }
 
   public Cookie addGroup( String groupName, long groupId ) throws IOException {
-    Cookie cookie = MmpPacketSender.MRIM_CS_ADD_CONTACT( this, groupId, 0x00000000, new byte[0], StringUtil.string1251ToByteArray( groupName ), new byte[0] );
+    Cookie cookie = MmpPacketSender.MRIM_CS_ADD_CONTACT( this, groupId, 0x00000000, new byte[ 0 ], StringUtil.string1251ToByteArray( groupName ), new byte[ 0 ] );
     return cookie;
   }
 
@@ -353,7 +223,7 @@ public class MmpAccountRoot implements AccountRoot {
     if ( isTelephone ) {
       cookie = MmpPacketSender.MRIM_CS_ADD_CONTACT( this, 0x00100000, 0x67000000, "phone".getBytes(), StringUtil.string1251ToByteArray( nickName ), buddyId.getBytes() );
     } else {
-      cookie = MmpPacketSender.MRIM_CS_ADD_CONTACT( this, 0x00000000, ( ( MmpGroup ) buddyGroup ).getId()/*& 0x0000ffff*/, buddyId.getBytes(), StringUtil.string1251ToByteArray( nickName ), new byte[0] );
+      cookie = MmpPacketSender.MRIM_CS_ADD_CONTACT( this, 0x00000000, ( ( MmpGroup ) buddyGroup ).getId()/*& 0x0000ffff*/, buddyId.getBytes(), StringUtil.string1251ToByteArray( nickName ), new byte[ 0 ] );
     }
     return cookie;
   }
@@ -400,20 +270,6 @@ public class MmpAccountRoot implements AccountRoot {
 
   public Cookie removeGroup( final BuddyGroup groupHeader ) throws IOException {
     return MmpPacketSender.MRIM_CS_MODIFY_CONTACT( this, ( ( MmpGroup ) groupHeader ).contactId, ( ( MmpGroup ) groupHeader ).flags | PacketType.CONTACT_FLAG_REMOVED/*0x03020001*/, 0, StringUtil.string1251ToByteArray( ( ( MmpGroup ) groupHeader ).userId ), StringUtil.string1251ToByteArray( ( ( MmpGroup ) groupHeader ).userId ), "" );
-  }
-
-  public void setTransactionManager( TransactionManager transactionManager ) {
-  }
-
-  public TransactionManager getTransactionManager() {
-    return null;
-  }
-
-  public TransactionsFrame getTransactionsFrame() {
-    return null;
-  }
-
-  public void setTransactionsFrame( TransactionsFrame transactionsFrame ) {
   }
 
   public DirectConnection getDirectConnectionInstance() {

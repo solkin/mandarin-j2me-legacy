@@ -869,7 +869,7 @@ public class IcqSession implements Runnable {
     } catch ( IOException ex ) {
       LogUtil.outMessage( "Disconnect failed: " + this.toString(), true );
     }
-    int prevStatus = icqAccountRoot.statusId;
+    int prevStatus = (int)icqAccountRoot.statusId;
     icqAccountRoot.statusId = IcqStatusUtil.getStatus( 0 );
     ActionExec.disconnectEvent( icqAccountRoot );
     if ( MidletMain.autoReconnect && isError ) {

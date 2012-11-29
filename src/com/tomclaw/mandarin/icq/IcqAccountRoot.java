@@ -17,7 +17,7 @@ import java.util.Vector;
  * http://www.tomclaw.com/
  * @author Solkin
  */
-public class IcqAccountRoot implements AccountRoot {
+public class IcqAccountRoot extends AccountRoot {
 
   /**
    * Static settings
@@ -25,14 +25,7 @@ public class IcqAccountRoot implements AccountRoot {
   /**
    * Data
    */
-  public String userId;
-  public String userNick;
-  public String userPassword;
-  public String host = "login.icq.com";
-  public String port = "5190";
-  public Vector buddyItems = new Vector();
   public Vector t_OnlineItems = new Vector();
-  public int statusId = -1; // -1
   public int xStatusId = -1;
   public int pStatusId = 1;
   public int privateBuddyId = -1;
@@ -46,80 +39,39 @@ public class IcqAccountRoot implements AccountRoot {
    * Threads and states
    */
   public IcqSession session;
-  public boolean isReset;
-  public TransactionManager transactionManager = null;
-  public TransactionsFrame transactionsFrame = null;
-  public ServiceMessages serviceMessages = null;
-  /**
-   * Settings
-   */
-  public boolean isShowGroups = true;
-  public boolean isShowOffline = false;
-  /**
-   * Runtime
-   */
-  public int yOffset = 0;
-  public int selectedColumn = 0;
-  public int selectedRow = 0;
-  public int unrMsgs = 0;
 
   /**
    * Storers
    */
   public IcqAccountRoot( String userId ) {
     this.userId = userId;
+    host = "login.icq.com";
+    port = "5190";
   }
 
-  public final AccountRoot init( boolean isStart ) {
-    /**
-     * TODO: Loading user nick, user password
-     */
-    userNick = MidletMain.getString( MidletMain.accounts, userId, "nick" );
-    userPassword = MidletMain.getString( MidletMain.accounts, userId, "pass" );
-    host = MidletMain.getString( MidletMain.accounts, userId, "host" );
-    port = MidletMain.getString( MidletMain.accounts, userId, "port" );
-    LogUtil.outMessage( userId + " : " + userNick + " : " + userPassword );
-    LogUtil.outMessage( host + " : " + port );
-
-    if ( isStart ) {
-      /**
-       * New session instance
-       */
-      session = new IcqSession( this );
-      transactionManager = new TransactionManager();
-      serviceMessages = new ServiceMessages();
-      /**
-       * TODO: Loading XStatus, PStatus
-       */
-      xStatusId = MidletMain.getInteger( MidletMain.accounts, userId, "xStatusId" );
-      pStatusId = MidletMain.getInteger( MidletMain.accounts, userId, "pStatusId" );
-      privateBuddyId = MidletMain.getInteger( MidletMain.accounts, userId, "privateBuddyId" );
-
-      String statusData = MidletMain.getString( MidletMain.statuses, "PStatus", String.valueOf( statusId ) );
-      statusText = statusData.substring( 0, ( statusData.indexOf( "&rdb" ) == -1 ) ? statusData.length() : statusData.indexOf( "&rdb" ) );
-      isPStatusReadable = ( statusData.indexOf( "&rdb" ) == -1 )
-              ? false : statusData.substring( statusData.indexOf( "&rdb" ) + 4 ).equals( "true" );
-      String extStatusText = MidletMain.getString( MidletMain.statuses, "XStatus", String.valueOf( xStatusId ) );
-      if ( extStatusText == null || extStatusText.length() == 0 ) {
-        extStatusText = "&dsc";
-      }
-      xTitle = extStatusText.substring( 0, extStatusText.indexOf( "&dsc" ) );
-      xText = extStatusText.substring( extStatusText.indexOf( "&dsc" ) + 4,
-              ( extStatusText.indexOf( "&rdb" ) == -1 ) ? extStatusText.length() : extStatusText.indexOf( "&rdb" ) );
-      isXStatusReadable = ( extStatusText.indexOf( "&rdb" ) == -1 )
-              ? false : extStatusText.substring( extStatusText.indexOf( "&rdb" ) + 4 ).equals( "true" );
-      LogUtil.outMessage( "statusText = " + statusText );
-      LogUtil.outMessage( "xTitle = " + xTitle );
-      LogUtil.outMessage( "xText = " + xText );
-
-      isShowGroups = MidletMain.getBoolean( MidletMain.accounts, userId, "isShowGroups" );
-      isShowOffline = MidletMain.getBoolean( MidletMain.accounts, userId, "isShowOffline" );
-      LogUtil.outMessage( "isShowGroups = " + String.valueOf( isShowGroups ) );
-      LogUtil.outMessage( "isShowOffline = " + String.valueOf( isShowOffline ) );
-      buddyListFile = getAccType().concat( String.valueOf( getUserId().hashCode() ) ).concat( ".dat" );
-      loadOfflineBuddyList();
+  public void initSpecialData() {
+    /** New session instance **/
+    session = new IcqSession( this );
+    transactionManager = new TransactionManager();
+    serviceMessages = new ServiceMessages();
+    /** Loading XStatus, PStatus **/
+    xStatusId = MidletMain.getInteger( MidletMain.accounts, userId, "xStatusId" );
+    pStatusId = MidletMain.getInteger( MidletMain.accounts, userId, "pStatusId" );
+    privateBuddyId = MidletMain.getInteger( MidletMain.accounts, userId, "privateBuddyId" );
+    /** Status **/
+    String statusData = MidletMain.getString( MidletMain.statuses, "PStatus", String.valueOf( statusId ) );
+    statusText = statusData.substring( 0, ( statusData.indexOf( "&rdb" ) == -1 ) ? statusData.length() : statusData.indexOf( "&rdb" ) );
+    isPStatusReadable = ( statusData.indexOf( "&rdb" ) == -1 )
+            ? false : statusData.substring( statusData.indexOf( "&rdb" ) + 4 ).equals( "true" );
+    String extStatusText = MidletMain.getString( MidletMain.statuses, "XStatus", String.valueOf( xStatusId ) );
+    if ( extStatusText == null || extStatusText.length() == 0 ) {
+      extStatusText = "&dsc";
     }
-    return this;
+    xTitle = extStatusText.substring( 0, extStatusText.indexOf( "&dsc" ) );
+    xText = extStatusText.substring( extStatusText.indexOf( "&dsc" ) + 4,
+            ( extStatusText.indexOf( "&rdb" ) == -1 ) ? extStatusText.length() : extStatusText.indexOf( "&rdb" ) );
+    isXStatusReadable = ( extStatusText.indexOf( "&rdb" ) == -1 )
+            ? false : extStatusText.substring( extStatusText.indexOf( "&rdb" ) + 4 ).equals( "true" );
   }
 
   public void saveAllSettings() {
@@ -141,63 +93,12 @@ public class IcqAccountRoot implements AccountRoot {
   public void show() {
   }
 
-  public int getUnrMsgs() {
-    return unrMsgs;
-  }
-
-  public long getStatusId() {
-    return statusId;
-  }
-
-  public void setUserId( String userId ) {
-    this.userId = userId;
-  }
-
-  public String getUserId() {
-    return userId;
-  }
-
-  public void setUserPassword( String userPassword ) {
-    this.userPassword = userPassword;
-  }
-
-  public void setUserNick( String userNick ) {
-    this.userNick = userNick;
-  }
-
-  public String getUserNick() {
-    return userNick;
-  }
-
   public String getAccType() {
     return "icq";
   }
 
-  public String getUserPassword() {
-    return userPassword;
-  }
-
-  public String getHost() {
-    return host;
-  }
-
-  public String getPort() {
-    return port;
-  }
-
-  public boolean getUseSsl() {
-    return false;
-  }
-
-  public void setUseSsl( boolean isUseSsl ) {
-  }
-
   public int getStatusIndex() {
-    return IcqStatusUtil.getStatusIndex( statusId );
-  }
-
-  public void setUnrMsgs( int unrMsgs ) {
-    this.unrMsgs = unrMsgs;
+    return IcqStatusUtil.getStatusIndex( (int)statusId );
   }
 
   public void sendTypingStatus( String userId, boolean b ) {
@@ -206,14 +107,6 @@ public class IcqAccountRoot implements AccountRoot {
     } catch ( IOException ex ) {
       LogUtil.outMessage( "Couldn't send typing notify" );
     }
-  }
-
-  public Vector getBuddyItems() {
-    return buddyItems;
-  }
-
-  public void setBuddyItems( Vector buddyItems ) {
-    this.buddyItems = buddyItems;
   }
 
   public void connectAction( final int statusId ) {
@@ -364,10 +257,6 @@ public class IcqAccountRoot implements AccountRoot {
     isReset = true;
   }
 
-  public void updateOfflineBuddylist() {
-    MidletMain.updateOfflineBuddylist( buddyListFile, buddyItems );
-  }
-
   public IcqItem setBuddyStatus( String buddyId, int buddyStatus, Capability[] caps, ClientInfo clientInfo ) {
     IcqGroup groupItem;
     IcqItem icqItem;
@@ -412,7 +301,7 @@ public class IcqAccountRoot implements AccountRoot {
   public void updateMainFrameBuddyList() {
     for ( int c = 0; c < buddyItems.size(); c++ ) {
       for ( int i = 0; i < ( ( GroupHeader ) buddyItems.elementAt( c ) ).getChildsCount(); i++ ) {
-        ( ( IcqItem ) ( ( GroupHeader ) buddyItems.elementAt( c ) ).getChilds().elementAt( i ) ).updateUiData();
+        ( ( BuddyItem ) ( ( GroupHeader ) buddyItems.elementAt( c ) ).getChilds().elementAt( i ) ).updateUiData();
       }
     }
     if ( MidletMain.mainFrame.getActiveAccountRoot().equals( this ) ) {
@@ -423,9 +312,7 @@ public class IcqAccountRoot implements AccountRoot {
 
   public void setUpdatePrivacy( int pStatus ) {
     try {
-      /**
-       * Client update private status
-       */
+      /** Client update private status **/
       IcqPacketSender.setUpdatePrivacy( session, privateBuddyId, pStatus );
       this.pStatusId = pStatus;
       saveAllSettings();
@@ -433,21 +320,8 @@ public class IcqAccountRoot implements AccountRoot {
     }
   }
 
-  public void setYOffset( int yOffset ) {
-    this.yOffset = yOffset;
-  }
-
-  public void setSelectedIndex( int selectedColumn, int selectedRow ) {
-    this.selectedColumn = selectedColumn;
-    this.selectedRow = selectedRow;
-  }
-
   public byte[] sendMessage( BuddyItem buddyItem, String string, String resource ) throws IOException {
     return IcqPacketSender.sendMessage( session, buddyItem.getUserId(), string );
-  }
-
-  public ServiceMessages getServiceMessages() {
-    return serviceMessages;
   }
 
   public String getStatusImages() {
@@ -456,22 +330,6 @@ public class IcqAccountRoot implements AccountRoot {
 
   public void offlineAccount() {
     this.statusId = IcqStatusUtil.getStatus( 0 );
-  }
-
-  public void setShowGroups( boolean isShowGroups ) {
-    this.isShowGroups = isShowGroups;
-  }
-
-  public void setShowOffline( boolean isShowOffline ) {
-    this.isShowOffline = isShowOffline;
-  }
-
-  public boolean getShowGroups() {
-    return isShowGroups;
-  }
-
-  public boolean getShowOffline() {
-    return isShowOffline;
   }
 
   public BuddyItem getItemInstance() {
@@ -512,28 +370,6 @@ public class IcqAccountRoot implements AccountRoot {
 
   public Cookie removeGroup( BuddyGroup buddyGroup ) throws IOException {
     return IcqPacketSender.removeBuddy( session, buddyGroup.getUserId(), ( ( IcqGroup ) buddyGroup ).groupId, ( ( IcqGroup ) buddyGroup ).buddyId, ( ( IcqGroup ) buddyGroup ).buddyType );
-  }
-
-  public TransactionManager getTransactionManager() {
-    return transactionManager;
-  }
-
-  public void setTransactionManager( TransactionManager transactionManager ) {
-    this.transactionManager = transactionManager;
-  }
-
-  public TransactionsFrame getTransactionsFrame() {
-    if ( transactionsFrame == null ) {
-      transactionsFrame = new TransactionsFrame( this );
-      transactionsFrame.s_prevWindow = MidletMain.mainFrame;
-    } else {
-      transactionsFrame.updateTransactions();
-    }
-    return transactionsFrame;
-  }
-
-  public void setTransactionsFrame( TransactionsFrame transactionsFrame ) {
-    this.transactionsFrame = transactionsFrame;
   }
 
   public DirectConnection getDirectConnectionInstance() {

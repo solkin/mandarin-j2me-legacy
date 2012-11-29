@@ -1,6 +1,8 @@
 package com.tomclaw.mandarin.main;
 
 import com.tomclaw.mandarin.dc.DirectConnection;
+import com.tomclaw.tcuilite.GroupHeader;
+import com.tomclaw.utils.LogUtil;
 import java.io.IOException;
 import java.util.Vector;
 
@@ -9,109 +11,240 @@ import java.util.Vector;
  * http://www.tomclaw.com/
  * @author Solkin
  */
-public interface AccountRoot {
+public abstract class AccountRoot {
 
-  public AccountRoot init( boolean isStart );
+  /**
+   * Static settings
+   */
+  /**
+   * Data
+   */
+  public String userId;
+  public String userNick;
+  public String userPassword;
+  public String host = "";
+  public String port = "";
+  public Vector buddyItems = new Vector();
+  public long statusId = -1; // -1
+  private String buddyListFile = null;
+  public boolean isUseSsl = false;
+  /**
+   * Threads and states
+   */
+  public TransactionManager transactionManager = null;
+  public TransactionsFrame transactionsFrame = null;
+  public ServiceMessages serviceMessages = null;
+  /**
+   * Settings
+   */
+  public boolean isShowGroups = true;
+  public boolean isShowOffline = false;
+  /**
+   * Runtime
+   */
+  public int yOffset = 0;
+  public int selectedColumn = 0;
+  public int selectedRow = 0;
+  public int unrMsgs = 0;
+  public boolean isReset;
 
-  public int getUnrMsgs();
+  public AccountRoot init( boolean isStart ) {
+    /** Loading user nick, user password **/
+    userNick = MidletMain.getString( MidletMain.accounts, userId, "nick" );
+    userPassword = MidletMain.getString( MidletMain.accounts, userId, "pass" );
+    host = MidletMain.getString( MidletMain.accounts, userId, "host" );
+    port = MidletMain.getString( MidletMain.accounts, userId, "port" );
+    if ( isStart ) {
+      /** Settings **/
+      isShowGroups = MidletMain.getBoolean( MidletMain.accounts, userId, "isShowGroups" );
+      isShowOffline = MidletMain.getBoolean( MidletMain.accounts, userId, "isShowOffline" );
+      LogUtil.outMessage( "isShowGroups = " + String.valueOf( isShowGroups ) );
+      LogUtil.outMessage( "isShowOffline = " + String.valueOf( isShowOffline ) );
+      buddyListFile = getAccType().concat( String.valueOf( getUserId().hashCode() ) ).concat( ".dat" );
+      loadOfflineBuddyList();
+      /** Loading special data **/
+      initSpecialData();
+    }
+    return this;
+  }
 
-  public void setUnrMsgs( int unrMsgs );
+  public abstract void initSpecialData();
 
-  public long getStatusId();
+  public int getUnrMsgs() {
+    return unrMsgs;
+  }
 
-  public String getUserId();
+  public void setUnrMsgs( int unrMsgs ) {
+    this.unrMsgs = unrMsgs;
+  }
 
-  public String getUserPassword();
+  public long getStatusId() {
+    return statusId;
+  }
 
-  public void setUserId( String userId );
+  public void setUserId( String userId ) {
+    this.userId = userId;
+  }
 
-  public void setUserPassword( String userPassword );
+  public String getUserId() {
+    return userId;
+  }
 
-  public String getUserNick();
+  public void setUserPassword( String userPassword ) {
+    this.userPassword = userPassword;
+  }
 
-  public void setUserNick( String userNick );
+  public String getUserPassword() {
+    return userPassword;
+  }
 
-  public String getAccType();
+  public void setUserNick( String userNick ) {
+    this.userNick = userNick;
+  }
 
-  public String getHost();
+  public String getUserNick() {
+    return userNick;
+  }
 
-  public String getPort();
+  public abstract String getAccType();
 
-  public int getStatusIndex();
+  public String getHost() {
+    return host;
+  }
 
-  public void sendTypingStatus( String userId, boolean b );
+  public String getPort() {
+    return port;
+  }
 
-  public Vector getBuddyItems();
+  public boolean getUseSsl() {
+    return isUseSsl;
+  }
 
-  public void setBuddyItems( Vector buddyItems );
+  public void setUseSsl( boolean isUseSsl ) {
+    this.isUseSsl = isUseSsl;
+  }
 
-  public void setYOffset( int yOffset );
+  public abstract int getStatusIndex();
 
-  public void setSelectedIndex( int selectedColumn, int selectedRow );
+  public abstract void sendTypingStatus( String userId, boolean b );
 
-  public void saveAllSettings();
+  public Vector getBuddyItems() {
+    return buddyItems;
+  }
 
-  public byte[] sendMessage( BuddyItem buddyItem, String string, String resource ) throws IOException;
+  public void setBuddyItems( Vector buddyItems ) {
+    this.buddyItems = buddyItems;
+  }
 
-  public void updateMainFrameBuddyList();
+  public void setYOffset( int yOffset ) {
+    this.yOffset = yOffset;
+  }
 
-  public ServiceMessages getServiceMessages();
+  public void setSelectedIndex( int selectedColumn, int selectedRow ) {
+    this.selectedColumn = selectedColumn;
+    this.selectedRow = selectedRow;
+  }
 
-  public String getStatusImages();
+  public abstract void saveAllSettings();
 
-  public void offlineAllBuddyes();
+  public abstract byte[] sendMessage( BuddyItem buddyItem, String string, String resource ) throws IOException;
 
-  public void offlineAccount();
+  public void updateMainFrameBuddyList() {
+    for ( int c = 0; c < buddyItems.size(); c++ ) {
+      for ( int i = 0; i < ( ( GroupHeader ) buddyItems.elementAt( c ) ).getChildsCount(); i++ ) {
+        ( ( BuddyItem ) ( ( GroupHeader ) buddyItems.elementAt( c ) ).getChilds().elementAt( i ) ).updateUiData();
+      }
+    }
+    if ( MidletMain.mainFrame.getActiveAccountRoot().equals( this ) ) {
+      MidletMain.mainFrame.buddyList.items = this.buddyItems;
+      MidletMain.screen.repaint();
+    }
+  }
 
-  public void setTreeItems( Vector buddyList );
+  public ServiceMessages getServiceMessages() {
+    return serviceMessages;
+  }
 
-  public void setPrivateItems( Vector privateList );
+  public abstract String getStatusImages();
 
-  public void sortBuddyes();
+  public abstract void offlineAllBuddyes();
 
-  public void updateOfflineBuddylist();
+  public abstract void offlineAccount();
 
-  public void setShowGroups( boolean isShowGroups );
+  public abstract void setTreeItems( Vector buddyList );
 
-  public void setShowOffline( boolean isShowOffline );
+  public abstract void setPrivateItems( Vector privateList );
 
-  public boolean getShowGroups();
+  public abstract void sortBuddyes();
 
-  public boolean getShowOffline();
+  public void updateOfflineBuddylist() {
+    MidletMain.updateOfflineBuddylist( buddyListFile, buddyItems );
+  }
 
-  public Cookie addGroup( String groupName, long groupId ) throws IOException;
+  public void loadOfflineBuddyList() {
+    MidletMain.loadOfflineBuddyList( this, buddyListFile, buddyItems );
+    isReset = true;
+  }
 
-  public Cookie addBuddy( String buddyId, BuddyGroup buddyGroup, String nickName, int type, long itemId ) throws IOException;
+  public void setShowGroups( boolean isShowGroups ) {
+    this.isShowGroups = isShowGroups;
+  }
 
-  public Cookie renameBuddy( String itemName, BuddyItem buddyItem, String phones ) throws IOException;
+  public void setShowOffline( boolean isShowOffline ) {
+    this.isShowOffline = isShowOffline;
+  }
 
-  public Cookie renameGroup( String text, BuddyGroup buddyGroup ) throws IOException;
+  public boolean getShowGroups() {
+    return isShowGroups;
+  }
 
-  public void requestAuth( String text, BuddyItem buddyItem ) throws IOException;
+  public boolean getShowOffline() {
+    return isShowOffline;
+  }
 
-  public void acceptAuthorization( BuddyItem buddyItem ) throws IOException;
+  public abstract Cookie addGroup( String groupName, long groupId ) throws IOException;
 
-  public void requestInfo( String userId, int reqSeqNum ) throws IOException;
+  public abstract Cookie addBuddy( String buddyId, BuddyGroup buddyGroup, String nickName, int type, long itemId ) throws IOException;
 
-  public Cookie removeBuddy( BuddyItem buddyItem ) throws IOException;
+  public abstract Cookie renameBuddy( String itemName, BuddyItem buddyItem, String phones ) throws IOException;
 
-  public Cookie removeGroup( BuddyGroup buddyGroup ) throws IOException;
+  public abstract Cookie renameGroup( String text, BuddyGroup buddyGroup ) throws IOException;
 
-  public BuddyItem getItemInstance();
+  public abstract void requestAuth( String text, BuddyItem buddyItem ) throws IOException;
 
-  public boolean getUseSsl();
+  public abstract void acceptAuthorization( BuddyItem buddyItem ) throws IOException;
 
-  public void setUseSsl( boolean isUseSsl );
+  public abstract void requestInfo( String userId, int reqSeqNum ) throws IOException;
 
-  public void setTransactionManager( TransactionManager transactionManager );
+  public abstract Cookie removeBuddy( BuddyItem buddyItem ) throws IOException;
 
-  public TransactionManager getTransactionManager();
+  public abstract Cookie removeGroup( BuddyGroup buddyGroup ) throws IOException;
 
-  public TransactionsFrame getTransactionsFrame();
+  public abstract BuddyItem getItemInstance();
 
-  public void setTransactionsFrame( TransactionsFrame transactionsFrame );
+  public TransactionManager getTransactionManager() {
+    return transactionManager;
+  }
 
-  public DirectConnection getDirectConnectionInstance();
+  public void setTransactionManager( TransactionManager transactionManager ) {
+    this.transactionManager = transactionManager;
+  }
 
-  public long getNextItemId();
+  public TransactionsFrame getTransactionsFrame() {
+    if ( transactionsFrame == null ) {
+      transactionsFrame = new TransactionsFrame( this );
+      transactionsFrame.s_prevWindow = MidletMain.mainFrame;
+    } else {
+      transactionsFrame.updateTransactions();
+    }
+    return transactionsFrame;
+  }
+
+  public void setTransactionsFrame( TransactionsFrame transactionsFrame ) {
+    this.transactionsFrame = transactionsFrame;
+  }
+
+  public abstract DirectConnection getDirectConnectionInstance();
+
+  public abstract long getNextItemId();
 }

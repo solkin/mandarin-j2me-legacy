@@ -46,7 +46,7 @@ public class XmppSession {
 
     LogUtil.outMessage( "host=" + xmppAccountRoot.host );
     LogUtil.outMessage( "username=" + xmppAccountRoot.username );
-    LogUtil.outMessage( "password=" + xmppAccountRoot.password );
+    LogUtil.outMessage( "password=" + xmppAccountRoot.getUserPassword() );
     LogUtil.outMessage( "resource=" + xmppAccountRoot.resource );
     if ( xmppAccountRoot.isUseSsl ) {
       String msg = "<stream:stream xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams' to='" + xmppAccountRoot.host + "' version='1.0'>";
@@ -66,7 +66,7 @@ public class XmppSession {
       //is.skip(ghost);
 
       msg = "<auth xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='PLAIN'>";
-      byte[] auth_msg = ( xmppAccountRoot.username + "@" + xmppAccountRoot.host + "\0" + xmppAccountRoot.username + "\0" + xmppAccountRoot.password ).getBytes();
+      byte[] auth_msg = ( xmppAccountRoot.username + "@" + xmppAccountRoot.host + "\0" + xmppAccountRoot.username + "\0" + xmppAccountRoot.getUserPassword() ).getBytes();
       msg = msg + Base64.encode( auth_msg, 0, auth_msg.length ) + "</auth>";
       xmlWriter.writeDirect( msg.getBytes() );
       // os.flush();
@@ -145,7 +145,7 @@ public class XmppSession {
       xmlWriter.text( xmppAccountRoot.username );
       xmlWriter.endTag();
       xmlWriter.startTag( "password" );
-      xmlWriter.text( xmppAccountRoot.password );
+      xmlWriter.text( xmppAccountRoot.getUserPassword() );
       xmlWriter.endTag();
       xmlWriter.startTag( "resource" );
       xmlWriter.text( xmppAccountRoot.resource );
@@ -200,7 +200,7 @@ public class XmppSession {
         xmppAccountRoot.statusId = XmppStatusUtil.offlineIndex;
         ActionExec.disconnectEvent( xmppAccountRoot );
         if ( isAlive ) {
-          int prevStatus = xmppAccountRoot.statusId;
+          int prevStatus = xmppAccountRoot.getStatusIndex();
 
           while ( MidletMain.autoReconnect && xmppAccountRoot.statusId == XmppStatusUtil.offlineIndex ) {
             try {

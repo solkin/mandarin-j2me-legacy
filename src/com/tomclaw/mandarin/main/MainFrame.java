@@ -843,7 +843,7 @@ public class MainFrame extends Window {
         icqAccountRoot.saveAllSettings();
         if ( icqAccountRoot.statusId != -1 ) {
           try {
-            IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, icqAccountRoot.statusId );
+            IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, (int)icqAccountRoot.statusId );
             //! MidletMain.saveStatusSettings(accountRoot, accountRoot.xStatusId, accountRoot.pStatusId, accountRoot.privateBuddyId);
           } catch ( IOException ex ) {
             LogUtil.outMessage( "Can't set xstatus", true );
@@ -872,7 +872,7 @@ public class MainFrame extends Window {
               icqAccountRoot.saveAllSettings();
               if ( icqAccountRoot.statusId != -1 ) {
                 try {
-                  IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, icqAccountRoot.statusId );
+                  IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, (int)icqAccountRoot.statusId );
                   //! MidletMain.saveStatusSettings(accountRoot, accountRoot.xStatusId, accountRoot.pStatusId, accountRoot.privateBuddyId);
                 } catch ( IOException ex ) {
                   LogUtil.outMessage( "Can't set xstatus", true );

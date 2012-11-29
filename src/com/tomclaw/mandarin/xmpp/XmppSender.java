@@ -27,7 +27,7 @@ public class XmppSender {
   }
 
   public static void joinConfrence( XmppSession xmppSession, String id, String jid, String nick, String password ) throws IOException {
-    sendPresence( xmppSession.xmlWriter, null, jid.concat( "/" ).concat( nick ), null, XmppStatusUtil.statuses[xmppSession.xmppAccountRoot.statusId], "", 5, true, id, password );
+    sendPresence( xmppSession.xmlWriter, null, jid.concat( "/" ).concat( nick ), null, XmppStatusUtil.statuses[xmppSession.xmppAccountRoot.getStatusIndex()], "", 5, true, id, password );
   }
 
   public static void sendPresence( XmlWriter xmlWriter, String from, String to, String type, String statusId, String status, int priority, boolean isConference, String id, String password ) throws IOException {
