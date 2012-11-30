@@ -5,7 +5,6 @@ import com.tomclaw.bingear.IncorrectValueException;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.LogUtil;
-import java.io.IOException;
 import java.util.Hashtable;
 import javax.microedition.lcdui.TextField;
 

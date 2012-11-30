@@ -1,7 +1,5 @@
 package com.tomclaw.mandarin.icq;
 
-import com.tomclaw.bingear.GroupNotFoundException;
-import com.tomclaw.bingear.IncorrectValueException;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;

@@ -4,16 +4,13 @@ import com.tomclaw.mandarin.main.BuddyItem;
 import com.tomclaw.mandarin.main.IconsType;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.ChatItem;
-import com.tomclaw.tcuilite.GroupChild;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Solkin Igor Viktorovich, TomClaw Software, 2003-2012
  * http://www.tomclaw.com/
  * @author Solkin
  */
-public class IcqItem extends GroupChild implements BuddyItem {
+public class IcqItem extends BuddyItem {
 
   /**
    * Buddy types
@@ -27,23 +24,15 @@ public class IcqItem extends GroupChild implements BuddyItem {
   public static final int DENY_LIST_BUDDY = 0x0006;
   public static final int IGNORE_LIST_BUDDY = 0x0007;
   /**
-   * Another kind
-   */
-  public static final int ACCOUNT_ROOT = 0xffff;
-  /**
    * Variables
    */
-  public String userId;
   public int groupId;
   public int buddyId;
-  public String userNick;
   public boolean isAvaitingAuth;
-  public int buddyType;
   public int buddyStatus;
   public int unreadCount = 0;
   public Capability[] capabilities = new Capability[]{};
   public ClientInfo clientInfo = new ClientInfo();
-  public boolean typingStatus = false;
   private Capability aStatusCap = null;
   private Capability aClient = null;
   /**
@@ -55,11 +44,6 @@ public class IcqItem extends GroupChild implements BuddyItem {
   public int permitBuddyId = 0x00;
   public int denyBuddyId = 0x00;
   public int ignoreBuddyId = 0x00;
-  /**
-   * Typing thread
-   */
-  private Timer typingTimer;
-  private TimerTask timerTask;
 
   public IcqItem() {
     super( "" );
@@ -68,37 +52,30 @@ public class IcqItem extends GroupChild implements BuddyItem {
     buddyType = 0;
     isAvaitingAuth = false;
     buddyStatus = -1;
-    this.imageLeftIndex = new int[ 1 ];
+    imageLeftIndex = new int[ 1 ];
   }
 
   public IcqItem( String userId ) {
     super( userId );
-    /**
-     * Default values
-     */
-    this.userId = userId;
-    userNick = userId;
+    /** Default values **/
     buddyId = 0;
     groupId = 0;
     buddyType = 0;
     isAvaitingAuth = false;
     buddyStatus = -1;
-    this.imageLeftIndex = new int[ 1 ];
+    imageLeftIndex = new int[ 1 ];
   }
 
   public IcqItem( String userId, String userNick ) {
-    super( userNick );
-    this.userId = userId;
+    super( userId );
     this.userNick = userNick;
-    /**
-     * Default values
-     */
+    /** Default values **/
     buddyId = 0;
     groupId = 0;
     buddyType = 0;
     isAvaitingAuth = false;
     buddyStatus = -1;
-    this.imageLeftIndex = new int[ 1 ];
+    imageLeftIndex = new int[ 1 ];
   }
 
   public IcqItem( String userId, String userNick, int buddyType ) {
@@ -117,14 +94,6 @@ public class IcqItem extends GroupChild implements BuddyItem {
 
   public void setUnreadCount( int unreadCount, String resource ) {
     this.unreadCount = unreadCount;
-  }
-
-  public String getUserPhone() {
-    return "";
-  }
-
-  public boolean isPhone() {
-    return false;
   }
 
   public void updateUiData() {
@@ -168,7 +137,6 @@ public class IcqItem extends GroupChild implements BuddyItem {
       aClient = CapUtil.getCapabilityByType( capabilities, Capability.CAP_CLIENTID );
       if ( aClient != null && !aClient.capName.equals( "" ) ) {
         imageRightIndex[3] = Integer.parseInt( aClient.capIcon.substring( 7 ) );
-        // Logger.outMessage("imageRightIndex[3] = " + imageRightIndex[3]);
       }
     }
     if ( MidletMain.chatFrame != null ) {
@@ -182,44 +150,5 @@ public class IcqItem extends GroupChild implements BuddyItem {
       }
     } catch ( Throwable ex ) {
     }
-  }
-
-  public void setTypingStatus( boolean isTyping ) {
-    this.typingStatus = isTyping;
-    if ( typingTimer != null ) {
-      typingTimer.cancel();
-      typingTimer = null;
-    }
-    if ( isTyping ) {
-      timerTask = new TimerTask() {
-        public void run() {
-          IcqItem.this.typingStatus = false;
-          IcqItem.this.updateUiData();
-          MidletMain.screen.repaint();
-          IcqItem.this.typingTimer = null;
-          IcqItem.this.timerTask = null;
-        }
-      };
-      typingTimer = new java.util.Timer();
-      typingTimer.schedule( timerTask, 25000 );
-    }
-  }
-
-  public boolean getTypingStatus() {
-    return typingStatus;
-  }
-
-  public int getBuddyType() {
-    return buddyType;
-  }
-
-  public void setUserPhone( String userPhone ) {
-  }
-
-  public void setBuddyType( int buddyType ) {
-    this.buddyType = buddyType;
-  }
-
-  public void setIsPhone( boolean isPhone ) {
   }
 }

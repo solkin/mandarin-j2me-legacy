@@ -672,7 +672,7 @@ public class IcqPacketParser {
                         fdPoint += 2;
                         int secDCounter = DataUtil.get16_reversed( insValue, fdPoint );
                         fdPoint += 2;
-                        byte[] unkZeros = DataUtil.getByteArray( insValue, fdPoint, nFollDataLength - 2 );
+                        DataUtil.getByteArray( insValue, fdPoint, nFollDataLength - 2 );
                         fdPoint += nFollDataLength - 2;
                         LogUtil.outMessage( "prot. version: " + protVersion );
                         HexUtil.dump_( plugin, "plugin: " );

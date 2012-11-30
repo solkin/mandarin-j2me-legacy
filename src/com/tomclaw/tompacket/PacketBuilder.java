@@ -51,7 +51,6 @@ public class PacketBuilder {
       packet = PacketBuilder.cacheMap( fileName );
       HexUtil.dump_( packet.getData(), "OUT: " );
     } catch ( Throwable ex ) {
-      ex.printStackTrace();
     }
     if ( packet != null ) {
       netConnection.write( packet.getData() );

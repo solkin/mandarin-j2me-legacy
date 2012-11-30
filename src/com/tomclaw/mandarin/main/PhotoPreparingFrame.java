@@ -167,22 +167,12 @@ public class PhotoPreparingFrame extends Window {
                   }
 
 
-                  FileConnection fileConnection = null;
+                  FileConnection fileConnection;
 
                   LogUtil.outMessage( "Connecting file: " + MidletMain.incomingFilesFolder.concat( fileName ) );
                   fileConnection = ( FileConnection ) Connector.open( "file://".concat( MidletMain.incomingFilesFolder.concat( fileName ) ), Connector.READ );
                   LogUtil.outMessage( "Connected: " + fileConnection.getPath() );
-                  if ( !fileConnection.exists() ) {
-                    //    return;
-                  }
 
-                  /*parent.fileLocation = "/".concat(systemPath);
-                   parent.fileName = __selectedString;
-                   parent.fileSize = fileConnection.fileSize();
-                   parent.filePath.setLabel(filePath);
-                   parent.fileBytesSize.setLabel(String.valueOf(parent.fileSize) + " bytes");
-                   */
-                  // String fileName = fileConnection.getName();
                   String fileLocation = ( fileConnection.getPath() );
                   long fileSize = fileConnection.fileSize();
 
@@ -211,11 +201,7 @@ public class PhotoPreparingFrame extends Window {
                   }
                   Display.getDisplay( MidletMain.midletMain ).setCurrent( MidletMain.screen );
                   closePlayer();
-
-                  // MidletMain.screen.setActiveWindow(PhotoPreparingFrame.this.s_prevWindow);
-                  return;
                 } catch ( Throwable ex ) {
-                  // ex.printStackTrace();
                   Display.getDisplay( MidletMain.midletMain ).setCurrent( MidletMain.screen );
                   closePlayer();
                   MidletMain.screen.setActiveWindow( PhotoPreparingFrame.this.s_prevWindow );
@@ -236,7 +222,6 @@ public class PhotoPreparingFrame extends Window {
           } );
           Display.getDisplay( MidletMain.midletMain ).setCurrent( canvas );
         } catch ( MediaException ex ) {
-          ex.printStackTrace();
         }
       }
     };
@@ -341,17 +326,14 @@ public class PhotoPreparingFrame extends Window {
     setGObject( pane );
   }
 
-  public void createPlayer() {
+  public final void createPlayer() {
     if ( mPlayer != null ) {
       closePlayer();
     }
     try {
       mPlayer = Manager.createPlayer( "capture://video" );
       mPlayer.realize();
-    } catch ( IOException ex ) {
-      ex.printStackTrace();
-    } catch ( MediaException ex ) {
-      ex.printStackTrace();
+    } catch ( Throwable ex ) {
     }
   }
 

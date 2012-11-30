@@ -204,7 +204,6 @@ public class MidletMain extends MIDlet {
     try {
       Smiles.readSmileData( true );
     } catch ( Throwable ex ) {
-      ex.printStackTrace();
     }
     splashFrame.updateGaugeValue( 60 );
     LogUtil.outMessage( "4 mem. eaten = [ " + ( freeMemory - runtime.freeMemory() ) / 1024 + " ] KiB" );

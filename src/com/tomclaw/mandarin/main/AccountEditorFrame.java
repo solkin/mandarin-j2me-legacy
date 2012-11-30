@@ -93,64 +93,66 @@ public class AccountEditorFrame extends Window {
         MidletMain.screen.setWaitScreenState( true );
         new Thread() {
           public void run() {
-            try{
-            String accType = "";
-            fldNick.setText( fldNick.getText().length() > 0 ? fldNick.getText()
-                    : fldLogin.getText() );
-            AccountTab tempTabItem =
-                    MidletMain.mainFrame.getAccountTab( fldLogin.getText() );
-            if ( tempTabItem == null ) {
-              tempTabItem =
-                      new AccountTab( fldLogin.getText(), fldNick.getText(), 0, 0 );
-            }
             try {
-              MidletMain.accounts.addGroup( fldLogin.getText() );
-              MidletMain.accounts.addItem( fldLogin.getText(), "nick", fldNick.getText() );
-              MidletMain.accounts.addItem( fldLogin.getText(), "pass", fldPassw.getText() );
-              MidletMain.accounts.addItem( fldLogin.getText(), "host", fldHost.getText() );
-              MidletMain.accounts.addItem( fldLogin.getText(), "port", fldPort.getText() );
-              MidletMain.accounts.addItem( fldLogin.getText(), "ussl", isUseSsl.state ? "true" : "false" );
-              switch ( AccountEditorFrame.this.protocolSwitcher.getCombed() ) {
-                case 0x00: {
-                  accType = "icq";
-                  if ( !isEdit ) {
-                    tempTabItem.accountRoot = new IcqAccountRoot( fldLogin.getText() );
-                  }
-                  break;
-                }
-                case 0x01: {
-                  accType = "mmp";
-                  if ( !isEdit ) {
-                    tempTabItem.accountRoot = new MmpAccountRoot( fldLogin.getText() );
-                  }
-                  break;
-                }
-                case 0x02: {
-                  accType = "xmpp";
-                  if ( !isEdit ) {
-                    tempTabItem.accountRoot = new XmppAccountRoot( fldLogin.getText() );
-                  }
-                  break;
-                }
+              String accType = "";
+              fldNick.setText( fldNick.getText().length() > 0 ? fldNick.getText()
+                      : fldLogin.getText() );
+              AccountTab tempTabItem =
+                      MidletMain.mainFrame.getAccountTab( fldLogin.getText() );
+              if ( tempTabItem == null ) {
+                tempTabItem =
+                        new AccountTab( fldLogin.getText(), fldNick.getText(), 0, 0 );
               }
-              MidletMain.accounts.addItem( fldLogin.getText(), "type", accType );
-            } catch ( IncorrectValueException ex ) {
-            } catch ( GroupNotFoundException ex1 ) {
+              try {
+                MidletMain.accounts.addGroup( fldLogin.getText() );
+                MidletMain.accounts.addItem( fldLogin.getText(), "nick", fldNick.getText() );
+                MidletMain.accounts.addItem( fldLogin.getText(), "pass", fldPassw.getText() );
+                MidletMain.accounts.addItem( fldLogin.getText(), "host", fldHost.getText() );
+                MidletMain.accounts.addItem( fldLogin.getText(), "port", fldPort.getText() );
+                MidletMain.accounts.addItem( fldLogin.getText(), "ussl", isUseSsl.state ? "true" : "false" );
+                switch ( AccountEditorFrame.this.protocolSwitcher.getCombed() ) {
+                  case 0x00: {
+                    accType = "icq";
+                    if ( !isEdit ) {
+                      tempTabItem.accountRoot = new IcqAccountRoot( fldLogin.getText() );
+                    }
+                    break;
+                  }
+                  case 0x01: {
+                    accType = "mmp";
+                    if ( !isEdit ) {
+                      tempTabItem.accountRoot = new MmpAccountRoot( fldLogin.getText() );
+                    }
+                    break;
+                  }
+                  case 0x02: {
+                    accType = "xmpp";
+                    if ( !isEdit ) {
+                      tempTabItem.accountRoot = new XmppAccountRoot( fldLogin.getText() );
+                    }
+                    break;
+                  }
+                }
+                MidletMain.accounts.addItem( fldLogin.getText(), "type", accType );
+              } catch ( IncorrectValueException ex ) {
+              } catch ( GroupNotFoundException ex1 ) {
+              }
+              tempTabItem.imageFileHash = "/res/groups/img_".concat( accType ).concat( "status.png" ).hashCode();
+              tempTabItem.protocolFileHash = tempTabItem.imageFileHash;
+              /** Saving accounts **/
+              tempTabItem.accountRoot.saveAllSettings();
+              /** Applying changes on UI **/
+              tempTabItem.accountRoot.init( !isEdit );
+              if ( isEdit ) {
+                tempTabItem.title = fldNick.getText();
+              } else {
+                MidletMain.mainFrame.accountTabs.addTabItem( tempTabItem );
+              }
+              MidletMain.mainFrame.switchAccountRoot( MidletMain.mainFrame.getActiveAccountRoot() );
+              MidletMain.screen.setActiveWindow( MidletMain.mainFrame );
+              MidletMain.screen.setWaitScreenState( false );
+            } catch ( Throwable ex ) {
             }
-            tempTabItem.imageFileHash = "/res/groups/img_".concat( accType ).concat( "status.png" ).hashCode();
-            tempTabItem.protocolFileHash = tempTabItem.imageFileHash;
-            /** Saving accounts **/
-            tempTabItem.accountRoot.saveAllSettings();
-            /** Applying changes on UI **/
-            tempTabItem.accountRoot.init( !isEdit );
-            if ( isEdit ) {
-              tempTabItem.title = fldNick.getText();
-            } else {
-              MidletMain.mainFrame.accountTabs.addTabItem( tempTabItem );
-            }
-            MidletMain.mainFrame.switchAccountRoot( MidletMain.mainFrame.getActiveAccountRoot() );
-            MidletMain.screen.setActiveWindow( MidletMain.mainFrame );
-            MidletMain.screen.setWaitScreenState( false );}catch(Throwable ex) {ex.printStackTrace();}
           }
         }.start();
       }

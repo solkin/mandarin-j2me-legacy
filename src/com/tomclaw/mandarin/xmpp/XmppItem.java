@@ -3,7 +3,6 @@ package com.tomclaw.mandarin.xmpp;
 import com.tomclaw.mandarin.main.BuddyItem;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.ChatItem;
-import com.tomclaw.tcuilite.GroupChild;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -12,7 +11,7 @@ import java.util.Hashtable;
  * http://www.tomclaw.com/
  * @author Solkin
  */
-public class XmppItem extends GroupChild implements BuddyItem {
+public class XmppItem extends BuddyItem {
 
   /**
    * Buddy types
@@ -21,8 +20,6 @@ public class XmppItem extends GroupChild implements BuddyItem {
   /**
    * Variables
    */
-  public String jid;
-  public String nick;
   public Hashtable resources = new Hashtable();
   public boolean isGroupChat = false;
   public String groupChatNick = null;
@@ -32,23 +29,13 @@ public class XmppItem extends GroupChild implements BuddyItem {
     super( "" );
   }
 
-  public XmppItem( String jid ) {
-    super( jid );
-    this.jid = jid;
-    this.nick = jid;
+  public XmppItem( String userId ) {
+    super( userId );
   }
 
-  public XmppItem( String jid, String name ) {
-    super( jid );
-    this.jid = jid;
-    this.nick = name;
-  }
-
-  public String getUserNick() {
-    if ( nick == null ) {
-      return jid;
-    }
-    return nick;
+  public XmppItem( String userId, String name ) {
+    super( userId );
+    setUserNick( name );
   }
 
   public int getUnreadCount() {
@@ -69,9 +56,11 @@ public class XmppItem extends GroupChild implements BuddyItem {
   }
 
   public void updateUiData() {
-    this.title = ( nick == null || nick.length() == 0 ) ? jid : nick;
+    this.title = ( userNick == null || userNick.length() == 0 ) ? userId
+            : userNick;
     if ( resources.size() > 1 ) {
-      title += " (" + ( isGroupChat ? ( resources.size() - 1 ) : resources.size() ) + ")";
+      title += " (" + ( isGroupChat ? ( resources.size() - 1 )
+              : resources.size() ) + ")";
     }
     int chatImage = -1;
     weight = 0;
@@ -85,52 +74,21 @@ public class XmppItem extends GroupChild implements BuddyItem {
         weight = -3;
       }
     }
-    // if (typingStatus) {
-    //     chatImage = 11;
-    // }
-    this.imageLeftIndex = new int[]{chatImage, status};
-    this.imageRightIndex = new int[]{-1, -1, -1, -1, -1};
-    /*if (this.isInPermitList) {
-     imageRightIndex[0] = IconsType.PLIST_VISIBLE;
-     }
-     if (this.isInDenyList) {
-     imageRightIndex[1] = IconsType.PLIST_INVISIBLE;
-     }
-     if (this.isInIgnoreList) {
-     imageRightIndex[2] = IconsType.PLIST_IGNORE;
-     }
-     if (capabilities != null) {
-     aClient = CapUtil.getCapabilityByType(capabilities, Capability.CAP_CLIENTID);
-     if (aClient != null && !aClient.capName.equals("")) {
-     imageRightIndex[3] = Integer.parseInt(aClient.capIcon.substring(7));
-     // Logger.outMessage("imageRightIndex[3] = " + imageRightIndex[3]);
-     }
-     }*/
+    imageLeftIndex = new int[]{ chatImage, status };
+    imageRightIndex = new int[]{ -1, -1, -1, -1, -1 };
     if ( MidletMain.chatFrame != null ) {
-      isBold = ( MidletMain.chatFrame.getChatTab( jid ) != null || MidletMain.getBoolean( MidletMain.uniquest, String.valueOf( "xmpp" + getUserId().hashCode() ), "ON_TOP" ) );
+      isBold = ( MidletMain.chatFrame.getChatTab( userId ) != null
+              || MidletMain.getBoolean( MidletMain.uniquest,
+              String.valueOf( "xmpp" + getUserId().hashCode() ), "ON_TOP" ) );
       weight = isBold ? -3 : weight;
     }
     try {
-      if ( MidletMain.uniquest.getGroup( String.valueOf( "xmpp" + getUserId().hashCode() ) ) != null ) {
+      if ( MidletMain.uniquest.getGroup( String.valueOf( "xmpp"
+              + getUserId().hashCode() ) ) != null ) {
         imageRightIndex[4] = 25;
       }
     } catch ( Throwable ex ) {
     }
-  }
-
-  public String getUserPhone() {
-    return "";
-  }
-
-  public boolean isPhone() {
-    return false;
-  }
-
-  public void setTypingStatus( boolean isTyping ) {
-  }
-
-  public boolean getTypingStatus() {
-    return false;
   }
 
   public Resource getResource( String resource ) {
@@ -197,15 +155,6 @@ public class XmppItem extends GroupChild implements BuddyItem {
         resource.status = XmppStatusUtil.offlineIndex;
       }
     }
-  }
-
-  public void setUserPhone( String userPhone ) {
-  }
-
-  public void setBuddyType( int buddyType ) {
-  }
-
-  public void setIsPhone( boolean isPhone ) {
   }
 
   public int getBuddyType() {

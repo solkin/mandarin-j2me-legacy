@@ -41,7 +41,8 @@ public class GroupChatConfFrame extends Window {
         MidletMain.screen.setWaitScreenState( true );
         requestId = "grconffrm_set_".concat( xmppAccountRoot.xmppSession.getId() );
         try {
-          XmppSender.sendGroupChatSettings( xmppAccountRoot.xmppSession, buddyItem.jid, pane.items, FORM_TYPE, requestId );
+          XmppSender.sendGroupChatSettings( xmppAccountRoot.xmppSession, 
+                  buddyItem.userId, pane.items, FORM_TYPE, requestId );
         } catch ( IOException ex ) {
           notifyLabel.setCaption( Localization.getMessage( "SETTINGS_READING_FAILED" ) );
           pane.items.removeAllElements();
@@ -61,7 +62,8 @@ public class GroupChatConfFrame extends Window {
     /** Requesting settings **/
     requestId = "grconffrm_get_".concat( xmppAccountRoot.xmppSession.getId() );
     try {
-      XmppSender.requestGroupChatSettings( xmppAccountRoot.xmppSession, buddyItem.jid, requestId );
+      XmppSender.requestGroupChatSettings( xmppAccountRoot.xmppSession, 
+              buddyItem.userId, requestId );
     } catch ( IOException ex ) {
       notifyLabel.setCaption( Localization.getMessage( "SETTINGS_READING_FAILED" ) );
       MidletMain.screen.repaint();
