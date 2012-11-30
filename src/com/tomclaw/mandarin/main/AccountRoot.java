@@ -1,5 +1,7 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.bingear.GroupNotFoundException;
+import com.tomclaw.bingear.IncorrectValueException;
 import com.tomclaw.mandarin.dc.DirectConnection;
 import com.tomclaw.tcuilite.GroupHeader;
 import com.tomclaw.utils.LogUtil;
@@ -47,12 +49,12 @@ public abstract class AccountRoot {
   public int selectedRow = 0;
   public int unrMsgs = 0;
   public boolean isReset;
-  
+
   public AccountRoot( String userId ) {
     this.userId = userId;
     AccountRoot.this.construct();
   }
-  
+
   public abstract void construct();
 
   public AccountRoot init( boolean isStart ) {
@@ -152,7 +154,19 @@ public abstract class AccountRoot {
     this.selectedRow = selectedRow;
   }
 
-  public abstract void saveAllSettings();
+  public void saveAllSettings() {
+    try {
+      MidletMain.accounts.addItem( userId, "isShowGroups", String.valueOf( isShowGroups ) );
+      MidletMain.accounts.addItem( userId, "isShowOffline", String.valueOf( isShowOffline ) );
+      saveSpecialSettings();
+    } catch ( Throwable ex ) {
+      LogUtil.outMessage( "Error while saving settings: " + ex.getMessage() );
+    }
+    MidletMain.saveRmsData( true, false, false );
+    LogUtil.outMessage( "RMS accounts saving complete" );
+  }
+
+  public abstract void saveSpecialSettings() throws Throwable;
 
   public abstract byte[] sendMessage( BuddyItem buddyItem, String string, String resource ) throws IOException;
 

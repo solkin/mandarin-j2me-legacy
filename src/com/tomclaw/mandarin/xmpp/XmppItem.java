@@ -51,26 +51,6 @@ public class XmppItem extends GroupChild implements BuddyItem {
     return nick;
   }
 
-  public void setUserNick( String userNick ) {
-    this.nick = userNick;
-  }
-
-  public String getUserId() {
-    return jid;
-  }
-
-  public void setUserId( String userId ) {
-    this.jid = userId;
-  }
-
-  public int[] getLeftImages() {
-    return this.imageLeftIndex;
-  }
-
-  public void setLeftImages( int[] leftImages ) {
-    this.imageLeftIndex = leftImages;
-  }
-
   public int getUnreadCount() {
     int unreadCount = 0;
     Enumeration elements = resources.elements();

@@ -733,7 +733,7 @@ public class IcqDirectConnection implements DirectConnection {
     long startTime = System.currentTimeMillis();
     while ( fileSentBytes < fileByteSize ) {
       bufferRead = inputStream.read( buffer );
-      dcConnection.outputStream.write( buffer, 0, bufferRead );
+      dcConnection.write( buffer, 0, bufferRead );
       dcConnection.flush();
       MidletMain.incrementDataCount( bufferRead );
       fileSentBytes += bufferRead;

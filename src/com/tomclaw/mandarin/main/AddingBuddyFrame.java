@@ -48,51 +48,51 @@ public class AddingBuddyFrame extends Window {
           ActionExec.showNotify( Localization.getMessage( "EMPTY_FIELDS" ) );
         } else {
           try {
-            // IcqPacketSender.addBuddy(icqAccountRoot.session, StringUtil.stringToByteArray(buddyIdField.getText(), true), DataUtil.getNextId(icqAccountRoot), 0x00, 0x0001, false, null);
-            final BuddyGroup groupItem = ( winType == 0x02 ? null : ( BuddyGroup ) accountRoot.getBuddyItems().elementAt( buddyGroup.getCombed() ) );
+            final BuddyGroup groupItem = ( winType == 0x02 ? null
+                    : ( BuddyGroup ) accountRoot.getBuddyItems()
+                    .elementAt( buddyGroup.getCombed() ) );
 
             long userId = accountRoot.getNextItemId();
 
-            Cookie cookie = accountRoot.addBuddy( buddyIdField.getText(), groupItem, buddyNickField.getText(), winType, userId );
+            Cookie cookie = accountRoot.addBuddy( buddyIdField.getText(),
+                    groupItem, buddyNickField.getText(), winType, userId );
 
             BuddyItem buddyItemNull = null;
 
-            QueueAction queueAction = new QueueAction( accountRoot, buddyItemNull, cookie ) {
+            QueueAction queueAction = new QueueAction( accountRoot,
+                    buddyItemNull, cookie ) {
               public void actionPerformed( Hashtable params ) {
                 switch ( winType ) {
                   case 0x00: {
-                    buddyItem = new IcqItem( buddyIdField.getText(), buddyNickField.getText() );
-                    ( ( GroupHeader ) groupItem ).addChild( ( GroupChild ) buddyItem );
+                    buddyItem = new IcqItem( buddyIdField.getText(),
+                            buddyNickField.getText() );
+                    ( ( GroupHeader ) groupItem )
+                            .addChild( ( GroupChild ) buddyItem );
                     break;
                   }
                   case 0x01: {
-                    buddyItem = new MmpItem( buddyIdField.getText(), buddyNickField.getText() );
-                    ( ( MmpItem ) buddyItem ).contactId = ( ( Long ) params.get( "contactId" ) ).longValue();
-                    ( ( GroupHeader ) groupItem ).addChild( ( GroupChild ) buddyItem );
+                    buddyItem = new MmpItem( buddyIdField.getText(),
+                            buddyNickField.getText() );
+                    ( ( MmpItem ) buddyItem ).contactId = ( ( Long ) params
+                            .get( "contactId" ) ).longValue();
+                    ( ( GroupHeader ) groupItem ).addChild(
+                            ( GroupChild ) buddyItem );
                     break;
                   }
                   case 0x02: {
-                    buddyItem = new MmpItem( buddyIdField.getText(), buddyNickField.getText() );
+                    buddyItem = new MmpItem( buddyIdField.getText(),
+                            buddyNickField.getText() );
                     buddyItem.setIsPhone( true );
                     buddyItem.setUserPhone( buddyIdField.getText() );
-                    ( ( MmpItem ) buddyItem ).flags = PacketType.CONTACT_FLAG_PHONE;
-                    ( ( MmpItem ) buddyItem ).contactId = ( ( Long ) params.get( "contactId" ) ).longValue();
-                    ( ( MmpAccountRoot ) accountRoot ).phoneGroup.addChild( ( GroupChild ) buddyItem );
+                    ( ( MmpItem ) buddyItem ).flags =
+                            PacketType.CONTACT_FLAG_PHONE;
+                    ( ( MmpItem ) buddyItem ).contactId =
+                            ( ( Long ) params.get( "contactId" ) ).longValue();
+                    ( ( MmpAccountRoot ) accountRoot ).phoneGroup
+                            .addChild( ( GroupChild ) buddyItem );
                     break;
                   }
                 }
-                // buddyItem.updateUiData();
-
-                /*MmpItem mmpItem = (MmpItem) getBuddyItem();
-                 if (!isTelephone) {
-                 ((MmpGroup) buddyGroup).addChild(mmpItem);
-                 } else {
-                 LogUtil.outMessage("Phone item");
-                 mmpItem.updateUiData();
-                 phoneGroup.addChild(mmpItem);
-                 }*/
-                // accountRoot.updateMainFrameBuddyList();
-                // accountRoot.updateOfflineBuddylist();
 
                 LogUtil.outMessage( "Action Performed" );
                 buddyItem.updateUiData();
@@ -102,7 +102,6 @@ public class AddingBuddyFrame extends Window {
             LogUtil.outMessage( "QueueAction created" );
             Queue.pushQueueAction( queueAction );
 
-            // IcqPacketSender.requestBuddyList(icqAccountRoot.session);
             MidletMain.screen.setActiveWindow( s_prevWindow );
           } catch ( IOException ex ) {
             ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
@@ -159,7 +158,8 @@ public class AddingBuddyFrame extends Window {
         BuddyGroup groupItem;
         for ( int c = 0; c < accountRoot.getBuddyItems().size(); c++ ) {
           groupItem = ( BuddyGroup ) accountRoot.getBuddyItems().elementAt( c );
-          Radio radio = new Radio( groupItem.getUserId() == null ? "" : groupItem.getUserId(), false );
+          Radio radio = new Radio( groupItem.getUserId() == null ? ""
+                  : groupItem.getUserId(), false );
           radio.setFocusable( true );
           pane.addItem( radio );
           buddyGroup.addRadio( radio );

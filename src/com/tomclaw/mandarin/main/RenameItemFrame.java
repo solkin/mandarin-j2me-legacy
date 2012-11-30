@@ -122,7 +122,6 @@ public class RenameItemFrame extends Window {
             LogUtil.outMessage( "queueAction: " + queueAction.getCookie().cookieString );
             LogUtil.outMessage( "Switching window..." );
             MidletMain.screen.setActiveWindow( s_prevWindow );
-
           } catch ( IOException ex ) {
             ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
           }

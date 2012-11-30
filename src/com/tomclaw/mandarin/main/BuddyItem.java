@@ -1,35 +1,60 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.tcuilite.GroupChild;
+
 /**
  * Solkin Igor Viktorovich, TomClaw Software, 2003-2012
  * http://www.tomclaw.com/
  * @author Solkin
  */
-public interface BuddyItem {
+public abstract class BuddyItem extends GroupChild {
+  
+  public BuddyItem( String userId ) {
+    super( userId );
+  }
 
-  public String getUserNick();
+  public String getUserNick() {
+    return userNick;
+  }
 
-  public void setUserNick( String userNick );
+  public void setUserNick( String userNick ) {
+    this.userNick = userNick;
+  }
 
-  public String getUserId();
+  public String getUserId() {
+    return userId;
+  }
 
-  public void setUserId( String userId );
+  public void setUserId( String userId ) {
+    this.userId = userId;
+  }
 
-  public int[] getLeftImages();
+  public int[] getLeftImages() {
+    return this.imageLeftIndex;
+  }
 
-  public void setLeftImages( int[] leftImages );
+  public void setLeftImages( int[] leftImages ) {
+    this.imageLeftIndex = leftImages;
+  }
+  
+  public abstract int getUnreadCount();
 
-  public int getUnreadCount();
+  public abstract int getUnreadCount( String resource );
 
-  public int getUnreadCount( String resource );
+  public abstract void setUnreadCount( int unreadCount, String resource );
 
-  public void setUnreadCount( int unreadCount, String resource );
+  public abstract void updateUiData();
 
-  public void updateUiData();
+  public String getUserPhone() {
+    if ( userPhone == null ) {
+      return "";
+    }
+    return userPhone;
+  }
 
-  public String getUserPhone();
-
-  public boolean isPhone();
+  public boolean isPhone() {
+    return isPhone;
+  }
 
   public void setTypingStatus( boolean isTyping );
 

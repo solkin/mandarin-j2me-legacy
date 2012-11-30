@@ -415,10 +415,9 @@ public class ActionExec {
     Soft soft = new Soft( MidletMain.screen );
     soft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
       public void actionPerformed() {
+        window.closeDialog();
         if ( isError ) {
           MidletMain.screen.setActiveWindow( MidletMain.mainFrame );
-        } else {
-          window.closeDialog();
         }
       }
     };

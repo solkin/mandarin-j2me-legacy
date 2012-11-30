@@ -54,20 +54,8 @@ public class MmpAccountRoot extends AccountRoot {
     serviceMessages = new ServiceMessages();
     statusId = MmpStatusUtil.getStatus( 0 );
   }
-
-  public void saveAllSettings() {
-    try {
-      MidletMain.accounts.addItem( userId, "isShowGroups", String.valueOf( isShowGroups ) );
-      MidletMain.accounts.addItem( userId, "isShowOffline", String.valueOf( isShowOffline ) );
-      LogUtil.outMessage( "isShowGroups = " + String.valueOf( isShowGroups ) );
-      LogUtil.outMessage( "isShowOffline = " + String.valueOf( isShowOffline ) );
-    } catch ( GroupNotFoundException ex ) {
-      LogUtil.outMessage( "Group not found exception: " + ex.getMessage() );
-    } catch ( IncorrectValueException ex ) {
-      LogUtil.outMessage( "Incorrect value exception: " + ex.getMessage() );
-    }
-    MidletMain.saveRmsData( true, false, false );
-    LogUtil.outMessage( "RMS accounts saving complete" );
+  
+  public void saveSpecialSettings() throws Throwable {
   }
 
   public void show() {

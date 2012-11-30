@@ -107,30 +107,6 @@ public class IcqItem extends GroupChild implements BuddyItem {
     this.imageLeftIndex = new int[ 1 ];
   }
 
-  public String getUserNick() {
-    return userNick;
-  }
-
-  public void setUserNick( String userNick ) {
-    this.userNick = userNick;
-  }
-
-  public String getUserId() {
-    return userId;
-  }
-
-  public void setUserId( String userId ) {
-    this.userId = userId;
-  }
-
-  public int[] getLeftImages() {
-    return this.imageLeftIndex;
-  }
-
-  public void setLeftImages( int[] leftImages ) {
-    this.imageLeftIndex = leftImages;
-  }
-
   public int getUnreadCount() {
     return unreadCount;
   }

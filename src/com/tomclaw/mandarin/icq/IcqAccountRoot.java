@@ -77,20 +77,10 @@ public class IcqAccountRoot extends AccountRoot {
             ? false : extStatusText.substring( extStatusText.indexOf( "&rdb" ) + 4 ).equals( "true" );
   }
 
-  public void saveAllSettings() {
-    try {
-      MidletMain.accounts.addItem( userId, "xStatusId", String.valueOf( xStatusId ) );
-      MidletMain.accounts.addItem( userId, "pStatusId", String.valueOf( pStatusId ) );
-      MidletMain.accounts.addItem( userId, "privateBuddyId", String.valueOf( privateBuddyId ) );
-      MidletMain.accounts.addItem( userId, "isShowGroups", String.valueOf( isShowGroups ) );
-      MidletMain.accounts.addItem( userId, "isShowOffline", String.valueOf( isShowOffline ) );
-      LogUtil.outMessage( "isShowGroups = " + String.valueOf( isShowGroups ) );
-      LogUtil.outMessage( "isShowOffline = " + String.valueOf( isShowOffline ) );
-    } catch ( Throwable ex1 ) {
-      LogUtil.outMessage( ex1 );
-    }
-    MidletMain.saveRmsData( true, false, false );
-    LogUtil.outMessage( "RMS accounts saving complete" );
+  public void saveSpecialSettings() throws Throwable {
+    MidletMain.accounts.addItem( userId, "xStatusId", String.valueOf( xStatusId ) );
+    MidletMain.accounts.addItem( userId, "pStatusId", String.valueOf( pStatusId ) );
+    MidletMain.accounts.addItem( userId, "privateBuddyId", String.valueOf( privateBuddyId ) );
   }
 
   public void show() {

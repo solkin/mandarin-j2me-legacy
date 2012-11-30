@@ -66,6 +66,11 @@ public class NetConnection {
     MidletMain.incrementDataCount( data.length );
   }
 
+  public void write(byte[] data, int from, int size) throws IOException {
+    outputStream.write( data, from, size );
+    MidletMain.incrementDataCount( data.length );
+  }
+
   public void flush() throws IOException {
     outputStream.flush();
   }
