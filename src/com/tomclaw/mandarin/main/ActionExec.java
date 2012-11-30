@@ -410,19 +410,44 @@ public class ActionExec {
     }
   }
 
-  public static void showNotify( final Window window, final String title, final String message ) {
-        Soft soft = new Soft(MidletMain.screen);
-        soft.leftSoft = new PopupItem(Localization.getMessage( "CLOSE" ) ) {
-          public void actionPerformed() {
-            window.closeDialog();
-          }
-        };
-        window.showDialog( new Dialog( MidletMain.screen, soft, title, message ) );
-        MidletMain.screen.repaint();
+  private static void showDialog( final Window window, final String title,
+          final String message, final boolean isError ) {
+    Soft soft = new Soft( MidletMain.screen );
+    soft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
+      public void actionPerformed() {
+        if ( isError ) {
+          MidletMain.screen.setActiveWindow( MidletMain.mainFrame );
+        } else {
+          window.closeDialog();
+        }
+      }
+    };
+    window.showDialog( new Dialog( MidletMain.screen, soft, title, message ) );
+    MidletMain.screen.repaint();
+  }
+  
+  public static void showDialog( String title, String message ) {
+    showDialog( MidletMain.screen.activeWindow, title, message, false );
   }
 
-  public static void showNotify( String title, String message ) {
-    showNotify( MidletMain.screen.activeWindow, title, message );
+  public static void showInfo( String message ) {
+    showDialog( MidletMain.screen.activeWindow, 
+            Localization.getMessage( "INFO_ITEM" ), message, false );
+  }
+
+  public static void showNotify( String message ) {
+    showDialog( MidletMain.screen.activeWindow, 
+            Localization.getMessage( "WARNING" ), message, false );
+  }
+
+  public static void showError( String message ) {
+    showDialog( MidletMain.screen.activeWindow, 
+            Localization.getMessage( "ERROR" ), message, false );
+  }
+
+  public static void showFail( String message ) {
+    showDialog( MidletMain.screen.activeWindow, 
+            Localization.getMessage( "ERROR" ), message, true );
   }
 
   public static void performTransferAction( final IcqAccountRoot icqAccountRoot, int ch2msgType, String buddyId, final int[] externalIp, final int dcTcpPort, boolean isViaRendezvousServer,
@@ -454,7 +479,7 @@ public class ActionExec {
           LogUtil.outMessage( "Accepted fileName=".concat( StringUtil.byteArrayToString( directConnection.fileName, true ) ) );
         }
         updateTransactions( icqAccountRoot );
-        if ( !ArrayUtil.equals( externalIp, new int[]{ 0x00, 0x00, 0x00, 0x00 } ) && isViaRendezvousServer ) {
+        if ( !ArrayUtil.equals( externalIp, new int[] { 0x00, 0x00, 0x00, 0x00 } ) && isViaRendezvousServer ) {
           // Proxy received
           LogUtil.outMessage( "Proxy received" );
           directConnection.proxyIp = externalIp[0] + "." + externalIp[1] + "." + externalIp[2] + "." + externalIp[3];
@@ -512,7 +537,7 @@ public class ActionExec {
       }
     } else {
       // Sending file
-      if ( !ArrayUtil.equals( externalIp, new int[]{ 0x00, 0x00, 0x00, 0x00 } ) ) {
+      if ( !ArrayUtil.equals( externalIp, new int[] { 0x00, 0x00, 0x00, 0x00 } ) ) {
         Thread thread = new Thread() {
           public void run() {
             ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager().getTransaction( cookie ) ).sendToRemoteProxy( externalIp, dcTcpPort );
@@ -817,6 +842,6 @@ public class ActionExec {
   public static void cancelQueueAction( AccountRoot accountRoot, Cookie cookie, String errorStringCode ) {
     LogUtil.outMessage( "cancelQueueAction for: " + cookie.cookieString );
     Queue.popQueueAction( cookie );
-    showNotify( MidletMain.mainFrame, Localization.getMessage( "ERROR" ), Localization.getMessage( errorStringCode ) );
+    showNotify( Localization.getMessage( errorStringCode ) );
   }
 }

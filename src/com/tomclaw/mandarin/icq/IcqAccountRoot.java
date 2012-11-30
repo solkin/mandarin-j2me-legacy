@@ -40,10 +40,10 @@ public class IcqAccountRoot extends AccountRoot {
    */
   public IcqSession session;
 
-  public IcqAccountRoot(String userId) {
-    super(userId);
+  public IcqAccountRoot( String userId ) {
+    super( userId );
   }
-  
+
   /**
    * Storers
    */
@@ -101,7 +101,7 @@ public class IcqAccountRoot extends AccountRoot {
   }
 
   public int getStatusIndex() {
-    return IcqStatusUtil.getStatusIndex( (int)statusId );
+    return IcqStatusUtil.getStatusIndex( ( int ) statusId );
   }
 
   public void sendTypingStatus( String userId, boolean b ) {
@@ -124,6 +124,8 @@ public class IcqAccountRoot extends AccountRoot {
             }
           }
           NetConnection netConnection = new NetConnection();
+          String errorCause = null;
+          boolean isFail = false;
           try {
             ActionExec.setConnectionStage( IcqAccountRoot.this, 0 );
             netConnection.connectAddress( host + ":" + port );
@@ -136,26 +138,34 @@ public class IcqAccountRoot extends AccountRoot {
             return;
           } catch ( LoginFailed ex ) {
             LogUtil.outMessage( "Failed" );
-            ActionExec.showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "FAILED" ) );
-            return;
+            errorCause = Localization.getMessage( "FAILED" );
+            isFail = true;
           } catch ( ProtocolSupportBecameOld ex ) {
             LogUtil.outMessage( "Protocol support became old" );
-            ActionExec.showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "PROTOCOL_SUPPORT_BECAME_OLD" ) );
-            return;
+            errorCause = Localization.getMessage( "PROTOCOL_SUPPORT_BECAME_OLD" );
+            isFail = true;
           } catch ( InterruptedException ex ) {
             LogUtil.outMessage( "Failed: " + ex.getMessage() );
-            ActionExec.showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "INTERRUPTED" ) );
+            errorCause = Localization.getMessage( "INTERRUPTED" );
           } catch ( IOException ex ) {
             LogUtil.outMessage( "IO Exception" );
-            ActionExec.showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "IO_EXCEPTION" ) );
+            errorCause = Localization.getMessage( "IO_EXCEPTION" );
           } catch ( IncorrectAddressException ex ) {
             LogUtil.outMessage( "Incorrect address" );
-            ActionExec.showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "INCORRECT_ADDRESS" ) );
-            return;
+            errorCause = Localization.getMessage( "INCORRECT_ADDRESS" );
+            isFail = true;
           } catch ( Throwable ex ) {
             LogUtil.outMessage( "Throwable" );
-            ActionExec.showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "INCORRECT_ADDRESS" ) );
-            return;
+            errorCause = Localization.getMessage( "INCORRECT_ADDRESS" );
+            isFail = true;
+          }
+          /** Checking for error **/
+          if ( errorCause != null ) {
+            ActionExec.showError( errorCause );
+            /** Failing on crytical errors **/
+            if ( isFail ) {
+              return;
+            }
           }
           try {
             Thread.sleep( MidletMain.reconnectTime );

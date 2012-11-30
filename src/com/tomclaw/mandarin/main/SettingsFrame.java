@@ -433,16 +433,9 @@ public class SettingsFrame extends Window {
       tempListItem = new ListItem( Localization.getMessage( keysCaption[c] ) ) {
         public void actionPerformed() {
           isCancelFirstPression = true;
-          Soft notifySoft = new Soft( MidletMain.screen );
-          notifySoft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
-            public void actionPerformed() {
-              closeDialog();
-            }
-          };
-          showDialog( new Dialog( MidletMain.screen, notifySoft, Localization.getMessage( keysCaption[( ( List ) panes[5] ).selectedIndex] ),
-                  Localization.getMessage( "PRESS_KEY" ) ) );
+          ActionExec.showDialog( Localization.getMessage( keysCaption[( ( List ) panes[5] ).selectedIndex] ),
+                  Localization.getMessage( "PRESS_KEY" ) );
           setCapEvent();
-          MidletMain.screen.repaint();
         }
       };
       ( ( List ) panes[5] ).addItem( tempListItem );

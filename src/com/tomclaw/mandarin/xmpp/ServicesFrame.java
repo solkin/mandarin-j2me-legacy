@@ -1,5 +1,6 @@
 package com.tomclaw.mandarin.xmpp;
 
+import com.tomclaw.mandarin.main.ActionExec;
 import com.tomclaw.mandarin.main.InfoFrame;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.*;
@@ -127,16 +128,14 @@ public class ServicesFrame extends Window {
           parentService = ( ServiceItem ) gc;
           requestItems();
         } else {
-          showNotify( Localization.getMessage( "WARNING" ),
-                  Localization.getMessage( "ITEM_EMPTY" ), false );
+          ActionExec.showNotify( Localization.getMessage( "ITEM_EMPTY" ) );
         }
       }
     };
     /** Applying pane **/
     setGObject( hostChangePane );
     if ( accountRoot.statusId == XmppStatusUtil.offlineIndex ) {
-      showNotify( Localization.getMessage( "ERROR" ),
-              Localization.getMessage( "NO_CONNECTION" ), true );
+      ActionExec.showFail( Localization.getMessage( "NO_CONNECTION" ) );
     }
   }
 
@@ -155,14 +154,12 @@ public class ServicesFrame extends Window {
           }
           MidletMain.screen.setWaitScreenState( false );
           if ( id.equals( requestId ) ) {
-            showNotify( Localization.getMessage( "WARNING" ),
-                    Localization.getMessage( "SOME_SERVICES_UNAVAILABLE" ), false );
+            ActionExec.showNotify( Localization.getMessage( "SOME_SERVICES_UNAVAILABLE" ) );
           }
         }
       }.start();
     } else {
-      showNotify( Localization.getMessage( "WARNING" ),
-              Localization.getMessage( "ITEM_EMPTY" ), false );
+      ActionExec.showNotify( Localization.getMessage( "ITEM_EMPTY" ) );
     }
   }
 
@@ -207,7 +204,7 @@ public class ServicesFrame extends Window {
         // t_Service.title = identity.name;
         if ( t_Service.jid.equals( from ) ) {
           boolean isGroupFoundFlag = false;
-          ServiceGroup serviceGroup = null;
+          ServiceGroup serviceGroup;
           for ( int i = 0; i < servicesGroup.items.size(); i++ ) {
             serviceGroup = ( ServiceGroup ) servicesGroup.items.elementAt( i );
             if ( serviceGroup.category.equals( identity.category ) ) {
@@ -269,26 +266,5 @@ public class ServicesFrame extends Window {
     } catch ( java.lang.ClassCastException ex1 ) {
     }
     return null;
-  }
-
-  public final void showNotify( final String title, final String message, final boolean isFail ) {
-    Soft notifySoft = new Soft( MidletMain.screen );
-    notifySoft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
-      public void actionPerformed() {
-        closeDialog();
-      }
-    };
-    ServicesFrame.this.showDialog( new Dialog( MidletMain.screen, notifySoft, title, message ) );
-    MidletMain.screen.repaint();
-    try {
-      Thread.sleep( 5000 );
-    } catch ( InterruptedException ex ) {
-    }
-    ServicesFrame.this.closeDialog();
-    if ( isFail ) {
-      MidletMain.screen.setActiveWindow( s_prevWindow );
-    } else {
-      MidletMain.screen.repaint();
-    }
   }
 }

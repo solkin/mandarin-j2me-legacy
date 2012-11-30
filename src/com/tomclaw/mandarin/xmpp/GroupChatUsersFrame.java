@@ -1,5 +1,6 @@
 package com.tomclaw.mandarin.xmpp;
 
+import com.tomclaw.mandarin.main.ActionExec;
 import com.tomclaw.mandarin.main.InfoFrame;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.*;
@@ -82,8 +83,7 @@ public class GroupChatUsersFrame extends Window {
         try {
           removeItem();
         } catch ( IOException ex ) {
-          showNotify( Localization.getMessage( "ERROR" ),
-                  Localization.getMessage( "IO_EXCEPTION" ), true );
+          ActionExec.showFail( Localization.getMessage( "IO_EXCEPTION" ) );
         }
       }
     } );
@@ -136,8 +136,7 @@ public class GroupChatUsersFrame extends Window {
     try {
       requestLists();
     } catch ( IOException ex ) {
-      showNotify( Localization.getMessage( "ERROR" ),
-              Localization.getMessage( "USERS_READING_FAILED" ), true );
+      ActionExec.showFail( Localization.getMessage( "USERS_READING_FAILED" ) );
     }
   }
 
@@ -190,24 +189,8 @@ public class GroupChatUsersFrame extends Window {
   public void setError( XmppAccountRoot xmppAccountRoot, String id ) {
     if ( this.xmppAccountRoot.equals( xmppAccountRoot ) && id.startsWith( requestId ) ) {
       MidletMain.screen.setWaitScreenState( false );
-      showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "PERMISSION_DENIED" ), true );
+      ActionExec.showFail( Localization.getMessage( "PERMISSION_DENIED" ) );
       requestId = "";
     }
-  }
-
-  public final void showNotify( final String title, final String message, final boolean isFail ) {
-    Soft notifySoft = new Soft( MidletMain.screen );
-    notifySoft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
-      public void actionPerformed() {
-        GroupChatUsersFrame.this.closeDialog();
-        if ( isFail ) {
-          MidletMain.screen.setActiveWindow( s_prevWindow );
-        } else {
-          MidletMain.screen.repaint();
-        }
-      }
-    };
-    GroupChatUsersFrame.this.showDialog( new Dialog( MidletMain.screen, notifySoft, title, message ) );
-    MidletMain.screen.repaint();
   }
 }

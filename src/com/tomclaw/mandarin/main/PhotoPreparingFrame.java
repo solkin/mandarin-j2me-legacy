@@ -127,8 +127,7 @@ public class PhotoPreparingFrame extends Window {
                 } catch ( Throwable ex1 ) {
                   Display.getDisplay( MidletMain.midletMain ).setCurrent( MidletMain.screen );
                   closePlayer();
-                  // MidletMain.screen.setActiveWindow(PhotoPreparingFrame.this.s_prevWindow);
-                  showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "LOCAL_FILE_IO_EXCEPTION" ) );
+                  ActionExec.showError( Localization.getMessage( "LOCAL_FILE_IO_EXCEPTION" ) );
                 }
 
               } else if ( c.getCommandType() == Command.CANCEL ) {
@@ -159,7 +158,7 @@ public class PhotoPreparingFrame extends Window {
                     Display.getDisplay( MidletMain.midletMain ).setCurrent( MidletMain.screen );
                     closePlayer();
                     MidletMain.screen.setActiveWindow( PhotoPreparingFrame.this.s_prevWindow );
-                    showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "PHONE_SUPPORT_EXCEPTION" ) );
+                    ActionExec.showError( Localization.getMessage( "PHONE_SUPPORT_EXCEPTION" ) );
                     return;
                   }
                   String fileName = ( String ) eventData;
@@ -220,13 +219,13 @@ public class PhotoPreparingFrame extends Window {
                   Display.getDisplay( MidletMain.midletMain ).setCurrent( MidletMain.screen );
                   closePlayer();
                   MidletMain.screen.setActiveWindow( PhotoPreparingFrame.this.s_prevWindow );
-                  showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "LOCAL_FILE_IO_EXCEPTION" ).concat( " " ).concat( ex.getMessage() ) );
+                  ActionExec.showError( Localization.getMessage( "LOCAL_FILE_IO_EXCEPTION" ).concat( " " ).concat( ex.getMessage() ) );
                 }
               } else if ( event.equals( SnapshotControl.STORAGE_ERROR ) ) {
                 Display.getDisplay( MidletMain.midletMain ).setCurrent( MidletMain.screen );
                 closePlayer();
                 MidletMain.screen.setActiveWindow( PhotoPreparingFrame.this.s_prevWindow );
-                showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "LOCAL_FILE_IO_EXCEPTION" ).concat( " STORAGE_EXCEPTION" ) );
+                ActionExec.showError( Localization.getMessage( "LOCAL_FILE_IO_EXCEPTION" ).concat( " STORAGE_EXCEPTION" ) );
               } else if ( event.equals( SnapshotControl.WAITING_UNFREEZE ) ) {
                 canvas.removeCommand( okCommand );
                 canvas.removeCommand( cancelCommand );
@@ -340,18 +339,6 @@ public class PhotoPreparingFrame extends Window {
     }
 
     setGObject( pane );
-  }
-
-  public void showNotify( final String title, final String message ) {
-    Soft notifySoft = new Soft( MidletMain.screen );
-    notifySoft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
-      public void actionPerformed() {
-        PhotoPreparingFrame.this.closeDialog();
-      }
-    };
-    PhotoPreparingFrame.this.showDialog( new Dialog( MidletMain.screen,
-            notifySoft, title, message ) );
-    MidletMain.screen.repaint();
   }
 
   public void createPlayer() {

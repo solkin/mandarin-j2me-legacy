@@ -377,14 +377,7 @@ public class MainFrame extends Window {
           MidletMain.chatFrame.chatTabs.tabEvent.stateChanged( MidletMain.chatFrame.chatTabs.selectedIndex, MidletMain.chatFrame.chatTabs.selectedIndex, MidletMain.chatFrame.chatTabs.items.size() - 1 );
           MidletMain.chatFrame.prepareGraphics();
         } else {
-          Soft notifySoft = new Soft( MidletMain.screen );
-          notifySoft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
-            public void actionPerformed() {
-              closeDialog();
-            }
-          };
-          showDialog( new Dialog( MidletMain.screen, notifySoft, Localization.getMessage( "WARNING" ), Localization.getMessage( "NO_DIALOGS_OPEN" ) ) );
-          MidletMain.screen.repaint();
+          ActionExec.showNotify( Localization.getMessage( "NO_DIALOGS_OPEN" ) );
         }
       }
     } );
@@ -776,13 +769,9 @@ public class MainFrame extends Window {
       tempPopupItem = new PopupItem( Localization.getMessage( IcqStatusUtil.getStatusDescr( c ) ) ) {
         public void actionPerformed() {
           final IcqAccountRoot icqAccountRoot = ( IcqAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
-          /**
-           * Status is selected
-           */
+          /** Status is selected **/
           if ( icqAccountRoot.statusId == -1 && statusId != -1 ) {
-            /**
-             * Need to connect
-             */
+            /** Need to connect **/
             String statusData = MidletMain.getString( MidletMain.statuses, "PStatus", String.valueOf( statusId ) );
             icqAccountRoot.statusText = statusData.substring( 0, ( statusData.indexOf( "&rdb" ) == -1 ) ? statusData.length() : statusData.indexOf( "&rdb" ) );
             icqAccountRoot.isPStatusReadable = ( statusData.indexOf( "&rdb" ) == -1 )
@@ -790,17 +779,13 @@ public class MainFrame extends Window {
             icqAccountRoot.connectAction( statusId );
           } else {
             if ( icqAccountRoot.statusId != -1 && statusId == -1 ) {
-              /**
-               * Need go offline
-               */
+              /** Need go offline **/
               ActionExec.disconnectEvent( icqAccountRoot );
               icqAccountRoot.session.disconnect();
             } else {
               if ( icqAccountRoot.statusId != -1 ) {
                 try {
-                  /**
-                   * Plain status changing
-                   */
+                  /** Plain status changing **/
                   IcqPacketSender.setStatus( icqAccountRoot.session, ( statusId < 0x1000 ) ? statusId : 0x0000 );
                   IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, statusId );
                   icqAccountRoot.statusId = statusId;
@@ -1665,14 +1650,11 @@ public class MainFrame extends Window {
                     updateAccountsStatus();
                     return;
                   } catch ( IOException ex ) {
-                    //! currentAction = com.tomclaw.tcui.localization.Localization.getMessage("ERR_IO_EXCEPTION");
                     LogUtil.outMessage( "IO Exception" );
-                    ActionExec.showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "IO_EXCEPTION" ) );
+                    ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
                   } catch ( Throwable ex ) {
-                    //! currentAction = com.tomclaw.tcui.localization.Localization.getMessage("ERR_THROWABLE");
                     LogUtil.outMessage( "Throwable" );
-                    ActionExec.showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "THROWABLE" ) );
-                    // ex.printStackTrace();
+                    ActionExec.showError( Localization.getMessage( "THROWABLE" ) );
                   }
                   try {
                     sleep( MidletMain.reconnectTime );

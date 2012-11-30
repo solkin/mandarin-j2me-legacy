@@ -29,15 +29,13 @@ public class AuthRequestFrame extends Window {
     soft.rightSoft = new PopupItem( Localization.getMessage( "REQUEST" ) ) {
       public void actionPerformed() {
         if ( !StringUtil.isFill( requestTextField.getText() ) ) {
-          showNotify( Localization.getMessage( "ERROR" ),
-                  Localization.getMessage( "EMPTY_FIELD" ), false );
+          ActionExec.showNotify( Localization.getMessage( "EMPTY_FIELD" ) );
         } else {
           try {
             accountRoot.requestAuth( requestTextField.getText(), buddyItem );
             MidletMain.screen.setActiveWindow( s_prevWindow );
           } catch ( IOException ex ) {
-            showNotify( Localization.getMessage( "ERROR" ),
-                    Localization.getMessage( "IO_EXCEPTION" ), false );
+            ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
           }
         }
       }
@@ -55,35 +53,5 @@ public class AuthRequestFrame extends Window {
     pane.addItem( requestTextField );
     /** Applying pane **/
     setGObject( pane );
-    if ( accountRoot.getStatusIndex() == 0 ) {
-      showNotify( Localization.getMessage( "ERROR" ),
-              Localization.getMessage( "NO_CONNECTION" ), true );
-    }
-  }
-
-  public final void showNotify( final String title, final String message, final boolean isFail ) {
-    Soft notifySoft = new Soft( MidletMain.screen );
-    notifySoft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
-      public void actionPerformed() {
-        AuthRequestFrame.this.closeDialog();
-        if ( isFail ) {
-          MidletMain.screen.setActiveWindow( s_prevWindow );
-        } else {
-          MidletMain.screen.repaint();
-        }
-      }
-    };
-    AuthRequestFrame.this.showDialog( new Dialog( MidletMain.screen, notifySoft, title, message ) );
-    MidletMain.screen.repaint();
-    try {
-      Thread.currentThread().sleep( 5000 );
-    } catch ( InterruptedException ex ) {
-    }
-    AuthRequestFrame.this.closeDialog();
-    if ( isFail ) {
-      MidletMain.screen.setActiveWindow( s_prevWindow );
-    } else {
-      MidletMain.screen.repaint();
-    }
   }
 }

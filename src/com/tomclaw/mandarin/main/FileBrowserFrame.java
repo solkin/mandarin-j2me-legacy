@@ -77,17 +77,7 @@ public class FileBrowserFrame extends Window {
                  */
                 final String fileInfoString = Localization.getMessage( "FILE_NAME" ).concat( ":" ).concat( __selectedString ).concat( "\n " ).concat( Localization.getMessage( "FILE_SIZE" ) ).concat( ":" ).concat( fileConnection.fileSize() + " KiB" ).concat( "\n" ).concat( Localization.getMessage( "MOD_DATETIME" ) ).concat( ":" ).concat( TimeUtil.getDateString( fileConnection.lastModified(), true ) ).concat( "\n " ).concat( Localization.getMessage( "FILE_FOLDER" ) ).concat( ":" ).concat( filePath ).concat( "\n" );
 
-                Soft notifySoft = new Soft( MidletMain.screen );
-                notifySoft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
-                  public void actionPerformed() {
-                    FileBrowserFrame.this.closeDialog();
-                  }
-                };
-
-                FileBrowserFrame.this.showDialog( new Dialog( MidletMain.screen, notifySoft,
-                        Localization.getMessage( "INFO_ITEM" ),
-                        fileInfoString ) );
-                MidletMain.screen.repaint();
+                ActionExec.showInfo( fileInfoString );
 
                 // MidletMain.setCurrentWindow(FileBrowserFrame.this.s_prevWindow);
               } catch ( IOException ex ) {

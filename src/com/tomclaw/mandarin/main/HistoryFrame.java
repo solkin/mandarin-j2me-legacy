@@ -146,18 +146,9 @@ public class HistoryFrame extends Window {
         } catch ( Throwable ex ) {
           LogUtil.outMessage( "Export error: " + ex.getMessage() );
         }
-        MidletMain.screen.repaint();
 
-        Soft notifySoft = new Soft( MidletMain.screen );
-        notifySoft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
-          public void actionPerformed() {
-            HistoryFrame.this.closeDialog();
-          }
-        };
-        HistoryFrame.this.showDialog(
-                new Dialog( MidletMain.screen, notifySoft,
-                Localization.getMessage( cmplTitle ),
-                Localization.getMessage( cmplMessage ) + " " + filePath ) );
+        ActionExec.showDialog( Localization.getMessage( cmplTitle ),
+                Localization.getMessage( cmplMessage ) + " " + filePath );
       }
     } );
 

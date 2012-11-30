@@ -45,8 +45,7 @@ public class AddingBuddyFrame extends Window {
       public void actionPerformed() {
         if ( !StringUtil.isFill( buddyIdField.getText() )
                 || !StringUtil.isFill( buddyNickField.getText() ) ) {
-          showNotify( Localization.getMessage( "ERROR" ),
-                  Localization.getMessage( "EMPTY_FIELDS" ), false );
+          ActionExec.showNotify( Localization.getMessage( "EMPTY_FIELDS" ) );
         } else {
           try {
             // IcqPacketSender.addBuddy(icqAccountRoot.session, StringUtil.stringToByteArray(buddyIdField.getText(), true), DataUtil.getNextId(icqAccountRoot), 0x00, 0x0001, false, null);
@@ -106,8 +105,7 @@ public class AddingBuddyFrame extends Window {
             // IcqPacketSender.requestBuddyList(icqAccountRoot.session);
             MidletMain.screen.setActiveWindow( s_prevWindow );
           } catch ( IOException ex ) {
-            showNotify( Localization.getMessage( "ERROR" ),
-                    Localization.getMessage( "IO_EXCEPTION" ), false );
+            ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
           }
         }
       }
@@ -135,7 +133,7 @@ public class AddingBuddyFrame extends Window {
       }
     }
     Label idLabel = new Label( Localization.getMessage( idLabelString ) );
-    idLabel.setTitle(true);
+    idLabel.setTitle( true );
     pane.addItem( idLabel );
     buddyIdField = new Field( "" );
     buddyIdField.setFocusable( true );
@@ -144,7 +142,7 @@ public class AddingBuddyFrame extends Window {
     buddyIdField.title = Localization.getMessage( "BUDDY_ID" );
     pane.addItem( buddyIdField );
     Label nickLabel = new Label( Localization.getMessage( "ENTER_NICK_HERE" ) );
-    nickLabel.setTitle(true);
+    nickLabel.setTitle( true );
     pane.addItem( nickLabel );
     buddyNickField = new Field( "" );
     buddyNickField.setFocusable( true );
@@ -152,12 +150,11 @@ public class AddingBuddyFrame extends Window {
     pane.addItem( buddyNickField );
     if ( winType != 2 ) {
       Label groupLabel = new Label( Localization.getMessage( "SELECT_GROUP" ) );
-      groupLabel.setTitle(true);
+      groupLabel.setTitle( true );
       pane.addItem( groupLabel );
       buddyGroup = new RadioGroup();
       if ( accountRoot.getBuddyItems().isEmpty() ) {
-        showNotify( Localization.getMessage( "ERROR" ),
-                Localization.getMessage( "NO_GROUPS" ), true );
+        ActionExec.showFail( Localization.getMessage( "NO_GROUPS" ) );
       } else {
         BuddyGroup groupItem;
         for ( int c = 0; c < accountRoot.getBuddyItems().size(); c++ ) {
@@ -172,25 +169,5 @@ public class AddingBuddyFrame extends Window {
     }
     /** Applying pane **/
     setGObject( pane );
-    if ( accountRoot.getStatusIndex() == 0 ) {
-      showNotify( Localization.getMessage( "ERROR" ),
-              Localization.getMessage( "NO_CONNECTION" ), true );
-    }
-  }
-
-  public final void showNotify( final String title, final String message, final boolean isFail ) {
-        Soft notifySoft = new Soft(MidletMain.screen);
-        notifySoft.leftSoft = new PopupItem(Localization.getMessage( "CLOSE" ) ) {
-          public void actionPerformed() {
-            AddingBuddyFrame.this.closeDialog();
-            if ( isFail ) {
-              MidletMain.screen.setActiveWindow( s_prevWindow );
-            } else {
-              MidletMain.screen.repaint();
-            }
-          }
-        };
-        AddingBuddyFrame.this.showDialog( new Dialog( MidletMain.screen, notifySoft, title, message ) );
-        MidletMain.screen.repaint();
   }
 }

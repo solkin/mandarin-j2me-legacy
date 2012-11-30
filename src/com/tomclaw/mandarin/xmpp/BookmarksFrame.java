@@ -1,5 +1,6 @@
 package com.tomclaw.mandarin.xmpp;
 
+import com.tomclaw.mandarin.main.ActionExec;
 import com.tomclaw.mandarin.main.ChatTab;
 import com.tomclaw.mandarin.main.InfoFrame;
 import com.tomclaw.mandarin.main.MidletMain;
@@ -98,13 +99,8 @@ public class BookmarksFrame extends Window {
       }
     };
     setGObject( bookmarksList );
-
-    if ( xmppAccountRoot.statusId != XmppStatusUtil.offlineIndex ) {
-      requestBookmarks();
-    } else {
-      showNotify( Localization.getMessage( "ERROR" ),
-              Localization.getMessage( "NO_CONNECTION" ), true );
-    }
+    
+    requestBookmarks();
   }
 
   public void joinBookmark() {
@@ -118,7 +114,7 @@ public class BookmarksFrame extends Window {
         XmppSender.joinConfrence( xmppAccountRoot.xmppSession, requestId, bookmark.jid, bookmark.nick, bookmark.password );
       } catch ( IOException ex ) {
         LogUtil.outMessage( "Error while conference join: " + ex.getMessage() );
-        BookmarksFrame.this.showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "IO_EXCEPTION" ), false );
+        ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
       }
     }
   }
@@ -134,8 +130,7 @@ public class BookmarksFrame extends Window {
         }
         MidletMain.screen.setWaitScreenState( false );
         if ( id.equals( requestId ) ) {
-          showNotify( Localization.getMessage( "ERROR" ),
-                  Localization.getMessage( "NO_RESPONSE" ), true );
+          ActionExec.showError( Localization.getMessage( "NO_RESPONSE" ) );
         }
       }
     }.start();
@@ -178,7 +173,7 @@ public class BookmarksFrame extends Window {
       MidletMain.screen.setWaitScreenState( false );
       switch ( errorId ) {
         case 0x01: {
-          showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( errorText ), false );
+          ActionExec.showError( Localization.getMessage( errorText ) );
           bookmark = null;
         }
       }
@@ -214,21 +209,5 @@ public class BookmarksFrame extends Window {
     MidletMain.screen.setWaitScreenState( true );
     requestId = "bookmrksfrm_set".concat( xmppAccountRoot.xmppSession.getId() );
     XmppSender.sendBookmarks( xmppAccountRoot.xmppSession, requestId, bookmarksList.items );
-  }
-
-  public final void showNotify( final String title, final String message, final boolean isFail ) {
-    Soft notifySoft = new Soft( MidletMain.screen );
-    notifySoft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
-      public void actionPerformed() {
-        BookmarksFrame.this.closeDialog();
-        if ( isFail ) {
-          MidletMain.screen.setActiveWindow( s_prevWindow );
-        } else {
-          MidletMain.screen.repaint();
-        }
-      }
-    };
-    BookmarksFrame.this.showDialog( new Dialog( MidletMain.screen, notifySoft, title, message ) );
-    MidletMain.screen.repaint();
   }
 }

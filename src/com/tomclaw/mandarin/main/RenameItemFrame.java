@@ -36,8 +36,7 @@ public class RenameItemFrame extends Window {
         LogUtil.outMessage( "Rename pressed" );
         if ( !StringUtil.isFill( itemNameField.getText() ) ) {
           LogUtil.outMessage( "Empty field" );
-          showNotify( Localization.getMessage( "ERROR" ),
-                  Localization.getMessage( "EMPTY_FIELD" ), false );
+          ActionExec.showNotify( Localization.getMessage( "EMPTY_FIELD" ) );
         } else {
           try {
             LogUtil.outMessage( "Rename start" );
@@ -61,8 +60,7 @@ public class RenameItemFrame extends Window {
             MidletMain.screen.setActiveWindow( s_prevWindow );
           } catch ( Throwable ex ) {
             // ex.printStackTrace();
-            showNotify( Localization.getMessage( "ERROR" ),
-                    Localization.getMessage( "IO_EXCEPTION" ), false );
+            ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
           }
         }
       }
@@ -88,10 +86,6 @@ public class RenameItemFrame extends Window {
     }
     /** Applying pane **/
     setGObject( pane );
-    if ( accountRoot.getStatusIndex() == 0 ) {
-      showNotify( Localization.getMessage( "ERROR" ),
-              Localization.getMessage( "NO_CONNECTION" ), true );
-    }
   }
 
   public RenameItemFrame( final AccountRoot accountRoot, final BuddyGroup buddyGroup ) {
@@ -109,16 +103,9 @@ public class RenameItemFrame extends Window {
     soft.rightSoft = new PopupItem( Localization.getMessage( "RENAME" ) ) {
       public void actionPerformed() {
         if ( !StringUtil.isFill( itemNameField.getText() ) ) {
-          showNotify( Localization.getMessage( "ERROR" ),
-                  Localization.getMessage( "EMPTY_FIELD" ), false );
+          ActionExec.showNotify( Localization.getMessage( "EMPTY_FIELD" ) );
         } else {
           try {
-            // IcqPacketSender.addBuddy(icqAccountRoot.session, StringUtil.stringToByteArray(itemNameField.getText(), true), DataUtil.getNextId(icqAccountRoot), 0x00, 0x0001, false, null);
-            // accountRoot.renameGroup(itemNameField.getText(), buddyGroup);
-            // IcqPacketSender.requestBuddyList(icqAccountRoot.session);
-            // MidletMain.screen.setActiveWindow(s_prevWindow);
-
-
             LogUtil.outMessage( "Rename start" );
             Cookie cookie = accountRoot.renameGroup( itemNameField.getText(), buddyGroup );
             LogUtil.outMessage( "Request queued, cookie received" );
@@ -137,8 +124,7 @@ public class RenameItemFrame extends Window {
             MidletMain.screen.setActiveWindow( s_prevWindow );
 
           } catch ( IOException ex ) {
-            showNotify( Localization.getMessage( "ERROR" ),
-                    Localization.getMessage( "IO_EXCEPTION" ), false );
+            ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
           }
         }
       }
@@ -156,25 +142,5 @@ public class RenameItemFrame extends Window {
     pane.addItem( itemNameField );
     /** Applying pane **/
     setGObject( pane );
-    if ( accountRoot.getStatusIndex() == 0 ) {
-      showNotify( Localization.getMessage( "ERROR" ),
-              Localization.getMessage( "NO_CONNECTION" ), true );
-    }
-  }
-
-  public final void showNotify( final String title, final String message, final boolean isFail ) {
-    Soft notifySoft = new Soft( MidletMain.screen );
-    notifySoft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
-      public void actionPerformed() {
-        RenameItemFrame.this.closeDialog();
-        if ( isFail ) {
-          MidletMain.screen.setActiveWindow( s_prevWindow );
-        } else {
-          MidletMain.screen.repaint();
-        }
-      }
-    };
-    RenameItemFrame.this.showDialog( new Dialog( MidletMain.screen, notifySoft, title, message ) );
-    MidletMain.screen.repaint();
   }
 }

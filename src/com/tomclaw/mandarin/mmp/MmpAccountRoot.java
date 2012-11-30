@@ -172,18 +172,14 @@ public class MmpAccountRoot extends AccountRoot {
         }
         return;
       } catch ( IOException ex ) {
-        //! currentAction = com.tomclaw.tcui.localization.Localization.getMessage("ERR_IO_EXCEPTION");
         LogUtil.outMessage( "IO Exception" );
-        ActionExec.showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "IO_EXCEPTION" ) );
+        ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
       } catch ( IncorrectAddressException ex ) {
-        //! currentAction = com.tomclaw.tcui.localization.Localization.getMessage("ERR_INCORRECT_ADDR");
         LogUtil.outMessage( "Incorrect address" );
-        ActionExec.showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "INCORRECT_ADDRESS" ) );
+        ActionExec.showError( Localization.getMessage( "INCORRECT_ADDRESS" ) );
       } catch ( Throwable ex ) {
-        //! currentAction = com.tomclaw.tcui.localization.Localization.getMessage("ERR_THROWABLE");
         LogUtil.outMessage( "Throwable" );
-        ActionExec.showNotify( Localization.getMessage( "ERROR" ), Localization.getMessage( "THROWABLE" ) );
-        // ex.printStackTrace();
+        ActionExec.showError( Localization.getMessage( "THROWABLE" ) );
       }
       try {
         Thread.sleep( MidletMain.reconnectTime );
