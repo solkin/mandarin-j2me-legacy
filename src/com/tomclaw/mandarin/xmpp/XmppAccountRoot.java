@@ -1,7 +1,5 @@
 package com.tomclaw.mandarin.xmpp;
 
-import com.tomclaw.bingear.GroupNotFoundException;
-import com.tomclaw.bingear.IncorrectValueException;
 import com.tomclaw.mandarin.dc.DirectConnection;
 import com.tomclaw.mandarin.main.*;
 import com.tomclaw.tcuilite.GroupHeader;
@@ -107,7 +105,7 @@ public class XmppAccountRoot extends AccountRoot {
     for ( int c = 0; c < buddyItems.size(); c++ ) {
       for ( int i = 0; i < ( ( GroupHeader ) buddyItems.elementAt( c ) ).getChildsCount(); i++ ) {
         XmppItem xmppItem = ( ( XmppItem ) ( ( GroupHeader ) buddyItems.elementAt( c ) ).getChilds().elementAt( i ) );
-        if ( xmppItem.jid.equals( jid ) ) {
+        if ( xmppItem.userId.equals( jid ) ) {
           this.unrMsgs -= xmppItem.getUnreadCount();
           ( ( GroupHeader ) buddyItems.elementAt( c ) ).getChilds().removeElementAt( i );
         }
@@ -121,7 +119,7 @@ public class XmppAccountRoot extends AccountRoot {
       buddyItems.addElement( tempGroup );
     }
     tempGroup.addChild( xmppItem );
-    xmppSession.roster.put( xmppItem.jid, xmppItem );
+    xmppSession.roster.put( xmppItem.userId, xmppItem );
     updateMainFrameUI();
   }
 

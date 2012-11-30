@@ -82,45 +82,8 @@ public class XmppSender {
     xmlWriter.flush();
   }
 
-  //public static void joinConfrence(XmppSession xmppSession, String int_id, String jid, String nick, String password) {
-        /*
-   <!-- Out -->
-   <presence xmlns="jabber:client" to="nero@conference.xmpp.ru/Mandarin" xml:lang="ru" int_id="gajim_muc_94_63f170">
-   <x xmlns="http://jabber.org/protocol/muc">
-   <history maxstanzas="20" since="2011-06-27T08:12:13Z" />
-   <password>12345</password>
-   </x>
-   </presence>
-   */
-  /*try {
-   LogUtil.outMessage(xmppSession.xmppAccountRoot.username.concat("@").concat(xmppSession.xmppAccountRoot.domain).concat("/").concat(xmppSession.xmppAccountRoot.resource));
-   xmppSession.xmlWriter.startTag("presence");
-   xmppSession.xmlWriter.attribute("xmlns", "jabber:client");
-   xmppSession.xmlWriter.attribute("to", jid.concat("/").concat(nick));
-   xmppSession.xmlWriter.attribute("xml:lang", "ru");
-   xmppSession.xmlWriter.attribute("int_id", int_id);
-   xmppSession.xmlWriter.startTag("x");
-   xmppSession.xmlWriter.attribute("xmlns", "http://jabber.org/protocol/muc");
-   if (password != null) {
-   xmppSession.xmlWriter.startTag("password");
-   xmppSession.xmlWriter.text(password);
-   xmppSession.xmlWriter.endTag();
-   }
-   xmppSession.xmlWriter.endTag();
-   xmppSession.xmlWriter.endTag();
-   xmppSession.xmlWriter.flush();
-   } catch (final Exception e) {
-   // e.printStackTrace();
-   LogUtil.outMessage("ERR: " + e.getMessage());
-   }
-   }*/
   public static void sendRosterRequest( XmppSession xmppSession ) throws IOException {
-    /*  <iq from='juliet@example.com/balcony'
-     int_id='bv1bs71f'
-     type='get'>
-     <query xmlns='jabber:iq:roster'/>
-     </iq>
-     */
+
     xmppSession.xmlWriter.startTag( "iq" );
     xmppSession.xmlWriter.attribute( "from", xmppSession.xmppAccountRoot.userId.concat( "/" ).concat( xmppSession.xmppAccountRoot.resource ) );
     xmppSession.xmlWriter.attribute( "type", "get" );

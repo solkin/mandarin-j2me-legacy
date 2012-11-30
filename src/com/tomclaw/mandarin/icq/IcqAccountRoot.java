@@ -114,7 +114,7 @@ public class IcqAccountRoot extends AccountRoot {
             }
           }
           NetConnection netConnection = new NetConnection();
-          String errorCause = null;
+          String errorCause;
           boolean isFail = false;
           try {
             ActionExec.setConnectionStage( IcqAccountRoot.this, 0 );

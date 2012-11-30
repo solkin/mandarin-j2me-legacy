@@ -822,7 +822,6 @@ public class IcqSession implements Runnable {
             IcqPacketSender.sendKeepAlive( icqAccountRoot.session );
             sleep( MidletMain.keepAliveDelay * 1000 );
           } catch ( InterruptedException ex ) {
-            // ex.printStackTrace();
           }
         }
       }

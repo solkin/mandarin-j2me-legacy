@@ -28,11 +28,8 @@ public class FileBrowserFrame extends Window {
   public FileBrowserFrame( final int manType, final AccountRoot accountRoot, final String buddyId ) {
     super( MidletMain.screen );
     this.manType = manType;
-
     header = new Header( Localization.getMessage( "FILE_BROWSER_FRAME" ) );
-
     soft = new Soft( MidletMain.screen );
-
     PopupItem openItem = new PopupItem( Localization.getMessage( "OPEN_ITEM" ) ) {
       public void actionPerformed() {
         filesList.listEvent.actionPerformed( null );
@@ -41,47 +38,32 @@ public class FileBrowserFrame extends Window {
     soft.leftSoft = openItem;
     PopupItem menuItem = new PopupItem( Localization.getMessage( "MENU_ITEM" ) );
     soft.rightSoft = menuItem;
-
     PopupItem backItem = new PopupItem( Localization.getMessage( "CANCEL_ITEM" ) ) {
       public void actionPerformed() {
         if ( FileBrowserFrame.this.s_prevWindow != null ) {
           MidletMain.screen.setActiveWindow( FileBrowserFrame.this.s_prevWindow );
-        } /*else if (settingsParent != null) {
-         MidletMain.setCurrentWindow(settingsParent);
-         }*/
+        }
       }
     };
     soft.rightSoft.addSubItem( backItem );
     if ( manType == 0x00 ) {
       PopupItem infoPopupItem = new PopupItem( Localization.getMessage( "INFO_ITEM" ) ) {
         public void actionPerformed() {
-          String __selectedString = null;
+          String __selectedString;
           __selectedString = ( ( ListItem ) filesList.items.elementAt( filesList.selectedIndex ) ).title;
           if ( __selectedString.hashCode() != "...".hashCode() ) {
             boolean isFolder = __selectedString.endsWith( "/" );
-
             if ( !isFolder ) {
               String filePath = ( "/".concat( systemPath ).concat( __selectedString ) );
-              FileConnection fileConnection = null;
+              FileConnection fileConnection;
               try {
                 fileConnection = ( FileConnection ) Connector.open( "file://".concat( filePath ), Connector.READ );
                 if ( !fileConnection.exists() ) {
                   return;
                 }
-
-                /*parent.fileLocation = "/".concat(systemPath);
-                 parent.fileName = __selectedString;
-                 parent.fileSize = fileConnection.fileSize();
-                 parent.filePath.setLabel(filePath);
-                 parent.fileBytesSize.setLabel(String.valueOf(parent.fileSize) + " bytes");
-                 */
                 final String fileInfoString = Localization.getMessage( "FILE_NAME" ).concat( ":" ).concat( __selectedString ).concat( "\n " ).concat( Localization.getMessage( "FILE_SIZE" ) ).concat( ":" ).concat( fileConnection.fileSize() + " KiB" ).concat( "\n" ).concat( Localization.getMessage( "MOD_DATETIME" ) ).concat( ":" ).concat( TimeUtil.getDateString( fileConnection.lastModified(), true ) ).concat( "\n " ).concat( Localization.getMessage( "FILE_FOLDER" ) ).concat( ":" ).concat( filePath ).concat( "\n" );
-
                 ActionExec.showInfo( fileInfoString );
-
-                // MidletMain.setCurrentWindow(FileBrowserFrame.this.s_prevWindow);
               } catch ( IOException ex ) {
-                // ex.printStackTrace();
                 LogUtil.outMessage( "Local file error: " + ex.getMessage(), true );
               }
 
@@ -105,7 +87,6 @@ public class FileBrowserFrame extends Window {
                 MidletMain.settingsFrame.acceptFilesFolder.updateCaption();
                 MidletMain.settingsFrame.prepareGraphics();
                 MidletMain.screen.setActiveWindow( MidletMain.settingsFrame );
-                return;
               }
             }
           } else {
@@ -114,56 +95,43 @@ public class FileBrowserFrame extends Window {
               MidletMain.settingsFrame.acceptFilesFolder.updateCaption();
               MidletMain.settingsFrame.prepareGraphics();
               MidletMain.screen.setActiveWindow( MidletMain.settingsFrame );
-              return;
             }
           }
         }
       };
       soft.rightSoft.addSubItem( selectItem );
     }
-
     filesList = new List();
     filesList.listEvent = new ListEvent() {
       public void actionPerformed( ListItem li ) {
         /** Action thread was been **/
-        String __selectedString = null;
+        String __selectedString;
         __selectedString = ( ( ListItem ) filesList.items.elementAt( filesList.selectedIndex ) ).title;
         if ( __selectedString.hashCode() != "...".hashCode() ) {
           boolean isFolder = __selectedString.endsWith( "/" );
-
           if ( !isFolder ) {
             if ( manType == 0x00 ) {
               String filePath = ( "/".concat( systemPath ).concat( __selectedString ) );
-              FileConnection fileConnection = null;
+              FileConnection fileConnection;
               try {
                 fileConnection = ( FileConnection ) Connector.open( "file://".concat( filePath ), Connector.READ );
                 if ( !fileConnection.exists() ) {
                   return;
                 }
-
-                /*parent.fileLocation = "/".concat(systemPath);
-                 parent.fileName = __selectedString;
-                 parent.fileSize = fileConnection.fileSize();
-                 parent.filePath.setLabel(filePath);
-                 parent.fileBytesSize.setLabel(String.valueOf(parent.fileSize) + " bytes");
-                 */
                 String fileName = __selectedString;
                 String fileLocation = "/".concat( systemPath );
                 long fileSize = fileConnection.fileSize();
-
                 if ( fileName != null && accountRoot.getStatusIndex() != 0 ) {
                   final DirectConnection directConnection = accountRoot.getDirectConnectionInstance();
                   directConnection.setIsReceivingFile( false );
                   directConnection.setTransactionInfo( StringUtil.stringToByteArray( fileName, true ), fileLocation, fileSize, buddyId );
                   directConnection.generateCookie();
                   accountRoot.getTransactionManager().addTransaction( directConnection );
-
                   new Thread() {
                     public void run() {
                       try {
                         directConnection.sendFile();
                       } catch ( IOException ex ) {
-                        // ex.printStackTrace();
                         LogUtil.outMessage( "IOException: " + ex.getMessage(), true );
                       } catch ( InterruptedException ex ) {
                         LogUtil.outMessage( "InterruptedException: " + ex.getMessage(), true );
@@ -174,11 +142,9 @@ public class FileBrowserFrame extends Window {
                   accountRoot.getTransactionsFrame().transactionItemFrame.s_prevWindow = accountRoot.getTransactionsFrame();
                   MidletMain.screen.setActiveWindow( accountRoot.getTransactionsFrame().transactionItemFrame );
                 }
-
                 MidletMain.screen.setActiveWindow( FileBrowserFrame.this.s_prevWindow );
                 return;
               } catch ( IOException ex ) {
-                // ex.printStackTrace();
                 LogUtil.outMessage( "Local file error: " + ex.getMessage(), true );
               }
             }
@@ -195,7 +161,6 @@ public class FileBrowserFrame extends Window {
       }
     };
     setGObject( filesList );
-
     readLevel( systemPath );
   }
 
@@ -214,7 +179,6 @@ public class FileBrowserFrame extends Window {
       }
     }
     systemPath = lastPath + "/";
-
   }
 
   public final boolean readLevel( String levelPath ) {
@@ -235,15 +199,8 @@ public class FileBrowserFrame extends Window {
         return true;
       } else {
         return false;
-        //Файл
-        //fileReader filereader = new fileReader(fileConnection);
-        //Thread thread = new Thread(filereader);
-        //thread.start();
-        //pumptask.textField2.setString(fileConnection.getPath());
       }
     } catch ( IOException ex ) {
-      //cList.addItem(new MenuListItem(ex.getMessage() + ": " + systemPath, UIIconType.FILES, UIIconType.FILES_FILE, true));
-      ex.printStackTrace();
       return false;
     }
   }
@@ -257,39 +214,25 @@ public class FileBrowserFrame extends Window {
     try {
       Vector files = new Vector();
       filesList.items.removeAllElements();
-
       ListItem upItem = new ListItem( "..." );
       upItem.imageFileHash = IconsType.HASH_FILES;
       upItem.imageIndex = IconsType.FILES_UP;
       filesList.addItem( upItem );
-
-      byte lType = -1;
-      int image = IconsType.FILES_FOLDER;
+      int image;
       while ( enumeration.hasMoreElements() ) {
-
         String nextelement = ( String ) enumeration.nextElement();
-
         boolean isDirectory;
         if ( nextelement.charAt( nextelement.length() - 1 ) == '/' ) {
           isDirectory = true;
-          image = IconsType.FILES_FOLDER;
         } else {
           isDirectory = false;
-          image = IconsType.FILES_FILE;
         }
-
         if ( isDirectory && systemPath.length() > 1 ) {
-          //if (lType != 0) {
           image = IconsType.FILES_FOLDER;
-          lType = 0;
-          //}
         } else if ( !isDirectory ) {
           image = IconsType.FILES_FILE;
         } else {
-          //if (lType != 2) {
           image = IconsType.FILES_DISK;
-          lType = 2;
-          //}
         }
         ListItem menuItem =
                 new ListItem( nextelement );
@@ -300,7 +243,6 @@ public class FileBrowserFrame extends Window {
         } else {
           files.addElement( menuItem );
         }
-
       }
       switch ( manType ) {
         case 0x00: {
@@ -322,10 +264,6 @@ public class FileBrowserFrame extends Window {
         filesList.addItem( ( ListItem ) files.elementAt( c ) );
       }
       filesList.selectedIndex = 0;
-
-    } catch ( java.lang.IndexOutOfBoundsException ex1 ) {
-    }
-    try {
       if ( filesList.items.size() >= 0 ) {
         filesList.selectedIndex = 0;
       }

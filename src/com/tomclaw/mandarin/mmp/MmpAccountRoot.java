@@ -1,7 +1,5 @@
 package com.tomclaw.mandarin.mmp;
 
-import com.tomclaw.bingear.GroupNotFoundException;
-import com.tomclaw.bingear.IncorrectValueException;
 import com.tomclaw.mandarin.dc.DirectConnection;
 import com.tomclaw.mandarin.main.*;
 import com.tomclaw.mandarin.net.IncorrectAddressException;
@@ -172,7 +170,6 @@ public class MmpAccountRoot extends AccountRoot {
       try {
         Thread.sleep( MidletMain.reconnectTime );
       } catch ( InterruptedException ex ) {
-        // ex.printStackTrace();
       }
     } while ( MidletMain.autoReconnect );
   }

@@ -158,9 +158,10 @@ public class BookmarksFrame extends Window {
         chatTab.resource = conferenceItem.getResource( "" );
         chatTab.updateChatCaption();
       }
-      xmppAccountRoot.removeBuddyItem( conferenceItem.jid );
+      xmppAccountRoot.removeBuddyItem( conferenceItem.userId );
       xmppAccountRoot.conferenceGroup.addChild( conferenceItem );
-      xmppAccountRoot.xmppSession.roster.put( conferenceItem.jid, conferenceItem );
+      xmppAccountRoot.xmppSession.roster.put( conferenceItem.userId, 
+              conferenceItem );
       xmppAccountRoot.updateMainFrameUI();
       MidletMain.screen.setWaitScreenState( false );
       bookmark = null;

@@ -1,6 +1,5 @@
 package com.tomclaw.mandarin.main;
 
-import com.tomclaw.mandarin.xmpp.GroupChatUsersFrame;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.LogUtil;

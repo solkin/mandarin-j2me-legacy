@@ -494,7 +494,6 @@ public class ActionExec {
               directConnection.localProxyConnection.disconnect();
               directConnection.localProxyConnection = null;
             } catch ( IOException ex ) {
-              ex.printStackTrace();
             }
           }
           Thread thread = new Thread() {
@@ -516,10 +515,7 @@ public class ActionExec {
             };
             thread.start();
             /** TEST **/
-          } catch ( IOException ex ) {
-            ex.printStackTrace();
-          } catch ( InterruptedException ex ) {
-            ex.printStackTrace();
+          } catch ( Throwable ex ) {
           }
         }
       } else if ( ch2msgType == 0x0002 ) {

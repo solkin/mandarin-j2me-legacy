@@ -1659,7 +1659,6 @@ public class MainFrame extends Window {
                   try {
                     sleep( MidletMain.reconnectTime );
                   } catch ( InterruptedException ex ) {
-                    // ex.printStackTrace();
                   }
                 } while ( MidletMain.autoReconnect );
               }
@@ -1671,7 +1670,6 @@ public class MainFrame extends Window {
                 xmppAccountRoot.xmppSession.disconnect();
                 xmppAccountRoot.statusId = statusId;
                 ActionExec.disconnectEvent( xmppAccountRoot );
-                // updateAccountsStatus();
               } catch ( IOException ex ) {
                 LogUtil.outMessage( "Can't disconnect", true );
               }
@@ -1686,7 +1684,7 @@ public class MainFrame extends Window {
                     for ( int c = 0; c < xmppAccountRoot.conferenceGroup.getChilds().size(); c++ ) {
                       XmppItem groupChatItem = ( XmppItem ) xmppAccountRoot.conferenceGroup.getChilds().elementAt( c );
                       if ( groupChatItem.getStatusId() != XmppStatusUtil.offlineIndex ) {
-                        XmppSender.sendPresence( xmppAccountRoot.xmppSession.xmlWriter, null, groupChatItem.jid,
+                        XmppSender.sendPresence( xmppAccountRoot.xmppSession.xmlWriter, null, groupChatItem.userId,
                                 null, XmppStatusUtil.statuses[statusId], "", xmppAccountRoot.priority, false, null, null );
                       }
                     }
@@ -1705,27 +1703,6 @@ public class MainFrame extends Window {
       statusItem.addSubItem( tempPopupItem );
     }
 
-    /* TEST: if (MidletMain.getBoolean(MidletMain.settings, "Master", "isShowEmulation")) {
-     PopupItem emulatorPopup = new PopupItem("Emulator");
-     emulatorPopup.addSubItem(new PopupItem("Buddy list") {
-        
-     public void actionPerformed() {
-     new Thread() {
-        
-     public void run() {
-     MmpAccountRoot mmpAccountRoot = (MmpAccountRoot) getActiveAccountRoot();
-     try {
-     Thread.currentThread().sleep(3000);
-     } catch (Throwable ex1) {
-     }
-     MmpEmulator.emulateBuddyList(mmpAccountRoot);
-     }
-     }.start();
-     }
-     });
-     mmpSoft.leftSoft.addSubItem(emulatorPopup);
-     }*/
-
     xmppSoft.leftSoft.addSubItem( accountPopupItem );
 
     xmppSoft.leftSoft.addSubItem( settingsPopupItem );
@@ -1734,15 +1711,6 @@ public class MainFrame extends Window {
     xmppSoft.leftSoft.addSubItem( infoPopupItem );
     xmppSoft.leftSoft.addSubItem( minimizePopupItem );
     xmppSoft.leftSoft.addSubItem( exitPopupItem );
-
-    /*xmppSoft.rightSoft = new PopupItem(Localization.getMessage("BUDDY"));
-        
-     xmppSoft.rightSoft.addSubItem(new PopupItem(Localization.getMessage("DIALOG")) {
-        
-     public void actionPerformed() {
-     MainFrame.this.getKeyEvent("KEY_DIALOG").actionPerformed();
-     }
-     });*/
 
     final PopupItem dialogsPopup = new PopupItem( Localization.getMessage( "DIALOG" ) );
     final PopupItem sendFilePopup = new PopupItem( Localization.getMessage( "SENDFILE" ) );
@@ -1790,9 +1758,6 @@ public class MainFrame extends Window {
             sendFilePopup.thread = null;
             while ( resources.hasMoreElements() ) {
               final Resource resource = ( Resource ) resources.nextElement();
-              /*if(resource.resource.length() > 0 && resource.status == XmppStatusUtil.offlineIndex){
-               continue;
-               }*/
               dialogsPopup.addSubItem( new PopupItem(
                       ( ( resource.resource.length() == 0 && xmppItem.isGroupChat ) ? Localization.getMessage( "XMPP_ROOM" ) : ( resource.resource.length() == 0 ? Localization.getMessage( "XMPP_ALL_RESOURCES" ) : resource.resource ) ),
                       "/res/groups/img_xmppstatus.png".hashCode(),
@@ -1868,9 +1833,9 @@ public class MainFrame extends Window {
         final XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
         final XmppItem xmppItem = ( XmppItem ) getSelectedBuddyItem();
         if ( xmppItem != null ) {
-          LogUtil.outMessage( "JID: " + xmppItem.jid );
+          LogUtil.outMessage( "JID: " + xmppItem.userId );
           LogUtil.outMessage( "Subject: " + xmppItem.groupChatSubject );
-          TopicEditFrame topicEditFrame = new TopicEditFrame( xmppAccountRoot, xmppItem.jid, xmppItem.groupChatSubject );
+          TopicEditFrame topicEditFrame = new TopicEditFrame( xmppAccountRoot, xmppItem.userId, xmppItem.groupChatSubject );
           topicEditFrame.s_prevWindow = MidletMain.mainFrame;
           MidletMain.screen.setActiveWindow( topicEditFrame );
         }
@@ -1903,7 +1868,7 @@ public class MainFrame extends Window {
         final XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
         final XmppItem xmppItem = ( XmppItem ) getSelectedBuddyItem();
         if ( xmppItem != null ) {
-          MidletMain.groupChatUsersFrame = new GroupChatUsersFrame( xmppAccountRoot, xmppItem.jid, true );
+          MidletMain.groupChatUsersFrame = new GroupChatUsersFrame( xmppAccountRoot, xmppItem.userId, true );
           MidletMain.groupChatUsersFrame.s_prevWindow = MidletMain.mainFrame;
           MidletMain.screen.setActiveWindow( MidletMain.groupChatUsersFrame );
         }
@@ -1914,24 +1879,19 @@ public class MainFrame extends Window {
         final XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
         final XmppItem xmppItem = ( XmppItem ) getSelectedBuddyItem();
         if ( xmppItem != null ) {
-          MidletMain.groupChatUsersFrame = new GroupChatUsersFrame( xmppAccountRoot, xmppItem.jid, false );
+          MidletMain.groupChatUsersFrame = new GroupChatUsersFrame( xmppAccountRoot, xmppItem.userId, false );
           MidletMain.groupChatUsersFrame.s_prevWindow = MidletMain.mainFrame;
           MidletMain.screen.setActiveWindow( MidletMain.groupChatUsersFrame );
         }
       }
     } );
-    /*xmppConfrRightPopupItem.addSubItem(new PopupItem(Localization.getMessage("INVITE_JID")) {
-        
-     public void actionPerformed() {
-     }
-     });*/
     xmppConfrRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "EXIT_CONFR" ) ) {
       public void actionPerformed() {
         final XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
         final XmppItem xmppItem = ( XmppItem ) getSelectedBuddyItem();
         if ( xmppItem != null ) {
           xmppItem.offlineResources();
-          XmppSender.exitConfrence( xmppAccountRoot.xmppSession, xmppItem.jid, xmppItem.groupChatNick );
+          XmppSender.exitConfrence( xmppAccountRoot.xmppSession, xmppItem.userId, xmppItem.groupChatNick );
           xmppAccountRoot.buddyItems.removeElement( xmppItem );
           xmppAccountRoot.conferenceGroup.getChilds().removeElement( xmppItem );
         }

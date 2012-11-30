@@ -51,25 +51,18 @@ public class XmppSession {
     if ( xmppAccountRoot.isUseSsl ) {
       String msg = "<stream:stream xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams' to='" + xmppAccountRoot.host + "' version='1.0'>";
       xmlWriter.writeDirect( msg.getBytes() );
-      // os.flush();
+
       do {
         xmlReader.nextTag();
       } while ( ( xmlReader.tagType != XmlReader.TAG_CLOSING ) || ( !xmlReader.tagName.equals( "stream:features" ) ) );
       ActionExec.setConnectionStage( xmppAccountRoot, 6 );
       LogUtil.outMessage( "SASL phase1" );
-      /*for (Enumeration enu = listeners.elements(); enu.hasMoreElements();) {
-       XmppListener xl = (XmppListener) enu.nextElement();
-       xl.onDebug("SASL phase 1");
-       }*/
-
-      //int ghost = is.available();
-      //is.skip(ghost);
 
       msg = "<auth xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='PLAIN'>";
       byte[] auth_msg = ( xmppAccountRoot.username + "@" + xmppAccountRoot.host + "\0" + xmppAccountRoot.username + "\0" + xmppAccountRoot.getUserPassword() ).getBytes();
       msg = msg + Base64.encode( auth_msg, 0, auth_msg.length ) + "</auth>";
       xmlWriter.writeDirect( msg.getBytes() );
-      // os.flush();
+
       xmlReader.nextTag();
       if ( xmlReader.tagName.equals( "success" ) ) {
         while ( true ) {
@@ -79,22 +72,14 @@ public class XmppSession {
           xmlReader.nextTag();
         }
       } else {
-        /*for (Enumeration e = listeners.elements(); e.hasMoreElements();) {
-         XmppListener xl = (XmppListener) e.nextElement();
-         xl.onAuthFailed(reader.getName() + ", failed authentication");
-         }*/
         LogUtil.outMessage( "SASL failed" );
         return;
       }
       LogUtil.outMessage( "SASL phase2" );
       ActionExec.setConnectionStage( xmppAccountRoot, 7 );
-      /*for (Enumeration enu = listeners.elements(); enu.hasMoreElements();) {
-       XmppListener xl = (XmppListener) enu.nextElement();
-       xl.onDebug("SASL phase 2");
-       }*/
       msg = "<stream:stream xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams' to='" + xmppAccountRoot.host + "' version='1.0'>";
       xmlWriter.writeDirect( msg.getBytes() );
-      // os.flush();
+
       xmlReader.nextTag();
       while ( true ) {
         if ( ( xmlReader.tagType == XmlReader.TAG_CLOSING ) && xmlReader.tagName.equals( "stream:features" ) ) {
@@ -103,10 +88,6 @@ public class XmppSession {
         xmlReader.nextTag();
       }
       LogUtil.outMessage( "SASL done" );
-      /*for (Enumeration enu = listeners.elements(); enu.hasMoreElements();) {
-       XmppListener xl = (XmppListener) enu.nextElement();
-       xl.onDebug("SASL done");
-       }	*/
       if ( xmppAccountRoot.resource == null ) {
         msg = "<iq type='set' id='res_binding'><bind xmlns='urn:ietf:params:xml:ns:xmpp-bind'/></iq>";
       } else {
@@ -118,12 +99,11 @@ public class XmppSession {
               ( "<iq type=\"set\" id=\"mir_17\">"
               + "<session xmlns=\"urn:ietf:params:xml:ns:xmpp-session\" />"
               + "</iq>" ).getBytes() );
-      // os.flush();
+
     } else {
       netConnection.write( "<?xml version=\"1.0\"?>".getBytes() );
 
       ActionExec.setConnectionStage( xmppAccountRoot, 6 );
-
       // start stream
       xmlWriter.startTag( "stream:stream" );
       xmlWriter.attribute( "from", xmppAccountRoot.userId.concat( "/" ).concat( xmppAccountRoot.resource ) );
@@ -462,7 +442,7 @@ public class XmppSession {
                   boolean isExist = false;
                   XmppGroup rosterItem = null;
                   for ( int c = 0; c < buddyItems.size(); c++ ) {
-                    if ( ( ( XmppGroup ) buddyItems.elementAt( c ) ).name.equals( localizeString( xmlReader.body ) ) ) {
+                    if ( ( ( XmppGroup ) buddyItems.elementAt( c ) ).userId.equals( localizeString( xmlReader.body ) ) ) {
                       isExist = true;
                       rosterItem = ( ( XmppGroup ) buddyItems.elementAt( c ) );
                       break;
@@ -488,7 +468,7 @@ public class XmppSession {
                       // add(((XmppItem) groups.elementAt(c)));
                       // roster.put(t_jid, rosterItem);
                       ( ( XmppGroup ) groups.elementAt( c ) ).addChild( rosterItem );
-                      LogUtil.outMessage( "Group: " + ( ( XmppGroup ) groups.elementAt( c ) ).name );
+                      LogUtil.outMessage( "Group: " + ( ( XmppGroup ) groups.elementAt( c ) ).userId );
                     }
                     groups.removeAllElements();
                   }
