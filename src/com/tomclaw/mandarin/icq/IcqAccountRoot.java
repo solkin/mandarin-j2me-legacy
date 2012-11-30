@@ -255,11 +255,6 @@ public class IcqAccountRoot extends AccountRoot {
     }
   }
 
-  public void loadOfflineBuddyList() {
-    MidletMain.loadOfflineBuddyList( this, buddyListFile, buddyItems );
-    isReset = true;
-  }
-
   public IcqItem setBuddyStatus( String buddyId, int buddyStatus, Capability[] caps, ClientInfo clientInfo ) {
     IcqGroup groupItem;
     IcqItem icqItem;
