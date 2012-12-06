@@ -1441,7 +1441,9 @@ public class MainFrame extends Window {
               if ( mmpAccountRoot.statusId != 0 ) {
                 try {
                   /** Plain status changing **/
-                  MmpPacketSender.MRIM_CS_CHANGE_STATUS( mmpAccountRoot, statusId, mmpAccountRoot.statusText, mmpAccountRoot.statusDscr );
+                  MmpPacketSender.MRIM_CS_CHANGE_STATUS( mmpAccountRoot, 
+                          statusId, mmpAccountRoot.statusText, 
+                          mmpAccountRoot.statusDscr );
                   mmpAccountRoot.statusId = statusId;
                   updateAccountsStatus();
                 } catch ( IOException ex ) {

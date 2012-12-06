@@ -4,9 +4,11 @@ import com.tomclaw.mandarin.main.ActionExec;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.mandarin.net.IncorrectAddressException;
 import com.tomclaw.mandarin.net.NetConnection;
+import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.DataUtil;
 import com.tomclaw.utils.HexUtil;
 import com.tomclaw.utils.LogUtil;
+import com.tomclaw.utils.StringUtil;
 import java.io.IOException;
 
 /**
@@ -124,18 +126,41 @@ public class MmpSession implements Runnable {
     packet.proto = 0x0001000e; // 0x0001000e
     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( userId ) );
     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( passwrd ) );
-    byte[] temp = new byte[4];
-    DataUtil.put32_reversed( temp, 0, statusId );
+//    byte[] temp = new byte[4];
+//    DataUtil.put32_reversed( temp, 0, statusId );
+//    packet.data.append( temp );
+//    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( "STATUS_ONLINE" ) );
+//    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( statusString ) );
+//    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( descrString ) );
+//    //packet.data.append(HexUtil.stringToBytes("3600000028000000636C69656E743D226A6167656E7422206E616D653D224D5241222076657273696F6E3D22312E34220A0000004D524120312E342E3336"));
+//    temp = new byte[4];
+//    DataUtil.put32_reversed( temp, 0, clientId.length() + mraVer.length() );
+//    packet.data.append( temp );
+//    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( clientId ) );
+//    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( mraVer ) );
+    
+    byte[] temp = new byte[ 4 ];
+    DataUtil.put32_reversed( temp, 0, statusId & 7 );
     packet.data.append( temp );
-    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( "STATUS_ONLINE" ) );
-    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( statusString ) );
-    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( descrString ) );
-    //packet.data.append(HexUtil.stringToBytes("3600000028000000636C69656E743D226A6167656E7422206E616D653D224D5241222076657273696F6E3D22312E34220A0000004D524120312E342E3336"));
+    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength(
+            MmpStatusUtil.getStatusName( statusId ) ) );
+    packet.data.append( DataUtil.mmputil_prepareBytesWthLength(
+            StringUtil.string1251ToByteArray(
+            Localization.getMessage( MmpStatusUtil.getStatusDescr(
+            MmpStatusUtil.getStatusIndex( statusId ) ) ) ) ) );
+    DataUtil.put32_reversed( temp, 0, 0x00 );
+    packet.data.append( temp );
+    // DataUtil.put32_reversed( temp, 0, -1 );
     temp = new byte[4];
-    DataUtil.put32_reversed( temp, 0, clientId.length() + mraVer.length() );
+    DataUtil.put32_reversed( temp, 0, mmpAccountRoot.session.clientId.length() 
+            + mmpAccountRoot.session.mraVer.length() );
     packet.data.append( temp );
-    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( clientId ) );
-    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( mraVer ) );
+    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( 
+            mmpAccountRoot.session.clientId ) );
+    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( 
+            mmpAccountRoot.session.mraVer ) );
+    packet.data.append( temp );
+    
     packet.send( netConnection );
     LogUtil.outMessage( "Login sent" );
     ActionExec.setConnectionStage( mmpAccountRoot, 8 );

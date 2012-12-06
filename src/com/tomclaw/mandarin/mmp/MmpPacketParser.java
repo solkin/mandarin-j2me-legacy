@@ -19,14 +19,13 @@ public class MmpPacketParser {
 
   public static void parsePacket( MmpAccountRoot mmpAccountRoot, Packet packet ) {
     packet.dumpPacketData();
+    LogUtil.outMessage( "packet.msg = " + packet.msg );
     int offset = 0;
     if ( packet.msg == PacketType.MRIM_CS_CONTACT_LIST2 ) {
       long reqStatus = DataUtil.get32_reversed( packet.data.byteString, offset, true );
       offset += 4;
       if ( reqStatus == 0x00000000 ) {
-        /**
-         * Success
-         */
+        /** Success **/
         long groupCount = DataUtil.get32_reversed( packet.data.byteString, offset, true );
         offset += 4;
         int maskLength = ( int ) DataUtil.get32_reversed( packet.data.byteString, offset, true );
@@ -41,9 +40,7 @@ public class MmpPacketParser {
         long contactIdIncrm = 0;
         MmpGroup mmpGroup;
         for ( int c = 0; c < groupCount; c++ ) {
-          /**
-           * Reading group
-           */
+          /** Reading group **/
           mmpGroup = new MmpGroup( "" );
           mmpGroup.contactId = contactIdIncrm++;
           for ( int i = 0; i < groupMask.length(); i++ ) {
@@ -79,15 +76,11 @@ public class MmpPacketParser {
             buddyList.addElement( mmpGroup );
           }
         }
-        /**
-         * Telephone contacts groups
-         */
+        /** Telephone contacts groups **/
         MmpGroup phonesGroup = new MmpGroup( Localization.getMessage( "TELEPHONE_CONTACTS" ) );
         buddyList.addElement( phonesGroup );
         mmpAccountRoot.phoneGroup = phonesGroup;
-        /**
-         * Others contacts groups
-         */
+        /** Others contacts groups **/
         MmpGroup othersGroup = new MmpGroup( Localization.getMessage( "OTHER_CONTACTS" ) );
         buddyList.addElement( othersGroup );
         MmpItem mmpItem;
@@ -137,6 +130,8 @@ public class MmpPacketParser {
               case 5: { // u
                 // Status on-line
                 mmpItem.buddyStatus = DataUtil.get32( packet.data.byteString, offset, false );
+                System.out.println( "mmpItem.buddyStatus "
+                        + "= " + mmpItem.buddyStatus );
                 offset += 4;
                 break;
               }
@@ -148,11 +143,31 @@ public class MmpPacketParser {
                 offset += nameLength;
                 break;
               }
+              case 7: { // s
+                // Extended status info
+                int length = ( int ) DataUtil.get32( packet.data.byteString, offset, false );
+                offset += 4;
+                if ( length > 0 ) {
+                  String statusIdString = new String( DataUtil.getByteArray( packet.data.byteString,
+                          offset, length ) );
+                  offset += length;
+                  if ( !StringUtil.isNullOrEmpty( statusIdString ) ) {
+                    mmpItem.buddyStatus =
+                            MmpStatusUtil.getStatus( MmpStatusUtil.getStatusIndex( statusIdString ) );
+                  }
+                }
+                break;
+              }
               default: {
                 if ( buddyMask.charAt( i ) == 'u' ) {
                   offset += 4;
                 } else if ( buddyMask.charAt( i ) == 's' ) {
-                  offset += 4 + ( int ) DataUtil.get32( packet.data.byteString, offset, false );
+                  int length = ( int ) DataUtil.get32( packet.data.byteString,
+                          offset, false );
+                  System.out.println( i + ": " + StringUtil.byteArrayToString(
+                          DataUtil.getByteArray( packet.data.byteString,
+                          offset += 4, length ) ) );
+                  offset += length;
                 }
                 break;
               }
@@ -229,8 +244,17 @@ public class MmpPacketParser {
       LogUtil.outMessage( "statusDescr = " + statusDescr );
       LogUtil.outMessage( "clientFlags = " + clientFlags );
       LogUtil.outMessage( "clientIdString = " + clientIdString );
+
+      System.out.println( "userMail = " + userMail );
+      System.out.println( "userStatus = " + userStatus );
+      System.out.println( "statusIdString = " + statusIdString );
+      System.out.println( "statusString = " + statusString );
+      System.out.println( "statusDescr = " + statusDescr );
+      System.out.println( "clientFlags = " + clientFlags );
+      System.out.println( "clientIdString = " + clientIdString );
       try {
-        ActionExec.setMailStatus( mmpAccountRoot, userMail, userStatus );
+        ActionExec.setMailStatus( mmpAccountRoot, userMail, MmpStatusUtil
+                .getStatus( MmpStatusUtil.getStatusIndex( statusIdString ) ) );
       } catch ( Throwable ex1 ) {
       }
     } else if ( packet.msg == PacketType.MRIM_CS_MESSAGE_ACK ) {
@@ -303,7 +327,7 @@ public class MmpPacketParser {
       offset += 4;
       if ( status == PacketType.MESSAGE_DELIVERED ) {
         LogUtil.outMessage( "Message delivered" );
-        byte[] temp = new byte[8];
+        byte[] temp = new byte[ 8 ];
         DataUtil.put32( temp, 0, packet.seq );
         ActionExec.msgAck( mmpAccountRoot, null, null, temp );
       } else if ( status == PacketType.MESSAGE_REJECTED_INTERR ) {
@@ -359,7 +383,7 @@ public class MmpPacketParser {
         offset += 4;
         long servTime = DataUtil.get32_reversed( packet.data.byteString, offset, true );
         offset += 4;
-        String[] fields = new String[( int ) fieldNum];
+        String[] fields = new String[ ( int ) fieldNum ];
         for ( int c = 0; c < fieldNum; c++ ) {
           long fieldLength = DataUtil.get32_reversed( packet.data.byteString, offset, true );
           offset += 4;

@@ -11,6 +11,9 @@ import com.tomclaw.tcuilite.ChatItem;
  */
 public class MmpItem extends BuddyItem {
 
+  /**
+   * General
+   */
   public long groupId;
   public int buddyId;
   public boolean isAvaitingAuth;

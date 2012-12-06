@@ -113,9 +113,6 @@ public class ActionExec {
           buddyItem = accountRoot.getItemInstance();
           buddyItem.setUserId( screenName );
           buddyItem.updateUiData();
-          /*if (accountRoot instanceof XmppAccountRoot) {
-           ((XmppAccountRoot)accountRoot).addTempItem(buddyItem);
-           }*/
           /** Request info and add buddy to server **/
           /** Append to buddy list **/
           if ( accountRoot.getBuddyItems().isEmpty() ) {
@@ -284,63 +281,14 @@ public class ActionExec {
       MidletMain.mainFrame.buddyInfoFrame.placeInfo( buddyInfo );
     }
   }
-
-  /*public static void showUserShortInfo(IcqAccountRoot accountRoot, int reqSeqNum, String nickName, String firstName, String lastName, String eMail, byte authFlag) {
-   LogUtil.outMessage("User info response. reqSeqNum = " + reqSeqNum);
-   if (MidletMain.mainFrame.buddyInfoFrame != null && MidletMain.mainFrame.buddyInfoFrame.reqSeqNum == reqSeqNum) {
-   MidletMain.mainFrame.buddyInfoFrame.placeInfo(nickName, firstName, lastName, eMail, authFlag);
-   }
-   }*/
-  /*public static void ssiComplete(IcqAccountRoot icqAccountRoot, int resultCode) {
-   if (icqAccountRoot.session.isRequestSsi) {
-   switch (resultCode) {
-   case IcqPacketParser.SSI_NO_ERRORS: {
-   showNotify(MidletMain.mainFrame, Localization.getMessage("NO_ERROR"), Localization.getMessage("SSI_NO_ERRORS"));
-   try {
-   IcqPacketSender.requestBuddyList(icqAccountRoot.session);
-   } catch (IOException ex) {
-   showNotify(MidletMain.mainFrame, Localization.getMessage("ERROR"), Localization.getMessage("ERR_IO_EXCEPTION"));
-   LogUtil.outMessage("Can't request buddy list", true);
-   ex.printStackTrace();
-   }
-   break;
-   }
-   case IcqPacketParser.SSI_NOT_FOUND: {
-   showNotify(MidletMain.mainFrame, Localization.getMessage("ERROR"), Localization.getMessage("SSI_NOT_FOUND"));
-   break;
-   }
-   case IcqPacketParser.SSI_ALR_EXIST: {
-   showNotify(MidletMain.mainFrame, Localization.getMessage("ERROR"), Localization.getMessage("SSI_ALR_EXIST"));
-   break;
-   }
-   case IcqPacketParser.SSI_ADD_ERROR: {
-   showNotify(MidletMain.mainFrame, Localization.getMessage("ERROR"), Localization.getMessage("SSI_ADD_ERROR"));
-   break;
-   }
-   case IcqPacketParser.SSI_LIMIT_EXC: {
-   showNotify(MidletMain.mainFrame, Localization.getMessage("ERROR"), Localization.getMessage("SSI_LIMIT_EXC"));
-   break;
-   }
-   case IcqPacketParser.SSI_TICQTOAIM: {
-   showNotify(MidletMain.mainFrame, Localization.getMessage("ERROR"), Localization.getMessage("SSI_TICQTOAIM"));
-   break;
-   }
-   case IcqPacketParser.SSI_AUTH_REQD: {
-   showNotify(MidletMain.mainFrame, Localization.getMessage("ERROR"), Localization.getMessage("SSI_AUTH_REQD"));
-   break;
-   }
-   }
-   }
-   icqAccountRoot.session.isRequestSsi = true;
-   }*/
-  public static void setBuddyList( AccountRoot accountRoot, Vector buddyList, Vector privateList, int privateBuddyId, int snacFlags, byte[] snacRequestId ) {
+  
+  public static void setBuddyList( AccountRoot accountRoot, Vector buddyList, 
+          Vector privateList, int privateBuddyId, int snacFlags, byte[] snacRequestId ) {
     LogUtil.outMessage( "setBuddyList(".concat( accountRoot.getUserId() ).concat( ")" ) );
     if ( accountRoot instanceof IcqAccountRoot && privateBuddyId != -1 ) {
       ( ( IcqAccountRoot ) accountRoot ).privateBuddyId = privateBuddyId;
       LogUtil.outMessage( "icqAccountRoot.privateBuddyId = " + privateBuddyId );
     }
-    // LogUtil.outMessage("isReset = " +((IcqAccountRoot) accountRoot).isReset);
-    // LogUtil.outMessage("snacFlags = " +snacFlags);
     accountRoot.setTreeItems( buddyList );
     if ( snacFlags == 0x00 ) {
       accountRoot.setPrivateItems( privateList );
@@ -367,8 +315,11 @@ public class ActionExec {
       return;
     }
     try {
-      LogUtil.outMessage( "Playing: " + MidletMain.defSoundLocation + MidletMain.eventSound[eventType] );
-      InputStream is = Class.forName( "com.tomclaw.mandarin.main.MidletMain" ).getResourceAsStream( MidletMain.defSoundLocation + MidletMain.eventSound[eventType] );
+      LogUtil.outMessage( "Playing: " + MidletMain.defSoundLocation 
+              + MidletMain.eventSound[eventType] );
+      InputStream is = Class.forName( "com.tomclaw.mandarin.main.MidletMain" )
+              .getResourceAsStream( MidletMain.defSoundLocation 
+              + MidletMain.eventSound[eventType] );
 
       if ( is != null ) {
         final Player p;
@@ -449,17 +400,21 @@ public class ActionExec {
             Localization.getMessage( "ERROR" ), message, true );
   }
 
-  public static void performTransferAction( final IcqAccountRoot icqAccountRoot, int ch2msgType, String buddyId, final int[] externalIp, final int dcTcpPort, boolean isViaRendezvousServer,
-          long fileLength, byte[] fileName, final byte[] cookie, boolean isFromMsgDialog ) {
+  public static void performTransferAction( final IcqAccountRoot icqAccountRoot, 
+          int ch2msgType, String buddyId, final int[] externalIp, 
+          final int dcTcpPort, boolean isViaRendezvousServer, long fileLength, 
+          byte[] fileName, final byte[] cookie, boolean isFromMsgDialog ) {
 
-    IcqDirectConnection directConnection = ( IcqDirectConnection ) icqAccountRoot.getTransactionManager().getTransaction( cookie );
+    IcqDirectConnection directConnection = ( IcqDirectConnection ) 
+            icqAccountRoot.getTransactionManager().getTransaction( cookie );
     if ( directConnection == null || directConnection.isReceivingFile ) {
       if ( directConnection == null ) {
         if ( MidletMain.isAutoAcceptFiles || isFromMsgDialog ) {
           directConnection = new IcqDirectConnection( icqAccountRoot );
           icqAccountRoot.getTransactionManager().addTransaction( directConnection );
         } else {
-          showFileRequestMessage( icqAccountRoot, ch2msgType, buddyId, externalIp, dcTcpPort, isViaRendezvousServer,
+          showFileRequestMessage( icqAccountRoot, ch2msgType, buddyId, 
+                  externalIp, dcTcpPort, isViaRendezvousServer,
                   fileLength, fileName, cookie );
           return;
         }
@@ -475,7 +430,8 @@ public class ActionExec {
         }
         if ( fileName != null ) {
           directConnection.fileName = fileName;
-          LogUtil.outMessage( "Accepted fileName=".concat( StringUtil.byteArrayToString( directConnection.fileName, true ) ) );
+          LogUtil.outMessage( "Accepted fileName=".concat( StringUtil
+                  .byteArrayToString( directConnection.fileName, true ) ) );
         }
         updateTransactions( icqAccountRoot );
         if ( !ArrayUtil.equals( externalIp, new int[] { 0x00, 0x00, 0x00, 0x00 } ) && isViaRendezvousServer ) {
@@ -498,7 +454,8 @@ public class ActionExec {
           }
           Thread thread = new Thread() {
             public void run() {
-              ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager().getTransaction( cookie ) ).sendToRemoteProxy( false );
+              ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager()
+                      .getTransaction( cookie ) ).sendToRemoteProxy( false );
             }
           };
           thread.start();
@@ -510,7 +467,8 @@ public class ActionExec {
             directConnection.sendFileViaProxy();
             Thread thread = new Thread() {
               public void run() {
-                ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager().getTransaction( cookie ) ).sendToRemoteProxy( true );
+                ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager()
+                        .getTransaction( cookie ) ).sendToRemoteProxy( true );
               }
             };
             thread.start();
@@ -524,7 +482,8 @@ public class ActionExec {
         if ( !directConnection.remoteProxyConnectionSentFlag ) {
           Thread thread = new Thread() {
             public void run() {
-              ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager().getTransaction( cookie ) ).sendToRemoteProxy( true );
+              ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager()
+                      .getTransaction( cookie ) ).sendToRemoteProxy( true );
             }
           };
           thread.start();
@@ -535,7 +494,8 @@ public class ActionExec {
       if ( !ArrayUtil.equals( externalIp, new int[] { 0x00, 0x00, 0x00, 0x00 } ) ) {
         Thread thread = new Thread() {
           public void run() {
-            ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager().getTransaction( cookie ) ).sendToRemoteProxy( externalIp, dcTcpPort );
+            ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager()
+                    .getTransaction( cookie ) ).sendToRemoteProxy( externalIp, dcTcpPort );
           }
         };
         thread.start();
@@ -551,9 +511,14 @@ public class ActionExec {
     }
   }
 
-  public static void updateTransactionInfo( AccountRoot accountRoot, byte[] cookie ) {
-    if ( accountRoot.getTransactionsFrame() != null && accountRoot.getTransactionsFrame().transactionItemFrame != null ) {
-      if ( ArrayUtil.equals( accountRoot.getTransactionsFrame().transactionItemFrame.directConnection.getSessCookie(), cookie ) && MidletMain.screen.activeWindow.equals( accountRoot.getTransactionsFrame().transactionItemFrame ) ) {
+  public static void updateTransactionInfo( AccountRoot accountRoot, 
+          byte[] cookie ) {
+    if ( accountRoot.getTransactionsFrame() != null && accountRoot
+            .getTransactionsFrame().transactionItemFrame != null ) {
+      if ( ArrayUtil.equals( accountRoot.getTransactionsFrame()
+              .transactionItemFrame.directConnection.getSessCookie(), cookie ) 
+              && MidletMain.screen.activeWindow.equals( accountRoot
+              .getTransactionsFrame().transactionItemFrame ) ) {
         // Active frame is equals
         accountRoot.getTransactionsFrame().transactionItemFrame.updateData();
       }
@@ -568,9 +533,13 @@ public class ActionExec {
     }
   }
 
-  public static void showFileRequestMessage( final IcqAccountRoot icqAccountRoot, final int ch2msgType, final String buddyId, final int[] externalIp, final int dcTcpPort, final boolean isViaRendezvousServer,
+  public static void showFileRequestMessage( final IcqAccountRoot icqAccountRoot, 
+          final int ch2msgType, final String buddyId, final int[] externalIp, 
+          final int dcTcpPort, final boolean isViaRendezvousServer,
           final long fileLength, final byte[] fileName, final byte[] cookie ) {
-    IncomingFileFrame incomingFileFrame = new IncomingFileFrame( icqAccountRoot, ch2msgType, buddyId, externalIp, dcTcpPort, isViaRendezvousServer, fileLength, fileName, cookie );
+    IncomingFileFrame incomingFileFrame = new IncomingFileFrame( icqAccountRoot, 
+            ch2msgType, buddyId, externalIp, dcTcpPort, isViaRendezvousServer, 
+            fileLength, fileName, cookie );
 
     icqAccountRoot.getServiceMessages().addMessage( buddyId, buddyId,
             Localization.getMessage( "FILE_NAME" ).concat( " \"" ).
@@ -581,47 +550,31 @@ public class ActionExec {
     MidletMain.screen.setActiveWindow( incomingFileFrame );
   }
 
-  //public static void releaseMailInfo(MmpAccountRoot mmpAccountRoot, MailInfo mailInfo) {
-  //}
-
-  /*public static void setConnectionStage(MmpAccountRoot mmpAccountRoot, int i) {
-   LogUtil.outMessage("setConnectionStage(".concat(mmpAccountRoot.userId).concat(": ").concat(String.valueOf(i)).concat(")"));
-   MidletMain.mainFrame.getAccountTab(mmpAccountRoot.userId).fillPercent = 100 * i / 10;
-   }*/
-
-  /*public static void disconnectEvent(MmpAccountRoot mmpAccountRoot) {
-   mmpAccountRoot.offlineAllBuddyes();
-   mmpAccountRoot.updateMainFrameBuddyList();
-   mmpAccountRoot.statusId = 0;
-   MidletMain.mainFrame.updateAccountsStatus();
-   }*/
-  /*public static void setMailItems(MmpAccountRoot mmpAccountRoot, Vector buddyList) {
-   LogUtil.outMessage("setBuddyList(".concat(mmpAccountRoot.userId).concat(")"));
-   mmpAccountRoot.setTreeItems(buddyList);
-   mmpAccountRoot.updateMainFrameBuddyList();
-   mmpAccountRoot.sortBuddyes();
-   MidletMain.screen.repaint();
-   mmpAccountRoot.updateOfflineBuddylist();
-   MidletMain.chatFrame.updateChatTabBuddyes();
-   setConnectionStage(mmpAccountRoot, 10);
-   }*/
-  public static void setMailStatus( MmpAccountRoot mmpAccountRoot, String userMail, long userStatus ) {
+  public static void setMailStatus( MmpAccountRoot mmpAccountRoot, 
+          String userMail, long userStatus ) {
     long prevBuddyStatus = mmpAccountRoot.getBuddyStatus( userMail );
 
     MmpItem mmpItem = mmpAccountRoot.setBuddyStatus( userMail, userStatus );
     if ( mmpItem != null ) {
-      ChatTab chatTab = MidletMain.chatFrame.getChatTab( mmpAccountRoot, userMail, null, false );
+      ChatTab chatTab = MidletMain.chatFrame.getChatTab( mmpAccountRoot, 
+              userMail, null, false );
       if ( chatTab != null ) {
         // chatTab.buddyItem = icqItem;
         chatTab.updateChatCaption();
       }
     }
-    if ( ( prevBuddyStatus != 0 && userStatus == 0 ) || ( prevBuddyStatus == 0 && userStatus != 0 ) ) {
+    if ( ( prevBuddyStatus != 0 && userStatus == 0 ) || ( prevBuddyStatus == 0 
+            && userStatus != 0 ) ) {
       LogUtil.outMessage( "Changing status in service messages" );
-      mmpAccountRoot.getServiceMessages().addMessage( userMail, mmpItem != null ? mmpItem.getUserNick() : userMail,
-              Localization.getMessage( "CHANGED_STATUS" ).concat( " \"" ).concat( Localization.getMessage( MmpStatusUtil.getStatusDescr( MmpStatusUtil.getStatusIndex( prevBuddyStatus ) ) ) ).
-              concat( "\" " ).concat( Localization.getMessage( "TO" ) ).concat( " \"" ).concat( Localization.getMessage( MmpStatusUtil.getStatusDescr( MmpStatusUtil.getStatusIndex( userStatus ) ) ) ).
-              concat( "\"" ), ServiceMessages.TYPE_STATUS_CHANGE );
+      mmpAccountRoot.getServiceMessages().addMessage( userMail, mmpItem != null 
+              ? mmpItem.getUserNick() : userMail,
+              Localization.getMessage( "CHANGED_STATUS" ).concat( " \"" )
+              .concat( Localization.getMessage( MmpStatusUtil.getStatusDescr( 
+              MmpStatusUtil.getStatusIndex( prevBuddyStatus ) ) ) ).
+              concat( "\" " ).concat( Localization.getMessage( "TO" ) )
+              .concat( " \"" ).concat( Localization.getMessage( MmpStatusUtil
+              .getStatusDescr( MmpStatusUtil.getStatusIndex( userStatus ) ) ) )
+              .concat( "\"" ), ServiceMessages.TYPE_STATUS_CHANGE );
     }
     if ( MidletMain.isSound ) {
       if ( prevBuddyStatus != 0 && userStatus == 0 ) {
@@ -631,101 +584,7 @@ public class ActionExec {
       }
     }
   }
-
-  /*public static void setBuddyTypingStatus(MmpAccountRoot mmpAccountRoot, String userMail) {
-   MidletMain.mainFrame.typingNotify(mmpAccountRoot, userMail);
-   ChatTab chatTab = MidletMain.chatFrame.getChatTab(mmpAccountRoot, userMail);
-   if (chatTab != null) {
-   chatTab.updateChatCaption();
-   }
-   MidletMain.screen.repaint();
-   }*/
-
-  /*public static void recMess(MmpAccountRoot mmpAccountRoot, String userMail, String messageText, byte[] cookie, int msgType) {
-   LogUtil.outMessage("Received message from: ".concat(userMail));
-   LogUtil.outMessage("Message text:          ".concat(messageText));
-   ChatTab chatTab = MidletMain.chatFrame.getChatTab(mmpAccountRoot, userMail, false);
-   BuddyItem buddyItem = MidletMain.mainFrame.getBuddyItem(mmpAccountRoot, userMail);
-   if (chatTab == null) {
-   LogUtil.outMessage("Chat tab not exist");
-   if (buddyItem == null) {
-   LogUtil.outMessage("BuddyItem is not exist. Creating...");
-   buddyItem = new MmpItem(userMail);
-   buddyItem.updateUiData();
-    
-   if (mmpAccountRoot.buddyItems.isEmpty()) {
-   mmpAccountRoot.buddyItems.addElement(new IcqGroup("Temp group"));
-   }
-   LogUtil.outMessage("Group checking complete");
-   ((GroupHeader) mmpAccountRoot.buddyItems.elementAt(0)).addChild((GroupChild) buddyItem);
-    
-   }
-   LogUtil.outMessage("Done. Creating ChatTab instance");
-   chatTab = new ChatTab(mmpAccountRoot, buddyItem, "/res/groups/img_mmpstatus.png".hashCode(), "/res/groups/img_chat.png".hashCode());
-   LogUtil.outMessage("ChatTab appending...");
-   MidletMain.chatFrame.addChatTab(chatTab, false);
-   LogUtil.outMessage("Almost done.");
-   } else {
-   LogUtil.outMessage("Chat tab exist.        ".concat(chatTab.title));
-   }
-   boolean isDisplayed = MidletMain.chatFrame.addChatItem(chatTab, messageText, cookie, msgType, true);
-   LogUtil.outMessage("isDisplayed = " + isDisplayed);
-   if (MidletMain.screen.activeWindow.equals(MidletMain.chatFrame) && isDisplayed) {
-    
-   } else {
-   buddyItem.setUnreadCount(buddyItem.getUnreadCount() + 1);
-   mmpAccountRoot.unrMsgs++;
-   MidletMain.mainFrame.updateAccountsStatus();
-   if (buddyItem.getUnreadCount() == 1) {
-   buddyItem.updateUiData();
-   chatTab.updateChatCaption();
-   }
-   }
-   boolean isExpandedFlag;
-   if (MidletMain.isExpand
-   && (!(Display.getDisplay(MidletMain.midletMain).getCurrent() instanceof javax.microedition.lcdui.TextBox)
-   || Display.getDisplay(MidletMain.midletMain).getCurrent() == null)) {
-   Display.getDisplay(MidletMain.midletMain).setCurrent(MidletMain.screen);
-   isExpandedFlag = true;
-   } else {
-   isExpandedFlag = false;
-   }
-   if (MidletMain.vibrateDelay > 0) {
-   if (isExpandedFlag) {
-   try {
-   Thread.sleep(400);
-   } catch (InterruptedException ex) {
-   // ex.printStackTrace();
-   }
-   }
-   Display.getDisplay(MidletMain.midletMain).vibrate(MidletMain.vibrateDelay);
-   }
-   MidletMain.screen.repaint();
-   if (MidletMain.isSound) {
-   playSound(0x01);
-   }
-   }*/
-
-  /*public static void msgAck(MmpAccountRoot mmpAccountRoot, byte[] temp) {
-   LogUtil.outMessage("Message ack");
-   MidletMain.chatFrame.msgAck(mmpAccountRoot, temp, ChatItem.DLV_STATUS_DELIVERED);
-   MidletMain.screen.repaint();
-   if (MidletMain.isSound) {
-   playSound(0x02);
-   }
-   }*/
-  /*public static void releaseQueue(MmpAccountRoot mmpAccountRoot, long contactId) {
-   QueueAction queueAction = mmpAccountRoot.unregisterAction();
-   if (queueAction != null && contactId != -1) {
-   if (queueAction.getBuddyItem() != null) {
-   ((MmpItem) queueAction.getBuddyItem()).contactId = contactId;
-   }
-   if (queueAction.getBuddyGroup() != null) {
-   ((MmpGroup) queueAction.getBuddyGroup()).contactId = contactId;
-   }
-   queueAction.actionPerformed();
-   }
-   }*/
+  
   public static void setMainFrameAction( MmpAccountRoot mmpAccountRoot, String message ) {
   }
 
@@ -742,13 +601,10 @@ public class ActionExec {
       rosterItem = new XmppItem( XmppSession.getClearJid( from ) );
       xmppAccountRoot.xmppSession.roster.put( XmppSession.getClearJid( from ), rosterItem );
       xmppAccountRoot.addTempItem( rosterItem );
-      // add(rosterItem);
-      // Main.mainFrame.updateRoster();
     } else {
       prevBuddyStatus = rosterItem.getResource( XmppSession.getJidResource( from ) ).status;
     }
     LogUtil.outMessage( "... present!" );
-    // boolean isExistResource = rosterItem.isExistResource(getJidResource(from));
     rosterItem.getResource( XmppSession.getJidResource( from ) ).status = statusIndex;
     rosterItem.getResource( XmppSession.getJidResource( from ) ).statusText = t_status;
     rosterItem.getResource( XmppSession.getJidResource( from ) ).caps = capsNode;
