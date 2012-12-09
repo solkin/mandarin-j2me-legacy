@@ -103,40 +103,36 @@ public class AccountEditorFrame extends Window {
                 tempTabItem =
                         new AccountTab( fldLogin.getText(), fldNick.getText(), 0, 0 );
               }
-              try {
-                MidletMain.accounts.addGroup( fldLogin.getText() );
-                MidletMain.accounts.addItem( fldLogin.getText(), "nick", fldNick.getText() );
-                MidletMain.accounts.addItem( fldLogin.getText(), "pass", fldPassw.getText() );
-                MidletMain.accounts.addItem( fldLogin.getText(), "host", fldHost.getText() );
-                MidletMain.accounts.addItem( fldLogin.getText(), "port", fldPort.getText() );
-                MidletMain.accounts.addItem( fldLogin.getText(), "ussl", isUseSsl.state ? "true" : "false" );
-                switch ( AccountEditorFrame.this.protocolSwitcher.getCombed() ) {
-                  case 0x00: {
-                    accType = "icq";
-                    if ( !isEdit ) {
-                      tempTabItem.accountRoot = new IcqAccountRoot( fldLogin.getText() );
-                    }
-                    break;
+              MidletMain.accounts.addGroup( fldLogin.getText() );
+              MidletMain.accounts.addItem( fldLogin.getText(), "nick", fldNick.getText() );
+              MidletMain.accounts.addItem( fldLogin.getText(), "pass", fldPassw.getText() );
+              MidletMain.accounts.addItem( fldLogin.getText(), "host", fldHost.getText() );
+              MidletMain.accounts.addItem( fldLogin.getText(), "port", fldPort.getText() );
+              MidletMain.accounts.addItem( fldLogin.getText(), "ussl", isUseSsl.state ? "true" : "false" );
+              switch ( AccountEditorFrame.this.protocolSwitcher.getCombed() ) {
+                case 0x00: {
+                  accType = "icq";
+                  if ( !isEdit ) {
+                    tempTabItem.accountRoot = new IcqAccountRoot( fldLogin.getText() );
                   }
-                  case 0x01: {
-                    accType = "mmp";
-                    if ( !isEdit ) {
-                      tempTabItem.accountRoot = new MmpAccountRoot( fldLogin.getText() );
-                    }
-                    break;
-                  }
-                  case 0x02: {
-                    accType = "xmpp";
-                    if ( !isEdit ) {
-                      tempTabItem.accountRoot = new XmppAccountRoot( fldLogin.getText() );
-                    }
-                    break;
-                  }
+                  break;
                 }
-                MidletMain.accounts.addItem( fldLogin.getText(), "type", accType );
-              } catch ( IncorrectValueException ex ) {
-              } catch ( GroupNotFoundException ex1 ) {
+                case 0x01: {
+                  accType = "mmp";
+                  if ( !isEdit ) {
+                    tempTabItem.accountRoot = new MmpAccountRoot( fldLogin.getText() );
+                  }
+                  break;
+                }
+                case 0x02: {
+                  accType = "xmpp";
+                  if ( !isEdit ) {
+                    tempTabItem.accountRoot = new XmppAccountRoot( fldLogin.getText() );
+                  }
+                  break;
+                }
               }
+              MidletMain.accounts.addItem( fldLogin.getText(), "type", accType );
               tempTabItem.imageFileHash = "/res/groups/img_".concat( accType ).concat( "status.png" ).hashCode();
               tempTabItem.protocolFileHash = tempTabItem.imageFileHash;
               /** Saving accounts **/
@@ -150,9 +146,10 @@ public class AccountEditorFrame extends Window {
               }
               MidletMain.mainFrame.switchAccountRoot( MidletMain.mainFrame.getActiveAccountRoot() );
               MidletMain.screen.setActiveWindow( MidletMain.mainFrame );
-              MidletMain.screen.setWaitScreenState( false );
             } catch ( Throwable ex ) {
+              ActionExec.showError( "UNDEF_ACCOUNT_CREATING_ERROR" );
             }
+            MidletMain.screen.setWaitScreenState( false );
           }
         }.start();
       }
