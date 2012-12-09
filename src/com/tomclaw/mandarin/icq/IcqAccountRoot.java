@@ -34,7 +34,6 @@ public class IcqAccountRoot extends AccountRoot {
   public String xText = "";
   public boolean isPStatusReadable = true;
   public boolean isXStatusReadable = true;
-  private String buddyListFile = null;
   /**
    * Threads and states
    */

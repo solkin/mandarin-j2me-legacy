@@ -30,32 +30,9 @@ public class MmpPacketSender {
             MmpStatusUtil.getStatusIndex( statusId ) ) ) ) ) );
     DataUtil.put32_reversed( temp, 0, 0x00 );
     packet.data.append( temp );
-    
     DataUtil.put32_reversed( temp, 0, -1 );
-    /*temp = new byte[4];
-    DataUtil.put32_reversed( temp, 0, mmpAccountRoot.session.clientId.length() 
-            + mmpAccountRoot.session.mraVer.length() );
-    packet.data.append( temp );
-    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( 
-            mmpAccountRoot.session.clientId ) );
-    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( 
-            mmpAccountRoot.session.mraVer ) );*/
-    
     packet.data.append( temp );
     packet.send( mmpAccountRoot.session.netConnection );
-    /*byte[] temp = new byte[4];
-     DataUtil.put32_reversed( temp, 0, statusId );
-     packet.data.append( temp );
-     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( "STATUS_ONLINE" ) );
-     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( statusString ) );
-     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( descrString ) );
-     //packet.data.append(HexUtil.stringToBytes("3600000028000000636C69656E743D226A6167656E7422206E616D653D224D5241222076657273696F6E3D22312E34220A0000004D524120312E342E3336"));
-     temp = new byte[4];
-     DataUtil.put32_reversed( temp, 0, mmpAccountRoot.session.clientId.length() + mmpAccountRoot.session.mraVer.length() );
-     packet.data.append( temp );
-     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( mmpAccountRoot.session.clientId ) );
-     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( mmpAccountRoot.session.mraVer ) );
-     packet.send( mmpAccountRoot.session.netConnection );*/
   }
 
   public static byte[] MRIM_CS_MESSAGE( MmpAccountRoot mmpAccountRoot, String destMail, String messageText, long flags, String addon ) throws IOException {
