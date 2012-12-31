@@ -101,66 +101,73 @@ public class IcqAccountRoot extends AccountRoot {
     }
   }
 
-  public void connectAction( final int statusId ) {
+  public void connectAction( final long statusId ) {
+    if ( isConnecting ) {
+      return;
+    }
     new Thread() {
       public void run() {
-        do {
-          if ( MidletMain.httpHiddenPing > 0 ) {
+        isConnecting = true;
+        try {
+          do {
+            if ( MidletMain.httpHiddenPing > 0 ) {
+              try {
+                NetConnection.httpPing( "http://www.icq.com" );
+              } catch ( IOException ex ) {
+                LogUtil.outMessage( "HTTP hidden connection failed" );
+              }
+            }
+            NetConnection netConnection = new NetConnection();
+            String errorCause;
+            boolean isFail = false;
             try {
-              NetConnection.httpPing( "http://www.icq.com" );
-            } catch ( IOException ex ) {
-              LogUtil.outMessage( "HTTP hidden connection failed" );
-            }
-          }
-          NetConnection netConnection = new NetConnection();
-          String errorCause;
-          boolean isFail = false;
-          try {
-            ActionExec.setConnectionStage( IcqAccountRoot.this, 0 );
-            netConnection.connectAddress( host + ":" + port );
-            ActionExec.setConnectionStage( IcqAccountRoot.this, 1 );
-            session.setNetConnection( netConnection );
-            session.isRequestSsi = false;
-            session.login( statusId );
-            IcqAccountRoot.this.statusId = statusId;
-            MidletMain.mainFrame.updateAccountsStatus();
-            return;
-          } catch ( LoginFailed ex ) {
-            LogUtil.outMessage( "Failed" );
-            errorCause = Localization.getMessage( "FAILED" );
-            isFail = true;
-          } catch ( ProtocolSupportBecameOld ex ) {
-            LogUtil.outMessage( "Protocol support became old" );
-            errorCause = Localization.getMessage( "PROTOCOL_SUPPORT_BECAME_OLD" );
-            isFail = true;
-          } catch ( InterruptedException ex ) {
-            LogUtil.outMessage( "Failed: " + ex.getMessage() );
-            errorCause = Localization.getMessage( "INTERRUPTED" );
-          } catch ( IOException ex ) {
-            LogUtil.outMessage( "IO Exception" );
-            errorCause = Localization.getMessage( "IO_EXCEPTION" );
-          } catch ( IncorrectAddressException ex ) {
-            LogUtil.outMessage( "Incorrect address" );
-            errorCause = Localization.getMessage( "INCORRECT_ADDRESS" );
-            isFail = true;
-          } catch ( Throwable ex ) {
-            LogUtil.outMessage( "Throwable" );
-            errorCause = Localization.getMessage( "INCORRECT_ADDRESS" );
-            isFail = true;
-          }
-          /** Checking for error **/
-          if ( errorCause != null ) {
-            ActionExec.showError( errorCause );
-            /** Failing on crytical errors **/
-            if ( isFail ) {
+              ActionExec.setConnectionStage( IcqAccountRoot.this, 0 );
+              netConnection.connectAddress( host + ":" + port );
+              ActionExec.setConnectionStage( IcqAccountRoot.this, 1 );
+              session.setNetConnection( netConnection );
+              session.isRequestSsi = false;
+              session.login( ( int ) statusId );
+              IcqAccountRoot.this.statusId = statusId;
+              MidletMain.mainFrame.updateAccountsStatus();
+              isConnecting = false;
               return;
+            } catch ( LoginFailed ex ) {
+              LogUtil.outMessage( "Failed" );
+              errorCause = Localization.getMessage( "FAILED" );
+              isFail = true;
+            } catch ( ProtocolSupportBecameOld ex ) {
+              LogUtil.outMessage( "Protocol support became old" );
+              errorCause = Localization.getMessage( "PROTOCOL_SUPPORT_BECAME_OLD" );
+              isFail = true;
+            } catch ( InterruptedException ex ) {
+              LogUtil.outMessage( "Failed: " + ex.getMessage() );
+              errorCause = Localization.getMessage( "INTERRUPTED" );
+            } catch ( IOException ex ) {
+              LogUtil.outMessage( "IO Exception" );
+              errorCause = Localization.getMessage( "IO_EXCEPTION" );
+            } catch ( IncorrectAddressException ex ) {
+              LogUtil.outMessage( "Incorrect address" );
+              errorCause = Localization.getMessage( "INCORRECT_ADDRESS" );
+              isFail = true;
+            } catch ( Throwable ex ) {
+              LogUtil.outMessage( "Throwable" );
+              errorCause = Localization.getMessage( "INCORRECT_ADDRESS" );
+              isFail = true;
             }
-          }
-          try {
+            /** Checking for error **/
+            if ( errorCause != null ) {
+              ActionExec.showError( errorCause );
+              /** Failing on crytical errors **/
+              if ( isFail ) {
+                isConnecting = false;
+                return;
+              }
+            }
             Thread.sleep( MidletMain.reconnectTime );
-          } catch ( InterruptedException ex ) {
-          }
-        } while ( MidletMain.autoReconnect );
+          } while ( MidletMain.autoReconnect );
+        } catch ( InterruptedException ex ) {
+        }
+        isConnecting = false;
       }
     }.start();
   }

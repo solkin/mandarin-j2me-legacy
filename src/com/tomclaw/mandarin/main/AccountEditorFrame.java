@@ -1,7 +1,5 @@
 package com.tomclaw.mandarin.main;
 
-import com.tomclaw.bingear.GroupNotFoundException;
-import com.tomclaw.bingear.IncorrectValueException;
 import com.tomclaw.mandarin.icq.IcqAccountRoot;
 import com.tomclaw.mandarin.mmp.MmpAccountRoot;
 import com.tomclaw.mandarin.xmpp.XmppAccountRoot;

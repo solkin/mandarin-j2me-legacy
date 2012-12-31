@@ -1642,29 +1642,7 @@ public class MainFrame extends Window {
           final XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
           /** Status is selected **/
           if ( xmppAccountRoot.statusId == 0 && statusId != 0 ) {
-            /** Need to connect **/
-            new Thread() {
-              public void run() {
-                do {
-                  try {
-                    xmppAccountRoot.xmppSession.connect( statusId );
-                    xmppAccountRoot.statusId = statusId;
-                    updateAccountsStatus();
-                    return;
-                  } catch ( IOException ex ) {
-                    LogUtil.outMessage( "IO Exception" );
-                    ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
-                  } catch ( Throwable ex ) {
-                    LogUtil.outMessage( "Throwable" );
-                    ActionExec.showError( Localization.getMessage( "THROWABLE" ) );
-                  }
-                  try {
-                    sleep( MidletMain.reconnectTime );
-                  } catch ( InterruptedException ex ) {
-                  }
-                } while ( MidletMain.autoReconnect );
-              }
-            }.start();
+            xmppAccountRoot.connectAction(statusId);
           } else {
             if ( xmppAccountRoot.statusId != 0 && statusId == 0 ) {
               /** Need go offline **/

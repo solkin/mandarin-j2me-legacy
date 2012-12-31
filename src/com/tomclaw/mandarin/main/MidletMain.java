@@ -58,7 +58,7 @@ public class MidletMain extends MIDlet {
   public static int keepAliveDelay = 20;
   public static int httpHiddenPing = 120;
   public static boolean autoReconnect = true;
-  public static int reconnectTime = 10000;
+  public static int reconnectTime = 15000;
   /** Sound **/
   public static boolean isSound = true;
   public static String defSoundLocation = "/res/sounds/";
@@ -99,7 +99,7 @@ public class MidletMain extends MIDlet {
   public static Runtime runtime = null;
   /** Themes **/
   public static String selectedTheme = "_0";
-  public static String themeFile = "/res/themes/tcuilite_def.tth";
+  public static String themeFile = "/res/themes/tcuilite_def.tt2";
   /** Other data **/
   public static String version = null;
   public static String type = null;
@@ -151,6 +151,7 @@ public class MidletMain extends MIDlet {
     midletMain = this;
     /** Screen instance **/
     screen = new Screen( this );
+    Theme.checkForUpSize();
     /** Loading data **/
     loadRmsData();
     updateThemesSettings();
@@ -191,8 +192,12 @@ public class MidletMain extends MIDlet {
           loggerServerHost = "127.0.0.1:2000";
         }
         LogUtil.initLogger( true,
-                getBoolean( settings, "Logger", "outToSocket" ), loggerServerHost.substring( 0, loggerServerHost.indexOf( ":" ) ), Integer.parseInt( loggerServerHost.substring( loggerServerHost.indexOf( ":" ) + 1 ) ),
-                getBoolean( settings, "Logger", "outToFile" ), getString( settings, "Logger", "loggerFile" ) );
+                getBoolean( settings, "Logger", "outToSocket" ), 
+                loggerServerHost.substring( 0, loggerServerHost
+                .indexOf( ":" ) ), Integer.parseInt( loggerServerHost
+                .substring( loggerServerHost.indexOf( ":" ) + 1 ) ),
+                getBoolean( settings, "Logger", "outToFile" ), 
+                getString( settings, "Logger", "loggerFile" ) );
         String s_logLevel = getAppProperty( "Loglevel" );
         if ( s_logLevel != null && s_logLevel.equals( "1" ) ) {
           LogUtil.isShowMessages = false;
@@ -207,7 +212,7 @@ public class MidletMain extends MIDlet {
     }
     splashFrame.updateGaugeValue( 60 );
     LogUtil.outMessage( "4 mem. eaten = [ " + ( freeMemory - runtime.freeMemory() ) / 1024 + " ] KiB" );
-    /** Loading global settings, also, static IcqAccountRoot etc. **/
+    /** Loading global settings, also, static IcqAccountRoot etc **/
     /** Loading localization strings **/
     Localization.initLocalizationSupport();
     splashFrame.updateGaugeValue( 64 );
@@ -228,7 +233,8 @@ public class MidletMain extends MIDlet {
     Splitter.splitImage( "/res/groups/img_plist.png" );
     splashFrame.updateGaugeValue( 71 );
     LogUtil.outMessage( "6 mem. eaten = [ " + ( freeMemory - runtime.freeMemory() ) / 1024 + " ] KiB" );
-
+    /** Updating upSize **/
+    Theme.checkForUpSize();
     /** History renderer **/
     historyRmsRenderer = new HistoryRmsRenderer();
     splashFrame.updateGaugeValue( 73 );
@@ -415,12 +421,11 @@ public class MidletMain extends MIDlet {
     LogUtil.outMessage( "Selected theme: " + selectedTheme );
     LogUtil.outMessage( "Loading theme file: " + themeFile );
     try {
-      Theme.loadTheme( themeFile );
+      Theme.applyData( Theme.loadTheme( themeFile ) );
       LogUtil.outMessage( "Loaded." );
     } catch ( Throwable ex ) {
       LogUtil.outMessage( "Failed: " + ex.getMessage() );
     }
-    Theme.upSize = 2;
   }
 
   public static void updateSpySettings() {

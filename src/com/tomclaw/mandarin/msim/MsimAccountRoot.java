@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.tomclaw.mandarin.msim;
 
 import com.tomclaw.mandarin.dc.DirectConnection;
@@ -115,5 +111,9 @@ public class MsimAccountRoot extends AccountRoot {
 
   public long getNextItemId() {
     return System.currentTimeMillis();
+  }
+
+  public void connectAction( long statusId ) {
+    throw new UnsupportedOperationException( "Not supported yet." );
   }
 }

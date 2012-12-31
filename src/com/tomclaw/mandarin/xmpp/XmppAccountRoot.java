@@ -25,9 +25,9 @@ public class XmppAccountRoot extends AccountRoot {
   public XmppSession xmppSession;
   public XmppGroup conferenceGroup = null;
   public XmppGroup tempGroup;
-  
-  public XmppAccountRoot(String userId) {
-    super(userId);
+
+  public XmppAccountRoot( String userId ) {
+    super( userId );
   }
 
   public void construct() {
@@ -36,12 +36,12 @@ public class XmppAccountRoot extends AccountRoot {
   public void initSpecialData() {
     /** New session instance **/
     xmppSession = new XmppSession( this );
-    
+
     username = userId.substring( 0, userId.indexOf( '@' ) );
     domain = userId.substring( userId.indexOf( '@' ) + 1 );
     statusId = XmppStatusUtil.offlineIndex;
     //resource = MidletMain.getString( MidletMain.accounts, jid, "resource" );
-    
+
     if ( StringUtil.isNullOrEmpty( host ) ) {
       host = domain;
     }
@@ -49,8 +49,8 @@ public class XmppAccountRoot extends AccountRoot {
     resource = "Mandarin IM ".concat( MidletMain.version ).concat( " [" ).concat( MidletMain.build.concat( "]" ) );
 
     // if ( isStart ) {
-      // transactionManager = new TransactionManager();
-      // serviceMessages = new ServiceMessages();
+    // transactionManager = new TransactionManager();
+    // serviceMessages = new ServiceMessages();
     // }
   }
 
@@ -63,7 +63,7 @@ public class XmppAccountRoot extends AccountRoot {
   }
 
   public int getStatusIndex() {
-    return (int)statusId;
+    return ( int ) statusId;
   }
 
   public void sendTypingStatus( String userId, boolean b ) {
@@ -207,5 +207,36 @@ public class XmppAccountRoot extends AccountRoot {
 
   public long getNextItemId() {
     return 0;
+  }
+
+  public void connectAction( final long statusId ) {
+    if ( isConnecting ) {
+      return;
+    }
+    /** Need to connect **/
+    new Thread() {
+      public void run() {
+        try {
+          do {
+            try {
+              xmppSession.connect( ( int ) statusId );
+              XmppAccountRoot.this.statusId = statusId;
+              MidletMain.mainFrame.updateAccountsStatus();
+              isConnecting = false;
+              return;
+            } catch ( IOException ex ) {
+              LogUtil.outMessage( "IO Exception" );
+              ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
+            } catch ( Throwable ex ) {
+              LogUtil.outMessage( "Throwable" );
+              ActionExec.showError( Localization.getMessage( "THROWABLE" ) );
+            }
+            sleep( MidletMain.reconnectTime );
+          } while ( MidletMain.autoReconnect );
+        } catch ( InterruptedException ex ) {
+        }
+        isConnecting = false;
+      }
+    }.start();
   }
 }

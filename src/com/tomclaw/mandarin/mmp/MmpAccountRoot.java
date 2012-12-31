@@ -37,10 +37,10 @@ public class MmpAccountRoot extends AccountRoot {
    */
   public MmpSession session;
 
-  public MmpAccountRoot(String userId) {
-    super(userId);
+  public MmpAccountRoot( String userId ) {
+    super( userId );
   }
-  
+
   public void construct() {
     host = "mrim.mail.ru";
     port = "2042";
@@ -52,7 +52,7 @@ public class MmpAccountRoot extends AccountRoot {
     serviceMessages = new ServiceMessages();
     statusId = MmpStatusUtil.getStatus( 0 );
   }
-  
+
   public void saveSpecialSettings() throws Throwable {
   }
 
@@ -140,38 +140,44 @@ public class MmpAccountRoot extends AccountRoot {
     }
   }
 
-  public void connectAction( long statusId ) {
-    do {
-      if ( MidletMain.httpHiddenPing > 0 ) {
+  public void connectAction( final long statusId ) {
+    if ( isConnecting ) {
+      return;
+    }
+    isConnecting = true;
+    try {
+      do {
+        if ( MidletMain.httpHiddenPing > 0 ) {
+          try {
+            NetConnection.httpPing( "http://www.mail.ru" );
+          } catch ( IOException ex ) {
+            LogUtil.outMessage( "HTTP hidden connection failed" );
+          }
+        }
         try {
-          NetConnection.httpPing( "http://www.mail.ru" );
+          if ( session.login_stage( host + ":" + port, userId, userPassword, statusId, statusText, statusDscr ) ) {
+            this.statusId = statusId;
+            LogUtil.outMessage( "Updating status in AccountStatus" );
+            MidletMain.mainFrame.updateAccountsStatus();
+            ActionExec.setConnectionStage( this, 10 );
+          }
+          isConnecting = false;
+          return;
         } catch ( IOException ex ) {
-          LogUtil.outMessage( "HTTP hidden connection failed" );
+          LogUtil.outMessage( "IO Exception" );
+          ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
+        } catch ( IncorrectAddressException ex ) {
+          LogUtil.outMessage( "Incorrect address" );
+          ActionExec.showError( Localization.getMessage( "INCORRECT_ADDRESS" ) );
+        } catch ( Throwable ex ) {
+          LogUtil.outMessage( "Throwable" );
+          ActionExec.showError( Localization.getMessage( "THROWABLE" ) );
         }
-      }
-      try {
-        if ( session.login_stage( host + ":" + port, userId, userPassword, statusId, statusText, statusDscr ) ) {
-          this.statusId = statusId;
-          LogUtil.outMessage( "Updating status in AccountStatus" );
-          MidletMain.mainFrame.updateAccountsStatus();
-          ActionExec.setConnectionStage( this, 10 );
-        }
-        return;
-      } catch ( IOException ex ) {
-        LogUtil.outMessage( "IO Exception" );
-        ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
-      } catch ( IncorrectAddressException ex ) {
-        LogUtil.outMessage( "Incorrect address" );
-        ActionExec.showError( Localization.getMessage( "INCORRECT_ADDRESS" ) );
-      } catch ( Throwable ex ) {
-        LogUtil.outMessage( "Throwable" );
-        ActionExec.showError( Localization.getMessage( "THROWABLE" ) );
-      }
-      try {
         Thread.sleep( MidletMain.reconnectTime );
-      } catch ( InterruptedException ex ) {
-      }
-    } while ( MidletMain.autoReconnect );
+      } while ( MidletMain.autoReconnect );
+    } catch ( InterruptedException ex ) {
+    }
+    isConnecting = false;
   }
 
   public void setTreeItems( Vector buddyList ) {

@@ -43,7 +43,10 @@ public class MmpSession implements Runnable {
     mraVer = "Mandarin IM " + major + "." + minor;
   }
 
-  public boolean login_stage( String hostPort, String userId, String passwrd, long statusId, String statusString, String descrString ) throws IncorrectAddressException, IOException, InterruptedException, IncorrectAddressException {
+  public boolean login_stage( String hostPort, String userId, String passwrd, 
+          long statusId, String statusString, String descrString ) 
+          throws IncorrectAddressException, IOException, InterruptedException, 
+          IncorrectAddressException {
     isAlive = true;
     netConnection = new NetConnection();
     LogUtil.outMessage( "Connecting..." );

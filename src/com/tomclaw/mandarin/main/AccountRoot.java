@@ -34,6 +34,7 @@ public abstract class AccountRoot {
   public TransactionManager transactionManager = null;
   public TransactionsFrame transactionsFrame = null;
   public ServiceMessages serviceMessages = null;
+  public boolean isConnecting = false;
   /**
    * Settings
    */
@@ -54,6 +55,8 @@ public abstract class AccountRoot {
   }
 
   public abstract void construct();
+  
+  public abstract void connectAction(final long statusId);
 
   public AccountRoot init( boolean isStart ) {
     /** Loading user nick, user password **/
