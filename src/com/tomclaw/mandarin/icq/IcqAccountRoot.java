@@ -102,7 +102,7 @@ public class IcqAccountRoot extends AccountRoot {
   }
 
   public void connectAction( final long statusId ) {
-    if ( isConnecting ) {
+    if ( isConnecting || this.statusId != IcqStatusUtil.getStatus( 0 ) ) {
       return;
     }
     new Thread() {
@@ -177,14 +177,12 @@ public class IcqAccountRoot extends AccountRoot {
     if ( isReset ) {
       LogUtil.outMessage( "reset node" );
       t_OnlineItems.removeAllElements();
-      /**
-       * Save online buddyes
-       */
+      /** Save online buddyes **/
       IcqItem tempIcqItem;
       for ( int c = 0; c < buddyItems.size(); c++ ) {
         for ( int j = 0; j < ( ( GroupHeader ) buddyItems.elementAt( c ) ).getChildsCount(); j++ ) {
           tempIcqItem = ( ( IcqItem ) ( ( GroupHeader ) buddyItems.elementAt( c ) ).getChilds().elementAt( j ) );
-          if ( tempIcqItem.buddyStatus != -1 ) {
+          if ( tempIcqItem.getStatusIndex() != 0 ) {
             t_OnlineItems.addElement( tempIcqItem );
           }
         }
@@ -214,7 +212,7 @@ public class IcqAccountRoot extends AccountRoot {
         IcqItem tempIcqItem = ( ( IcqItem ) tempGroupItem.getChilds().elementAt( j ) );
         for ( int q = 0; q < t_OnlineItems.size(); q++ ) {
           if ( tempIcqItem.userId.equals( ( ( IcqItem ) t_OnlineItems.elementAt( q ) ).userId ) ) {
-            tempIcqItem.buddyStatus = ( ( IcqItem ) t_OnlineItems.elementAt( q ) ).buddyStatus;
+            tempIcqItem.setStatusIndex( ( ( IcqItem ) t_OnlineItems.elementAt( q ) ).getStatusIndex(), null );
             tempIcqItem.capabilities = ( ( IcqItem ) t_OnlineItems.elementAt( q ) ).capabilities;
             tempIcqItem.clientInfo = ( ( IcqItem ) t_OnlineItems.elementAt( q ) ).clientInfo;
           }
@@ -250,18 +248,8 @@ public class IcqAccountRoot extends AccountRoot {
   public void sortBuddyes() {
   }
 
-  public void offlineAllBuddyes() {
-    IcqGroup tempGroupItem;
-    for ( int i = 0; i < buddyItems.size(); i++ ) {
-      tempGroupItem = ( ( IcqGroup ) buddyItems.elementAt( i ) );
-      for ( int j = 0; j < ( ( GroupHeader ) tempGroupItem ).getChildsCount(); j++ ) {
-        IcqItem tempIcqItem = ( ( IcqItem ) tempGroupItem.getChilds().elementAt( j ) );
-        tempIcqItem.buddyStatus = -1;
-      }
-    }
-  }
-
-  public IcqItem setBuddyStatus( String buddyId, int buddyStatus, Capability[] caps, ClientInfo clientInfo ) {
+  public IcqItem setBuddyStatus( String buddyId, int buddyStatus, 
+          Capability[] caps, ClientInfo clientInfo ) {
     IcqGroup groupItem;
     IcqItem icqItem;
     for ( int c = 0; c < buddyItems.size(); c++ ) {
@@ -269,7 +257,8 @@ public class IcqAccountRoot extends AccountRoot {
       for ( int i = 0; i < groupItem.getChildsCount(); i++ ) {
         icqItem = ( IcqItem ) groupItem.getChilds().elementAt( i );
         if ( icqItem.userId.equals( buddyId ) ) {
-          icqItem.buddyStatus = buddyStatus;
+          icqItem.setStatusIndex( IcqStatusUtil.getStatusIndex( buddyStatus ), 
+                  null );
           icqItem.capabilities = caps;
           icqItem.clientInfo = clientInfo;
           icqItem.updateUiData();
@@ -284,7 +273,7 @@ public class IcqAccountRoot extends AccountRoot {
   public int getBuddyStatus( String buddyId ) {
     IcqItem icqItem = getBuddy( buddyId );
     if ( icqItem != null ) {
-      return icqItem.buddyStatus;
+      return IcqStatusUtil.getStatus( icqItem.getStatusIndex() );
     }
     return -1;
   }
@@ -294,7 +283,8 @@ public class IcqAccountRoot extends AccountRoot {
     for ( int c = 0; c < buddyItems.size(); c++ ) {
       groupItem = ( IcqGroup ) buddyItems.elementAt( c );
       for ( int i = 0; i < groupItem.getChildsCount(); i++ ) {
-        if ( ( ( IcqItem ) groupItem.getChilds().elementAt( i ) ).userId.equals( buddyId ) ) {
+        if ( ( ( IcqItem ) groupItem.getChilds().elementAt( i ) ).userId
+                .equals( buddyId ) ) {
           return ( ( IcqItem ) groupItem.getChilds().elementAt( i ) );
         }
       }
@@ -304,8 +294,10 @@ public class IcqAccountRoot extends AccountRoot {
 
   public void updateMainFrameBuddyList() {
     for ( int c = 0; c < buddyItems.size(); c++ ) {
-      for ( int i = 0; i < ( ( GroupHeader ) buddyItems.elementAt( c ) ).getChildsCount(); i++ ) {
-        ( ( BuddyItem ) ( ( GroupHeader ) buddyItems.elementAt( c ) ).getChilds().elementAt( i ) ).updateUiData();
+      for ( int i = 0; i < ( ( GroupHeader ) buddyItems.elementAt( c ) )
+              .getChildsCount(); i++ ) {
+        ( ( BuddyItem ) ( ( GroupHeader ) buddyItems.elementAt( c ) )
+                .getChilds().elementAt( i ) ).updateUiData();
       }
     }
     if ( MidletMain.mainFrame.getActiveAccountRoot().equals( this ) ) {
@@ -324,8 +316,10 @@ public class IcqAccountRoot extends AccountRoot {
     }
   }
 
-  public byte[] sendMessage( BuddyItem buddyItem, String string, String resource ) throws IOException {
-    return IcqPacketSender.sendMessage( session, buddyItem.getUserId(), string );
+  public byte[] sendMessage( BuddyItem buddyItem, String string, 
+          String resource ) throws IOException {
+    return IcqPacketSender.sendMessage( session, buddyItem.getUserId(), 
+            string );
   }
 
   public String getStatusImages() {
@@ -341,27 +335,44 @@ public class IcqAccountRoot extends AccountRoot {
   }
 
   public Cookie addGroup( String groupName, long itemId ) throws IOException {
-    return IcqPacketSender.addBuddy( session, StringUtil.stringToByteArray( groupName, true ), ( int ) itemId, 0x00, 0x0001, false, null );
+    return IcqPacketSender.addBuddy( session, StringUtil.stringToByteArray( 
+            groupName, true ), ( int ) itemId, 0x00, 0x0001, false, null );
   }
 
-  public Cookie addBuddy( String buddyId, BuddyGroup buddyGroup, String nickName, int type, long itemId ) throws IOException {
-    return IcqPacketSender.addBuddy( session, buddyId.getBytes(), ( ( IcqGroup ) buddyGroup ).groupId, ( int ) itemId, 0x00, true, StringUtil.stringToByteArray( nickName, true ) );
+  public Cookie addBuddy( String buddyId, BuddyGroup buddyGroup, 
+          String nickName, int type, long itemId ) throws IOException {
+    return IcqPacketSender.addBuddy( session, buddyId.getBytes(), 
+            ( ( IcqGroup ) buddyGroup ).groupId, ( int ) itemId, 0x00, true, 
+            StringUtil.stringToByteArray( nickName, true ) );
   }
 
-  public Cookie renameBuddy( String itemName, BuddyItem buddyItem, String phones ) throws IOException {
-    return IcqPacketSender.updateBuddy( session, buddyItem.getUserId().getBytes(), ( ( IcqItem ) buddyItem ).groupId, ( ( IcqItem ) buddyItem ).buddyId, 0x0000, ( ( IcqItem ) buddyItem ).isAvaitingAuth, StringUtil.stringToByteArray( itemName, true ) );
+  public Cookie renameBuddy( String itemName, BuddyItem buddyItem, 
+          String phones ) throws IOException {
+    return IcqPacketSender.updateBuddy( session, 
+            buddyItem.getUserId().getBytes(), 
+            ( ( IcqItem ) buddyItem ).groupId, 
+            ( ( IcqItem ) buddyItem ).buddyId, 0x0000, 
+            ( ( IcqItem ) buddyItem ).isAvaitingAuth, 
+            StringUtil.stringToByteArray( itemName, true ) );
   }
 
-  public Cookie renameGroup( String itemName, BuddyGroup buddyGroup ) throws IOException {
-    return IcqPacketSender.updateBuddy( session, StringUtil.stringToByteArray( itemName, true ), ( ( IcqGroup ) buddyGroup ).groupId, 0x0000, 0x0001, false, null );
+  public Cookie renameGroup( String itemName, BuddyGroup buddyGroup ) 
+          throws IOException {
+    return IcqPacketSender.updateBuddy( session, 
+            StringUtil.stringToByteArray( itemName, true ), 
+            ( ( IcqGroup ) buddyGroup ).groupId, 0x0000, 0x0001, false, null );
   }
 
-  public void requestAuth( String requestText, BuddyItem buddyItem ) throws IOException {
-    IcqPacketSender.authRequest( session, buddyItem.getUserId(), StringUtil.stringToByteArray( requestText, true ) );
+  public void requestAuth( String requestText, BuddyItem buddyItem ) 
+          throws IOException {
+    IcqPacketSender.authRequest( session, buddyItem.getUserId(), 
+            StringUtil.stringToByteArray( requestText, true ) );
   }
 
   public void acceptAuthorization( BuddyItem buddyItem ) throws IOException {
-    IcqPacketSender.authReply( session, buddyItem.getUserId(), true, StringUtil.stringToByteArray( Localization.getMessage( "DEFAULT_ACCEPT" ), true ) );
+    IcqPacketSender.authReply( session, buddyItem.getUserId(), true, 
+            StringUtil.stringToByteArray( 
+            Localization.getMessage( "DEFAULT_ACCEPT" ), true ) );
   }
 
   public void requestInfo( String userId, int reqSeqNum ) throws IOException {
@@ -369,11 +380,17 @@ public class IcqAccountRoot extends AccountRoot {
   }
 
   public Cookie removeBuddy( BuddyItem buddyItem ) throws IOException {
-    return IcqPacketSender.removeBuddy( session, buddyItem.getUserId(), ( ( IcqItem ) buddyItem ).groupId, ( ( IcqItem ) buddyItem ).buddyId, ( ( IcqItem ) buddyItem ).buddyType );
+    return IcqPacketSender.removeBuddy( session, buddyItem.getUserId(), 
+            ( ( IcqItem ) buddyItem ).groupId, 
+            ( ( IcqItem ) buddyItem ).buddyId, 
+            ( ( IcqItem ) buddyItem ).buddyType );
   }
 
   public Cookie removeGroup( BuddyGroup buddyGroup ) throws IOException {
-    return IcqPacketSender.removeBuddy( session, buddyGroup.getUserId(), ( ( IcqGroup ) buddyGroup ).groupId, ( ( IcqGroup ) buddyGroup ).buddyId, ( ( IcqGroup ) buddyGroup ).buddyType );
+    return IcqPacketSender.removeBuddy( session, buddyGroup.getUserId(), 
+            ( ( IcqGroup ) buddyGroup ).groupId, 
+            ( ( IcqGroup ) buddyGroup ).buddyId, 
+            ( ( IcqGroup ) buddyGroup ).buddyType );
   }
 
   public DirectConnection getDirectConnectionInstance() {

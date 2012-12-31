@@ -42,8 +42,7 @@ public class StatusReaderFrame extends Window {
                 .concat( " " ).concat( icqItem.getUserNick() ).concat( "\n" )
                 .concat( Localization.getMessage( "PLAIN_STATUS" ) )
                 .concat( "\n" ).concat( Localization.getMessage( IcqStatusUtil
-                .getStatusDescr( IcqStatusUtil.getStatusIndex(
-                icqItem.buddyStatus ) ) ) );
+                .getStatusDescr( icqItem.getStatusIndex() ) ) );
         if ( icqAccountRoot.statusId != -1 ) {
           MidletMain.buffer += "\n".concat( statusText.caption );
         }
@@ -63,8 +62,7 @@ public class StatusReaderFrame extends Window {
     statusHeader.setTitle( true );
     pane.addItem( statusHeader );
     Label statusLabel = new Label( Localization.getMessage( IcqStatusUtil
-            .getStatusDescr( IcqStatusUtil.getStatusIndex(
-            icqItem.buddyStatus ) ) ) );
+            .getStatusDescr( icqItem.getStatusIndex() ) ) );
     //! Setting status icon
     pane.addItem( statusLabel );
     if ( icqAccountRoot.statusId != -1 ) {

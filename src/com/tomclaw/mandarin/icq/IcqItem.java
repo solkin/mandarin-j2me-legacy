@@ -29,7 +29,6 @@ public class IcqItem extends BuddyItem {
   public int groupId;
   public int buddyId;
   public boolean isAvaitingAuth;
-  public int buddyStatus;
   public int unreadCount = 0;
   public Capability[] capabilities = new Capability[]{};
   public ClientInfo clientInfo = new ClientInfo();
@@ -51,7 +50,6 @@ public class IcqItem extends BuddyItem {
     groupId = 0;
     buddyType = 0;
     isAvaitingAuth = false;
-    buddyStatus = -1;
     imageLeftIndex = new int[ 1 ];
   }
 
@@ -62,7 +60,6 @@ public class IcqItem extends BuddyItem {
     groupId = 0;
     buddyType = 0;
     isAvaitingAuth = false;
-    buddyStatus = -1;
     imageLeftIndex = new int[ 1 ];
   }
 
@@ -74,7 +71,6 @@ public class IcqItem extends BuddyItem {
     groupId = 0;
     buddyType = 0;
     isAvaitingAuth = false;
-    buddyStatus = -1;
     imageLeftIndex = new int[ 1 ];
   }
 
@@ -108,12 +104,12 @@ public class IcqItem extends BuddyItem {
       }
     }
     weight = 0;
-    if ( capabilities != null && buddyStatus != -1 
+    if ( capabilities != null && getStatusIndex() != 0 
             && MidletMain.isSortOnline ) {
       aStatusCap = CapUtil.getCapabilityByType( capabilities, 
               Capability.CAP_ASTATUS );
       weight = -2;
-    } else if ( buddyStatus != -1 && MidletMain.isSortOnline ) {
+    } else if ( getStatusIndex() != 0 && MidletMain.isSortOnline ) {
       weight = -2;
     }
     if ( unreadCount > 0 ) {
@@ -126,9 +122,8 @@ public class IcqItem extends BuddyItem {
       chatImage = 11;
     }
     this.imageLeftIndex = new int[]{ chatImage, ( aStatusCap != null 
-            && buddyStatus != -1 ) ? ( Integer.parseInt( 
-            aStatusCap.capIcon.substring( 9 ) ) ) : IcqStatusUtil
-            .getStatusIndex( buddyStatus ), xStatus };
+            && getStatusIndex() != 0 ) ? ( Integer.parseInt( 
+            aStatusCap.capIcon.substring( 9 ) ) ) : getStatusIndex(), xStatus };
     this.imageRightIndex = new int[]{ -1, -1, -1, -1, -1 };
     if ( this.isInPermitList ) {
       imageRightIndex[0] = IconsType.PLIST_VISIBLE;

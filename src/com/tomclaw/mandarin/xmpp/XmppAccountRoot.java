@@ -210,7 +210,7 @@ public class XmppAccountRoot extends AccountRoot {
   }
 
   public void connectAction( final long statusId ) {
-    if ( isConnecting ) {
+    if ( isConnecting || this.statusId != 0 ) {
       return;
     }
     /** Need to connect **/

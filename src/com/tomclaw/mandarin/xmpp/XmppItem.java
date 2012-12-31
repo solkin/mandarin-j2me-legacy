@@ -140,9 +140,13 @@ public class XmppItem extends BuddyItem {
   }
   
   public void setStatusIndex(int statusIndex, String resource) {
-    Resource _resource = getResource( resource );
-    if(_resource != null) {
-      _resource.statusIndex = statusIndex;
+    if(resource == null) {
+      offlineResources();
+    } else {
+      Resource _resource = getResource( resource );
+      if(_resource != null) {
+        _resource.statusIndex = statusIndex;
+      }
     }
   }
 

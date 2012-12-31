@@ -17,7 +17,6 @@ public class MmpItem extends BuddyItem {
   public long groupId;
   public int buddyId;
   public boolean isAvaitingAuth;
-  public long buddyStatus;
   public int unreadCount = 0;
   public long servFlags;
   public long flags;
@@ -43,7 +42,6 @@ public class MmpItem extends BuddyItem {
     groupId = 0;
     buddyType = 0;
     isAvaitingAuth = false;
-    buddyStatus = 0;
     imageLeftIndex = new int[1];
   }
 
@@ -55,7 +53,6 @@ public class MmpItem extends BuddyItem {
     groupId = 0;
     buddyType = 0;
     isAvaitingAuth = false;
-    buddyStatus = 0;
     imageLeftIndex = new int[1];
   }
 
@@ -80,10 +77,7 @@ public class MmpItem extends BuddyItem {
     this.title = userNick;
     int chatImage = -1;
     weight = 0;
-    if ( !MmpStatusUtil.expectIsStatus( buddyStatus ) ) {
-      buddyStatus = MmpStatusUtil.getStatus( 1 );
-    }
-    if ( buddyStatus != 0 && MidletMain.isSortOnline ) {
+    if ( getStatusIndex() != 0 && MidletMain.isSortOnline ) {
       weight = -2;
     }
     if ( unreadCount > 0 ) {
@@ -96,7 +90,7 @@ public class MmpItem extends BuddyItem {
       chatImage = 11;
     }
     imageLeftIndex = new int[]{chatImage, isPhone ? MmpStatusUtil.phoneStatus 
-            : MmpStatusUtil.getStatusIndex( buddyStatus ), -1};
+            : getStatusIndex(), -1};
     imageRightIndex = new int[]{-1, -1, -1, -1};
     if ( MidletMain.chatFrame != null ) {
       isBold = MidletMain.chatFrame.getChatTab( userId ) != null;

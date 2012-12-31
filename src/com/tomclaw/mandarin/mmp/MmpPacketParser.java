@@ -86,9 +86,7 @@ public class MmpPacketParser {
         MmpItem mmpItem;
         contactIdIncrm = 20;
         while ( offset < packet.data.length() ) {
-          /**
-           * Reading users
-           */
+          /** Reading users **/
           mmpItem = new MmpItem( "" );
           mmpItem.contactId = contactIdIncrm++;
           for ( int i = 0; i < buddyMask.length(); i++ ) {
@@ -129,9 +127,11 @@ public class MmpPacketParser {
               }
               case 5: { // u
                 // Status on-line
-                mmpItem.buddyStatus = DataUtil.get32( packet.data.byteString, offset, false );
+                mmpItem.setStatusIndex( MmpStatusUtil.getStatusIndex(
+                        DataUtil.get32( packet.data.byteString, offset,
+                        false ) ), null );
                 System.out.println( "mmpItem.buddyStatus "
-                        + "= " + mmpItem.buddyStatus );
+                        + "= " + mmpItem.getStatusIndex() );
                 offset += 4;
                 break;
               }
@@ -152,8 +152,7 @@ public class MmpPacketParser {
                           offset, length ) );
                   offset += length;
                   if ( !StringUtil.isNullOrEmpty( statusIdString ) ) {
-                    mmpItem.buddyStatus =
-                            MmpStatusUtil.getStatus( MmpStatusUtil.getStatusIndex( statusIdString ) );
+                    mmpItem.setStatusIndex( MmpStatusUtil.getStatusIndex( statusIdString ), null );
                   }
                 }
                 break;
@@ -173,10 +172,10 @@ public class MmpPacketParser {
               }
             }
           }
-          /**
-           * Adding user to it's group
-           */
-          LogUtil.outMessage( mmpItem.userNick + "(" + mmpItem.userId + ") >>" + mmpItem.groupId + " [" + mmpItem.flags + "] status = " + mmpItem.buddyStatus + " id: " + mmpItem.contactId );
+          /** Adding user to it's group **/
+          LogUtil.outMessage( mmpItem.userNick + "(" + mmpItem.userId + ") >>"
+                  + mmpItem.groupId + " [" + mmpItem.flags + "] status = "
+                  + mmpItem.getStatusIndex() + " id: " + mmpItem.contactId );
 
           if ( 0 == ( mmpItem.flags & PacketType.CONTACT_FLAG_REMOVED ) ) {
             if ( ( mmpItem.flags & PacketType.CONTACT_FLAG_PHONE ) == 0 ) {

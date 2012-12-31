@@ -76,12 +76,13 @@ public class MmpAccountRoot extends AccountRoot {
       tempGroupItem = ( ( GroupHeader ) buddyItems.elementAt( i ) );
       for ( int j = 0; j < ( ( GroupHeader ) tempGroupItem ).getChildsCount(); j++ ) {
         MmpItem tempIcqItem = ( ( MmpItem ) tempGroupItem.getChilds().elementAt( j ) );
-        tempIcqItem.buddyStatus = 0;
+        tempIcqItem.setStatusIndex( 0, null );
       }
     }
   }
 
-  public byte[] sendMessage( BuddyItem buddyItem, String string, String resource ) throws IOException {
+  public byte[] sendMessage( BuddyItem buddyItem, String string,
+          String resource ) throws IOException {
     byte[] cookie = new byte[ 8 ];
     if ( buddyItem.isPhone() ) {
       String userPhone = buddyItem.getUserId();
@@ -90,8 +91,10 @@ public class MmpAccountRoot extends AccountRoot {
       }
       MmpPacketSender.MRIM_CS_SMS_MESSAGE( this, userPhone, string );
     } else {
-      LogUtil.outMessage( ">>> contactItem.getUserId()=" + buddyItem.getUserId() );
-      cookie = MmpPacketSender.MRIM_CS_MESSAGE( this, buddyItem.getUserId(), string, 0x00000028, " " );
+      LogUtil.outMessage( ">>> contactItem.getUserId()="
+              + buddyItem.getUserId() );
+      cookie = MmpPacketSender.MRIM_CS_MESSAGE( this, buddyItem.getUserId(),
+              string, 0x00000028, " " );
     }
     return cookie;
   }
@@ -101,8 +104,10 @@ public class MmpAccountRoot extends AccountRoot {
     for ( int c = 0; c < buddyItems.size(); c++ ) {
       groupItem = ( GroupHeader ) buddyItems.elementAt( c );
       for ( int i = 0; i < groupItem.getChildsCount(); i++ ) {
-        if ( ( ( MmpItem ) groupItem.getChilds().elementAt( i ) ).userId.equals( buddyId ) ) {
-          ( ( MmpItem ) groupItem.getChilds().elementAt( i ) ).buddyStatus = buddyStatus;
+        if ( ( ( MmpItem ) groupItem.getChilds().elementAt( i ) ).userId
+                .equals( buddyId ) ) {
+          ( ( MmpItem ) groupItem.getChilds().elementAt( i ) ).setStatusIndex(
+                  MmpStatusUtil.getStatusIndex( buddyStatus ), null );
           ( ( MmpItem ) groupItem.getChilds().elementAt( i ) ).updateUiData();
           updateMainFrameBuddyList();
           return ( ( MmpItem ) groupItem.getChilds().elementAt( i ) );
@@ -117,8 +122,10 @@ public class MmpAccountRoot extends AccountRoot {
     for ( int c = 0; c < buddyItems.size(); c++ ) {
       groupItem = ( GroupHeader ) buddyItems.elementAt( c );
       for ( int i = 0; i < groupItem.getChildsCount(); i++ ) {
-        if ( ( ( MmpItem ) groupItem.getChilds().elementAt( i ) ).userId.equals( buddyId ) ) {
-          return ( ( MmpItem ) groupItem.getChilds().elementAt( i ) ).buddyStatus;
+        if ( ( ( MmpItem ) groupItem.getChilds().elementAt( i ) ).userId
+                .equals( buddyId ) ) {
+          return MmpStatusUtil.getStatus( ( ( MmpItem ) groupItem.getChilds()
+                  .elementAt( i ) ).getStatusIndex() );
         }
       }
     }
@@ -130,8 +137,10 @@ public class MmpAccountRoot extends AccountRoot {
       if ( buddyItems.elementAt( c ) instanceof MmpGroup ) {
         ( ( MmpGroup ) buddyItems.elementAt( c ) ).updateUiData();
       }
-      for ( int i = 0; i < ( ( GroupHeader ) buddyItems.elementAt( c ) ).getChildsCount(); i++ ) {
-        ( ( MmpItem ) ( ( GroupHeader ) buddyItems.elementAt( c ) ).getChilds().elementAt( i ) ).updateUiData();
+      for ( int i = 0; i < ( ( GroupHeader ) buddyItems.elementAt( c ) )
+              .getChildsCount(); i++ ) {
+        ( ( MmpItem ) ( ( GroupHeader ) buddyItems.elementAt( c ) )
+                .getChilds().elementAt( i ) ).updateUiData();
       }
     }
     if ( MidletMain.mainFrame.getActiveAccountRoot().equals( this ) ) {
@@ -141,7 +150,7 @@ public class MmpAccountRoot extends AccountRoot {
   }
 
   public void connectAction( final long statusId ) {
-    if ( isConnecting ) {
+    if ( isConnecting || this.statusId != MmpStatusUtil.getStatus( 0 ) ) {
       return;
     }
     isConnecting = true;
@@ -155,7 +164,8 @@ public class MmpAccountRoot extends AccountRoot {
           }
         }
         try {
-          if ( session.login_stage( host + ":" + port, userId, userPassword, statusId, statusText, statusDscr ) ) {
+          if ( session.login_stage( host + ":" + port, userId, userPassword,
+                  statusId, statusText, statusDscr ) ) {
             this.statusId = statusId;
             LogUtil.outMessage( "Updating status in AccountStatus" );
             MidletMain.mainFrame.updateAccountsStatus();
@@ -203,40 +213,64 @@ public class MmpAccountRoot extends AccountRoot {
   }
 
   public Cookie addGroup( String groupName, long groupId ) throws IOException {
-    Cookie cookie = MmpPacketSender.MRIM_CS_ADD_CONTACT( this, groupId, 0x00000000, new byte[ 0 ], StringUtil.string1251ToByteArray( groupName ), new byte[ 0 ] );
+    Cookie cookie = MmpPacketSender.MRIM_CS_ADD_CONTACT( this, groupId,
+            0x00000000, new byte[ 0 ],
+            StringUtil.string1251ToByteArray( groupName ), new byte[ 0 ] );
     return cookie;
   }
 
-  public Cookie addBuddy( String buddyId, final BuddyGroup buddyGroup, String nickName, int type, long itemId ) throws IOException {
+  public Cookie addBuddy( String buddyId, final BuddyGroup buddyGroup,
+          String nickName, int type, long itemId ) throws IOException {
     final boolean isTelephone = ( type == 0x02 );
     Cookie cookie;
     if ( isTelephone ) {
-      cookie = MmpPacketSender.MRIM_CS_ADD_CONTACT( this, 0x00100000, 0x67000000, "phone".getBytes(), StringUtil.string1251ToByteArray( nickName ), buddyId.getBytes() );
+      cookie = MmpPacketSender.MRIM_CS_ADD_CONTACT( this, 0x00100000,
+              0x67000000, "phone".getBytes(),
+              StringUtil.string1251ToByteArray( nickName ),
+              buddyId.getBytes() );
     } else {
-      cookie = MmpPacketSender.MRIM_CS_ADD_CONTACT( this, 0x00000000, ( ( MmpGroup ) buddyGroup ).getId()/*& 0x0000ffff*/, buddyId.getBytes(), StringUtil.string1251ToByteArray( nickName ), new byte[ 0 ] );
+      cookie = MmpPacketSender.MRIM_CS_ADD_CONTACT( this, 0x00000000,
+              ( ( MmpGroup ) buddyGroup ).getId()/*& 0x0000ffff*/,
+              buddyId.getBytes(),
+              StringUtil.string1251ToByteArray( nickName ), new byte[ 0 ] );
     }
     return cookie;
   }
 
-  public Cookie renameBuddy( final String itemName, final BuddyItem buddyItem, String phones ) throws IOException {
+  public Cookie renameBuddy( final String itemName, final BuddyItem buddyItem,
+          String phones ) throws IOException {
     String buddyId;
     if ( buddyItem.isPhone() ) {
       buddyId = "phone";
     } else {
       buddyId = ( ( MmpItem ) buddyItem ).userId;
     }
-    return MmpPacketSender.MRIM_CS_MODIFY_CONTACT( this, ( ( MmpItem ) buddyItem ).contactId, ( ( MmpItem ) buddyItem ).flags/* >> 24*/, ( ( MmpItem ) buddyItem ).groupId, buddyId.getBytes(), StringUtil.string1251ToByteArray( itemName ), phones == null ? "" : phones );
+    return MmpPacketSender.MRIM_CS_MODIFY_CONTACT( this,
+            ( ( MmpItem ) buddyItem ).contactId,
+            ( ( MmpItem ) buddyItem ).flags/* >> 24*/,
+            ( ( MmpItem ) buddyItem ).groupId, buddyId.getBytes(),
+            StringUtil.string1251ToByteArray( itemName ),
+            phones == null ? "" : phones );
   }
 
-  public Cookie renameGroup( final String itemName, final BuddyGroup buddyGroup ) throws IOException {
-    return MmpPacketSender.MRIM_CS_MODIFY_CONTACT( this, ( ( MmpGroup ) buddyGroup ).contactId, ( ( MmpGroup ) buddyGroup ).flags, 0, StringUtil.string1251ToByteArray( ( ( MmpGroup ) buddyGroup ).userId ), StringUtil.string1251ToByteArray( itemName ), "" );
+  public Cookie renameGroup( final String itemName,
+          final BuddyGroup buddyGroup ) throws IOException {
+    return MmpPacketSender.MRIM_CS_MODIFY_CONTACT( this,
+            ( ( MmpGroup ) buddyGroup ).contactId,
+            ( ( MmpGroup ) buddyGroup ).flags, 0,
+            StringUtil.string1251ToByteArray(
+            ( ( MmpGroup ) buddyGroup ).userId ),
+            StringUtil.string1251ToByteArray( itemName ), "" );
   }
 
-  public void requestAuth( String requestText, BuddyItem buddyItem ) throws IOException {
+  public void requestAuth( String requestText, BuddyItem buddyItem )
+          throws IOException {
     byte[] data = StringUtil.string1251ToByteArray( requestText );
-    String reasonText = "AgAAAAAAAAAGAAAA".concat( Base64.encode( data, 0, data.length ) );
+    String reasonText = "AgAAAAAAAAAGAAAA".concat(
+            Base64.encode( data, 0, data.length ) );
     LogUtil.outMessage( reasonText );
-    MmpPacketSender.MRIM_CS_MESSAGE( this, buddyItem.getUserId(), reasonText, DataUtil.reverseLong( PacketType.MESSAGE_FLAG_AUTHORIZE ), "" );
+    MmpPacketSender.MRIM_CS_MESSAGE( this, buddyItem.getUserId(), reasonText,
+            DataUtil.reverseLong( PacketType.MESSAGE_FLAG_AUTHORIZE ), "" );
   }
 
   public void acceptAuthorization( BuddyItem buddyItem ) throws IOException {
@@ -255,11 +289,23 @@ public class MmpAccountRoot extends AccountRoot {
     } else {
       buddyId = ( ( MmpItem ) buddyItem ).userId;
     }
-    return MmpPacketSender.MRIM_CS_MODIFY_CONTACT( this, ( ( MmpItem ) buddyItem ).contactId, ( ( MmpItem ) buddyItem ).flags | PacketType.CONTACT_FLAG_REMOVED, ( ( MmpItem ) buddyItem ).groupId, buddyId.getBytes(), StringUtil.string1251ToByteArray( ( ( MmpItem ) buddyItem ).userNick ), phones == null ? "" : phones );
+    return MmpPacketSender.MRIM_CS_MODIFY_CONTACT( this,
+            ( ( MmpItem ) buddyItem ).contactId,
+            ( ( MmpItem ) buddyItem ).flags | PacketType.CONTACT_FLAG_REMOVED,
+            ( ( MmpItem ) buddyItem ).groupId, buddyId.getBytes(),
+            StringUtil.string1251ToByteArray(
+            ( ( MmpItem ) buddyItem ).userNick ), phones == null ? "" : phones );
   }
 
   public Cookie removeGroup( final BuddyGroup groupHeader ) throws IOException {
-    return MmpPacketSender.MRIM_CS_MODIFY_CONTACT( this, ( ( MmpGroup ) groupHeader ).contactId, ( ( MmpGroup ) groupHeader ).flags | PacketType.CONTACT_FLAG_REMOVED/*0x03020001*/, 0, StringUtil.string1251ToByteArray( ( ( MmpGroup ) groupHeader ).userId ), StringUtil.string1251ToByteArray( ( ( MmpGroup ) groupHeader ).userId ), "" );
+    return MmpPacketSender.MRIM_CS_MODIFY_CONTACT( this,
+            ( ( MmpGroup ) groupHeader ).contactId,
+            ( ( MmpGroup ) groupHeader ).flags
+            | PacketType.CONTACT_FLAG_REMOVED/*0x03020001*/, 0,
+            StringUtil.string1251ToByteArray(
+            ( ( MmpGroup ) groupHeader ).userId ),
+            StringUtil.string1251ToByteArray(
+            ( ( MmpGroup ) groupHeader ).userId ), "" );
   }
 
   public DirectConnection getDirectConnectionInstance() {
@@ -267,6 +313,7 @@ public class MmpAccountRoot extends AccountRoot {
   }
 
   public long getNextItemId() {
-    return 0x00000002 | ( ( new Random( System.currentTimeMillis() ).nextLong() ) & 0xffff0000 );
+    return 0x00000002 | ( ( new Random(
+            System.currentTimeMillis() ).nextLong() ) & 0xffff0000 );
   }
 }
