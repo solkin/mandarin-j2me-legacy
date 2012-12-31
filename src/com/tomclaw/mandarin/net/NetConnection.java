@@ -12,7 +12,7 @@ import javax.microedition.io.SecureConnection;
 import javax.microedition.io.SocketConnection;
 
 /**
- * Solkin Igor Viktorovich, TomClaw Software, 2003-2012
+ * Solkin Igor Viktorovich, TomClaw Software, 2003-2013
  * http://www.tomclaw.com/
  * @author Solkin
  */

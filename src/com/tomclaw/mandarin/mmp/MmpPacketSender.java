@@ -8,7 +8,7 @@ import com.tomclaw.utils.StringUtil;
 import java.io.IOException;
 
 /**
- * Solkin Igor Viktorovich, TomClaw Software, 2003-2012
+ * Solkin Igor Viktorovich, TomClaw Software, 2003-2013
  * http://www.tomclaw.com/
  * @author Solkin
  */

@@ -3,7 +3,7 @@ package com.tomclaw.mandarin.mmp;
 import com.tomclaw.mandarin.main.BuddyGroup;
 
 /**
- * Solkin Igor Viktorovich, TomClaw Software, 2003-2012
+ * Solkin Igor Viktorovich, TomClaw Software, 2003-2013
  * http://www.tomclaw.com/
  * @author Solkin
  */

@@ -7,7 +7,7 @@ import com.tomclaw.utils.LogUtil;
 import com.tomclaw.utils.StringUtil;
 
 /**
- * Solkin Igor Viktorovich, TomClaw Software, 2003-2012
+ * Solkin Igor Viktorovich, TomClaw Software, 2003-2013
  * http://www.tomclaw.com/
  * @author Solkin
  */
