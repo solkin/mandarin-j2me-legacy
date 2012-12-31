@@ -745,7 +745,7 @@ public class MainFrame extends Window {
     icqSoft.leftSoft = new PopupItem( Localization.getMessage( "MENU" ) ) {
       public void actionPerformed() {
         IcqAccountRoot icqAccountRoot = ( ( IcqAccountRoot ) getActiveAccountRoot() );
-        /** Checking status icons **/
+        /** Checking statusIndex icons **/
         statusItem.imageFileHash = "/res/groups/img_icqstatus.png".hashCode();
         statusItem.imageIndex = icqAccountRoot.getStatusIndex();
         xStatusItem.imageFileHash = "/res/groups/img_xstatus.png".hashCode();
@@ -785,7 +785,7 @@ public class MainFrame extends Window {
             } else {
               if ( icqAccountRoot.statusId != -1 ) {
                 try {
-                  /** Plain status changing **/
+                  /** Plain statusIndex changing **/
                   IcqPacketSender.setStatus( icqAccountRoot.session, ( statusId < 0x1000 ) ? statusId : 0x0000 );
                   IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, statusId );
                   icqAccountRoot.statusId = statusId;
@@ -1356,8 +1356,8 @@ public class MainFrame extends Window {
     mmpSoft.leftSoft = new PopupItem( Localization.getMessage( "MENU" ) ) {
       public void actionPerformed() {
         MmpAccountRoot mmpAccountRoot = ( ( MmpAccountRoot ) getActiveAccountRoot() );
-        /** Checking status icons **/
-        /** Checking status icons **/
+        /** Checking statusIndex icons **/
+        /** Checking statusIndex icons **/
         statusItem.imageFileHash = "/res/groups/img_mmpstatus.png".hashCode();
         statusItem.imageIndex = mmpAccountRoot.getStatusIndex();
         /** Addings dialog popup items **/
@@ -1440,7 +1440,7 @@ public class MainFrame extends Window {
             } else {
               if ( mmpAccountRoot.statusId != 0 ) {
                 try {
-                  /** Plain status changing **/
+                  /** Plain statusIndex changing **/
                   MmpPacketSender.MRIM_CS_CHANGE_STATUS( mmpAccountRoot, 
                           statusId, mmpAccountRoot.statusText, 
                           mmpAccountRoot.statusDscr );
@@ -1577,8 +1577,8 @@ public class MainFrame extends Window {
     xmppSoft.leftSoft = new PopupItem( Localization.getMessage( "MENU" ) ) {
       public void actionPerformed() {
         XmppAccountRoot xmppAccountRoot = ( ( XmppAccountRoot ) getActiveAccountRoot() );
-        /** Checking status icons **/
-        /** Checking status icons **/
+        /** Checking statusIndex icons **/
+        /** Checking statusIndex icons **/
         statusItem.imageFileHash = "/res/groups/img_xmppstatus.png".hashCode();
         statusItem.imageIndex = xmppAccountRoot.getStatusIndex();
         /** Addings dialog popup items **/
@@ -1655,7 +1655,7 @@ public class MainFrame extends Window {
               }
             } else {
               if ( xmppAccountRoot.statusId != 0 ) {
-                /** Plain status changing **/
+                /** Plain statusIndex changing **/
                 try {
                   XmppSender.setStatus( xmppAccountRoot.xmppSession.xmlWriter, xmppAccountRoot.userId.concat( "/" ).concat( xmppAccountRoot.resource ),
                           XmppStatusUtil.statuses[statusId], "", xmppAccountRoot.priority );
@@ -1663,7 +1663,7 @@ public class MainFrame extends Window {
                   if ( xmppAccountRoot.conferenceGroup != null && xmppAccountRoot.conferenceGroup.getChildsCount() > 0 ) {
                     for ( int c = 0; c < xmppAccountRoot.conferenceGroup.getChilds().size(); c++ ) {
                       XmppItem groupChatItem = ( XmppItem ) xmppAccountRoot.conferenceGroup.getChilds().elementAt( c );
-                      if ( groupChatItem.getStatusId() != XmppStatusUtil.offlineIndex ) {
+                      if ( groupChatItem.getStatusIndex() != XmppStatusUtil.offlineIndex ) {
                         XmppSender.sendPresence( xmppAccountRoot.xmppSession.xmlWriter, null, groupChatItem.userId,
                                 null, XmppStatusUtil.statuses[statusId], "", xmppAccountRoot.priority, false, null, null );
                       }
@@ -1741,7 +1741,7 @@ public class MainFrame extends Window {
               dialogsPopup.addSubItem( new PopupItem(
                       ( ( resource.resource.length() == 0 && xmppItem.isGroupChat ) ? Localization.getMessage( "XMPP_ROOM" ) : ( resource.resource.length() == 0 ? Localization.getMessage( "XMPP_ALL_RESOURCES" ) : resource.resource ) ),
                       "/res/groups/img_xmppstatus.png".hashCode(),
-                      ( ( resource.resource.length() == 0 && xmppItem.isGroupChat ) ? XmppStatusUtil.groupChatIndex : ( ( resource.resource.length() == 0 ) ? XmppStatusUtil.onlineIndex : resource.status ) ) ) {
+                      ( ( resource.resource.length() == 0 && xmppItem.isGroupChat ) ? XmppStatusUtil.groupChatIndex : ( ( resource.resource.length() == 0 ) ? XmppStatusUtil.onlineIndex : resource.statusIndex ) ) ) {
                 public void actionPerformed() {
                   LogUtil.outMessage( "Of multiple resource: " + resource.resource );
                   XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) getActiveAccountRoot();
@@ -1757,7 +1757,7 @@ public class MainFrame extends Window {
               sendFilePopup.addSubItem( new PopupItem(
                       ( ( resource.resource.length() == 0 && xmppItem.isGroupChat ) ? Localization.getMessage( "XMPP_ROOM" ) : ( resource.resource.length() == 0 ? Localization.getMessage( "XMPP_ALL_RESOURCES" ) : resource.resource ) ),
                       "/res/groups/img_xmppstatus.png".hashCode(),
-                      ( ( resource.resource.length() == 0 && xmppItem.isGroupChat ) ? XmppStatusUtil.groupChatIndex : ( ( resource.resource.length() == 0 ) ? XmppStatusUtil.onlineIndex : resource.status ) ) ) {
+                      ( ( resource.resource.length() == 0 && xmppItem.isGroupChat ) ? XmppStatusUtil.groupChatIndex : ( ( resource.resource.length() == 0 ) ? XmppStatusUtil.onlineIndex : resource.statusIndex ) ) ) {
                 public void actionPerformed() {
                   LogUtil.outMessage( "Of multiple resource: " + resource.resource );
                   XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) getActiveAccountRoot();

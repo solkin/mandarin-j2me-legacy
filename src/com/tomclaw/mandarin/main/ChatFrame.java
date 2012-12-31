@@ -99,7 +99,7 @@ public class ChatFrame extends Window {
       public void actionPerformed() {
         ChatTab chatTab = ( ( ChatTab ) ChatFrame.this.chatTabs.items.elementAt( ChatFrame.this.chatTabs.selectedIndex ) );
         if ( chatTab.buddyItem instanceof XmppItem && !chatTab.resource.resource.equals( "" ) && MidletMain.isRemoveResources ) {
-          if ( chatTab.resource.status == XmppStatusUtil.offlineIndex ) {
+          if ( chatTab.resource.statusIndex == XmppStatusUtil.offlineIndex ) {
             ( ( XmppItem ) chatTab.buddyItem ).removeResource( chatTab.resource.resource );
             ( ( XmppItem ) chatTab.buddyItem ).updateUiData();
           }

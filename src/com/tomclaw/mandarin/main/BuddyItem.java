@@ -20,6 +20,7 @@ public abstract class BuddyItem extends GroupChild {
   public boolean isPhone;
   public boolean typingStatus;
   public int buddyType;
+  private int statusIndex = 0;
   /**
    * Typing thread
    */
@@ -115,5 +116,13 @@ public abstract class BuddyItem extends GroupChild {
 
   public boolean isPhone() {
     return isPhone;
+  }
+  
+  public void setStatusIndex(int statusIndex, String resource) {
+    this.statusIndex = statusIndex;
+  }
+  
+  public int getStatusIndex() {
+    return statusIndex;
   }
 }

@@ -4,6 +4,7 @@ import com.tomclaw.mandarin.icq.*;
 import com.tomclaw.mandarin.mmp.MmpAccountRoot;
 import com.tomclaw.mandarin.mmp.MmpItem;
 import com.tomclaw.mandarin.mmp.MmpStatusUtil;
+import com.tomclaw.mandarin.xmpp.Resource;
 import com.tomclaw.mandarin.xmpp.XmppAccountRoot;
 import com.tomclaw.mandarin.xmpp.XmppItem;
 import com.tomclaw.mandarin.xmpp.XmppSession;
@@ -35,7 +36,7 @@ public class ActionExec {
   }
 
   public static void disconnectEvent( AccountRoot accountRoot ) {
-    /** Switch all buddyes to offline status **/
+    /** Switch all buddyes to offline statusIndex **/
     accountRoot.offlineAllBuddyes();
     /** Update tab icons **/
     accountRoot.offlineAccount();
@@ -602,13 +603,14 @@ public class ActionExec {
       xmppAccountRoot.xmppSession.roster.put( XmppSession.getClearJid( from ), rosterItem );
       xmppAccountRoot.addTempItem( rosterItem );
     } else {
-      prevBuddyStatus = rosterItem.getResource( XmppSession.getJidResource( from ) ).status;
+      prevBuddyStatus = rosterItem.getResource( XmppSession.getJidResource( from ) ).statusIndex;
     }
     LogUtil.outMessage( "... present!" );
-    rosterItem.getResource( XmppSession.getJidResource( from ) ).status = statusIndex;
-    rosterItem.getResource( XmppSession.getJidResource( from ) ).statusText = t_status;
-    rosterItem.getResource( XmppSession.getJidResource( from ) ).caps = capsNode;
-    rosterItem.getResource( XmppSession.getJidResource( from ) ).ver = capsVer;
+    Resource _resource = rosterItem.getResource( XmppSession.getJidResource( from ) );
+    _resource.statusIndex = statusIndex;
+    _resource.statusText = t_status;
+    _resource.caps = capsNode;
+    _resource.ver = capsVer;
     rosterItem.updateUiData();
 
     ChatTab chatTab = MidletMain.chatFrame.getChatTab( xmppAccountRoot, XmppSession.getClearJid( from ), XmppSession.getJidResource( from ), false );

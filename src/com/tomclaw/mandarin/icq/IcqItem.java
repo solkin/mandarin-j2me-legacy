@@ -101,14 +101,17 @@ public class IcqItem extends BuddyItem {
     int xStatus = -1;
     int chatImage = -1;
     if ( capabilities != null ) {
-      Capability xStatusCap = CapUtil.getCapabilityByType( capabilities, Capability.CAP_XSTATUS );
+      Capability xStatusCap = CapUtil.getCapabilityByType( capabilities, 
+              Capability.CAP_XSTATUS );
       if ( xStatusCap != null ) {
         xStatus = Integer.parseInt( xStatusCap.capIcon.substring( 7 ) );
       }
     }
     weight = 0;
-    if ( capabilities != null && buddyStatus != -1 && MidletMain.isSortOnline ) {
-      aStatusCap = CapUtil.getCapabilityByType( capabilities, Capability.CAP_ASTATUS );
+    if ( capabilities != null && buddyStatus != -1 
+            && MidletMain.isSortOnline ) {
+      aStatusCap = CapUtil.getCapabilityByType( capabilities, 
+              Capability.CAP_ASTATUS );
       weight = -2;
     } else if ( buddyStatus != -1 && MidletMain.isSortOnline ) {
       weight = -2;
@@ -122,7 +125,10 @@ public class IcqItem extends BuddyItem {
     if ( typingStatus ) {
       chatImage = 11;
     }
-    this.imageLeftIndex = new int[]{ chatImage, ( aStatusCap != null && buddyStatus != -1 ) ? ( Integer.parseInt( aStatusCap.capIcon.substring( 9 ) ) ) : IcqStatusUtil.getStatusIndex( buddyStatus ), xStatus };
+    this.imageLeftIndex = new int[]{ chatImage, ( aStatusCap != null 
+            && buddyStatus != -1 ) ? ( Integer.parseInt( 
+            aStatusCap.capIcon.substring( 9 ) ) ) : IcqStatusUtil
+            .getStatusIndex( buddyStatus ), xStatus };
     this.imageRightIndex = new int[]{ -1, -1, -1, -1, -1 };
     if ( this.isInPermitList ) {
       imageRightIndex[0] = IconsType.PLIST_VISIBLE;
@@ -134,18 +140,21 @@ public class IcqItem extends BuddyItem {
       imageRightIndex[2] = IconsType.PLIST_IGNORE;
     }
     if ( capabilities != null ) {
-      aClient = CapUtil.getCapabilityByType( capabilities, Capability.CAP_CLIENTID );
+      aClient = CapUtil.getCapabilityByType( capabilities, 
+              Capability.CAP_CLIENTID );
       if ( aClient != null && !aClient.capName.equals( "" ) ) {
         imageRightIndex[3] = Integer.parseInt( aClient.capIcon.substring( 7 ) );
       }
     }
     if ( MidletMain.chatFrame != null ) {
       isBold = ( MidletMain.chatFrame.getChatTab( userId ) != null
-              || MidletMain.getBoolean( MidletMain.uniquest, String.valueOf( "icq" + getUserId().hashCode() ), "ON_TOP" ) );
+              || MidletMain.getBoolean( MidletMain.uniquest, String.valueOf( 
+              "icq" + getUserId().hashCode() ), "ON_TOP" ) );
       weight = isBold ? -3 : weight;
     }
     try {
-      if ( MidletMain.uniquest.getGroup( String.valueOf( "icq" + getUserId().hashCode() ) ) != null ) {
+      if ( MidletMain.uniquest.getGroup( String.valueOf( "icq" + getUserId()
+              .hashCode() ) ) != null ) {
         imageRightIndex[4] = 25;
       }
     } catch ( Throwable ex ) {

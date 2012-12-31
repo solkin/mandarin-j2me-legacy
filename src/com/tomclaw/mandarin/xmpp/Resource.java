@@ -7,7 +7,7 @@ package com.tomclaw.mandarin.xmpp;
  */
 public class Resource {
 
-  public int status = XmppStatusUtil.offlineIndex;
+  public int statusIndex = XmppStatusUtil.offlineIndex;
   public String statusText = null;
   public String resource = null;
   public int unreadCount = 0;

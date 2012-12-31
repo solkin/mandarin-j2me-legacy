@@ -13,13 +13,9 @@ import java.util.Hashtable;
  */
 public class XmppItem extends BuddyItem {
 
-  /**
-   * Buddy types
-   */
+  /** Buddy types **/
   public static final int NORMAL_BUDDY = 0x0002;
-  /**
-   * Variables
-   */
+  /** Variables **/
   public Hashtable resources = new Hashtable();
   public boolean isGroupChat = false;
   public String groupChatNick = null;
@@ -64,7 +60,7 @@ public class XmppItem extends BuddyItem {
     }
     int chatImage = -1;
     weight = 0;
-    int status = getStatusId();
+    int status = getStatusIndex();
     if ( status != XmppStatusUtil.offlineIndex && MidletMain.isSortOnline ) {
       weight = -2;
     }
@@ -128,7 +124,29 @@ public class XmppItem extends BuddyItem {
     return ( resources.remove( resource ) != null );
   }
 
-  public int getStatusId() {
+  public void offlineResources() {
+    if ( !resources.isEmpty() ) {
+      Resource resource;
+      Enumeration elements = resources.elements();
+      while ( elements.hasMoreElements() ) {
+        resource = ( Resource ) elements.nextElement();
+        resource.statusIndex = XmppStatusUtil.offlineIndex;
+      }
+    }
+  }
+
+  public int getBuddyType() {
+    return NORMAL_BUDDY;
+  }
+  
+  public void setStatusIndex(int statusIndex, String resource) {
+    Resource _resource = getResource( resource );
+    if(_resource != null) {
+      _resource.statusIndex = statusIndex;
+    }
+  }
+
+  public int getStatusIndex() {
     if ( isGroupChat ) {
       return XmppStatusUtil.groupChatIndex;
     } else {
@@ -137,27 +155,12 @@ public class XmppItem extends BuddyItem {
         Enumeration elements = resources.elements();
         while ( elements.hasMoreElements() ) {
           resource = ( Resource ) elements.nextElement();
-          if ( resource.status != XmppStatusUtil.offlineIndex ) {
-            return resource.status;
+          if ( resource.statusIndex != XmppStatusUtil.offlineIndex ) {
+            return resource.statusIndex;
           }
         }
       }
     }
     return XmppStatusUtil.offlineIndex;
-  }
-
-  public void offlineResources() {
-    if ( !resources.isEmpty() ) {
-      Resource resource;
-      Enumeration elements = resources.elements();
-      while ( elements.hasMoreElements() ) {
-        resource = ( Resource ) elements.nextElement();
-        resource.status = XmppStatusUtil.offlineIndex;
-      }
-    }
-  }
-
-  public int getBuddyType() {
-    return NORMAL_BUDDY;
   }
 }

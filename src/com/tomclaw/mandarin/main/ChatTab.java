@@ -47,7 +47,7 @@ public class ChatTab extends TabItem {
       if ( buddyItem.getUnreadCount( resourceTitle ) == 0 ) {
         this.imageFileHash = statusFileHash;
         if ( buddyItem instanceof XmppItem /*&& ((XmppItem) buddyItem).isGroupChat*/ && resource != null && resource.resource.length() > 0 ) {
-          this.imageIndex = resource.status;
+          this.imageIndex = resource.statusIndex;
         } else {
           this.imageIndex = buddyItem.getLeftImages()[1];
         }
