@@ -25,7 +25,7 @@ public abstract class AccountRoot {
   public String host = "";
   public String port = "";
   public Vector buddyItems = new Vector();
-  public long statusId = -1; // -1
+  public int statusIndex = 0;
   private String buddyListFile = null;
   public boolean isUseSsl = false;
   /**
@@ -56,7 +56,7 @@ public abstract class AccountRoot {
 
   public abstract void construct();
 
-  public abstract void connectAction( final long statusId );
+  public abstract void connectAction( final int statusIndex );
 
   public AccountRoot init( boolean isStart ) {
     /** Loading user nick, user password **/
@@ -88,8 +88,8 @@ public abstract class AccountRoot {
     this.unrMsgs = unrMsgs;
   }
 
-  public long getStatusId() {
-    return statusId;
+  public int getStatusIndex() {
+    return statusIndex;
   }
 
   public void setUserId( String userId ) {
@@ -133,8 +133,6 @@ public abstract class AccountRoot {
   public void setUseSsl( boolean isUseSsl ) {
     this.isUseSsl = isUseSsl;
   }
-
-  public abstract int getStatusIndex();
 
   public abstract void sendTypingStatus( String userId, boolean b );
 
@@ -200,7 +198,9 @@ public abstract class AccountRoot {
     }
   }
 
-  public abstract void offlineAccount();
+  public void offlineAccount() {
+    statusIndex = 0;
+  }
 
   public abstract void setTreeItems( Vector buddyList );
 

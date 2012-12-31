@@ -11,9 +11,7 @@ import java.util.TimerTask;
  */
 public abstract class BuddyItem extends GroupChild {
 
-  /**
-   * Variables
-   */
+  /** Variables **/
   public String userId;
   public String userNick;
   public String userPhone;

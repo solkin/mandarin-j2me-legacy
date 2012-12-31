@@ -621,8 +621,8 @@ public class MainFrame extends Window {
       if ( accountRoot instanceof IcqAccountRoot ) {
         /** Showing buddy items **/
         LogUtil.outMessage( "Installing images" );
-        buddyList.imageLeftFileHash = new int[]{ "/res/groups/img_chat.png".hashCode(), "/res/groups/img_icqstatus.png".hashCode(), "/res/groups/img_xstatus.png".hashCode() };
-        buddyList.imageRightFileHash = new int[]{ IconsType.HASH_PLIST, IconsType.HASH_PLIST, IconsType.HASH_PLIST, IconsType.HASH_CLIENTS, IconsType.HASH_MAIN };
+        buddyList.imageLeftFileHash = new int[] { "/res/groups/img_chat.png".hashCode(), "/res/groups/img_icqstatus.png".hashCode(), "/res/groups/img_xstatus.png".hashCode() };
+        buddyList.imageRightFileHash = new int[] { IconsType.HASH_PLIST, IconsType.HASH_PLIST, IconsType.HASH_PLIST, IconsType.HASH_CLIENTS, IconsType.HASH_MAIN };
         LogUtil.outMessage( "Preparing items" );
         buddyList.items = ( ( IcqAccountRoot ) accountRoot ).buddyItems;
         /** Loading ICQ account data **/
@@ -657,7 +657,7 @@ public class MainFrame extends Window {
         buddyList.selectedRow = ( ( IcqAccountRoot ) accountRoot ).selectedRow;
         LogUtil.outMessage( "Complete." );
       } else if ( accountRoot instanceof MmpAccountRoot ) {
-        buddyList.imageLeftFileHash = new int[]{ "/res/groups/img_chat.png".hashCode(), "/res/groups/img_mmpstatus.png".hashCode() };
+        buddyList.imageLeftFileHash = new int[] { "/res/groups/img_chat.png".hashCode(), "/res/groups/img_mmpstatus.png".hashCode() };
         buddyList.items = ( ( MmpAccountRoot ) accountRoot ).buddyItems;
         if ( mmpSoft == null ) {
           initMmpSoft();
@@ -668,7 +668,7 @@ public class MainFrame extends Window {
         buddyList.selectedColumn = ( ( MmpAccountRoot ) accountRoot ).selectedColumn;
         buddyList.selectedRow = ( ( MmpAccountRoot ) accountRoot ).selectedRow;
       } else if ( accountRoot instanceof XmppAccountRoot ) {
-        buddyList.imageLeftFileHash = new int[]{ "/res/groups/img_chat.png".hashCode(), "/res/groups/img_xmppstatus.png".hashCode() };
+        buddyList.imageLeftFileHash = new int[] { "/res/groups/img_chat.png".hashCode(), "/res/groups/img_xmppstatus.png".hashCode() };
         buddyList.items = ( ( XmppAccountRoot ) accountRoot ).buddyItems;
         if ( xmppSoft == null ) {
           initXmppSoft();
@@ -770,25 +770,25 @@ public class MainFrame extends Window {
         public void actionPerformed() {
           final IcqAccountRoot icqAccountRoot = ( IcqAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
           /** Status is selected **/
-          if ( icqAccountRoot.statusId == -1 && statusId != -1 ) {
+          if ( icqAccountRoot.statusIndex == 0 && statusId != -1 ) {
             /** Need to connect **/
             String statusData = MidletMain.getString( MidletMain.statuses, "PStatus", String.valueOf( statusId ) );
             icqAccountRoot.statusText = statusData.substring( 0, ( statusData.indexOf( "&rdb" ) == -1 ) ? statusData.length() : statusData.indexOf( "&rdb" ) );
             icqAccountRoot.isPStatusReadable = ( statusData.indexOf( "&rdb" ) == -1 )
                     ? false : statusData.substring( statusData.indexOf( "&rdb" ) + 4 ).equals( "true" );
-            icqAccountRoot.connectAction( statusId );
+            icqAccountRoot.connectAction( IcqStatusUtil.getStatusIndex( statusId ) );
           } else {
-            if ( icqAccountRoot.statusId != -1 && statusId == -1 ) {
+            if ( icqAccountRoot.statusIndex != 0 && statusId == -1 ) {
               /** Need go offline **/
               ActionExec.disconnectEvent( icqAccountRoot );
               icqAccountRoot.session.disconnect();
             } else {
-              if ( icqAccountRoot.statusId != -1 ) {
+              if ( icqAccountRoot.statusIndex != 0 ) {
                 try {
                   /** Plain statusIndex changing **/
                   IcqPacketSender.setStatus( icqAccountRoot.session, ( statusId < 0x1000 ) ? statusId : 0x0000 );
                   IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, statusId );
-                  icqAccountRoot.statusId = statusId;
+                  icqAccountRoot.statusIndex = IcqStatusUtil.getStatusIndex( statusId );
                   // accountRoot.statusText = "";
                   icqAccountRoot.isPStatusReadable = false;
                   updateAccountsStatus();
@@ -822,9 +822,9 @@ public class MainFrame extends Window {
         icqAccountRoot.xText = "";
         icqAccountRoot.isXStatusReadable = false;
         icqAccountRoot.saveAllSettings();
-        if ( icqAccountRoot.statusId != -1 ) {
+        if ( icqAccountRoot.statusIndex != 0 ) {
           try {
-            IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, (int)icqAccountRoot.statusId );
+            IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, IcqStatusUtil.getStatus( icqAccountRoot.statusIndex ) );
             //! MidletMain.saveStatusSettings(accountRoot, accountRoot.xStatusId, accountRoot.pStatusId, accountRoot.privateBuddyId);
           } catch ( IOException ex ) {
             LogUtil.outMessage( "Can't set xstatus", true );
@@ -851,10 +851,11 @@ public class MainFrame extends Window {
               icqAccountRoot.xText = "";
               icqAccountRoot.isXStatusReadable = false;
               icqAccountRoot.saveAllSettings();
-              if ( icqAccountRoot.statusId != -1 ) {
+              if ( icqAccountRoot.statusIndex != 0 ) {
                 try {
-                  IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, (int)icqAccountRoot.statusId );
-                  //! MidletMain.saveStatusSettings(accountRoot, accountRoot.xStatusId, accountRoot.pStatusId, accountRoot.privateBuddyId);
+                  IcqPacketSender.sendCapabilities( icqAccountRoot.session,
+                          icqAccountRoot.xStatusId,
+                          IcqStatusUtil.getStatus( icqAccountRoot.statusIndex ) );
                 } catch ( IOException ex ) {
                   LogUtil.outMessage( "Can't set xstatus", true );
                 }
@@ -1425,26 +1426,23 @@ public class MainFrame extends Window {
         public void actionPerformed() {
           final MmpAccountRoot mmpAccountRoot = ( MmpAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
           /** Status is selected **/
-          if ( mmpAccountRoot.statusId == 0 && statusId != 0 ) {
+          if ( mmpAccountRoot.statusIndex == 0 && statusId != 0 ) {
             /** Need to connect **/
-            new Thread() {
-              public void run() {
-                mmpAccountRoot.connectAction( statusId );
-              }
-            }.start();
+            mmpAccountRoot.connectAction( MmpStatusUtil.getStatusIndex( statusId ) );
           } else {
-            if ( mmpAccountRoot.statusId != 0 && statusId == 0 ) {
+            if ( mmpAccountRoot.statusIndex != 0 && statusId == 0 ) {
               /** Need go offline **/
               ActionExec.disconnectEvent( mmpAccountRoot );
               mmpAccountRoot.session.disconnect();
             } else {
-              if ( mmpAccountRoot.statusId != 0 ) {
+              if ( mmpAccountRoot.statusIndex != 0 ) {
                 try {
                   /** Plain statusIndex changing **/
-                  MmpPacketSender.MRIM_CS_CHANGE_STATUS( mmpAccountRoot, 
-                          statusId, mmpAccountRoot.statusText, 
+                  MmpPacketSender.MRIM_CS_CHANGE_STATUS( mmpAccountRoot,
+                          statusId, mmpAccountRoot.statusText,
                           mmpAccountRoot.statusDscr );
-                  mmpAccountRoot.statusId = statusId;
+                  mmpAccountRoot.statusIndex =
+                          MmpStatusUtil.getStatusIndex( statusId );
                   updateAccountsStatus();
                 } catch ( IOException ex ) {
                   LogUtil.outMessage( "Can't set status", true );
@@ -1457,12 +1455,12 @@ public class MainFrame extends Window {
       tempPopupItem.imageFileHash = statusImageHashCode;
       tempPopupItem.imageIndex = c;
       parentPopupItem.addSubItem( tempPopupItem );
-      if(c==MmpStatusUtil.baseStatusCount) {
+      if ( c == MmpStatusUtil.baseStatusCount ) {
         statusItem.addSubItem( extPopupItem );
         parentPopupItem = extPopupItem;
       }
     }
-    
+
     mmpSoft.leftSoft.addSubItem( accountPopupItem );
 
     mmpSoft.leftSoft.addSubItem( settingsPopupItem );
@@ -1636,36 +1634,36 @@ public class MainFrame extends Window {
 
     PopupItem tempPopupItem;
     for ( int c = 0; c < XmppStatusUtil.getStatusCount(); c++ ) {
-      final int statusId = c;
+      final int statusIndex = c;
       tempPopupItem = new PopupItem( Localization.getMessage( XmppStatusUtil.getStatusDescr( c ) ) ) {
         public void actionPerformed() {
           final XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
           /** Status is selected **/
-          if ( xmppAccountRoot.statusId == 0 && statusId != 0 ) {
-            xmppAccountRoot.connectAction(statusId);
+          if ( xmppAccountRoot.statusIndex == 0 && statusIndex != 0 ) {
+            xmppAccountRoot.connectAction( statusIndex );
           } else {
-            if ( xmppAccountRoot.statusId != 0 && statusId == 0 ) {
+            if ( xmppAccountRoot.statusIndex != 0 && statusIndex == 0 ) {
               /** Need go offline **/
               try {
                 xmppAccountRoot.xmppSession.disconnect();
-                xmppAccountRoot.statusId = statusId;
+                xmppAccountRoot.statusIndex = statusIndex;
                 ActionExec.disconnectEvent( xmppAccountRoot );
               } catch ( IOException ex ) {
                 LogUtil.outMessage( "Can't disconnect", true );
               }
             } else {
-              if ( xmppAccountRoot.statusId != 0 ) {
+              if ( xmppAccountRoot.statusIndex != 0 ) {
                 /** Plain statusIndex changing **/
                 try {
                   XmppSender.setStatus( xmppAccountRoot.xmppSession.xmlWriter, xmppAccountRoot.userId.concat( "/" ).concat( xmppAccountRoot.resource ),
-                          XmppStatusUtil.statuses[statusId], "", xmppAccountRoot.priority );
-                  xmppAccountRoot.statusId = statusId;
+                          XmppStatusUtil.statuses[statusIndex], "", xmppAccountRoot.priority );
+                  xmppAccountRoot.statusIndex = statusIndex;
                   if ( xmppAccountRoot.conferenceGroup != null && xmppAccountRoot.conferenceGroup.getChildsCount() > 0 ) {
                     for ( int c = 0; c < xmppAccountRoot.conferenceGroup.getChilds().size(); c++ ) {
                       XmppItem groupChatItem = ( XmppItem ) xmppAccountRoot.conferenceGroup.getChilds().elementAt( c );
                       if ( groupChatItem.getStatusIndex() != XmppStatusUtil.offlineIndex ) {
                         XmppSender.sendPresence( xmppAccountRoot.xmppSession.xmlWriter, null, groupChatItem.userId,
-                                null, XmppStatusUtil.statuses[statusId], "", xmppAccountRoot.priority, false, null, null );
+                                null, XmppStatusUtil.statuses[statusIndex], "", xmppAccountRoot.priority, false, null, null );
                       }
                     }
                   }

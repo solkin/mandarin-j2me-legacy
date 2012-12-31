@@ -19,12 +19,7 @@ import java.util.Vector;
  */
 public class IcqAccountRoot extends AccountRoot {
 
-  /**
-   * Static settings
-   */
-  /**
-   * Data
-   */
+  /** Data **/
   public Vector t_OnlineItems = new Vector();
   public int xStatusId = -1;
   public int pStatusId = 1;
@@ -34,9 +29,7 @@ public class IcqAccountRoot extends AccountRoot {
   public String xText = "";
   public boolean isPStatusReadable = true;
   public boolean isXStatusReadable = true;
-  /**
-   * Threads and states
-   */
+  /** Threads and states **/
   public IcqSession session;
 
   public IcqAccountRoot( String userId ) {
@@ -44,7 +37,7 @@ public class IcqAccountRoot extends AccountRoot {
   }
 
   /**
-   * Storers
+   * Constructing account root
    */
   public void construct() {
     host = "login.icq.com";
@@ -61,7 +54,7 @@ public class IcqAccountRoot extends AccountRoot {
     pStatusId = MidletMain.getInteger( MidletMain.accounts, userId, "pStatusId" );
     privateBuddyId = MidletMain.getInteger( MidletMain.accounts, userId, "privateBuddyId" );
     /** Status **/
-    String statusData = MidletMain.getString( MidletMain.statuses, "PStatus", String.valueOf( statusId ) );
+    String statusData = MidletMain.getString( MidletMain.statuses, "PStatus", String.valueOf( statusIndex ) );
     statusText = statusData.substring( 0, ( statusData.indexOf( "&rdb" ) == -1 ) ? statusData.length() : statusData.indexOf( "&rdb" ) );
     isPStatusReadable = ( statusData.indexOf( "&rdb" ) == -1 )
             ? false : statusData.substring( statusData.indexOf( "&rdb" ) + 4 ).equals( "true" );
@@ -89,10 +82,6 @@ public class IcqAccountRoot extends AccountRoot {
     return "icq";
   }
 
-  public int getStatusIndex() {
-    return IcqStatusUtil.getStatusIndex( ( int ) statusId );
-  }
-
   public void sendTypingStatus( String userId, boolean b ) {
     try {
       IcqPacketSender.sendTypingStatus( session, userId, b );
@@ -101,8 +90,8 @@ public class IcqAccountRoot extends AccountRoot {
     }
   }
 
-  public void connectAction( final long statusId ) {
-    if ( isConnecting || this.statusId != IcqStatusUtil.getStatus( 0 ) ) {
+  public void connectAction( final int statusIndex ) {
+    if ( isConnecting || this.statusIndex != 0 ) {
       return;
     }
     new Thread() {
@@ -126,8 +115,8 @@ public class IcqAccountRoot extends AccountRoot {
               ActionExec.setConnectionStage( IcqAccountRoot.this, 1 );
               session.setNetConnection( netConnection );
               session.isRequestSsi = false;
-              session.login( ( int ) statusId );
-              IcqAccountRoot.this.statusId = statusId;
+              session.login( IcqStatusUtil.getStatus( statusIndex ) );
+              IcqAccountRoot.this.statusIndex = statusIndex;
               MidletMain.mainFrame.updateAccountsStatus();
               isConnecting = false;
               return;
@@ -324,10 +313,6 @@ public class IcqAccountRoot extends AccountRoot {
 
   public String getStatusImages() {
     return "/res/groups/img_icqstatus.png";
-  }
-
-  public void offlineAccount() {
-    this.statusId = IcqStatusUtil.getStatus( 0 );
   }
 
   public BuddyItem getItemInstance() {

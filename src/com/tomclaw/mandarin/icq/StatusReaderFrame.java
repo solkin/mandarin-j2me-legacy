@@ -43,14 +43,14 @@ public class StatusReaderFrame extends Window {
                 .concat( Localization.getMessage( "PLAIN_STATUS" ) )
                 .concat( "\n" ).concat( Localization.getMessage( IcqStatusUtil
                 .getStatusDescr( icqItem.getStatusIndex() ) ) );
-        if ( icqAccountRoot.statusId != -1 ) {
+        if ( icqAccountRoot.statusIndex != 0 ) {
           MidletMain.buffer += "\n".concat( statusText.caption );
         }
         if ( capability != null ) {
           MidletMain.buffer += "\n".concat(
                   Localization.getMessage( "X_STATUS" ) ).concat( "\n" )
                   .concat( Localization.getMessage( capability.capIcon ) );
-          if ( icqAccountRoot.statusId != -1 ) {
+          if ( icqAccountRoot.statusIndex != 0 ) {
             MidletMain.buffer += "\n".concat( xStatusDescr.caption );
           }
         }
@@ -65,7 +65,7 @@ public class StatusReaderFrame extends Window {
             .getStatusDescr( icqItem.getStatusIndex() ) ) );
     //! Setting status icon
     pane.addItem( statusLabel );
-    if ( icqAccountRoot.statusId != -1 ) {
+    if ( icqAccountRoot.statusIndex != 0 ) {
       statusText = new Label( Localization.getMessage( "REQUESTING" ) );
       pane.addItem( statusText );
     }
@@ -79,14 +79,14 @@ public class StatusReaderFrame extends Window {
       Label xStatusLabel = new Label(
               Localization.getMessage( capability.capIcon ) );
       pane.addItem( xStatusLabel );
-      if ( icqAccountRoot.statusId != -1 ) {
+      if ( icqAccountRoot.statusIndex != 0 ) {
         xStatusDescr = new Label( Localization.getMessage( "REQUESTING" ) );
         pane.addItem( xStatusDescr );
       }
     }
     /** Applying pane **/
     setGObject( pane );
-    if ( icqAccountRoot.statusId != -1 ) {
+    if ( icqAccountRoot.statusIndex != 0 ) {
       startStatusReading( icqAccountRoot, icqItem );
     }
   }

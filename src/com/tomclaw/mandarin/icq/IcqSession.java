@@ -615,45 +615,29 @@ public class IcqSession implements Runnable {
     snac.addWord( 0x0000 );
 
     snac.send( netConnection, ++seq );
-    /**
-     * Server sends ICBM service parameters to client
-     */
+    /** Server sends ICBM service parameters to client **/
     // receiveAllPackets();
-    /**
-     * Client ask server PRM service limitations
-     */
+    /** Client ask server PRM service limitations **/
     snac = new Snac( 0x0009, 0x0002, 0, 0, 13 );
     snac.send( netConnection, ++seq );
 
-    /**
-     * Server sends PRM service limitations to client
-     */
+    /** Server sends PRM service limitations to client **/
     receiveAllPackets();
 
-    /**
-     * Client ask server for SSI service limitations
-     */
+    /** Client ask server for SSI service limitations **/
     snac = new Snac( 0x0013, 0x0002, 0, 0, 14 );
     snac.send( netConnection, ++seq );
 
-    /**
-     * Server sends SSI service limitations to client
-     */
+    /** Server sends SSI service limitations to client **/
     receiveAllPackets();
 
     ActionExec.setConnectionStage( icqAccountRoot, 9 );
-    /**
-     * Client requests SSI
-     */
+    /** Client requests SSI **/
     snac = new Snac( 0x0013, 0x0004, 0, 0, 15 );
     snac.send( netConnection, ++seq );
-    /**
-     * Server sends client SSI
-     */
+    /** Server sends client SSI **/
     receiveAllPackets();
-    /**
-     * Client activates server SSI data
-     */
+    /** Client activates server SSI data **/
     snac = new Snac( 0x0013, 0x0007, 0, 0, 16 );
     snac.send( netConnection, ++seq );
 
@@ -668,9 +652,7 @@ public class IcqSession implements Runnable {
     /*****************************************************
      ************** Final actions ************************
      *****************************************************/
-    /**
-     * Client sends its DC info and status to server
-     */
+    /** Client sends its DC info and status to server **/
     Snac snac = new Snac( 0x0001, 0x001e, 0, 0, 6 );
     snac.addByteArray( new byte[]{
               ( byte ) 0x00, ( byte ) 0x06, ( byte ) 0x00, ( byte ) 0x04 } );
@@ -712,13 +694,9 @@ public class IcqSession implements Runnable {
               ( byte ) 0x00, ( byte ) 0x00
             } );
     snac.send( netConnection, ++seq );
-    /**
-     * Setting/Update private status
-     */
+    /** Setting/Update private status **/
     IcqPacketSender.setUpdatePrivacy( icqAccountRoot.session, icqAccountRoot.privateBuddyId, icqAccountRoot.pStatusId );
-    /**
-     * Client READY command
-     */
+    /** Client READY command **/
     snac = new Snac( 0x0001, 0x0002, 0, 0, 0x0002 );
 
     snac.addWord( 0x0001 );
@@ -758,13 +736,9 @@ public class IcqSession implements Runnable {
     snac.addDWord( 69636 );
 
     snac.send( netConnection, ++seq );
-    /**
-     * Requesting offline messages
-     */
+    /** Requesting offline messages **/
     IcqPacketSender.requestOfflineMessages( icqAccountRoot.session, icqAccountRoot.userId );
-    /**
-     * Looking for some stuff on server
-     */
+    /** Looking for some stuff on server **/
     Thread thread = new Thread( this );
     thread.start();
     ActionExec.setConnectionStage( icqAccountRoot, 10 );
@@ -868,8 +842,8 @@ public class IcqSession implements Runnable {
     } catch ( IOException ex ) {
       LogUtil.outMessage( "Disconnect failed: " + this.toString(), true );
     }
-    int prevStatus = (int)icqAccountRoot.statusId;
-    icqAccountRoot.statusId = IcqStatusUtil.getStatus( 0 );
+    int prevStatus = icqAccountRoot.statusIndex;
+    icqAccountRoot.statusIndex = 0;
     ActionExec.disconnectEvent( icqAccountRoot );
     if ( MidletMain.autoReconnect && isError ) {
       try {

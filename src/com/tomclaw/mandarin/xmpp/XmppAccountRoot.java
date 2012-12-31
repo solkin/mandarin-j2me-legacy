@@ -39,7 +39,6 @@ public class XmppAccountRoot extends AccountRoot {
 
     username = userId.substring( 0, userId.indexOf( '@' ) );
     domain = userId.substring( userId.indexOf( '@' ) + 1 );
-    statusId = XmppStatusUtil.offlineIndex;
     //resource = MidletMain.getString( MidletMain.accounts, jid, "resource" );
 
     if ( StringUtil.isNullOrEmpty( host ) ) {
@@ -60,10 +59,6 @@ public class XmppAccountRoot extends AccountRoot {
 
   public String getAccType() {
     return "xmpp";
-  }
-
-  public int getStatusIndex() {
-    return ( int ) statusId;
   }
 
   public void sendTypingStatus( String userId, boolean b ) {
@@ -134,10 +129,6 @@ public class XmppAccountRoot extends AccountRoot {
   public String getStatusImages() {
     return "/res/groups/img_xmppstatus.png";
   }
-  
-  public void offlineAccount() {
-    statusId = XmppStatusUtil.offlineIndex;
-  }
 
   public void setTreeItems( Vector buddyList ) {
     this.buddyItems = buddyList;
@@ -194,8 +185,8 @@ public class XmppAccountRoot extends AccountRoot {
     return 0;
   }
 
-  public void connectAction( final long statusId ) {
-    if ( isConnecting || this.statusId != 0 ) {
+  public void connectAction( final int statusIndex ) {
+    if ( isConnecting || this.statusIndex != 0 ) {
       return;
     }
     /** Need to connect **/
@@ -204,8 +195,8 @@ public class XmppAccountRoot extends AccountRoot {
         try {
           do {
             try {
-              xmppSession.connect( ( int ) statusId );
-              XmppAccountRoot.this.statusId = statusId;
+              xmppSession.connect( statusIndex );
+              XmppAccountRoot.this.statusIndex = statusIndex;
               MidletMain.mainFrame.updateAccountsStatus();
               isConnecting = false;
               return;

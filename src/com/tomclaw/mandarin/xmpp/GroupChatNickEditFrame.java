@@ -40,7 +40,7 @@ public class GroupChatNickEditFrame extends Window {
           XmppSender.sendPresence( xmppAccountRoot.xmppSession.xmlWriter, null, 
                   xmppItem.userId.concat( "/" ).concat( nickField.getText() ), 
                   null, XmppStatusUtil.getStatusDescr( 
-                  (int)xmppAccountRoot.statusId ), null, 5, false, null, null );
+                  xmppAccountRoot.statusIndex ), null, 5, false, null, null );
           xmppItem.groupChatNick = nickField.getText();
         } catch ( IOException ex ) {
         }

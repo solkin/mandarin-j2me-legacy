@@ -134,7 +134,7 @@ public class ServicesFrame extends Window {
     };
     /** Applying pane **/
     setGObject( hostChangePane );
-    if ( accountRoot.statusId == XmppStatusUtil.offlineIndex ) {
+    if ( accountRoot.statusIndex == XmppStatusUtil.offlineIndex ) {
       ActionExec.showFail( Localization.getMessage( "NO_CONNECTION" ) );
     }
   }

@@ -227,7 +227,7 @@ public class MmpSession implements Runnable {
     } catch ( Throwable ex ) {
       LogUtil.outMessage( "Disconnect failed: " + this.toString(), true );
     }
-    long prevStatus = mmpAccountRoot.statusId;
+    int prevStatus = mmpAccountRoot.statusIndex;
     ActionExec.disconnectEvent( mmpAccountRoot );
     if ( MidletMain.autoReconnect && isError ) {
       try {

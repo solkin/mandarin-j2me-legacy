@@ -48,13 +48,6 @@ public class MsimAccountRoot extends AccountRoot {
     return null;
   }
 
-  public void offlineAllBuddyes() {
-  }
-
-  public void offlineAccount() {
-    this.statusId = MsimStatusUtil.getStatus( 0 );
-  }
-
   public void setTreeItems( Vector buddyList ) {
     this.buddyItems = buddyList;
   }
@@ -113,7 +106,7 @@ public class MsimAccountRoot extends AccountRoot {
     return System.currentTimeMillis();
   }
 
-  public void connectAction( long statusId ) {
+  public void connectAction( int statusId ) {
     throw new UnsupportedOperationException( "Not supported yet." );
   }
 }

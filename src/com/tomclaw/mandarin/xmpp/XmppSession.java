@@ -145,13 +145,12 @@ public class XmppSession {
     XmppSender.setStatus( xmlWriter, xmppAccountRoot.userId.concat( "/" ).concat( xmppAccountRoot.resource ),
             XmppStatusUtil.statuses[status], "", 5 );
 
-    xmppAccountRoot.statusId = status;
+    xmppAccountRoot.statusIndex = status;
 
     ActionExec.setConnectionStage( xmppAccountRoot, 10 );
     isAlive = true;
 
     new Thread() {
-
       public void run() {
         try {
           while ( isAlive ) {
@@ -167,7 +166,6 @@ public class XmppSession {
     }.start();
 
     new Thread() {
-
       public void run() {
         try {
           parse();
@@ -177,12 +175,13 @@ public class XmppSession {
           System.err.println( ex.getMessage() );
         }
         LogUtil.outMessage( "XMPP parsing completed" );
-        xmppAccountRoot.statusId = XmppStatusUtil.offlineIndex;
+        xmppAccountRoot.statusIndex = XmppStatusUtil.offlineIndex;
         ActionExec.disconnectEvent( xmppAccountRoot );
         if ( isAlive ) {
           int prevStatus = xmppAccountRoot.getStatusIndex();
 
-          while ( MidletMain.autoReconnect && xmppAccountRoot.statusId == XmppStatusUtil.offlineIndex ) {
+          while ( MidletMain.autoReconnect && xmppAccountRoot.statusIndex
+                  == XmppStatusUtil.offlineIndex ) {
             try {
               xmppAccountRoot.xmppSession.disconnect();
             } catch ( IOException ex1 ) {
@@ -479,7 +478,7 @@ public class XmppSession {
                 LogUtil.outMessage( "unclassified appended" );
               }
               LogUtil.outMessage( "Roster parsed." );
-              ActionExec.setBuddyList( xmppAccountRoot, buddyItems, null, 0, 0, new byte[]{} );
+              ActionExec.setBuddyList( xmppAccountRoot, buddyItems, null, 0, 0, new byte[] {} );
               // Main.mainFrame.updateRoster();
             } else if ( xmlReader.getAttrValue( "xmlns", false ).equals( "http://jabber.org/protocol/disco#items" )
                     && xmlReader.tagType == XmlReader.TAG_PLAIN ) {
@@ -601,8 +600,8 @@ public class XmppSession {
                       field.setFocusable( true );
                       field.setFocused( isFocused );
                       isFocused = false;
-                      field.setName(fieldVar);
-                      field.setTitle(fieldLabel);
+                      field.setName( fieldVar );
+                      field.setTitle( fieldLabel );
                       field.constraints = TextField.PASSWORD;
                       objects.addElement( field );
                     }
@@ -611,7 +610,7 @@ public class XmppSession {
                       check.setFocusable( true );
                       check.setFocused( isFocused );
                       isFocused = false;
-                      check.setName(fieldVar);
+                      check.setName( fieldVar );
                       objects.addElement( check );
                     }
                     if ( fieldType.equals( "list-single" ) ) {
@@ -619,7 +618,7 @@ public class XmppSession {
                         objects.addElement( new Label( fieldLabel ) );
                       }
                       radioGroup = new RadioGroup();
-                      radioGroup.setName(fieldVar);
+                      radioGroup.setName( fieldVar );
                       radioValue = null;
                     }
                     if ( fieldType.equals( "jid-multi" ) ) {
@@ -630,7 +629,7 @@ public class XmppSession {
                       field.setFocusable( true );
                       field.setFocused( isFocused );
                       isFocused = false;
-                      field.setName(fieldVar);
+                      field.setName( fieldVar );
                       // field.constraints = TextField.EMAILADDR;
                       field.title = fieldLabel;
                       objects.addElement( field );
@@ -666,7 +665,7 @@ public class XmppSession {
                             isFocused = false;
                             while ( xmlReader.nextTag() && !( xmlReader.tagName.equals( "option" ) && ( xmlReader.tagType == XmlReader.TAG_CLOSING || xmlReader.tagType == XmlReader.TAG_SELFCLOSING ) ) ) {
                               if ( xmlReader.tagName.equals( "value" ) && xmlReader.tagType == XmlReader.TAG_CLOSING ) {
-                                radio.setName(xmlReader.getBody());
+                                radio.setName( xmlReader.getBody() );
                               }
                             }
                             objects.addElement( radio );
@@ -761,7 +760,6 @@ public class XmppSession {
               if ( xmppIBBytestream != null ) {
                 LogUtil.outMessage( "Transaction fround" );
                 new Thread() {
-
                   public void run() {
                     /** Sending file **/
                     LogUtil.outMessage( "File receiving ack" );
@@ -873,7 +871,6 @@ public class XmppSession {
                 xmppAccountRoot.getTransactionManager().addTransaction( directConnection );
 
                 new Thread() {
-
                   public void run() {
                     try {
                       LogUtil.outMessage( "Sending file receive" );

@@ -22,19 +22,13 @@ import java.util.Vector;
  */
 public class MmpAccountRoot extends AccountRoot {
 
-  /**
-   * Data
-   */
+  /** Data **/
   public String statusText = "Mandarin";
   public String statusDscr = MidletMain.version.concat( " [" ).concat( MidletMain.build.concat( "]" ) );
-  /**
-   * Runtime
-   */
+  /** Runtime **/
   public Stack queueActionStack;
   public MmpGroup phoneGroup = null;
-  /**
-   * Objects
-   */
+  /** Objects **/
   public MmpSession session;
 
   public MmpAccountRoot( String userId ) {
@@ -50,7 +44,6 @@ public class MmpAccountRoot extends AccountRoot {
     /** New session instance **/
     session = new MmpSession( this );
     serviceMessages = new ServiceMessages();
-    statusId = MmpStatusUtil.getStatus( 0 );
   }
 
   public void saveSpecialSettings() throws Throwable {
@@ -61,10 +54,6 @@ public class MmpAccountRoot extends AccountRoot {
 
   public String getAccType() {
     return "mmp";
-  }
-
-  public int getStatusIndex() {
-    return MmpStatusUtil.getStatusIndex( statusId );
   }
 
   public void sendTypingStatus( String userId, boolean b ) {
@@ -138,45 +127,50 @@ public class MmpAccountRoot extends AccountRoot {
     }
   }
 
-  public void connectAction( final long statusId ) {
-    if ( isConnecting || this.statusId != MmpStatusUtil.getStatus( 0 ) ) {
+  public void connectAction( final int statusIndex ) {
+    if ( isConnecting || this.statusIndex != 0 ) {
       return;
     }
     isConnecting = true;
-    try {
-      do {
-        if ( MidletMain.httpHiddenPing > 0 ) {
-          try {
-            NetConnection.httpPing( "http://www.mail.ru" );
-          } catch ( IOException ex ) {
-            LogUtil.outMessage( "HTTP hidden connection failed" );
-          }
-        }
+
+    new Thread() {
+      public void run() {
         try {
-          if ( session.login_stage( host + ":" + port, userId, userPassword,
-                  statusId, statusText, statusDscr ) ) {
-            this.statusId = statusId;
-            LogUtil.outMessage( "Updating status in AccountStatus" );
-            MidletMain.mainFrame.updateAccountsStatus();
-            ActionExec.setConnectionStage( this, 10 );
-          }
-          isConnecting = false;
-          return;
-        } catch ( IOException ex ) {
-          LogUtil.outMessage( "IO Exception" );
-          ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
-        } catch ( IncorrectAddressException ex ) {
-          LogUtil.outMessage( "Incorrect address" );
-          ActionExec.showError( Localization.getMessage( "INCORRECT_ADDRESS" ) );
-        } catch ( Throwable ex ) {
-          LogUtil.outMessage( "Throwable" );
-          ActionExec.showError( Localization.getMessage( "THROWABLE" ) );
+          do {
+            if ( MidletMain.httpHiddenPing > 0 ) {
+              try {
+                NetConnection.httpPing( "http://www.mail.ru" );
+              } catch ( IOException ex ) {
+                LogUtil.outMessage( "HTTP hidden connection failed" );
+              }
+            }
+            try {
+              if ( session.login_stage( host + ":" + port, userId, userPassword,
+                      MmpStatusUtil.getStatus( statusIndex ), statusText, statusDscr ) ) {
+                MmpAccountRoot.this.statusIndex = statusIndex;
+                LogUtil.outMessage( "Updating status in AccountStatus" );
+                MidletMain.mainFrame.updateAccountsStatus();
+                ActionExec.setConnectionStage( MmpAccountRoot.this, 10 );
+              }
+              isConnecting = false;
+              return;
+            } catch ( IOException ex ) {
+              LogUtil.outMessage( "IO Exception" );
+              ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
+            } catch ( IncorrectAddressException ex ) {
+              LogUtil.outMessage( "Incorrect address" );
+              ActionExec.showError( Localization.getMessage( "INCORRECT_ADDRESS" ) );
+            } catch ( Throwable ex ) {
+              LogUtil.outMessage( "Throwable" );
+              ActionExec.showError( Localization.getMessage( "THROWABLE" ) );
+            }
+            Thread.sleep( MidletMain.reconnectTime );
+          } while ( MidletMain.autoReconnect );
+        } catch ( InterruptedException ex ) {
         }
-        Thread.sleep( MidletMain.reconnectTime );
-      } while ( MidletMain.autoReconnect );
-    } catch ( InterruptedException ex ) {
-    }
-    isConnecting = false;
+        isConnecting = false;
+      }
+    }.start();
   }
 
   public void setTreeItems( Vector buddyList ) {
@@ -188,10 +182,6 @@ public class MmpAccountRoot extends AccountRoot {
 
   public String getStatusImages() {
     return "/res/groups/img_mmpstatus.png";
-  }
-
-  public void offlineAccount() {
-    this.statusId = MmpStatusUtil.getStatus( 0 );
   }
 
   public void setPrivateItems( Vector privateList ) {
