@@ -118,14 +118,6 @@ public class XmppAccountRoot extends AccountRoot {
     updateMainFrameUI();
   }
 
-  public void updateMainFrameUI() {
-    if ( MidletMain.mainFrame.getActiveAccountRoot().equals( this ) ) {
-      LogUtil.outMessage( "This account root is active" );
-      MidletMain.mainFrame.buddyList.items = this.buddyItems;
-      MidletMain.screen.repaint();
-    }
-  }
-
   public String getStatusImages() {
     return "/res/groups/img_xmppstatus.png";
   }
@@ -137,9 +129,6 @@ public class XmppAccountRoot extends AccountRoot {
   public void setPrivateItems( Vector privateList ) {
   }
 
-  public void sortBuddyes() {
-  }
-
   public BuddyItem getItemInstance() {
     return new XmppItem();
   }
@@ -148,19 +137,23 @@ public class XmppAccountRoot extends AccountRoot {
     return null;
   }
 
-  public Cookie addBuddy( String buddyId, BuddyGroup buddyGroup, String nickName, int type, long itemId ) throws IOException {
+  public Cookie addBuddy( String buddyId, BuddyGroup buddyGroup, 
+          String nickName, int type, long itemId ) throws IOException {
     return null;
   }
 
-  public Cookie renameBuddy( String itemName, BuddyItem buddyItem, String phones ) throws IOException {
+  public Cookie renameBuddy( String itemName, BuddyItem buddyItem, 
+          String phones ) throws IOException {
     return null;
   }
 
-  public Cookie renameGroup( String text, BuddyGroup buddyGroup ) throws IOException {
+  public Cookie renameGroup( String text, BuddyGroup buddyGroup ) 
+          throws IOException {
     return null;
   }
 
-  public void requestAuth( String text, BuddyItem buddyItem ) throws IOException {
+  public void requestAuth( String text, BuddyItem buddyItem ) 
+          throws IOException {
   }
 
   public void acceptAuthorization( BuddyItem buddyItem ) throws IOException {

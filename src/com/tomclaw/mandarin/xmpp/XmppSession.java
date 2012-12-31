@@ -745,8 +745,14 @@ public class XmppSession {
                 }
               }
               if ( isOk = true ) {
-                LogUtil.outMessage( "Receipment ".concat( from ).concat( " is ok to receive file for id ".concat( id ) ) );
-                XmppIBBytestream xmppIBBytestream = ( XmppIBBytestream ) xmppAccountRoot.transactionManager.getTransaction( StringUtil.stringToByteArray( id, true ) );
+                LogUtil.outMessage( "Receipment ".concat( from )
+                        .concat( " is ok to receive file for id "
+                        .concat( id ) ) );
+                XmppIBBytestream xmppIBBytestream =
+                        ( XmppIBBytestream ) xmppAccountRoot
+                        .getTransactionManager()
+                        .getTransaction( StringUtil
+                        .stringToByteArray( id, true ) );
                 if ( xmppIBBytestream != null ) {
                   xmppIBBytestream.sendStreamOpen();
                 }
@@ -756,7 +762,11 @@ public class XmppSession {
             if ( id.startsWith( "transaction_" ) ) {
               /** Searching for int_id in transaction **/
               LogUtil.outMessage( "Searching for id in transaction" );
-              final XmppIBBytestream xmppIBBytestream = ( XmppIBBytestream ) xmppAccountRoot.transactionManager.getTransaction( StringUtil.stringToByteArray( id.substring( "transaction_".length() ), true ) );
+              final XmppIBBytestream xmppIBBytestream =
+                      ( XmppIBBytestream ) xmppAccountRoot
+                      .getTransactionManager().getTransaction(
+                      StringUtil.stringToByteArray(
+                      id.substring( "transaction_".length() ), true ) );
               if ( xmppIBBytestream != null ) {
                 LogUtil.outMessage( "Transaction fround" );
                 new Thread() {

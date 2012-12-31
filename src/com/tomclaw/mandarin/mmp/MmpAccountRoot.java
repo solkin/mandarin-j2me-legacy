@@ -43,7 +43,6 @@ public class MmpAccountRoot extends AccountRoot {
   public void initSpecialData() {
     /** New session instance **/
     session = new MmpSession( this );
-    serviceMessages = new ServiceMessages();
   }
 
   public void saveSpecialSettings() throws Throwable {
@@ -121,10 +120,7 @@ public class MmpAccountRoot extends AccountRoot {
                 .getChilds().elementAt( i ) ).updateUiData();
       }
     }
-    if ( MidletMain.mainFrame.getActiveAccountRoot().equals( this ) ) {
-      MidletMain.mainFrame.buddyList.items = this.buddyItems;
-      MidletMain.screen.repaint();
-    }
+    updateMainFrameUI();
   }
 
   public void connectAction( final int statusIndex ) {
@@ -175,9 +171,6 @@ public class MmpAccountRoot extends AccountRoot {
 
   public void setTreeItems( Vector buddyList ) {
     this.buddyItems = buddyList;
-  }
-
-  public void sortBuddyes() {
   }
 
   public String getStatusImages() {

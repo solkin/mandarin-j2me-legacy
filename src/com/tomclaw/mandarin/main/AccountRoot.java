@@ -13,12 +13,7 @@ import java.util.Vector;
  */
 public abstract class AccountRoot {
 
-  /**
-   * Static settings
-   */
-  /**
-   * Data
-   */
+  /** Data **/
   public String userId;
   public String userNick;
   public String userPassword;
@@ -28,21 +23,16 @@ public abstract class AccountRoot {
   public int statusIndex = 0;
   private String buddyListFile = null;
   public boolean isUseSsl = false;
-  /**
-   * Threads and states
-   */
-  public TransactionManager transactionManager = null;
-  public TransactionsFrame transactionsFrame = null;
-  public ServiceMessages serviceMessages = null;
+  /** Frames and managers **/
+  private TransactionManager transactionManager = null;
+  private TransactionsFrame transactionsFrame = null;
+  private ServiceMessages serviceMessages = null;
+  /** Threads and states **/
   public boolean isConnecting = false;
-  /**
-   * Settings
-   */
+  /** Settings **/
   public boolean isShowGroups = true;
   public boolean isShowOffline = false;
-  /**
-   * Runtime
-   */
+  /** Runtime **/
   public int yOffset = 0;
   public int selectedColumn = 0;
   public int selectedRow = 0;
@@ -182,6 +172,9 @@ public abstract class AccountRoot {
   }
 
   public ServiceMessages getServiceMessages() {
+    if ( serviceMessages == null ) {
+      serviceMessages = new ServiceMessages();
+    }
     return serviceMessages;
   }
 
@@ -206,10 +199,15 @@ public abstract class AccountRoot {
 
   public abstract void setPrivateItems( Vector privateList );
 
-  public abstract void sortBuddyes();
-
   public void updateOfflineBuddylist() {
     MidletMain.updateOfflineBuddylist( buddyListFile, buddyItems );
+  }
+
+  public void updateMainFrameUI() {
+    if ( MidletMain.mainFrame.getActiveAccountRoot().equals( this ) ) {
+      MidletMain.mainFrame.buddyList.items = this.buddyItems;
+      MidletMain.screen.repaint();
+    }
   }
 
   public void loadOfflineBuddyList() {
@@ -254,6 +252,9 @@ public abstract class AccountRoot {
   public abstract BuddyItem getItemInstance();
 
   public TransactionManager getTransactionManager() {
+    if(transactionManager == null) {
+      transactionManager = new TransactionManager();
+    }
     return transactionManager;
   }
 

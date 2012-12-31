@@ -293,7 +293,6 @@ public class ActionExec {
     accountRoot.setTreeItems( buddyList );
     if ( snacFlags == 0x00 ) {
       accountRoot.setPrivateItems( privateList );
-      accountRoot.sortBuddyes();
       accountRoot.updateMainFrameBuddyList();
       MidletMain.screen.repaint();
       /** Reset flag **/

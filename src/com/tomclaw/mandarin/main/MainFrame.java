@@ -789,13 +789,8 @@ public class MainFrame extends Window {
                   IcqPacketSender.setStatus( icqAccountRoot.session, ( statusId < 0x1000 ) ? statusId : 0x0000 );
                   IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, statusId );
                   icqAccountRoot.statusIndex = IcqStatusUtil.getStatusIndex( statusId );
-                  // accountRoot.statusText = "";
                   icqAccountRoot.isPStatusReadable = false;
                   updateAccountsStatus();
-
-                  // MidletMain.saveStatusSettings(accountRoot, accountRoot.xStatusId, accountRoot.pStatusId, accountRoot.privateBuddyId);
-                  // MidletMain.statusMessageFrame = new StatusMessageFrame(accountRoot);
-                  // MidletMain.setCurrentWindow(MidletMain.statusMessageFrame);
                 } catch ( IOException ex ) {
                   LogUtil.outMessage( "Can't set status", true );
                 }
@@ -863,8 +858,6 @@ public class MainFrame extends Window {
               SetExtStatusFrame setExtStatusFrame = new SetExtStatusFrame( icqAccountRoot, icqAccountRoot.xStatusId );
               setExtStatusFrame.s_prevWindow = MainFrame.this;
               MidletMain.screen.setActiveWindow( setExtStatusFrame );
-              //! MidletMain.xStatusMessageFrame = new XStatusMessageFrame(accountRoot);
-              //! MidletMain.setCurrentWindow(MidletMain.xStatusMessageFrame);
             }
           };
           tempPopupItem.imageFileHash = "/res/groups/img_xstatus.png".hashCode();
@@ -925,7 +918,7 @@ public class MainFrame extends Window {
     } );
     icqSoft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "FILETRANFSER" ), IconsType.HASH_MAIN, 2 ) {
       public void actionPerformed() {
-        AccountRoot accountRoot = ( getActiveAccountRoot() );
+        AccountRoot accountRoot = getActiveAccountRoot();
         // accountRoot.setTransactionsFrame(new TransactionsFrame(accountRoot));
         accountRoot.getTransactionsFrame().s_prevWindow = MainFrame.this;
         MidletMain.screen.setActiveWindow( accountRoot.getTransactionsFrame() );
@@ -952,104 +945,6 @@ public class MainFrame extends Window {
      }
      });*/
     icqSoft.leftSoft.addSubItem( buddyListItem );
-    // TEST:
-        /*if (MidletMain.getBoolean(MidletMain.settings, "Master", "isShowEmulation")) {
-     PopupItem emulatorPopup = new PopupItem("Emulator");
-     emulatorPopup.addSubItem(new PopupItem("Buddy list") {
-        
-     public void actionPerformed() {
-     IcqEmulator.emulateBuddyListPart1((IcqAccountRoot) getActiveAccountRoot());
-     IcqEmulator.emulateBuddyListPart2((IcqAccountRoot) getActiveAccountRoot());
-     IcqEmulator.emulateBuddyListPart3((IcqAccountRoot) getActiveAccountRoot());
-     }
-     });
-     emulatorPopup.addSubItem(new PopupItem("Buddy online") {
-        
-     public void actionPerformed() {
-     new Thread() {
-        
-     public void run() {
-     try {
-     Thread.sleep(3000);
-     } catch (InterruptedException ex) {
-     }
-     BuddyItem buddyItem = getSelectedBuddyItem();
-     if (buddyItem != null) {
-     IcqEmulator.emulateBuddyOnline((IcqAccountRoot) getActiveAccountRoot(), buddyItem.getUserId());
-     }
-     }
-     }.start();
-     }
-     });
-     emulatorPopup.addSubItem(new PopupItem("Buddy offline") {
-        
-     public void actionPerformed() {
-     new Thread() {
-        
-     public void run() {
-     try {
-     Thread.sleep(3000);
-     } catch (InterruptedException ex) {
-     }
-     BuddyItem buddyItem = getSelectedBuddyItem();
-     if (buddyItem != null) {
-     IcqEmulator.emulateBuddyOffline((IcqAccountRoot) getActiveAccountRoot(), buddyItem.getUserId());
-     }
-     }
-     }.start();
-     }
-     });
-     emulatorPopup.addSubItem(new PopupItem("Receive message") {
-        
-     public void actionPerformed() {
-     new Thread() {
-        
-     public void run() {
-     try {
-     Thread.sleep(7000);
-     } catch (InterruptedException ex) {
-     ex.printStackTrace();
-     }
-     BuddyItem buddyItem = getSelectedBuddyItem();
-     if (buddyItem != null) {
-     //IcqEmulator.emulateMsgCh1((IcqAccountRoot) getActiveAccountRoot(), buddyItem.getUserId());
-     //for(int c=0;c<10;c++){
-        
-        
-     // ActionExec.recMess((IcqAccountRoot) getActiveAccountRoot(), buddyItem.getUserId(), "ПриветO:-), http://www.google.ru/index.html зацени", new byte[]{0, 0, 0, 0, 0, 0, 0, 0}, ChatItem.TYPE_PLAIN_MSG);
-        
-        
-     }
-     }
-     }.start();
-     }
-     });
-     emulatorPopup.addSubItem(new PopupItem("Rename item") {
-        
-     public void actionPerformed() {
-     new Thread() {
-        
-     public void run() {
-     try {
-     Thread.sleep(3000);
-     } catch (InterruptedException ex) {
-     ex.printStackTrace();
-     }
-     BuddyItem buddyItem = getSelectedBuddyItem();
-     if (buddyItem != null) {
-     //IcqEmulator.emulateMsgCh1((IcqAccountRoot) getActiveAccountRoot(), buddyItem.getUserId());
-     buddyItem.setUserNick("Pladiznuka");
-     ((IcqItem) buddyItem).isInPermitList = !((IcqItem) buddyItem).isInPermitList;
-     // buddyItem.updateUiData();
-     ((IcqAccountRoot) MainFrame.this.getActiveAccountRoot()).updateMainFrameBuddyList();
-     }
-     }
-     }.start();
-     }
-     });
-     icqSoft.leftSoft.addSubItem(emulatorPopup);
-     }*/
-
     icqSoft.leftSoft.addSubItem( accountPopupItem );
 
     icqSoft.leftSoft.addSubItem( settingsPopupItem );
@@ -1097,7 +992,6 @@ public class MainFrame extends Window {
               LogUtil.outMessage( "QueueAction created" );
               Queue.pushQueueAction( queueAction );
             }
-            // IcqPacketSender.requestBuddyList(((IcqAccountRoot) getActiveAccountRoot()).session);
           } catch ( IOException ex ) {
             LogUtil.outMessage( "Can not change private status" );
           }
@@ -1138,7 +1032,6 @@ public class MainFrame extends Window {
               LogUtil.outMessage( "QueueAction created" );
               Queue.pushQueueAction( queueAction );
             }
-            // IcqPacketSender.requestBuddyList(((IcqAccountRoot) getActiveAccountRoot()).session);
           } catch ( IOException ex ) {
             LogUtil.outMessage( "Can not change private status" );
           }
@@ -1179,7 +1072,6 @@ public class MainFrame extends Window {
               LogUtil.outMessage( "QueueAction created" );
               Queue.pushQueueAction( queueAction );
             }
-            // IcqPacketSender.requestBuddyList(((IcqAccountRoot) getActiveAccountRoot()).session);
           } catch ( IOException ex ) {
             LogUtil.outMessage( "Can not change private status" );
           }
@@ -1193,24 +1085,18 @@ public class MainFrame extends Window {
         if ( buddyItem != null ) {
           icqSoft.rightSoft = icqBuddyRightPopupItem;
           if ( ( ( IcqItem ) buddyItem ).isInPermitList ) {
-            // visiblePopupItem.image = "main" + UIIconType.MAIN_PRIVACY_DELETE;
             visiblePopupItem.title = Localization.getMessage( "PRI_VISIBLE_DELETE" );
           } else {
-            // visiblePopupItem.image = "main" + UIIconType.MAIN_PRIVACY_ADD;
             visiblePopupItem.title = Localization.getMessage( "PRI_VISIBLE_ADD" );
           }
           if ( ( ( IcqItem ) buddyItem ).isInDenyList ) {
-            // invisiblePopupItem.image = "main" + UIIconType.MAIN_PRIVACY_DELETE;
             invisiblePopupItem.title = Localization.getMessage( "PRI_INVISIBLE_DELETE" );
           } else {
-            // invisiblePopupItem.image = "main" + UIIconType.MAIN_PRIVACY_ADD;
             invisiblePopupItem.title = Localization.getMessage( "PRI_INVISIBLE_ADD" );
           }
           if ( ( ( IcqItem ) buddyItem ).isInIgnoreList ) {
-            // ignorePopupItem.image = "main" + UIIconType.MAIN_PRIVACY_DELETE;
             ignorePopupItem.title = Localization.getMessage( "PRI_IGNORE_DELETE" );
           } else {
-            // ignorePopupItem.image = "main" + UIIconType.MAIN_PRIVACY_ADD;
             ignorePopupItem.title = Localization.getMessage( "PRI_IGNORE_ADD" );
           }
         } else {
@@ -1357,7 +1243,6 @@ public class MainFrame extends Window {
     mmpSoft.leftSoft = new PopupItem( Localization.getMessage( "MENU" ) ) {
       public void actionPerformed() {
         MmpAccountRoot mmpAccountRoot = ( ( MmpAccountRoot ) getActiveAccountRoot() );
-        /** Checking statusIndex icons **/
         /** Checking statusIndex icons **/
         statusItem.imageFileHash = "/res/groups/img_mmpstatus.png".hashCode();
         statusItem.imageIndex = mmpAccountRoot.getStatusIndex();
@@ -1575,7 +1460,6 @@ public class MainFrame extends Window {
     xmppSoft.leftSoft = new PopupItem( Localization.getMessage( "MENU" ) ) {
       public void actionPerformed() {
         XmppAccountRoot xmppAccountRoot = ( ( XmppAccountRoot ) getActiveAccountRoot() );
-        /** Checking statusIndex icons **/
         /** Checking statusIndex icons **/
         statusItem.imageFileHash = "/res/groups/img_xmppstatus.png".hashCode();
         statusItem.imageIndex = xmppAccountRoot.getStatusIndex();

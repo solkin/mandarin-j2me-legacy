@@ -47,8 +47,6 @@ public class IcqAccountRoot extends AccountRoot {
   public void initSpecialData() {
     /** New session instance **/
     session = new IcqSession( this );
-    transactionManager = new TransactionManager();
-    serviceMessages = new ServiceMessages();
     /** Loading XStatus, PStatus **/
     xStatusId = MidletMain.getInteger( MidletMain.accounts, userId, "xStatusId" );
     pStatusId = MidletMain.getInteger( MidletMain.accounts, userId, "pStatusId" );
@@ -234,9 +232,6 @@ public class IcqAccountRoot extends AccountRoot {
     }
   }
 
-  public void sortBuddyes() {
-  }
-
   public IcqItem setBuddyStatus( String buddyId, int buddyStatus, 
           Capability[] caps, ClientInfo clientInfo ) {
     IcqGroup groupItem;
@@ -289,10 +284,7 @@ public class IcqAccountRoot extends AccountRoot {
                 .getChilds().elementAt( i ) ).updateUiData();
       }
     }
-    if ( MidletMain.mainFrame.getActiveAccountRoot().equals( this ) ) {
-      MidletMain.mainFrame.buddyList.items = this.buddyItems;
-      MidletMain.screen.repaint();
-    }
+    updateMainFrameUI();
   }
 
   public void setUpdatePrivacy( int pStatus ) {
