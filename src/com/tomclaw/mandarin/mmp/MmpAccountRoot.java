@@ -70,17 +70,6 @@ public class MmpAccountRoot extends AccountRoot {
   public void sendTypingStatus( String userId, boolean b ) {
   }
 
-  public void offlineAllBuddyes() {
-    GroupHeader tempGroupItem;
-    for ( int i = 0; i < buddyItems.size(); i++ ) {
-      tempGroupItem = ( ( GroupHeader ) buddyItems.elementAt( i ) );
-      for ( int j = 0; j < ( ( GroupHeader ) tempGroupItem ).getChildsCount(); j++ ) {
-        MmpItem tempIcqItem = ( ( MmpItem ) tempGroupItem.getChilds().elementAt( j ) );
-        tempIcqItem.setStatusIndex( 0, null );
-      }
-    }
-  }
-
   public byte[] sendMessage( BuddyItem buddyItem, String string,
           String resource ) throws IOException {
     byte[] cookie = new byte[ 8 ];

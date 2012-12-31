@@ -134,22 +134,7 @@ public class XmppAccountRoot extends AccountRoot {
   public String getStatusImages() {
     return "/res/groups/img_xmppstatus.png";
   }
-
-  public void offlineAllBuddyes() {
-    try {
-      GroupHeader tempGroupItem;
-      for ( int i = 0; i < buddyItems.size(); i++ ) {
-        LogUtil.outMessage( buddyItems.elementAt( i ).toString() );
-        tempGroupItem = ( ( GroupHeader ) buddyItems.elementAt( i ) );
-        for ( int j = 0; j < tempGroupItem.getChildsCount(); j++ ) {
-          XmppItem tempXmppItem = ( ( XmppItem ) tempGroupItem.getChilds().elementAt( j ) );
-          tempXmppItem.offlineResources();
-        }
-      }
-    } catch ( Throwable ex1 ) {
-    }
-  }
-
+  
   public void offlineAccount() {
     statusId = XmppStatusUtil.offlineIndex;
   }

@@ -21,9 +21,8 @@ public abstract class BuddyItem extends GroupChild {
   public boolean typingStatus;
   public int buddyType;
   private int statusIndex = 0;
-  /**
-   * Typing thread
-   */
+  public boolean isAvaitingAuth = false;
+  /**Typing thread **/
   private Timer typingTimer;
   private TimerTask timerTask;
 

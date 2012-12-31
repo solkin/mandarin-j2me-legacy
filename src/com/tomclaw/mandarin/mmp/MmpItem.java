@@ -11,19 +11,14 @@ import com.tomclaw.tcuilite.ChatItem;
  */
 public class MmpItem extends BuddyItem {
 
-  /**
-   * General
-   */
+  /** General **/
   public long groupId;
   public int buddyId;
-  public boolean isAvaitingAuth;
   public int unreadCount = 0;
   public long servFlags;
   public long flags;
   public long contactId;
-  /**
-   * Privacy
-   */
+  /** Privacy **/
   public boolean isInPermitList = false;
   public boolean isInDenyList = false;
   public boolean isInIgnoreList = false;
@@ -41,7 +36,6 @@ public class MmpItem extends BuddyItem {
     buddyId = 0;
     groupId = 0;
     buddyType = 0;
-    isAvaitingAuth = false;
     imageLeftIndex = new int[1];
   }
 
@@ -52,7 +46,6 @@ public class MmpItem extends BuddyItem {
     buddyId = 0;
     groupId = 0;
     buddyType = 0;
-    isAvaitingAuth = false;
     imageLeftIndex = new int[1];
   }
 

@@ -12,9 +12,7 @@ import com.tomclaw.tcuilite.ChatItem;
  */
 public class IcqItem extends BuddyItem {
 
-  /**
-   * Buddy types
-   */
+  /** Buddy types **/
   public static final int ROOT_GROUP = 0x0000;
   public static final int NORMAL_GROUP = 0x0001;
   public static final int NORMAL_BUDDY = 0x0002;
@@ -23,20 +21,15 @@ public class IcqItem extends BuddyItem {
   public static final int PERMIT_LIST_BUDDY = 0x0005;
   public static final int DENY_LIST_BUDDY = 0x0006;
   public static final int IGNORE_LIST_BUDDY = 0x0007;
-  /**
-   * Variables
-   */
+  /** Variables**/
   public int groupId;
   public int buddyId;
-  public boolean isAvaitingAuth;
   public int unreadCount = 0;
   public Capability[] capabilities = new Capability[]{};
   public ClientInfo clientInfo = new ClientInfo();
   private Capability aStatusCap = null;
   private Capability aClient = null;
-  /**
-   * Privacy
-   */
+  /** Privacy **/
   public boolean isInPermitList = false;
   public boolean isInDenyList = false;
   public boolean isInIgnoreList = false;
@@ -49,7 +42,6 @@ public class IcqItem extends BuddyItem {
     buddyId = 0;
     groupId = 0;
     buddyType = 0;
-    isAvaitingAuth = false;
     imageLeftIndex = new int[ 1 ];
   }
 
@@ -59,7 +51,6 @@ public class IcqItem extends BuddyItem {
     buddyId = 0;
     groupId = 0;
     buddyType = 0;
-    isAvaitingAuth = false;
     imageLeftIndex = new int[ 1 ];
   }
 
@@ -70,7 +61,6 @@ public class IcqItem extends BuddyItem {
     buddyId = 0;
     groupId = 0;
     buddyType = 0;
-    isAvaitingAuth = false;
     imageLeftIndex = new int[ 1 ];
   }
 
