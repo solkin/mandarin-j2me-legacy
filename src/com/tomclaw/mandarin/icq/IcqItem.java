@@ -24,7 +24,6 @@ public class IcqItem extends BuddyItem {
   /** Variables**/
   public int groupId;
   public int buddyId;
-  public int unreadCount = 0;
   public Capability[] capabilities = new Capability[]{};
   public ClientInfo clientInfo = new ClientInfo();
   private Capability aStatusCap = null;
@@ -68,18 +67,6 @@ public class IcqItem extends BuddyItem {
     this( userId, userNick );
     this.buddyType = buddyType;
     this.imageLeftIndex = new int[ 1 ];
-  }
-
-  public int getUnreadCount() {
-    return unreadCount;
-  }
-
-  public int getUnreadCount( String resource ) {
-    return unreadCount;
-  }
-
-  public void setUnreadCount( int unreadCount, String resource ) {
-    this.unreadCount = unreadCount;
   }
 
   public void updateUiData() {

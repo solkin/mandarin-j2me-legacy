@@ -14,7 +14,6 @@ public class MmpItem extends BuddyItem {
   /** General **/
   public long groupId;
   public int buddyId;
-  public int unreadCount = 0;
   public long servFlags;
   public long flags;
   public long contactId;
@@ -52,18 +51,6 @@ public class MmpItem extends BuddyItem {
   public MmpItem( String userId, String userNick, int buddyType ) {
     this( userId, userNick );
     this.buddyType = buddyType;
-  }
-  
-  public int getUnreadCount() {
-    return unreadCount;
-  }
-
-  public int getUnreadCount( String resource ) {
-    return unreadCount;
-  }
-
-  public void setUnreadCount( int unreadCount, String resource ) {
-    this.unreadCount = unreadCount;
   }
 
   public void updateUiData() {

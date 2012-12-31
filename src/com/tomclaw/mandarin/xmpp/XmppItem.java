@@ -35,12 +35,12 @@ public class XmppItem extends BuddyItem {
   }
 
   public int getUnreadCount() {
-    int unreadCount = 0;
+    int count = 0;
     Enumeration elements = resources.elements();
     while ( elements.hasMoreElements() ) {
-      unreadCount += ( ( Resource ) elements.nextElement() ).unreadCount;
+      count += ( ( Resource ) elements.nextElement() ).unreadCount;
     }
-    return unreadCount;
+    return count;
   }
 
   public int getUnreadCount( String resource ) {

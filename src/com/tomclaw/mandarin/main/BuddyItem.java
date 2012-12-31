@@ -22,6 +22,7 @@ public abstract class BuddyItem extends GroupChild {
   public int buddyType;
   private int statusIndex = 0;
   public boolean isAvaitingAuth = false;
+  public int unreadCount = 0;
   /**Typing thread **/
   private Timer typingTimer;
   private TimerTask timerTask;
@@ -44,7 +45,17 @@ public abstract class BuddyItem extends GroupChild {
     this.imageLeftIndex = leftImages;
   }
   
-  public abstract void setUnreadCount( int unreadCount, String resource );
+  public int getUnreadCount() {
+    return unreadCount;
+  }
+
+  public int getUnreadCount( String resource ) {
+    return unreadCount;
+  }
+
+  public void setUnreadCount( int unreadCount, String resource ) {
+    this.unreadCount = unreadCount;
+  }
 
   public void setUserPhone( String userPhone ) {
     this.userPhone = userPhone;
@@ -87,10 +98,6 @@ public abstract class BuddyItem extends GroupChild {
   public int[] getLeftImages() {
     return this.imageLeftIndex;
   }
-
-  public abstract int getUnreadCount();
-
-  public abstract int getUnreadCount( String resource );
 
   public abstract void updateUiData();
 
