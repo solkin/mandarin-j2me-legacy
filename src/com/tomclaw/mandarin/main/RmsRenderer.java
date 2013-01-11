@@ -25,7 +25,6 @@ public class RmsRenderer {
       for ( int c = 0; c < childsCount; c++ ) {
         t_Int = DataUtil.get16( data, offset );
         offset += 2;
-        // groupChild = (BuddyItem) buddyClass.newInstance(); //new GroupChild(StringUtil.byteArrayToString(data, offset, t_Int, true));
         groupChild = accoutRoot.getItemInstance();
         groupChild.setUserId( StringUtil.byteArrayToString( data, offset, t_Int, true ) );
         offset += t_Int;
