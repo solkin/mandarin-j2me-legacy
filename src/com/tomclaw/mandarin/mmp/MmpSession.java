@@ -55,7 +55,9 @@ public class MmpSession implements Runnable {
     LogUtil.outMessage( "Connected to: " + hostPort );
     byte[] header = netConnection.readTo( ( byte ) 0x0a );
     ActionExec.setConnectionStage( mmpAccountRoot, 2 );
-    HexUtil.dump_( header, "MRIM_CS_HELLO_ACK: " );
+    if(MidletMain.logLevel == 1) {
+      HexUtil.dump_( header, "MRIM_CS_HELLO_ACK: " );
+    }
     hostPort = new String( header, 0, header.length - 1 );
     LogUtil.outMessage( "Closing connection..." );
     netConnection.disconnect();

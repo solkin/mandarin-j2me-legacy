@@ -49,7 +49,9 @@ public class PacketBuilder {
     Packet packet = null;
     try {
       packet = PacketBuilder.cacheMap( fileName );
-      HexUtil.dump_( packet.getData(), "OUT: " );
+      if(MidletMain.logLevel == 1) {
+        HexUtil.dump_( packet.getData(), "OUT: " );
+      }
     } catch ( Throwable ex ) {
     }
     if ( packet != null ) {

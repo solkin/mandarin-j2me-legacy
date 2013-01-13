@@ -3,6 +3,7 @@ package com.tomclaw.mandarin.icq;
 import com.tomclaw.mandarin.main.ActionExec;
 import com.tomclaw.mandarin.main.BuddyInfo;
 import com.tomclaw.mandarin.main.Cookie;
+import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.ChatItem;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.*;
@@ -126,7 +127,9 @@ public class IcqPacketParser {
     /**
      * Packet dump output
      */
-    HexUtil.dump_( System.err, packetData, ">> SNAC (" + HexUtil.toHexString( snacFamily ) + ", " + HexUtil.toHexString( snacSubtype ) + "): " );
+    if ( MidletMain.logLevel == 1 ) {
+      HexUtil.dump_( System.err, packetData, ">> SNAC (" + HexUtil.toHexString( snacFamily ) + ", " + HexUtil.toHexString( snacSubtype ) + "): " );
+    }
     /**
      * Packet parser header method
      */
@@ -260,7 +263,7 @@ public class IcqPacketParser {
               /*
                * TLV.Type(0x0A) - external ip addr [ICQ only]
                */
-              clientInfo.externalIp = new byte[]{ ( byte ) DataUtil.get8int( value, 0 ), ( byte ) DataUtil.get8int( value, 1 ), ( byte ) DataUtil.get8int( value, 2 ), ( byte ) DataUtil.get8int( value, 3 ) };
+              clientInfo.externalIp = new byte[] { ( byte ) DataUtil.get8int( value, 0 ), ( byte ) DataUtil.get8int( value, 1 ), ( byte ) DataUtil.get8int( value, 2 ), ( byte ) DataUtil.get8int( value, 3 ) };
               LogUtil.outMessage( "ip addr ext: " + clientInfo.externalIp[0] + "." + clientInfo.externalIp[1] + "." + clientInfo.externalIp[2] + "." + clientInfo.externalIp[3] );
               break;
             }
@@ -268,7 +271,7 @@ public class IcqPacketParser {
               /*
                * TLV.Type(0x0C) - user DC info [ICQ only]
                */
-              clientInfo.internalIp = new byte[]{ ( byte ) DataUtil.get8int( value, 0 ), ( byte ) DataUtil.get8int( value, 1 ), ( byte ) DataUtil.get8int( value, 2 ), ( byte ) DataUtil.get8int( value, 3 ) };
+              clientInfo.internalIp = new byte[] { ( byte ) DataUtil.get8int( value, 0 ), ( byte ) DataUtil.get8int( value, 1 ), ( byte ) DataUtil.get8int( value, 2 ), ( byte ) DataUtil.get8int( value, 3 ) };
 
               clientInfo.dcTcpPort = DataUtil.get32( value, 4, true );
 
@@ -310,7 +313,9 @@ public class IcqPacketParser {
               for ( int i = 0; i < capabilitiesCount; i++ ) {
                 caps[i] = new Capability();
                 System.arraycopy( value, i * 16, caps[i].capBytes, 0, 16 );
-                HexUtil.dump_( caps[i].capBytes, buddyId + ": " );
+                if ( MidletMain.logLevel == 1 ) {
+                  HexUtil.dump_( caps[i].capBytes, buddyId + ": " );
+                }
               }
               break;
             }
@@ -376,7 +381,7 @@ public class IcqPacketParser {
               offset += 16;
               LogUtil.outMessage( "plugin: " + HexUtil.bytesToString( plugin ) );
               if ( ArrayUtil.equals( plugin,
-                      new byte[]{
+                      new byte[] {
                         0x00, 0x00, 0x00, 0x00,
                         0x00, 0x00, 0x00, 0x00,
                         0x00, 0x00, 0x00, 0x00,
@@ -492,7 +497,9 @@ public class IcqPacketParser {
           offset += 2;
           byte[] value = ArrayUtil.copyOfRange( packetData, offset, offset + length );
           offset += length;
-          HexUtil.dump_( value, "TLV.Type(" + HexUtil.toHexString( type ) + ") " );
+          if ( MidletMain.logLevel == 1 ) {
+            HexUtil.dump_( value, "TLV.Type(" + HexUtil.toHexString( type ) + ") " );
+          }
           /** Now, working only with type and value */
           switch ( type ) {
             case 0x0001: {
@@ -543,7 +550,9 @@ public class IcqPacketParser {
           byte[] value = ArrayUtil.copyOfRange( packetData, offset, offset + length );
           offset += length;
           // LogUtil.outMessage("TLV.Type("+HexUtil.toHexString(type)+")");
-          HexUtil.dump_( value, "TLV.Type(" + HexUtil.toHexString( type ) + ") " );
+          if ( MidletMain.logLevel == 1 ) {
+            HexUtil.dump_( value, "TLV.Type(" + HexUtil.toHexString( type ) + ") " );
+          }
           /** Now, working only with type and value */
           switch ( type ) {
             case 0x0002: {
@@ -586,15 +595,21 @@ public class IcqPacketParser {
               /** Rendezvous message data */
               /** Channel 2 or 4 (old-style) */
               if ( messageChannel == 2 ) {
-                HexUtil.dump_( value, "TLV(0x0005): " );
+                if ( MidletMain.logLevel == 1 ) {
+                  HexUtil.dump_( value, "TLV(0x0005): " );
+                }
                 ch2msgType = DataUtil.get16( value, 0 );
                 LogUtil.outMessage( "Channel 2 message type: " + ch2msgType );
                 msgCookie = DataUtil.getByteArray( value, 2, 8 );
-                HexUtil.dump_( msgCookie, "cookie: " );
+                if ( MidletMain.logLevel == 1 ) {
+                  HexUtil.dump_( msgCookie, "cookie: " );
+                }
                 guid = DataUtil.getByteArray( value, 10, 16 );
                 /** Inside TLV's */
                 int point = 26;
-                HexUtil.dump_( guid, "guid: " );
+                if ( MidletMain.logLevel == 1 ) {
+                  HexUtil.dump_( guid, "guid: " );
+                }
                 while ( value.length > point ) {
                   int insType = DataUtil.get16( value, point );
                   point += 2;
@@ -605,7 +620,7 @@ public class IcqPacketParser {
                   switch ( insType ) {
                     case 0x0002: {
                       /** Proxy ip */
-                      proxyIp = new int[]{ DataUtil.get8int( insValue, 0 ), DataUtil.get8int( insValue, 1 ), DataUtil.get8int( insValue, 2 ), DataUtil.get8int( insValue, 3 ) };
+                      proxyIp = new int[] { DataUtil.get8int( insValue, 0 ), DataUtil.get8int( insValue, 1 ), DataUtil.get8int( insValue, 2 ), DataUtil.get8int( insValue, 3 ) };
                       LogUtil.outMessage( "ip addr proxy: " + proxyIp[0] + "." + proxyIp[1] + "." + proxyIp[2] + "." + proxyIp[3] );
                       break;
                     }
@@ -637,7 +652,7 @@ public class IcqPacketParser {
                     }
                     case 0x2711: {
                       /** Extention data */
-                      if ( ArrayUtil.equals( guid, new byte[]{
+                      if ( ArrayUtil.equals( guid, new byte[] {
                                 ( byte ) 0x09, ( byte ) 0x46, ( byte ) 0x13, ( byte ) 0x43, //Send.f
                                 ( byte ) 0x4C, ( byte ) 0x7F, ( byte ) 0x11, ( byte ) 0xD1,
                                 ( byte ) 0x82, ( byte ) 0x22, ( byte ) 0x44, ( byte ) 0x45,
@@ -651,7 +666,9 @@ public class IcqPacketParser {
                         fdPoint += 4;
                         fileName = DataUtil.getByteArray( insValue, fdPoint, insValue.length - 8 - 1 );
                       } else {
-                        HexUtil.dump_( value, "ch2: " );
+                        if ( MidletMain.logLevel == 1 ) {
+                          HexUtil.dump_( value, "ch2: " );
+                        }
                         int fdPoint = 0;
                         int follDataLength = DataUtil.get16_reversed( insValue, fdPoint );
                         fdPoint += 2;
@@ -675,9 +692,11 @@ public class IcqPacketParser {
                         DataUtil.getByteArray( insValue, fdPoint, nFollDataLength - 2 );
                         fdPoint += nFollDataLength - 2;
                         LogUtil.outMessage( "prot. version: " + protVersion );
-                        HexUtil.dump_( plugin, "plugin: " );
+                        if ( MidletMain.logLevel == 1 ) {
+                          HexUtil.dump_( plugin, "plugin: " );
+                        }
                         LogUtil.outMessage( "Other data length: " + ( insLength - follDataLength - nFollDataLength ) );
-                        if ( ArrayUtil.equals( plugin, new byte[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } ) ) {
+                        if ( ArrayUtil.equals( plugin, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } ) ) {
                           /**
                            * Message here
                            */
@@ -749,7 +768,7 @@ public class IcqPacketParser {
         }
         LogUtil.outMessage( "Cookie: " + stringCookie );
 
-        if ( ArrayUtil.equals( guid, new byte[]{
+        if ( ArrayUtil.equals( guid, new byte[] {
                   ( byte ) 0x09, ( byte ) 0x46, ( byte ) 0x13, ( byte ) 0x43, //Send.f
                   ( byte ) 0x4C, ( byte ) 0x7F, ( byte ) 0x11, ( byte ) 0xD1,
                   ( byte ) 0x82, ( byte ) 0x22, ( byte ) 0x44, ( byte ) 0x45,
@@ -771,7 +790,9 @@ public class IcqPacketParser {
          * Decoding asciiMessage in according width:
          * messCharsetNumber && messCharsetSubset
          */
-        HexUtil.dump_( asciiString, "ascii: " );
+        if ( MidletMain.logLevel == 1 ) {
+          HexUtil.dump_( asciiString, "ascii: " );
+        }
         String decodedString = null;
         if ( asciiString != null ) {
           try {
@@ -912,17 +933,11 @@ public class IcqPacketParser {
     try {
       switch ( snacSubtype ) {
         case 0x0006: {
-          /**
-           * Contact list reply
-           */
-          /**
-           * Чтение контакт-листа
-           */
+          /** Contact list reply **/
+          int buddyCount = 0;
           int privacySettings;
           int privateBuddyId = -1;
-          /**
-           * Buddy data store
-           */
+          /** Buddy data store **/
           Vector buddyList = new Vector();
           Vector privateList = new Vector();
 
@@ -930,7 +945,7 @@ public class IcqPacketParser {
           IcqItem buddyItem;
           int offset = 10;
 
-          // Версия SSI
+          /** SSI Version **/
           int ssiVersion = ( DataUtil.get8int( packetData, offset ) );
           if ( ssiVersion > 1 ) {
             throw new ProtocolSupportBecameOld();
@@ -938,22 +953,15 @@ public class IcqPacketParser {
           offset++;
 
           if ( ssiVersion == 0x00 ) {
-            // Количество объектов SSI
+            /** SSI objects count **/
             int ssiObjectCount = ( DataUtil.get16( packetData, offset ) );
-            offset +=
-                    2;
-            int buddyNameLength;
+            LogUtil.outMessage( "SSI objects count: " + ssiObjectCount );
+            offset += 2;
             byte[] buddyName;
-            int buddyGroupID;
-            int buddyID;
-            int buddyType;
-            int ssiTLVLen;
-            int pointBefore;
+            int buddyNameLength, buddyGroupID, buddyID, buddyType, ssiTLVLen, pointBefore;
             for ( int c = 0; c < ssiObjectCount; c++ ) {
               groupItem = null;
-              /*
-               * Чтение данных
-               */
+              /** Reading roster item **/
               buddyNameLength = DataUtil.get16( packetData, offset );
               offset += 2;
               buddyName = new byte[ buddyNameLength ];
@@ -1024,8 +1032,7 @@ public class IcqPacketParser {
                   groupItem = new IcqGroup( "" );
                   buddyItem = null;
                   groupItem.buddyType = IcqItem.SYSTEM_GROUP;
-                  toAddFlag =
-                          isReceivePhantoms;
+                  toAddFlag = isReceivePhantoms;
                   break;
                 }
                 case NORMAL_UIN: {
@@ -1060,34 +1067,25 @@ public class IcqPacketParser {
                 // Если UIN не имеет ника
                 buddyItem.userNick = buddyItem.userId;
 
-                // LogUtil.outMessage(" - " + buddyItem.userId);
+                LogUtil.outMessage( " - " + buddyItem.userId );
               } else {
                 if ( groupItem != null ) {
                   groupItem.userId = StringUtil.byteArrayToString( buddyName, true );
                   groupItem.groupId = buddyGroupID;
                   groupItem.buddyId = buddyID;
-
-                  // System.out.println(groupItem.userId);
+                  // LogUtil.outMessage(groupItem.userId);
                 }
               }
-
-
-
-              /*
-               * Чтение TLV
-               */
+              /** Reading TLV **/
               pointBefore = offset;
               while ( offset < pointBefore + ssiTLVLen ) {
                 int valueID = DataUtil.get16( packetData, offset );
-                offset +=
-                        2;
+                offset += 2;
                 int length = DataUtil.get16( packetData, offset );
-                offset +=
-                        2;
+                offset += 2;
                 byte[] value = new byte[ length ];
                 System.arraycopy( packetData, offset, value, 0, length );
-                offset +=
-                        length;
+                offset += length;
                 switch ( valueID ) {
                   case TLV_AIM_PR_SET: {
                     LogUtil.outMessage( "This is the byte that "
@@ -1209,9 +1207,7 @@ public class IcqPacketParser {
               }
 
               if ( groupItem != null && groupItem.buddyId == 0 && groupItem.groupId == 0 ) {
-                /*
-                 * Корневая группа
-                 */
+                /** Root group **/
                 groupItem.buddyType = IcqItem.ROOT_GROUP;
                 continue;
 
@@ -1224,8 +1220,8 @@ public class IcqPacketParser {
                 if ( toAddFlag ) {
                   if ( groupItem != null ) {
                     /*if ( groupItem.getChildsCount() == 0 ) {
-                      groupItem.getChilds();
-                    }*/
+                     groupItem.getChilds();
+                     }*/
                     groupItem.updateUiData();
                     LogUtil.outMessage( "[ ".concat( groupItem.userId ).concat( " ]" ) );
                     buddyList.addElement( groupItem );
@@ -1238,34 +1234,30 @@ public class IcqPacketParser {
                         groupItem.buddyType = -1;
                         buddyList.addElement( groupItem );
                       }
+                      buddyCount++;
                       ( ( IcqGroup ) buddyList.lastElement() ).addChild( buddyItem );
                     }
                   }
                 }
               }
-
             }
           }
-          /**
-           * Executing UI output
-           */
+          /** Executing UI output **/
           LogUtil.outMessage( "Final private buddy id: " + privateBuddyId );
           if ( !buddyList.isEmpty() ) {
             LogUtil.outMessage( "snacFlags = " + snacFlags );
             ActionExec.setBuddyList( icqAccountRoot, buddyList, privateList, privateBuddyId, snacFlags, snacRequestId );
           }
+          LogUtil.outMessage( "Buddy added count: " + buddyCount );
           break;
-
         }
         case 0x000e: {
-          /**
-           * Executing UI output
-           */
+          /** Executing UI output **/
           int offset = packetData.length - 2; // 10;
 
-          // Версия SSI
+          /** Operation result **/
           int resultCode = DataUtil.get16( packetData, offset );
-          /**
+          /*
            0x0000	  No errors (success)
            0x0002	  Item you want to modify not found in list
            0x0003	  Item you want to add allready exists

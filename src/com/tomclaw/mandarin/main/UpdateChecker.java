@@ -57,7 +57,7 @@ public class UpdateChecker {
     // updateInfo = "4.0.1;1000;500;http://www.tomclaw.com/dload/dload.php?f=Mandarin&e=jar;Список изменений будет позднее;";
     // LogUtil.outMessage(updateInfo);
     int offs = updateInfo.indexOf( ";" );
-    System.out.println( updateInfo );
+    LogUtil.outMessage( updateInfo );
 
     latestVersion = ( updateInfo.substring( 0, offs ) );
     if ( latestVersion.equals( MidletMain.version ) ) {

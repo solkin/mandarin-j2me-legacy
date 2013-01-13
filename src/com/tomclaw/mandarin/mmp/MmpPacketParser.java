@@ -130,8 +130,6 @@ public class MmpPacketParser {
                 mmpItem.setStatusIndex( MmpStatusUtil.getStatusIndex(
                         DataUtil.get32( packet.data.byteString, offset,
                         false ) ), null );
-                System.out.println( "mmpItem.buddyStatus "
-                        + "= " + mmpItem.getStatusIndex() );
                 offset += 4;
                 break;
               }
@@ -163,9 +161,10 @@ public class MmpPacketParser {
                 } else if ( buddyMask.charAt( i ) == 's' ) {
                   int length = ( int ) DataUtil.get32( packet.data.byteString,
                           offset, false );
-                  System.out.println( i + ": " + StringUtil.byteArrayToString(
+                  /*System.out.println( i + ": " + StringUtil.byteArrayToString(
                           DataUtil.getByteArray( packet.data.byteString,
-                          offset += 4, length ) ) );
+                          offset += 4, length ) ) );*/
+                  offset += 4;
                   offset += length;
                 }
                 break;
@@ -243,14 +242,6 @@ public class MmpPacketParser {
       LogUtil.outMessage( "statusDescr = " + statusDescr );
       LogUtil.outMessage( "clientFlags = " + clientFlags );
       LogUtil.outMessage( "clientIdString = " + clientIdString );
-
-      System.out.println( "userMail = " + userMail );
-      System.out.println( "userStatus = " + userStatus );
-      System.out.println( "statusIdString = " + statusIdString );
-      System.out.println( "statusString = " + statusString );
-      System.out.println( "statusDescr = " + statusDescr );
-      System.out.println( "clientFlags = " + clientFlags );
-      System.out.println( "clientIdString = " + clientIdString );
       try {
         ActionExec.setMailStatus( mmpAccountRoot, userMail, MmpStatusUtil
                 .getStatus( MmpStatusUtil.getStatusIndex( statusIdString ) ) );

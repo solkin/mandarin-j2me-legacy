@@ -1,5 +1,6 @@
 package com.tomclaw.mandarin.mmp;
 
+import com.tomclaw.utils.LogUtil;
 import com.tomclaw.utils.StringUtil;
 
 /**
@@ -50,9 +51,9 @@ public class MmpStatusUtil {
   }
 
   public static String getStatusName( long statusId ) {
-    System.out.println( "getStatusName(" + statusId + ")" );
+    LogUtil.outMessage( "getStatusName(" + statusId + ")" );
     int index = getStatusIndex( statusId );
-    System.out.println( "index = " + index );
+    LogUtil.outMessage( "index = " + index );
     if ( index >= statusesNames.length ) {
       return statusX.concat( String.valueOf( index - 2 ) );
     }
