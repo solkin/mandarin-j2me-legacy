@@ -51,14 +51,10 @@ public class IcqSession implements Runnable {
   public void loginMd5( int initStatus ) throws IOException, InterruptedException, IncorrectAddressException, ProtocolSupportBecameOld, LoginFailed {
     boolean authSuccess = false;
     LogUtil.outMessage( "MD5 method" );
-    /**
-     * Reading protocol verstion from server
-     */
+    /** Reading protocol verstion from server **/
     byte[] packetData = receivePacket();
     LogUtil.outMessage( "Protocol received" );
-    /**
-     * Sending protocol verstion to server
-     */
+    /** Sending protocol verstion to server **/
     FlapHeader flap = new FlapHeader( 0x01, getNextSeq(), 4 );
     ByteArrayOutputStream bas = new ByteArrayOutputStream( flap.byteArray.length + 4 );
     bas.write( flap.byteArray );
@@ -66,14 +62,11 @@ public class IcqSession implements Runnable {
     bas.flush();
     netConnection.write( bas.toByteArray() );
     LogUtil.outMessage( "Protocol sent" );
-    /**
-     * Sending auth key request
-     */
+    /** Sending auth key request **/
     Snac snac = new Snac( 0x0017, 0x0006, 0, 0, 0 );
 
     snac.addWord( 0x0001 );
-    snac.addWord( icqAccountRoot.userId.length() );
-    snac.addStringRaw( icqAccountRoot.userId );
+    snac.addWordLString( icqAccountRoot.userId );
 
     snac.addWord( 0x004b );
     snac.addWord( 0x0000 );
@@ -83,9 +76,7 @@ public class IcqSession implements Runnable {
 
     LogUtil.outMessage( "sending auth key request" );
     snac.send( getNetworkConnection(), getNextSeq() );
-    /**
-     * Reading auth key from server
-     */
+    /** Reading auth key from server **/
     packetData = receivePacket();
     int snacFamily = DataUtil.get16( packetData, 0 );
     int snacSubtype = DataUtil.get16( packetData, 2 );
@@ -101,30 +92,21 @@ public class IcqSession implements Runnable {
       String key = DataUtil.byteArray2string( packetData, 12, keyLength );
       LogUtil.outMessage( "Key: " + key );
       ActionExec.setConnectionStage( icqAccountRoot, 2 );
-      /**
-       * Generating MD5 hash
-       */
+      /** Generating MD5 hash **/
       String aol = "AOL Instant Messenger (SM)";
       MD5 md5 = new MD5( key.concat( icqAccountRoot.userPassword ).concat( aol ).getBytes() );
       byte[] md5hash = md5.doFinal();
       LogUtil.outMessage( "MD5 Hash: " + HexUtil.bytesToString( md5hash ) );
-      /**
-       * Sending auth key request
-       */
+      /** Sending auth key request **/
       snac = new Snac( 0x0017, 0x0002, 0, 0, 0 );
       snac.addWord( 0x0001 );
-      snac.addWord( icqAccountRoot.userId.length() );
-      snac.addStringRaw( icqAccountRoot.userId );
+      snac.addWordLString( icqAccountRoot.userId );
       snac.addWord( 0x0025 );
       snac.addWord( md5hash.length );
       snac.addByteArray( md5hash );
       LogUtil.outMessage( "sending MD5 hash" );
       snac.send( getNetworkConnection(), getNextSeq() );
-
-
-      /**
-       * Reading and parsing server data
-       */
+      /** Reading and parsing server data **/
       String bosHostPort = new String();
       byte[] cookie = new byte[ 0 ];
       byte[] authResponse; // = new byte[flap.data_field_length];
@@ -237,22 +219,16 @@ public class IcqSession implements Runnable {
       return;
     }
     boolean authSuccess = false;
-    /**
-     * Reading protocol verstion from server
-     */
+    /** Reading protocol verstion from server **/
     receivePacket();
-    /**
-     * Sending protocol verstion to server
-     */
+    /** Sending protocol verstion to server **/
     /*FlapHeader flap = new FlapHeader(0x01, getNextSeq(), 4);
      ByteArrayOutputStream bas = new ByteArrayOutputStream(flap.byteArray.length + 4);
      bas.write(flap.byteArray);
      bas.write(packetData);
      bas.flush();
      netConnection.write(bas.toByteArray());*/
-    /**
-     * XORing password
-     */
+    /** XORing password **/
     byte[] password_b = DataUtil.string2byteArray( icqAccountRoot.userPassword );
     final byte[] xor_table = { ( byte ) 0xf3, ( byte ) 0x26, ( byte ) 0x81, ( byte ) 0xc4, ( byte ) 0x39, ( byte ) 0x86, ( byte ) 0xdb, ( byte ) 0x92 };
     int xorindex = 0;
@@ -262,9 +238,7 @@ public class IcqSession implements Runnable {
         xorindex = 0;
       }
     }
-    /**
-     * Sending auth key request
-     */
+    /** Sending auth key request **/
     Snac snac = new Snac();
 
     snac.addDWord( 0x00000001 );
@@ -273,8 +247,7 @@ public class IcqSession implements Runnable {
     snac.addWord( 0x0000 );
 
     snac.addWord( 0x0001 );
-    snac.addWord( icqAccountRoot.userId.length() );
-    snac.addStringRaw( icqAccountRoot.userId );
+    snac.addWordLString( icqAccountRoot.userId );
 
     snac.addWord( 0x0002 );
     snac.addWord( password_b.length );
@@ -289,9 +262,7 @@ public class IcqSession implements Runnable {
 
     // netConnection.write(snac.getByteArray().toByteArray());
 
-    /**
-     * Reading and parsing server data
-     */
+    /** Reading and parsing server data **/
     String bosHostPort = new String();
     byte[] cookie = new byte[ 0 ];
     byte[] authResponse; // = new byte[flap.data_field_length];

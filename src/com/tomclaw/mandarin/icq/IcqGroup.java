@@ -13,6 +13,10 @@ public class IcqGroup extends BuddyGroup {
   public int groupId;
   public int buddyId;
 
+  public IcqGroup() {
+    super();
+  }
+
   public IcqGroup( String userId ) {
     super( userId );
   }

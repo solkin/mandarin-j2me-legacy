@@ -180,14 +180,21 @@ public class MmpAccountRoot extends AccountRoot {
   public void setPrivateItems( Vector privateList ) {
   }
 
-  public BuddyItem getItemInstance() {
+  public BuddyGroup getGroupInstance() {
+    return new MmpGroup();
+  }
+
+  public BuddyItem getBuddyInstance() {
     return new MmpItem();
   }
 
-  public Cookie addGroup( String groupName, long groupId ) throws IOException {
-    Cookie cookie = MmpPacketSender.MRIM_CS_ADD_CONTACT( this, groupId,
+  public Cookie addGroup( BuddyGroup buddyGroup ) throws IOException {
+    MmpGroup mmpGroup = ( ( MmpGroup ) buddyGroup );
+    mmpGroup.contactId = getGroupContactId();
+    mmpGroup.flags = getNextGroupId();
+    Cookie cookie = MmpPacketSender.MRIM_CS_ADD_CONTACT( this, mmpGroup.flags,
             0x00000000, new byte[ 0 ],
-            StringUtil.string1251ToByteArray( groupName ), new byte[ 0 ] );
+            StringUtil.string1251ToByteArray( mmpGroup.getUserId() ), new byte[ 0 ] );
     return cookie;
   }
 
@@ -284,8 +291,26 @@ public class MmpAccountRoot extends AccountRoot {
     return null;
   }
 
-  public long getNextItemId() {
-    return 0x00000002 | ( ( new Random(
-            System.currentTimeMillis() ).nextLong() ) & 0xffff0000 );
+  public int getNextBuddyId() {
+    return ( int ) ( 0x00000002 | ( ( new Random(
+            System.currentTimeMillis() ).nextLong() ) & 0xffff0000 ) );
+  }
+
+  public int getNextGroupId() {
+    return ( int ) ( ( buddyItems.size() << 24 ) | PacketType.CONTACT_FLAG_GROUP );
+  }
+
+  public int getGroupContactId() {
+    final int groupsCount = buddyItems.size();
+    for ( int contactId = 0; contactId < PacketType.NORM_GROUPS_MAX; contactId++ ) {
+      for ( int c = 0; c <= groupsCount; c++ ) {
+        if ( c == groupsCount ) {
+          return contactId;
+        } else if ( ( ( MmpGroup ) buddyItems.elementAt( c ) ).contactId == contactId ) {
+          break;
+        }
+      }
+    }
+    return 0;
   }
 }

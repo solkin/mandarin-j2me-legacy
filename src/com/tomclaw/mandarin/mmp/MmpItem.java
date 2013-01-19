@@ -26,7 +26,12 @@ public class MmpItem extends BuddyItem {
   public int ignoreBuddyId = 0x00;
 
   public MmpItem() {
-    super( "" );
+    super();
+    /** Default values **/
+    buddyId = 0;
+    groupId = 0;
+    buddyType = 0;
+    imageLeftIndex = new int[ 1 ];
   }
 
   public MmpItem( String userId ) {
@@ -35,7 +40,7 @@ public class MmpItem extends BuddyItem {
     buddyId = 0;
     groupId = 0;
     buddyType = 0;
-    imageLeftIndex = new int[1];
+    imageLeftIndex = new int[ 1 ];
   }
 
   public MmpItem( String userId, String userNick ) {
@@ -45,7 +50,7 @@ public class MmpItem extends BuddyItem {
     buddyId = 0;
     groupId = 0;
     buddyType = 0;
-    imageLeftIndex = new int[1];
+    imageLeftIndex = new int[ 1 ];
   }
 
   public MmpItem( String userId, String userNick, int buddyType ) {
@@ -69,9 +74,9 @@ public class MmpItem extends BuddyItem {
     if ( typingStatus ) {
       chatImage = 11;
     }
-    imageLeftIndex = new int[]{chatImage, isPhone ? MmpStatusUtil.phoneStatus 
-            : getStatusIndex(), -1};
-    imageRightIndex = new int[]{-1, -1, -1, -1};
+    imageLeftIndex = new int[] { chatImage, isPhone ? MmpStatusUtil.phoneStatus
+      : getStatusIndex(), -1 };
+    imageRightIndex = new int[] { -1, -1, -1, -1 };
     if ( MidletMain.chatFrame != null ) {
       isBold = MidletMain.chatFrame.getChatTab( userId ) != null;
       weight = isBold ? -3 : weight;

@@ -84,6 +84,8 @@ public final class PacketType {
   public static final long CONTACT_FLAG_SHADOW = 0x00000020;
   public static final long MRIM_CS_ADD_CONTACT_ACK = 0x101A;	// S -> C
   public static final int CONTACT_FLAG_PHONE = 0x00100000;
+  // Groups count
+  public static final int NORM_GROUPS_MAX = 20;
   // UL status
   // UL contact_id or (u_public static final long)-1 if status is not OK
   public static final long CONTACT_OPER_SUCCESS = 0x0000;

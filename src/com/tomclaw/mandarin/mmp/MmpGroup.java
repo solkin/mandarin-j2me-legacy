@@ -10,10 +10,11 @@ import com.tomclaw.mandarin.main.BuddyGroup;
 public class MmpGroup extends BuddyGroup {
 
   public int flags;
-  public int buddyType;
-  public int groupId;
-  public int buddyId;
   public long contactId;
+  
+  public MmpGroup( ) {
+    super( );
+  }
 
   public MmpGroup( String userId ) {
     super( userId );

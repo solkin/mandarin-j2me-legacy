@@ -6,6 +6,7 @@ import com.tomclaw.tompacket.PacketBuilder;
 import com.tomclaw.utils.ArrayUtil;
 import com.tomclaw.utils.DataUtil;
 import com.tomclaw.utils.LogUtil;
+import com.tomclaw.utils.StringUtil;
 import java.io.IOException;
 import java.util.Hashtable;
 
@@ -74,7 +75,7 @@ public class IcqPacketSender {
      */
     Cookie cookie = new Cookie();
     Snac snac = new Snac( 0x0001, 0x001e, 0, 0, cookie.cookieValue );
-    snac.addByteArray( new byte[]{
+    snac.addByteArray( new byte[] {
               ( byte ) 0x00, ( byte ) 0x06, ( byte ) 0x00, ( byte ) 0x04 } );
     snac.addWord( 0x0001 );
     snac.addWord( statusId );
@@ -110,8 +111,7 @@ public class IcqPacketSender {
   public static Cookie addPrivacy( IcqSession icqSession, String user_uin, int groupId, int itemId, int itemFlag ) throws IOException {
     Cookie cookie = new Cookie();
     Snac p = new Snac( 0x0013, 0x0008, 0, 0, cookie.cookieValue );
-    p.addWord( user_uin.length() );
-    p.addByteArray( user_uin.getBytes() );
+    p.addWordLString( user_uin );
     p.addWord( 0x0000 );
     p.addWord( itemId );
     p.addWord( itemFlag );
@@ -123,8 +123,7 @@ public class IcqPacketSender {
   public static Cookie deletePrivacy( IcqSession icqSession, String user_uin, int groupId, int itemId, int itemFlag ) throws IOException {
     Cookie cookie = new Cookie();
     Snac p = new Snac( 0x0013, 0x000a, 0, 0, cookie.cookieValue );
-    p.addWord( user_uin.length() );
-    p.addByteArray( user_uin.getBytes() );
+    p.addWordLString( user_uin );
     p.addWord( 0x0000 );
     p.addWord( itemId );
     p.addWord( itemFlag );
@@ -136,8 +135,7 @@ public class IcqPacketSender {
   public static Cookie removeBuddy( IcqSession icqSession, String buddyId, int groupId, int itemId, int itemFlag ) throws IOException {
     Cookie cookie = new Cookie();
     Snac p = new Snac( 0x0013, 0x000a, 0, 0, cookie.cookieValue );
-    p.addWord( buddyId.length() );
-    p.addByteArray( buddyId.getBytes() );
+    p.addWordLString( buddyId );
     p.addWord( groupId );
     p.addWord( itemId );
     p.addWord( itemFlag );
@@ -217,8 +215,7 @@ public class IcqPacketSender {
     Cookie cookie = new Cookie();
     Snac p = new Snac( 0x0013, 0x0016, 0, 0, cookie.cookieValue );
     // Uin
-    p.addByte( buddyId.length() );
-    p.addByteArray( buddyId.getBytes() );
+    p.addByteLString( buddyId );
 
     p.send( icqSession.getNetworkConnection(), icqSession.getNextSeq() );
     return cookie;
@@ -228,8 +225,7 @@ public class IcqPacketSender {
     Cookie cookie = new Cookie();
     Snac p = new Snac( 0x0013, 0x0018, 0, 0, cookie.cookieValue );
     // Uin
-    p.addByte( buddyId.length() );
-    p.addByteArray( buddyId.getBytes() );
+    p.addByteLString( buddyId );
     // Reason
     p.addWord( reasonMsg.length );
     p.addByteArray( reasonMsg );
@@ -243,8 +239,7 @@ public class IcqPacketSender {
     Cookie cookie = new Cookie();
     Snac p = new Snac( 0x0013, 0x001a, 0, 0, cookie.cookieValue );
     // Uin
-    p.addByte( buddyId.length() );
-    p.addByteArray( buddyId.getBytes() );
+    p.addByteLString( buddyId );
     // Flag
     p.addByte( isAccepted ? 1 : 0 );
     // Reason
@@ -297,7 +292,7 @@ public class IcqPacketSender {
     if ( !MidletMain.isTest ) {
       data.put( "IS_TEST_BUILD", "NULL" );
     }
-    data.put( "MANDARIN_ID", new byte[]{
+    data.put( "MANDARIN_ID", new byte[] {
               ( byte ) 0x4D, ( byte ) 0x61, ( byte ) 0x6E, ( byte ) 0x64,
               ( byte ) 0x61, ( byte ) 0x72, ( byte ) 0x69, ( byte ) 0x6E,
               ( byte ) 0x20, ( byte ) 0x49, ( byte ) 0x4D, ( byte ) 0x00,
@@ -367,77 +362,75 @@ public class IcqPacketSender {
     p.addByteArray( cookies );
     //Channel
     p.addWord( 0x0002 );
-    //Screen name length
-    p.addByte( ( byte ) buddyId.length() );
     //Screen name
-    p.addStringRaw( buddyId );
+    p.addByteLString( buddyId );
     //Reason: channel specefic
     p.addWord( 0x0003 );
 
     //Ext data
-    ArrayUtil extendedData = new ArrayUtil( new byte[]{
+    ArrayUtil extendedData = new ArrayUtil( new byte[] {
               ( byte ) 0x1b, ( byte ) 0x00 } );
     //extendedData += new String(new byte[]{(byte) 0x27, (byte) 0x11});
 
     //Version
-    extendedData.append( new byte[]{ ( byte ) 0x08, ( byte ) 0x00 } );
+    extendedData.append( new byte[] { ( byte ) 0x08, ( byte ) 0x00 } );
 
     //Plugin: None
-    extendedData.append( new byte[]{
+    extendedData.append( new byte[] {
               ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00,
               ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00,
               ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00,
               ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00 } );
 
     //Unknown
-    extendedData.append( new byte[]{
+    extendedData.append( new byte[] {
               ( byte ) 0x00, ( byte ) 0x00 } );
 
     //Client capabilities
-    extendedData.append( new byte[]{
+    extendedData.append( new byte[] {
               ( byte ) 0x03, ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00 } );
 
     //Unknown
-    extendedData.append( new byte[]{ ( byte ) 0x04 } );
+    extendedData.append( new byte[] { ( byte ) 0x04 } );
 
     //Downcounter?
-    extendedData.append( new byte[]{
+    extendedData.append( new byte[] {
               ( byte ) 0xfe, ( byte ) 0xff } );
 
     //Length - may change!
-    extendedData.append( new byte[]{
+    extendedData.append( new byte[] {
               ( byte ) 0x0e, ( byte ) 0x00 } );
 
     //Downcounter?
-    extendedData.append( new byte[]{
+    extendedData.append( new byte[] {
               ( byte ) 0xfe, ( byte ) 0xff } );
 
     //Unknown
-    extendedData.append( new byte[]{
+    extendedData.append( new byte[] {
               ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00,
               ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00,
               ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00 } );
 
     //Message type: plugin message described by text string
-    extendedData.append( new byte[]{ ( byte ) 0x1a } );
+    extendedData.append( new byte[] { ( byte ) 0x1a } );
 
     //Message flags
-    extendedData.append( new byte[]{ ( byte ) 0x00 } );
+    extendedData.append( new byte[] { ( byte ) 0x00 } );
 
     //Status code
-    extendedData.append( new byte[]{ ( byte ) 0x00, ( byte ) 0x00 } );
+    extendedData.append( new byte[] { ( byte ) 0x00, ( byte ) 0x00 } );
 
     //Priority code
-    extendedData.append( new byte[]{ ( byte ) 0x00, ( byte ) 0x00 } );
+    extendedData.append( new byte[] { ( byte ) 0x00, ( byte ) 0x00 } );
 
     //Text length
-    extendedData.append( new byte[]{ ( byte ) 0x01, ( byte ) 0x00 } );
+    extendedData.append( new byte[] { ( byte ) 0x01, ( byte ) 0x00 } );
 
     //Text
-    extendedData.append( new byte[]{ ( byte ) 0x00 } );
+    extendedData.append( new byte[] { ( byte ) 0x00 } );
 
     //Request
-    extendedData.append( new byte[]{
+    extendedData.append( new byte[] {
               ( byte ) 0x4F, ( byte ) 0x00, ( byte ) 0x3B, ( byte ) 0x60,
               ( byte ) 0xB3, ( byte ) 0xEF, ( byte ) 0xD8, ( byte ) 0x2A,
               ( byte ) 0x6C, ( byte ) 0x45, ( byte ) 0xA4, ( byte ) 0xE0,
@@ -447,7 +440,7 @@ public class IcqPacketSender {
 
     extendedData.append( "Script Plug-in: Remote Notification Arrive".getBytes() );
 
-    extendedData.append( new byte[]{
+    extendedData.append( new byte[] {
               ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x01, ( byte ) 0x00,
               ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00,
               ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00,
@@ -481,32 +474,30 @@ public class IcqPacketSender {
     //Channel
     p.addWord( 0x0002 );
     //Screen name length
-    p.addByte( ( byte ) buddyId.length() );
-    //Screen name
-    p.addStringRaw( buddyId );
+    p.addByteLString( buddyId );
     //Rendezvous message data
     p.addWord( 0x0005 );
 
     ArrayUtil radezvousData = new ArrayUtil();
-    radezvousData.append( new byte[]{
+    radezvousData.append( new byte[] {
               ( byte ) 0x00, ( byte ) 0x00 } );
     radezvousData.append( cookies );
     //Server relaying
-    radezvousData.append( new byte[]{ ( byte ) 0x09, ( byte ) 0x46, ( byte ) 0x13,
+    radezvousData.append( new byte[] { ( byte ) 0x09, ( byte ) 0x46, ( byte ) 0x13,
               ( byte ) 0x49, ( byte ) 0x4c, ( byte ) 0x7f, ( byte ) 0x11, ( byte ) 0xd1,
               ( byte ) 0x82, ( byte ) 0x22, ( byte ) 0x44, ( byte ) 0x45, ( byte ) 0x53,
               ( byte ) 0x54, ( byte ) 0x00, ( byte ) 0x00 } );
     //TLV unk
-    radezvousData.append( new byte[]{ ( byte ) 0x00, ( byte ) 0x0a, ( byte ) 0x00,
+    radezvousData.append( new byte[] { ( byte ) 0x00, ( byte ) 0x0a, ( byte ) 0x00,
               ( byte ) 0x02, ( byte ) 0x00, ( byte ) 0x01 } );
     //TLV unk
-    radezvousData.append( new byte[]{ ( byte ) 0x00, ( byte ) 0x0f, ( byte ) 0x00,
+    radezvousData.append( new byte[] { ( byte ) 0x00, ( byte ) 0x0f, ( byte ) 0x00,
               ( byte ) 0x00 } );
 
     //Ext data
-    radezvousData.append( new byte[]{ ( byte ) 0x27, ( byte ) 0x11 } );
+    radezvousData.append( new byte[] { ( byte ) 0x27, ( byte ) 0x11 } );
 
-    ArrayUtil extendedData = new ArrayUtil( new byte[]{
+    ArrayUtil extendedData = new ArrayUtil( new byte[] {
               ( byte ) 0x1b, ( byte ) 0x00, ( byte ) 0x08, ( byte ) 0x00, ( byte ) 0x00,
               ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00,
               ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00,
@@ -579,7 +570,7 @@ public class IcqPacketSender {
               ( byte ) 0x49, ( byte ) 0x64, ( byte ) 0x26, ( byte ) 0x67, ( byte ) 0x74,
               ( byte ) 0x3b } );
     extendedData.append( userId.getBytes() );
-    extendedData.append( new byte[]{
+    extendedData.append( new byte[] {
               ( byte ) 0x26, ( byte ) 0x6c, ( byte ) 0x74, ( byte ) 0x3b, ( byte ) 0x2f,
               ( byte ) 0x73, ( byte ) 0x65, ( byte ) 0x6e, ( byte ) 0x64, ( byte ) 0x65,
               ( byte ) 0x72, ( byte ) 0x49, ( byte ) 0x64, ( byte ) 0x26, ( byte ) 0x67,
@@ -606,14 +597,13 @@ public class IcqPacketSender {
   public static Cookie sendTypingStatus( IcqSession icqSession, String buddyId, boolean typingStatus ) throws IOException {
     Cookie cookie = new Cookie();
     Snac p = new Snac( 0x0004, 0x0014, 0, 0, cookie.cookieValue );
-    p.addByteArray( new byte[]{ // Notification Cookie: 0000000000000000
+    p.addByteArray( new byte[] { // Notification Cookie: 0000000000000000
               0x00, 0x00, 0x00, 0x00,
               0x00, 0x00, 0x00, 0x00
             } );
     p.addWord( 0x0001 ); // Notification Channel: 256
     // Uin
-    p.addByte( buddyId.length() );
-    p.addByteArray( buddyId.getBytes() );
+    p.addByteLString( buddyId );
     // Flag
     p.addWord( typingStatus ? 0x0002 : 0x0000 );
 

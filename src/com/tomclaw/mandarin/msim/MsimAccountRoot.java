@@ -13,9 +13,9 @@ import java.util.Vector;
  * @author solkin
  */
 public class MsimAccountRoot extends AccountRoot {
-  
-  public MsimAccountRoot(String userId) {
-    super(userId);
+
+  public MsimAccountRoot( String userId ) {
+    super( userId );
   }
 
   public void construct() {
@@ -58,7 +58,7 @@ public class MsimAccountRoot extends AccountRoot {
   public void sortBuddyes() {
   }
 
-  public Cookie addGroup( String groupName, long groupId ) throws IOException {
+  public Cookie addGroup( BuddyGroup buddyGroup ) throws IOException {
     throw new UnsupportedOperationException( "Not supported yet." );
   }
 
@@ -94,16 +94,24 @@ public class MsimAccountRoot extends AccountRoot {
     throw new UnsupportedOperationException( "Not supported yet." );
   }
 
-  public BuddyItem getItemInstance() {
-    return new MsimItem("");
+  public BuddyGroup getGroupInstance() {
+    return new MsimGroup();
+  }
+
+  public BuddyItem getBuddyInstance() {
+    return new MsimItem( );
   }
 
   public DirectConnection getDirectConnectionInstance() {
     throw new UnsupportedOperationException( "Not supported yet." );
   }
 
-  public long getNextItemId() {
-    return System.currentTimeMillis();
+  public int getNextBuddyId() {
+    return 0;
+  }
+
+  public int getNextGroupId() {
+    return 0;
   }
 
   public void connectAction( int statusId ) {

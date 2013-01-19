@@ -69,6 +69,7 @@ public class MmpPacketParser {
               }
             }
           }
+          System.out.println( "Group (" + mmpGroup.userId + ") flags: " + mmpGroup.flags + ") contactId: " + mmpGroup.contactId );
           LogUtil.outMessage( "Group (" + mmpGroup.userId + ") >>" + mmpGroup.flags );
 
           if ( ( mmpGroup.flags & PacketType.CONTACT_FLAG_REMOVED ) == 0 ) {
@@ -162,8 +163,8 @@ public class MmpPacketParser {
                   int length = ( int ) DataUtil.get32( packet.data.byteString,
                           offset, false );
                   /*System.out.println( i + ": " + StringUtil.byteArrayToString(
-                          DataUtil.getByteArray( packet.data.byteString,
-                          offset += 4, length ) ) );*/
+                   DataUtil.getByteArray( packet.data.byteString,
+                   offset += 4, length ) ) );*/
                   offset += 4;
                   offset += length;
                 }

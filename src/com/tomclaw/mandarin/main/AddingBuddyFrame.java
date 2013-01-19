@@ -52,7 +52,7 @@ public class AddingBuddyFrame extends Window {
                     : ( BuddyGroup ) accountRoot.getBuddyItems()
                     .elementAt( buddyGroup.getCombed() ) );
 
-            long userId = accountRoot.getNextItemId();
+            long userId = accountRoot.getNextBuddyId();
 
             Cookie cookie = accountRoot.addBuddy( buddyIdField.getText(),
                     groupItem, buddyNickField.getText(), winType, userId );

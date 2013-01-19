@@ -8,9 +8,13 @@ import com.tomclaw.tcuilite.GroupHeader;
  * @author Solkin
  */
 public abstract class BuddyGroup extends GroupHeader {
-  
+
   public String userId;
-  
+
+  public BuddyGroup() {
+    this( "" );
+  }
+
   public BuddyGroup( String userId ) {
     super( userId );
     this.userId = userId;
@@ -24,5 +28,6 @@ public abstract class BuddyGroup extends GroupHeader {
   public void setUserId( String userId ) {
     this.userId = userId;
   }
+
   public abstract void updateUiData();
 }

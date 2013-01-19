@@ -977,7 +977,7 @@ public class MainFrame extends Window {
               Queue.pushQueueAction( queueAction );
             } else {
               LogUtil.outMessage( buddyItem.getUserId() + " is not yet in visible list" );
-              final int permitBuddyId = ( int ) ( ( IcqAccountRoot ) getActiveAccountRoot() ).getNextItemId();
+              final int permitBuddyId = ( int ) ( ( IcqAccountRoot ) getActiveAccountRoot() ).getNextBuddyId();
               Cookie cookie = IcqPacketSender.addPrivacy( ( ( IcqAccountRoot ) getActiveAccountRoot() ).session, ( ( IcqItem ) buddyItem ).userId, ( ( IcqItem ) buddyItem ).groupId, permitBuddyId, 0x0002 );
               QueueAction queueAction = new QueueAction( getActiveAccountRoot(), buddyItem, cookie ) {
                 public void actionPerformed( Hashtable params ) {
@@ -1017,7 +1017,7 @@ public class MainFrame extends Window {
               LogUtil.outMessage( "QueueAction created" );
               Queue.pushQueueAction( queueAction );
             } else {
-              final int denyBuddyId = ( int ) ( ( IcqAccountRoot ) getActiveAccountRoot() ).getNextItemId();
+              final int denyBuddyId = ( int ) ( ( IcqAccountRoot ) getActiveAccountRoot() ).getNextBuddyId();
               Cookie cookie = IcqPacketSender.addPrivacy( ( ( IcqAccountRoot ) getActiveAccountRoot() ).session, ( ( IcqItem ) buddyItem ).userId, ( ( IcqItem ) buddyItem ).groupId, denyBuddyId, 0x0003 );
               QueueAction queueAction = new QueueAction( getActiveAccountRoot(), buddyItem, cookie ) {
                 public void actionPerformed( Hashtable params ) {
@@ -1057,7 +1057,7 @@ public class MainFrame extends Window {
               LogUtil.outMessage( "QueueAction created" );
               Queue.pushQueueAction( queueAction );
             } else {
-              final int ignoreBuddyId = ( int ) ( ( IcqAccountRoot ) getActiveAccountRoot() ).getNextItemId();
+              final int ignoreBuddyId = ( int ) ( ( IcqAccountRoot ) getActiveAccountRoot() ).getNextBuddyId();
               Cookie cookie = IcqPacketSender.addPrivacy( ( ( IcqAccountRoot ) getActiveAccountRoot() ).session, ( ( IcqItem ) buddyItem ).userId, ( ( IcqItem ) buddyItem ).groupId, ignoreBuddyId, 0x000e );
               QueueAction queueAction = new QueueAction( getActiveAccountRoot(), buddyItem, cookie ) {
                 public void actionPerformed( Hashtable params ) {

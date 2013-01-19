@@ -231,7 +231,7 @@ public abstract class AccountRoot {
     return isShowOffline;
   }
 
-  public abstract Cookie addGroup( String groupName, long groupId ) throws IOException;
+  public abstract Cookie addGroup( BuddyGroup buddyGroup ) throws IOException;
 
   public abstract Cookie addBuddy( String buddyId, BuddyGroup buddyGroup, String nickName, int type, long itemId ) throws IOException;
 
@@ -249,7 +249,9 @@ public abstract class AccountRoot {
 
   public abstract Cookie removeGroup( BuddyGroup buddyGroup ) throws IOException;
 
-  public abstract BuddyItem getItemInstance();
+  public abstract BuddyItem getBuddyInstance();
+  
+  public abstract BuddyGroup getGroupInstance();
 
   public TransactionManager getTransactionManager() {
     if(transactionManager == null) {
@@ -278,5 +280,6 @@ public abstract class AccountRoot {
 
   public abstract DirectConnection getDirectConnectionInstance();
 
-  public abstract long getNextItemId();
+  public abstract int getNextBuddyId();
+  public abstract int getNextGroupId();
 }

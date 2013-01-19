@@ -22,7 +22,7 @@ public class XmppItem extends BuddyItem {
   public String groupChatSubject = null;
 
   public XmppItem() {
-    super( "" );
+    super();
   }
 
   public XmppItem( String userId ) {
@@ -70,8 +70,8 @@ public class XmppItem extends BuddyItem {
         weight = -3;
       }
     }
-    imageLeftIndex = new int[]{ chatImage, status };
-    imageRightIndex = new int[]{ -1, -1, -1, -1, -1 };
+    imageLeftIndex = new int[] { chatImage, status };
+    imageRightIndex = new int[] { -1, -1, -1, -1, -1 };
     if ( MidletMain.chatFrame != null ) {
       isBold = ( MidletMain.chatFrame.getChatTab( userId ) != null
               || MidletMain.getBoolean( MidletMain.uniquest,
@@ -138,13 +138,13 @@ public class XmppItem extends BuddyItem {
   public int getBuddyType() {
     return NORMAL_BUDDY;
   }
-  
-  public void setStatusIndex(int statusIndex, String resource) {
-    if(resource == null) {
+
+  public void setStatusIndex( int statusIndex, String resource ) {
+    if ( resource == null ) {
       offlineResources();
     } else {
       Resource _resource = getResource( resource );
-      if(_resource != null) {
+      if ( _resource != null ) {
         _resource.statusIndex = statusIndex;
       }
     }

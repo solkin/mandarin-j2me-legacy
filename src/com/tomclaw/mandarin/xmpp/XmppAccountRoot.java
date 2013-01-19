@@ -128,12 +128,16 @@ public class XmppAccountRoot extends AccountRoot {
 
   public void setPrivateItems( Vector privateList ) {
   }
+  
+  public BuddyGroup getGroupInstance() {
+    return new XmppGroup();
+  }
 
-  public BuddyItem getItemInstance() {
+  public BuddyItem getBuddyInstance() {
     return new XmppItem();
   }
 
-  public Cookie addGroup( String groupName, long itemId ) throws IOException {
+  public Cookie addGroup( BuddyGroup buddyGroup ) throws IOException {
     return null;
   }
 
@@ -174,7 +178,11 @@ public class XmppAccountRoot extends AccountRoot {
     return new XmppIBBytestream( this );
   }
 
-  public long getNextItemId() {
+  public int getNextBuddyId() {
+    return 0;
+  }
+  
+  public int getNextGroupId() {
     return 0;
   }
 

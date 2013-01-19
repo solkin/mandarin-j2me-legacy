@@ -111,7 +111,7 @@ public class ActionExec {
         com.tomclaw.mandarin.xmpp.Resource resource = null;
         if ( buddyItem == null ) {
           LogUtil.outMessage( "BuddyItem is not exist. Creating..." );
-          buddyItem = accountRoot.getItemInstance();
+          buddyItem = accountRoot.getBuddyInstance();
           buddyItem.setUserId( screenName );
           buddyItem.updateUiData();
           /** Request info and add buddy to server **/

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.tomclaw.mandarin.msim;
 
 import com.tomclaw.mandarin.main.BuddyItem;
@@ -11,6 +7,10 @@ import com.tomclaw.mandarin.main.BuddyItem;
  * @author solkin
  */
 public class MsimItem extends BuddyItem {
+  
+  public MsimItem( ) {
+    super( );
+  }
   
   public MsimItem( String userId ) {
     super( userId );

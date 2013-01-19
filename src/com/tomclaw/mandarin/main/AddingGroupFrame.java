@@ -19,7 +19,7 @@ import java.util.Hashtable;
  */
 public class AddingGroupFrame extends Window {
 
-  public Field groupNameField;
+  private Field groupNameField;
 
   public AddingGroupFrame( final AccountRoot accountRoot ) {
     super( MidletMain.screen );
@@ -39,28 +39,13 @@ public class AddingGroupFrame extends Window {
           ActionExec.showNotify( Localization.getMessage( "EMPTY_FIELD" ) );
         } else {
           try {
-            final long groupId = accountRoot.getNextItemId();
-            Cookie cookie = accountRoot.addGroup( groupNameField.getText(), groupId );
-
-            BuddyGroup groupItemNull = null;
-
-            QueueAction queueAction = new QueueAction( accountRoot, groupItemNull, cookie ) {
+            BuddyGroup buddyGroup = accountRoot.getGroupInstance();
+            buddyGroup.setUserId( groupNameField.getText() );
+            Cookie cookie = accountRoot.addGroup( buddyGroup );
+            QueueAction queueAction = new QueueAction(
+                    accountRoot, buddyGroup, cookie ) {
               public void actionPerformed( Hashtable params ) {
-                if ( accountRoot instanceof IcqAccountRoot ) {
-                  buddyGroup = new IcqGroup( groupNameField.getText() );
-                  ( ( IcqGroup ) buddyGroup ).groupId = ( int ) groupId;
-                } else if ( accountRoot instanceof MmpAccountRoot ) {
-                  buddyGroup = new MmpGroup( groupNameField.getText() );
-                  ( ( MmpGroup ) buddyGroup ).contactId = ( ( Long ) params.get( "contactId" ) ).longValue();
-                  // long flags = PacketType.CONTACT_FLAG_GROUP;
-                  /*flags = ( ( ( long ) ( groupId & 0xff ) ) << 24 ) & 0xFF000000;
-                   flags |= ( ( ( long ) ( ( groupId >> 8 ) & 0xff ) ) << 16 ) & 0x00FF0000;
-                   flags |= ( ( ( long ) ( byte ) ( ( groupId >> 16 ) & 0xff ) ) << 8 ) & 0x0000FF00;
-                   flags |= ( ( ( long ) ( byte ) ( ( groupId >> 24 ) & 0xff ) ) ) & 0x000000FF;*/
-                  ( ( MmpGroup ) buddyGroup ).flags = ( int ) PacketType.CONTACT_FLAG_GROUP;
-                }
                 accountRoot.getBuddyItems().addElement( buddyGroup );
-
                 LogUtil.outMessage( "Action Performed" );
                 buddyGroup.updateUiData();
                 accountRoot.updateOfflineBuddylist();
@@ -68,8 +53,6 @@ public class AddingGroupFrame extends Window {
             };
             LogUtil.outMessage( "QueueAction created" );
             Queue.pushQueueAction( queueAction );
-
-            // IcqPacketSender.requestBuddyList(icqAccountRoot.session);
             MidletMain.screen.setActiveWindow( s_prevWindow );
           } catch ( IOException ex ) {
             ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
@@ -80,9 +63,10 @@ public class AddingGroupFrame extends Window {
     /** Creating pane **/
     Pane pane = new Pane( null, false );
     /** Creating objects **/
-    Label notifyLabel = new Label( Localization.getMessage( "ENTER_NAME_HERE" ) );
-    notifyLabel.setTitle( true );
+    Label notifyLabel = new Label( Localization.getMessage( "GROUP_ADDING" ) );
+    notifyLabel.setHeader( true );
     pane.addItem( notifyLabel );
+    pane.addItem( new Label( Localization.getMessage( "ENTER_NAME_HERE" ) ) );
     groupNameField = new Field( "" );
     groupNameField.setFocusable( true );
     groupNameField.setFocused( true );

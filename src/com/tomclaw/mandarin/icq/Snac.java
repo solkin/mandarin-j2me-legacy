@@ -4,6 +4,7 @@ import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.mandarin.net.NetConnection;
 import com.tomclaw.utils.DataUtil;
 import com.tomclaw.utils.HexUtil;
+import com.tomclaw.utils.StringUtil;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -61,14 +62,18 @@ public class Snac {
   }
 
   /**
-   * SNAC constructor comment.
+   * Adding one byte
+   * @param byt
+   * @throws IOException 
    */
   public final void addByte( int byt ) throws IOException {
     byteArray.write( ( byte ) ( ( byt ) & 0xff ) );
   }
 
   /**
-   * SNAC constructor comment.
+   * Adding byte array
+   * @param b
+   * @throws IOException 
    */
   public final void addByteArray( byte[] b ) throws IOException {
     if ( b.length > 0 ) {
@@ -76,8 +81,26 @@ public class Snac {
     }
   }
 
+  public final void addByteLString( String s ) throws IOException {
+    byte[] array = StringUtil.stringToByteArray( s, true );
+    addByte( array.length );
+    if ( array.length > 0 ) {
+      byteArray.write( array );
+    }
+  }
+
+  public final void addWordLString( String s ) throws IOException {
+    byte[] array = StringUtil.stringToByteArray( s, true );
+    addWord( array.length );
+    if ( array.length > 0 ) {
+      byteArray.write( array );
+    }
+  }
+
   /**
-   * SNAC constructor comment.
+   * Adding double word (4 byte)
+   * @param x
+   * @throws IOException 
    */
   public final void addDWord( long x ) throws IOException {
     addWord( ( ( int ) ( ( x >> 16 ) & 0xffff ) ) );
@@ -90,24 +113,10 @@ public class Snac {
   }
 
   /**
-   * SNAC constructor comment.
-   */
-  public final void addStringPrependedWithByteLength( String s ) throws IOException {
-    byte[] ba = DataUtil.string2byteArray( s );
-    addByte( ba.length );
-    addByteArray( ba );
-  }
-
-  /**
-   * SNAC constructor comment.
-   */
-  public final void addStringRaw( String s ) throws IOException {
-    byte[] ba = DataUtil.string2byteArray( s );
-    addByteArray( ba );
-  }
-
-  /**
-   * SNAC constructor comment.
+   * Adding type, length, value
+   * @param type
+   * @param value
+   * @throws IOException 
    */
   public final void addTlv( int type, byte[] value ) throws IOException {
     addWord( type );
@@ -116,14 +125,20 @@ public class Snac {
   }
 
   /**
-   * SNAC constructor comment.
+   * Adding type, length, value
+   * @param type
+   * @param value
+   * @throws IOException 
    */
   public final void addTlv( int type, String value ) throws IOException {
     addTlv( type, DataUtil.string2byteArray( value ) );
   }
 
   /**
-   * SNAC constructor comment.
+   * Adding type, length, value
+   * @param type
+   * @param byt
+   * @throws IOException 
    */
   public final void addTlvByte( int type, int byt ) throws IOException {
     addWord( type );
@@ -132,7 +147,10 @@ public class Snac {
   }
 
   /**
-   * SNAC constructor comment.
+   * Adding type, length, value
+   * @param type
+   * @param dword
+   * @throws IOException 
    */
   public final void addTlvDWord( int type, long dword ) throws IOException {
     addWord( type );
@@ -150,7 +168,9 @@ public class Snac {
   }
 
   /**
-   * SNAC constructor comment.
+   * Adding type, length, value
+   * @param x
+   * @throws IOException 
    */
   public final void addWord( int x ) throws IOException {
     byteArray.write( ( byte ) ( ( x >> 8 ) & 0xff ) );
@@ -163,7 +183,7 @@ public class Snac {
   }
 
   public final void addIcqUin( long uin ) throws IOException {
-    addByteArray( new byte[]{
+    addByteArray( new byte[] {
               ( byte ) ( uin & 0xff ), //
               ( byte ) ( ( uin >> 8 ) & 0xff ), //
               ( byte ) ( ( uin >> 16 ) & 0xff ), //

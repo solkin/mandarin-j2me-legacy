@@ -24,6 +24,10 @@ public abstract class BuddyItem extends GroupChild {
   /**Typing thread **/
   private Timer typingTimer;
   private TimerTask timerTask;
+  
+  public BuddyItem( ) {
+    this( "" );
+  }
 
   public BuddyItem( String userId ) {
     super( userId );
