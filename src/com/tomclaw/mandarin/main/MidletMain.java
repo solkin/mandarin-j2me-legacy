@@ -32,7 +32,7 @@ public class MidletMain extends MIDlet {
   public static MainFrame mainFrame;
   public static ChatFrame chatFrame;
   public static SettingsFrame settingsFrame;
-  public static PhotoPreparingFrame photoPreparingFrame;
+  public static PhotoFrame photoFrame;
   public static ServiceMessagesFrame serviceMessagesFrame;
   public static HistoryRmsRenderer historyRmsRenderer;
   public static SmilesFrame smilesFrame;

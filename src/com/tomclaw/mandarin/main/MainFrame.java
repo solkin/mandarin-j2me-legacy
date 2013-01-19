@@ -227,15 +227,16 @@ public class MainFrame extends Window {
           AccountRoot accountRoot = getActiveAccountRoot();
           BuddyItem buddyItem = getSelectedBuddyItem();
           if ( buddyItem != null ) {
-            if ( MidletMain.photoPreparingFrame == null ) {
-              MidletMain.photoPreparingFrame = new PhotoPreparingFrame( accountRoot, buddyItem.getUserId() );
+            if ( MidletMain.photoFrame == null ) {
+              MidletMain.photoFrame = new PhotoFrame( accountRoot, buddyItem.getUserId() );
             } else {
-              MidletMain.photoPreparingFrame.accountRoot = accountRoot;
-              MidletMain.photoPreparingFrame.buddyId = buddyItem.getUserId();
-              MidletMain.photoPreparingFrame.createPlayer();
+              // MidletMain.photoFrame.accountRoot = accountRoot;
+              // MidletMain.photoFrame.buddyId = buddyItem.getUserId();
+              // MidletMain.photoFrame.createPlayer();
             }
-            MidletMain.photoPreparingFrame.s_prevWindow = MainFrame.this;
-            MidletMain.screen.setActiveWindow( MidletMain.photoPreparingFrame );
+            // MidletMain.photoFrame.s_prevWindow = MainFrame.this;
+            MidletMain.screen.setActiveWindow( MidletMain.photoFrame );
+            // MidletMain.photoFrame.showFrame();
           }
         }
       }
