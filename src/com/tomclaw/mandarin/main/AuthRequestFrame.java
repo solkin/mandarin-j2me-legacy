@@ -43,14 +43,13 @@ public class AuthRequestFrame extends Window {
     /** Creating pane **/
     Pane pane = new Pane( null, false );
     /** Creating objects **/
-    Label notifyLabel = new Label( Localization.getMessage( "ENTER_AUTHREQ_HERE" ) );
-    notifyLabel.setTitle( true );
-    pane.addItem( notifyLabel );
+    pane.addItem( new Label( Localization.getMessage( "ENTER_AUTHREQ_HERE" ) ) );
     requestTextField = new Field( Localization.getMessage( "DEFAULT_REQUEST_TEXT" ) );
     requestTextField.setFocusable( true );
     requestTextField.setFocused( true );
     requestTextField.title = Localization.getMessage( "REQUEST_TEXT" );
     pane.addItem( requestTextField );
+    pane.addItem( new Label( Localization.getMessage( "AUTH_TEXT_COMMENT" ) ) );
     /** Applying pane **/
     setGObject( pane );
   }

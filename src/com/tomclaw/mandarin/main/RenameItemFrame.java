@@ -58,7 +58,6 @@ public class RenameItemFrame extends Window {
             LogUtil.outMessage( "Switching window..." );
             MidletMain.screen.setActiveWindow( s_prevWindow );
           } catch ( Throwable ex ) {
-            // ex.printStackTrace();
             ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
           }
         }
@@ -67,17 +66,17 @@ public class RenameItemFrame extends Window {
     /** Creating pane **/
     Pane pane = new Pane( null, false );
     /** Creating objects **/
-    Label notifyLabel = new Label( Localization.getMessage( "BUDDY_NICK" ) );
-    notifyLabel.setTitle( true );
+    Label notifyLabel = new Label( Localization.getMessage( "BUDDY_RENAME" ) );
+    notifyLabel.setHeader( true );
     pane.addItem( notifyLabel );
+    pane.addItem( new Label( Localization.getMessage( "BUDDY_RENAME_INFO" ) ) );
     itemNameField = new Field( buddyItem.getUserNick() );
     itemNameField.setFocusable( true );
     itemNameField.setFocused( true );
     itemNameField.title = Localization.getMessage( "BUDDY_NICK" );
     pane.addItem( itemNameField );
     if ( isPhone ) {
-      Label phoneLabel = new Label( Localization.getMessage( "ENTER_PHONE_HERE" ) );
-      pane.addItem( phoneLabel );
+      pane.addItem( new Label( Localization.getMessage( "PHONE_EDIT" ) ) );
       phoneNumberField = new Field( buddyItem.getUserPhone() );
       phoneNumberField.setFocusable( true );
       phoneNumberField.title = Localization.getMessage( "PHONE" );
@@ -130,9 +129,10 @@ public class RenameItemFrame extends Window {
     /** Creating pane **/
     Pane pane = new Pane( null, false );
     /** Creating objects **/
-    Label notifyLabel = new Label( Localization.getMessage( "GROUP_NAME" ) );
-    notifyLabel.setTitle( true );
+    Label notifyLabel = new Label( Localization.getMessage( "GROUP_RENAME" ) );
+    notifyLabel.setHeader( true );
     pane.addItem( notifyLabel );
+    pane.addItem( new Label( Localization.getMessage( "GROUP_RENAME_INFO" ) ) );
     itemNameField = new Field( buddyGroup.getUserId() == null ? "" : buddyGroup.getUserId() );
     itemNameField.setFocusable( true );
     itemNameField.setFocused( true );

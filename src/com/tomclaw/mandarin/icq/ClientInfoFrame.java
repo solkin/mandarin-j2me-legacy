@@ -47,6 +47,7 @@ public class ClientInfoFrame extends Window {
     tab.addTabItem( new TabItem( Localization.getMessage( "PLAIN_INFO" ), 0, -1 ) );
     tab.addTabItem( new TabItem( Localization.getMessage( "DC_INFO" ), 0, -1 ) );
     tab.addTabItem( new TabItem( Localization.getMessage( "CAPS_INFO" ), 0, -1 ) );
+    tab.selectedIndex = 0;
     tab.tabEvent = new TabEvent() {
       public void stateChanged( int i, int i1, int i2 ) {
         switch ( i1 ) {
