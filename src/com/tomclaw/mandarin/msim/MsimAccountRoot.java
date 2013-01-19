@@ -62,19 +62,23 @@ public class MsimAccountRoot extends AccountRoot {
     throw new UnsupportedOperationException( "Not supported yet." );
   }
 
-  public Cookie addBuddy( String buddyId, BuddyGroup buddyGroup, String nickName, int type, long itemId ) throws IOException {
+  public Cookie addBuddy( BuddyItem buddyItem, BuddyGroup buddyGroup ) 
+          throws IOException {
     throw new UnsupportedOperationException( "Not supported yet." );
   }
 
-  public Cookie renameBuddy( String itemName, BuddyItem buddyItem, String phones ) throws IOException {
+  public Cookie renameBuddy( String itemName, BuddyItem buddyItem, 
+          String phones ) throws IOException {
     throw new UnsupportedOperationException( "Not supported yet." );
   }
 
-  public Cookie renameGroup( String text, BuddyGroup buddyGroup ) throws IOException {
+  public Cookie renameGroup( String text, BuddyGroup buddyGroup ) 
+          throws IOException {
     throw new UnsupportedOperationException( "Not supported yet." );
   }
 
-  public void requestAuth( String text, BuddyItem buddyItem ) throws IOException {
+  public void requestAuth( String text, BuddyItem buddyItem ) 
+          throws IOException {
     throw new UnsupportedOperationException( "Not supported yet." );
   }
 

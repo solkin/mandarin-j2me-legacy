@@ -187,7 +187,7 @@ public class MmpPacketParser {
                 }
               }
             } else if ( ( mmpItem.flags & PacketType.CONTACT_FLAG_PHONE ) != 0 ) {
-              mmpItem.isPhone = true;
+              mmpItem.setIsPhone( true );
               mmpItem.userId = mmpItem.userPhone;
               phonesGroup.addChild( mmpItem );
               mmpItem = null;

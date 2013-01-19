@@ -15,7 +15,7 @@ public abstract class BuddyItem extends GroupChild {
   public String userId;
   public String userNick;
   public String userPhone;
-  public boolean isPhone;
+  private boolean isPhone;
   public boolean typingStatus;
   public int buddyType;
   private int statusIndex = 0;

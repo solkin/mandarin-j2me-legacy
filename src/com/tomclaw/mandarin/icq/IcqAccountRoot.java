@@ -306,7 +306,7 @@ public class IcqAccountRoot extends AccountRoot {
   public String getStatusImages() {
     return "/res/groups/img_icqstatus.png";
   }
-  
+
   public BuddyGroup getGroupInstance() {
     return new IcqGroup();
   }
@@ -322,11 +322,15 @@ public class IcqAccountRoot extends AccountRoot {
             icqGroup.getUserId(), true ), icqGroup.groupId, 0x00, 0x0001, false, null );
   }
 
-  public Cookie addBuddy( String buddyId, BuddyGroup buddyGroup,
-          String nickName, int type, long itemId ) throws IOException {
-    return IcqPacketSender.addBuddy( session, buddyId.getBytes(),
-            ( ( IcqGroup ) buddyGroup ).groupId, ( int ) itemId, 0x00, true,
-            StringUtil.stringToByteArray( nickName, true ) );
+  public Cookie addBuddy( BuddyItem buddyItem, BuddyGroup buddyGroup )
+          throws IOException {
+    ( ( IcqItem ) buddyItem ).buddyId = getNextBuddyId();
+    ( ( IcqItem ) buddyItem ).groupId = ( ( IcqGroup ) buddyGroup ).groupId;
+    ( ( IcqItem ) buddyItem ).isAvaitingAuth = true;
+    return IcqPacketSender.addBuddy( session, buddyItem.getUserId().getBytes(),
+            ( ( IcqGroup ) buddyGroup ).groupId,
+            ( ( IcqItem ) buddyItem ).buddyId, 0x00, true,
+            StringUtil.stringToByteArray( buddyItem.getUserNick(), true ) );
   }
 
   public Cookie renameBuddy( String itemName, BuddyItem buddyItem,

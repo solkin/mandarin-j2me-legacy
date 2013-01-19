@@ -233,7 +233,7 @@ public abstract class AccountRoot {
 
   public abstract Cookie addGroup( BuddyGroup buddyGroup ) throws IOException;
 
-  public abstract Cookie addBuddy( String buddyId, BuddyGroup buddyGroup, String nickName, int type, long itemId ) throws IOException;
+  public abstract Cookie addBuddy( BuddyItem buddyItem, BuddyGroup buddyGroup ) throws IOException;
 
   public abstract Cookie renameBuddy( String itemName, BuddyItem buddyItem, String phones ) throws IOException;
 

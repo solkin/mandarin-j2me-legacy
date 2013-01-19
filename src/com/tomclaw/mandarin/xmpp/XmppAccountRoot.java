@@ -141,8 +141,8 @@ public class XmppAccountRoot extends AccountRoot {
     return null;
   }
 
-  public Cookie addBuddy( String buddyId, BuddyGroup buddyGroup, 
-          String nickName, int type, long itemId ) throws IOException {
+  public Cookie addBuddy( BuddyItem buddyItem, BuddyGroup buddyGroup ) 
+          throws IOException {
     return null;
   }
 

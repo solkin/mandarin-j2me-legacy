@@ -198,20 +198,22 @@ public class MmpAccountRoot extends AccountRoot {
     return cookie;
   }
 
-  public Cookie addBuddy( String buddyId, final BuddyGroup buddyGroup,
-          String nickName, int type, long itemId ) throws IOException {
-    final boolean isTelephone = ( type == 0x02 );
+  public Cookie addBuddy( BuddyItem buddyItem, BuddyGroup buddyGroup ) throws IOException {
     Cookie cookie;
-    if ( isTelephone ) {
+    if ( buddyItem.isPhone() ) {
+      buddyItem.setUserPhone( buddyItem.getUserId() );
+      ( ( MmpItem ) buddyItem ).flags =
+              PacketType.CONTACT_FLAG_PHONE;
       cookie = MmpPacketSender.MRIM_CS_ADD_CONTACT( this, 0x00100000,
               0x67000000, "phone".getBytes(),
-              StringUtil.string1251ToByteArray( nickName ),
-              buddyId.getBytes() );
+              StringUtil.string1251ToByteArray( buddyItem.getUserNick() ),
+              buddyItem.getUserId().getBytes() );
     } else {
       cookie = MmpPacketSender.MRIM_CS_ADD_CONTACT( this, 0x00000000,
               ( ( MmpGroup ) buddyGroup ).getId()/*& 0x0000ffff*/,
-              buddyId.getBytes(),
-              StringUtil.string1251ToByteArray( nickName ), new byte[ 0 ] );
+              buddyItem.getUserId().getBytes(),
+              StringUtil.string1251ToByteArray( buddyItem.getUserNick() ),
+              new byte[ 0 ] );
     }
     return cookie;
   }

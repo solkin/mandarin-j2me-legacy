@@ -30,7 +30,7 @@ public abstract class QueueAction {
     this.buddyItem = buddyItem;
   }
 
-  public void setBuddyItem( BuddyGroup buddyGroup ) {
+  public void setBuddyGroup( BuddyGroup buddyGroup ) {
     this.buddyGroup = buddyGroup;
   }
 

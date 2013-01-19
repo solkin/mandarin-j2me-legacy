@@ -48,57 +48,36 @@ public class AddingBuddyFrame extends Window {
           ActionExec.showNotify( Localization.getMessage( "EMPTY_FIELDS" ) );
         } else {
           try {
-            final BuddyGroup groupItem = ( winType == 0x02 ? null
+            BuddyGroup groupItem = ( winType == 0x02
+                    ? ( ( MmpAccountRoot ) accountRoot ).phoneGroup
                     : ( BuddyGroup ) accountRoot.getBuddyItems()
                     .elementAt( buddyGroup.getCombed() ) );
 
-            long userId = accountRoot.getNextBuddyId();
+            BuddyItem buddyItem = accountRoot.getBuddyInstance();
+            buddyItem.setIsPhone( winType == 0x02 );
+            buddyItem.setUserId( buddyIdField.getText() );
+            buddyItem.setUserNick( buddyNickField.getText() );
 
-            Cookie cookie = accountRoot.addBuddy( buddyIdField.getText(),
-                    groupItem, buddyNickField.getText(), winType, userId );
-
-            BuddyItem buddyItemNull = null;
+            Cookie cookie = accountRoot.addBuddy( buddyItem, groupItem );
 
             QueueAction queueAction = new QueueAction( accountRoot,
-                    buddyItemNull, cookie ) {
+                    buddyItem, cookie ) {
               public void actionPerformed( Hashtable params ) {
                 switch ( winType ) {
-                  case 0x00: {
-                    buddyItem = new IcqItem( buddyIdField.getText(),
-                            buddyNickField.getText() );
-                    ( ( GroupHeader ) groupItem )
-                            .addChild( ( GroupChild ) buddyItem );
-                    break;
-                  }
-                  case 0x01: {
-                    buddyItem = new MmpItem( buddyIdField.getText(),
-                            buddyNickField.getText() );
-                    ( ( MmpItem ) buddyItem ).contactId = ( ( Long ) params
-                            .get( "contactId" ) ).longValue();
-                    ( ( GroupHeader ) groupItem ).addChild(
-                            ( GroupChild ) buddyItem );
-                    break;
-                  }
+                  case 0x01:
                   case 0x02: {
-                    buddyItem = new MmpItem( buddyIdField.getText(),
-                            buddyNickField.getText() );
-                    buddyItem.setIsPhone( true );
-                    buddyItem.setUserPhone( buddyIdField.getText() );
-                    ( ( MmpItem ) buddyItem ).flags =
-                            PacketType.CONTACT_FLAG_PHONE;
                     ( ( MmpItem ) buddyItem ).contactId =
                             ( ( Long ) params.get( "contactId" ) ).longValue();
-                    ( ( MmpAccountRoot ) accountRoot ).phoneGroup
-                            .addChild( ( GroupChild ) buddyItem );
                     break;
                   }
                 }
-
+                getBuddyGroup().addChild( buddyItem );
                 LogUtil.outMessage( "Action Performed" );
                 buddyItem.updateUiData();
                 accountRoot.updateOfflineBuddylist();
               }
             };
+            queueAction.setBuddyGroup( groupItem );
             LogUtil.outMessage( "QueueAction created" );
             Queue.pushQueueAction( queueAction );
 
@@ -131,26 +110,23 @@ public class AddingBuddyFrame extends Window {
         break;
       }
     }
-    Label idLabel = new Label( Localization.getMessage( idLabelString ) );
-    idLabel.setTitle( true );
+    Label idLabel = new Label( Localization.getMessage( "ADDING_BUDDY" ) );
+    idLabel.setHeader( true );
     pane.addItem( idLabel );
+    pane.addItem( new Label( Localization.getMessage( idLabelString ) ) );
     buddyIdField = new Field( "" );
     buddyIdField.setFocusable( true );
     buddyIdField.setFocused( true );
     buddyIdField.constraints = constraints;
     buddyIdField.title = Localization.getMessage( "BUDDY_ID" );
     pane.addItem( buddyIdField );
-    Label nickLabel = new Label( Localization.getMessage( "ENTER_NICK_HERE" ) );
-    nickLabel.setTitle( true );
-    pane.addItem( nickLabel );
+    pane.addItem( new Label( Localization.getMessage( "ENTER_NICK_HERE" ) ) );
     buddyNickField = new Field( "" );
     buddyNickField.setFocusable( true );
     buddyNickField.title = Localization.getMessage( "BUDDY_NICK" );
     pane.addItem( buddyNickField );
     if ( winType != 2 ) {
-      Label groupLabel = new Label( Localization.getMessage( "SELECT_GROUP" ) );
-      groupLabel.setTitle( true );
-      pane.addItem( groupLabel );
+      pane.addItem( new Label( Localization.getMessage( "SELECT_GROUP" ) ) );
       buddyGroup = new RadioGroup();
       if ( accountRoot.getBuddyItems().isEmpty() ) {
         ActionExec.showFail( Localization.getMessage( "NO_GROUPS" ) );
