@@ -70,9 +70,7 @@ public class BuddyInfoFrame extends Window {
 
   public void updateNickAction( final BuddyInfo buddyInfo ) {
     try {
-      /**
-       * This is buddy, not group
-       */
+      /** This is buddy, not group **/
       Cookie cookie = accountRoot.renameBuddy( buddyInfo.nickName, buddyItem, buddyItem.getUserPhone() );
       LogUtil.outMessage( "Request queued, cookie received" );
       QueueAction queueAction = new QueueAction( accountRoot, buddyItem, cookie ) {

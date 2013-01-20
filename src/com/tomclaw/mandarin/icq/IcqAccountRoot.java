@@ -363,7 +363,7 @@ public class IcqAccountRoot extends AccountRoot {
   }
 
   public void requestInfo( String userId, int reqSeqNum ) throws IOException {
-    IcqPacketSender.shortInfoRequest( session, this.userId, userId, reqSeqNum );
+    IcqPacketSender.shortInfoRequest( session, userId, reqSeqNum );
   }
 
   public Cookie removeBuddy( BuddyItem buddyItem ) throws IOException {

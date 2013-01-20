@@ -31,6 +31,7 @@ public class IcqPacketParser {
   public static final int ICQ_SPECIFIC_EXTENSIONS_SERVICE = 0x0015;
   public static final int AUTHORIZATION_REGISTRATION_SERVICE = 0x0017;
   public static final int BROADCAST_SERVICE = 0x0085;
+  public static final int BUDDY_USER_INFO = 0x00025;
   /**
    * Buddy list types
    */
@@ -124,9 +125,7 @@ public class IcqPacketParser {
       snacFlags = DataUtil.get16( packetData, 4 );
       snacRequestId = DataUtil.getByteArray( packetData, 6, 4 );
     }
-    /**
-     * Packet dump output
-     */
+    /** Packet dump output **/
     if ( MidletMain.logLevel == 1 ) {
       HexUtil.dump_( System.err, packetData, ">> SNAC (" + HexUtil.toHexString( snacFamily ) + ", " + HexUtil.toHexString( snacSubtype ) + "): " );
     }
@@ -160,6 +159,10 @@ public class IcqPacketParser {
          * Server side information service
          */
         ICQSpecificExtService( icqAccountRoot, packetData, snacSubtype, snacFlags, snacRequestId );
+        break;
+      }
+      case BUDDY_USER_INFO: {
+        ICQBuddyUserInfo(icqAccountRoot, packetData, snacSubtype, snacFlags, snacRequestId);
         break;
       }
       default: {
@@ -1427,5 +1430,9 @@ public class IcqPacketParser {
         }
       }
     }
+  }
+  
+  private static void ICQBuddyUserInfo( IcqAccountRoot icqAccountRoot, byte[] packetData, int snacSubtype, int snacFlags, byte[] snacRequestId ) {
+    HexUtil.dump_( packetData, "buddy info: " );
   }
 }

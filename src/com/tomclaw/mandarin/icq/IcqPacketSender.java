@@ -6,7 +6,6 @@ import com.tomclaw.tompacket.PacketBuilder;
 import com.tomclaw.utils.ArrayUtil;
 import com.tomclaw.utils.DataUtil;
 import com.tomclaw.utils.LogUtil;
-import com.tomclaw.utils.StringUtil;
 import java.io.IOException;
 import java.util.Hashtable;
 
@@ -70,9 +69,7 @@ public class IcqPacketSender {
   }
 
   public static Cookie setStatus( IcqSession icqSession, int statusId ) throws IOException {
-    /**
-     * Sending status to server
-     */
+    /** Sending status to server **/
     Cookie cookie = new Cookie();
     Snac snac = new Snac( 0x0001, 0x001e, 0, 0, cookie.cookieValue );
     snac.addByteArray( new byte[] {
@@ -250,20 +247,19 @@ public class IcqPacketSender {
     return cookie;
   }
 
-  public static Cookie shortInfoRequest( IcqSession icqSession, String userId, String buddyId, int reqSeqNum ) throws IOException {
+  public static Cookie shortInfoRequest( IcqSession icqSession, String userId, 
+          int reqSeqNum ) throws IOException {
     Cookie cookie = new Cookie();
-    Snac p = new Snac( 0x0015, 0x0002, 0, 0, cookie.cookieValue );
-    // TLV.Type(1) - encapsulated META_DATA
-    p.addWord( 0x0001 );
-    p.addWord( 0x0010 ); // 16 bytes, length of TLV
-    p.addWord( 0x0E00 ); // 14 bytes, length of chunk
-    p.addDWordReversed( Long.parseLong( userId ) );
-    p.addWord( 0xD007 );
-    p.addWordReversed( reqSeqNum );// 0x0200
-    p.addWord( 0xBA04 ); // 0xBA04
-    p.addDWordReversed( Long.parseLong( buddyId ) );
-
-    p.send( icqSession.getNetworkConnection(), icqSession.getNextSeq() );
+    Hashtable data = new Hashtable();
+    data.put( "DATAGRAM_SEQ_NUM", new Integer( icqSession.getNextSeq() ) );
+    data.put( "FLAP_DATA_SIZE", "SNAC" );
+    data.put( "FLAP_DATA", "SNAC" );
+    data.put( "SERVICE_ID", new Integer( 0x25 ) );
+    data.put( "SUBTYPE_ID", new Integer( 0x02 ) );
+    data.put( "SNAC_REQUEST_ID", new Long( cookie.cookieValue ) );
+    data.put( "SNAC_DATA", "CLI_USER_INFO_REQUEST" );
+    data.put( "SCREENNAME", userId );
+    PacketBuilder.sendPacket( icqSession.getNetworkConnection(), "FLAP", data );
     return cookie;
   }
 

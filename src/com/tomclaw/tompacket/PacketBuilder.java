@@ -50,7 +50,7 @@ public class PacketBuilder {
     try {
       packet = PacketBuilder.cacheMap( fileName );
       if(MidletMain.logLevel == 1) {
-        HexUtil.dump_( packet.getData(), "OUT: " );
+        HexUtil.dump_( packet.getData(), ">> " );
       }
     } catch ( Throwable ex ) {
     }
@@ -58,7 +58,6 @@ public class PacketBuilder {
       netConnection.write( packet.getData() );
       netConnection.flush();
     }
-
   }
 
   public static boolean checkNull( String caseName ) {
