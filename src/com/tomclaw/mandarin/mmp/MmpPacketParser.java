@@ -3,12 +3,18 @@ package com.tomclaw.mandarin.mmp;
 import com.tomclaw.mandarin.main.ActionExec;
 import com.tomclaw.mandarin.main.BuddyInfo;
 import com.tomclaw.mandarin.main.Cookie;
+import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.ChatItem;
+import com.tomclaw.tcuilite.Label;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Hashtable;
 import java.util.Vector;
+import javax.microedition.io.Connector;
+import javax.microedition.io.HttpConnection;
+import javax.microedition.lcdui.Image;
 
 /**
  * Solkin Igor Viktorovich, TomClaw Software, 2003-2013
@@ -446,10 +452,39 @@ public class MmpPacketParser {
             // mailInfo.uaFeatures = value.length >= 4 ? DataUtil.get32_reversed(value, 0, true) : 0;
           }
         }
+        buddyInfo.avatar = downloadAvatar( buddyInfo.buddyId );
         ActionExec.showUserShortInfo( mmpAccountRoot, buddyInfo );
       } else if ( status == PacketType.MRIM_ANKETA_INFO_STATUS_NOUSER ) {
       } else if ( status == PacketType.MRIM_ANKETA_INFO_STATUS_RATELIMERR ) {
       }
     }
+  }
+
+  public static Image downloadAvatar( String email ) {
+    int domainIndex = email.indexOf( "@" );
+    int domainDotIndex = email.indexOf( '.', domainIndex );
+    if ( domainIndex != -1 && domainDotIndex != -1 ) {
+      final String userName = email.substring( 0, domainIndex );
+      final String domain = email.substring( domainIndex + 1, domainDotIndex );
+      try {
+        HttpConnection http = ( HttpConnection ) Connector.open(
+                "http://buddyicon.foto.mail.ru/" + domain + "/" + userName + "/_avatar",
+                Connector.READ, true );
+        System.out.println( "http://buddyicon.foto.mail.ru/" + domain + "/" + userName + "/_avatar" );
+        http.setRequestMethod( "GET" );
+        if ( http.getResponseCode() == HttpConnection.HTTP_OK ) {
+          InputStream stream = http.openInputStream();
+          ArrayUtil array = new ArrayUtil();
+          byte[] buffer = new byte[ 4096 ];
+          int read;
+          while ( ( read = stream.read( buffer ) ) >= 0 ) {
+            array.append( buffer, 0, read );
+          }
+          return Image.createImage( array.byteString, 0, array.length() );
+        }
+      } catch ( Throwable ex ) {
+      }
+    }
+    return null;
   }
 }

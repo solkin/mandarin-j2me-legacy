@@ -21,19 +21,20 @@ public class BuddyInfoFrame extends Window {
   public String clientBuffer = "";
   private Button updateNickButton;
 
-  public BuddyInfoFrame( final AccountRoot accountRoot, final BuddyItem buddyItem ) {
+  public BuddyInfoFrame( final AccountRoot accountRoot,
+          final BuddyItem buddyItem ) {
     super( MidletMain.screen );
     this.accountRoot = accountRoot;
     this.buddyItem = buddyItem;
     /** Info request sequence number **/
     reqSeqNum = MidletMain.reqSeqNum++;
     /** Header **/
-    header = new Header( Localization.getMessage( "INFO_ABOUT" ).concat( " " ).concat( buddyItem.getUserId() ) );
+    header = new Header( Localization.getMessage( "INFO_ABOUT" )
+            .concat( " " ).concat( buddyItem.getUserId() ) );
     /** Creating soft **/
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
-
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
@@ -43,21 +44,22 @@ public class BuddyInfoFrame extends Window {
     pane = new Pane( null, false );
     if ( accountRoot.getStatusIndex() == 0 || buddyItem.isPhone() ) {
       Label idLabel = new Label( Localization.getMessage( "BUDDY_ID_LABEL" ) );
-      idLabel.setTitle(true);
+      idLabel.setTitle( true );
       pane.addItem( idLabel );
       Label idLabel_a = new Label( buddyItem.getUserId() );
       pane.addItem( idLabel_a );
-      Label nickLabel = new Label( Localization.getMessage( "NICK_NAME_LABEL" ) );
-      nickLabel.setTitle(true);
+      Label nickLabel = new Label(
+              Localization.getMessage( "NICK_NAME_LABEL" ) );
+      nickLabel.setTitle( true );
       pane.addItem( nickLabel );
       Label nickLabel_a = new Label( buddyItem.getUserNick() );
       pane.addItem( nickLabel_a );
     } else {
       String waitText;
+      LogUtil.outMessage( "Dialog with reqSeqNum = " + reqSeqNum );
+      waitText = "WAIT_LABEL";
       try {
-        LogUtil.outMessage( "Dialog with reqSeqNum = " + reqSeqNum );
         accountRoot.requestInfo( buddyItem.getUserId(), reqSeqNum );
-        waitText = "WAIT_LABEL";
       } catch ( IOException ex ) {
         waitText = "IO_EXCEPTION";
       }
@@ -71,10 +73,11 @@ public class BuddyInfoFrame extends Window {
   public void updateNickAction( final BuddyInfo buddyInfo ) {
     try {
       /** This is buddy, not group **/
-      Cookie cookie = accountRoot.renameBuddy( buddyInfo.nickName, buddyItem, buddyItem.getUserPhone() );
+      Cookie cookie = accountRoot.renameBuddy( buddyInfo.nickName, buddyItem,
+              buddyItem.getUserPhone() );
       LogUtil.outMessage( "Request queued, cookie received" );
-      QueueAction queueAction = new QueueAction( accountRoot, buddyItem, cookie ) {
-
+      QueueAction queueAction = new QueueAction(
+              accountRoot, buddyItem, cookie ) {
         public void actionPerformed( Hashtable params ) {
           LogUtil.outMessage( "Action Performed" );
           buddyItem.setUserNick( buddyInfo.nickName );
@@ -84,7 +87,8 @@ public class BuddyInfoFrame extends Window {
       };
       LogUtil.outMessage( "QueueAction created" );
       Queue.pushQueueAction( queueAction );
-      LogUtil.outMessage( "queueAction: " + queueAction.getCookie().cookieString );
+      LogUtil.outMessage( "queueAction: "
+              + queueAction.getCookie().cookieString );
 
       BuddyInfoFrame.this.pane.items.removeElement( updateNickButton );
       MidletMain.screen.repaint();
@@ -94,13 +98,20 @@ public class BuddyInfoFrame extends Window {
 
   public void placeInfo( final BuddyInfo buddyInfo ) {
     pane.items.removeAllElements();
+    if ( buddyInfo.avatar != null ) {
+      Label avatarLabel = new Label( buddyInfo.nickName );
+      avatarLabel.setBold( true );
+      avatarLabel.setHeader( true );
+      avatarLabel.image = buddyInfo.avatar;
+      pane.addItem( avatarLabel );
+    }
     String labelMessage;
     String labelDescription;
     Label descriptionLabel;
     Enumeration keys = buddyInfo.buddyHash.keys();
     for ( int c = 0; c < buddyInfo.buddyHash.size() + 2; c++ ) {
       Label onlineLabel = new Label( "" );
-      onlineLabel.setTitle(true);
+      onlineLabel.setTitle( true );
       descriptionLabel = new Label( "" );
       switch ( c ) {
         case 0x00: {
@@ -112,8 +123,8 @@ public class BuddyInfoFrame extends Window {
           labelMessage = "NICK_NAME_LABEL";
           labelDescription = buddyInfo.nickName;
           if ( !buddyInfo.nickName.equals( buddyItem.getUserNick() ) ) {
-            updateNickButton = new Button( Localization.getMessage( "UPDATE_NICKNAME" ) ) {
-
+            updateNickButton = new Button(
+                    Localization.getMessage( "UPDATE_NICKNAME" ) ) {
               public void actionPerformed() {
                 updateNickAction( buddyInfo );
               }
@@ -143,11 +154,12 @@ public class BuddyInfoFrame extends Window {
       pane.addItem( descriptionLabel );
     }
     soft.rightSoft = new PopupItem( Localization.getMessage( "COPY" ) ) {
-
       public void actionPerformed() {
         MidletMain.buffer = clientBuffer;
       }
     };
     MidletMain.screen.repaint();
+    /** Collecting garbage **/
+    Runtime.getRuntime().gc();
   }
 }
