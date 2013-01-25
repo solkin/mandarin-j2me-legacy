@@ -5,7 +5,6 @@ import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tompacket.PacketBuilder;
 import com.tomclaw.utils.ArrayUtil;
 import com.tomclaw.utils.DataUtil;
-import com.tomclaw.utils.HexUtil;
 import com.tomclaw.utils.LogUtil;
 import java.io.IOException;
 import java.util.Hashtable;

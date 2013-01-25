@@ -28,7 +28,8 @@ public class PacketBuilder {
   }
 
   public static InputStream openMapStream( String mapFileName ) {
-    InputStream inputStream = MidletMain.clazz.getResourceAsStream( rootFolder + mapFileName );
+    InputStream inputStream = MidletMain.clazz.getResourceAsStream( rootFolder 
+            + mapFileName );
     return inputStream;
   }
 
@@ -44,7 +45,8 @@ public class PacketBuilder {
     return packet;
   }
 
-  public static void sendPacket( NetConnection netConnection, String fileName, Hashtable data ) throws IOException {
+  public static void sendPacket( NetConnection netConnection, String fileName, 
+          Hashtable data ) throws IOException {
     PacketBuilder.setup( data );
     Packet packet = null;
     try {

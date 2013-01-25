@@ -278,7 +278,11 @@ public class ActionExec {
     LogUtil.outMessage( "User info response. \nreqSeqNum = " + buddyInfo.reqSeqNum );
     LogUtil.outMessage( "buddyId = " + buddyInfo.buddyId );
     LogUtil.outMessage( "nickName = " + buddyInfo.nickName );
-    if ( MidletMain.mainFrame.buddyInfoFrame != null && ( MidletMain.mainFrame.buddyInfoFrame.reqSeqNum == buddyInfo.reqSeqNum || ( buddyInfo.buddyId != null && MidletMain.mainFrame.buddyInfoFrame.buddyItem.getUserId().equals( buddyInfo.buddyId ) ) ) ) {
+    if ( MidletMain.mainFrame.buddyInfoFrame != null 
+            && ( MidletMain.mainFrame.buddyInfoFrame.reqSeqNum == buddyInfo.reqSeqNum 
+            || ( buddyInfo.buddyId != null 
+            && MidletMain.mainFrame.buddyInfoFrame.buddyItem.getUserId()
+            .equals( buddyInfo.buddyId ) ) ) ) {
       MidletMain.mainFrame.buddyInfoFrame.placeInfo( buddyInfo );
     }
   }
