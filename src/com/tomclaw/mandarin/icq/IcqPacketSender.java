@@ -5,6 +5,7 @@ import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tompacket.PacketBuilder;
 import com.tomclaw.utils.ArrayUtil;
 import com.tomclaw.utils.DataUtil;
+import com.tomclaw.utils.HexUtil;
 import com.tomclaw.utils.LogUtil;
 import java.io.IOException;
 import java.util.Hashtable;
@@ -258,6 +259,8 @@ public class IcqPacketSender {
     data.put( "SUBTYPE_ID", new Integer( 0x02 ) );
     data.put( "SNAC_REQUEST_ID", new Long( cookie.cookieValue ) );
     data.put( "SNAC_DATA", "CLI_USER_INFO_REQUEST" );
+    // data.put( "MAP_NAME", "CLI_USER_INFO_REQUEST:BLOCK_EMAIL" );
+    data.put( "MAP_NAME", "CLI_USER_INFO_REQUEST:BLOCK_OSCAR" );
     data.put( "SCREENNAME", userId );
     PacketBuilder.sendPacket( icqSession.getNetworkConnection(), "FLAP", data );
     return cookie;

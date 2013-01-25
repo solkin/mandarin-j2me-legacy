@@ -162,7 +162,7 @@ public class IcqPacketParser {
         break;
       }
       case BUDDY_USER_INFO: {
-        ICQBuddyUserInfo(icqAccountRoot, packetData, snacSubtype, snacFlags, snacRequestId);
+        ICQBuddyUserInfo( icqAccountRoot, packetData, snacSubtype, snacFlags, snacRequestId );
         break;
       }
       default: {
@@ -1431,8 +1431,139 @@ public class IcqPacketParser {
       }
     }
   }
+  public static final int UMD_PROFILE_USER = 101; // 0x65  {SNAC_byte array}; # IDM__SN or PBC__GUID
+  public static final int UMD_PROFILE_FIRST_NAME = 102; // 0x66  {SNAC_byte array};
+  public static final int UMD_PROFILE_LAST_NAME = 103; // 0x67  {SNAC_byte array};
+  public static final int UMD_PROFILE_GENDER = 104; // 0x68  {SNAC_u32 class=GNR}; # Note ICQ and AIM formats differ
+  public static final int UMD_PROFILE_HOME_ADDRESS = 105; // 0x69  {SNAC_TLV_Block class=ADDRESS array}; # Only 1 allowed
+  public static final int UMD_PROFILE_FRIENDLY_NAME = 106; // 0x6A  {SNAC_byte array}; # IMD__NICK_NAME
+  public static final int UMD_PROFILE_WEBSITE_1 = 107; // 0x6B  {SNAC_byte array}; # IMD__HOME_WEBSITE
+  public static final int UMD_PROFILE_RELATIONSHIP_STATUS = 108; // 0x6C  {SNAC_u32 class=RELATIONSHIP_STATUS}; # IMD__MARITAL_STATUS. Values differ
+  public static final int UMD_PROFILE_LANG_1 = 109; // 0x6D  {SNAC_byte array}; # IMD__LANG_1 or PBC__PRIMARY_LANGUAGE
+  public static final int UMD_PROFILE_JOBS = 110; // 0x6E  {SNAC_TLV_Block class=JOB array};     # PBC__OCCUPATION is job.title and AIM allows only 1
+  public static final int UMD_PROFILE_ABOUT_ME = 111; // 0x6F  {SNAC_byte array}; # IMD__ABOUT
+  public static final int UMD_PROFILE_BIRTH_DATE = 112; // 0x70  {SNAC_t70}; # 
+  public static final int UMD_PROFILE_ONLINE_STATUS = 2035;
+  public static final int UMD_PROFILE_WEBAWARE = 2050;
+  public static final int UMD_PROFILE_STATUS_LINE = 2052;
+  public static final int UMD_PROFILE_VALIDATED_CELLULAR = 2056;
+
+  private static final int CI_GENDER_UNKNOWN = 0;
+  private static final int CI_GENDER_MALE    = 1;
+  private static final int CI_GENDER_FEMALE  = 2;
   
-  private static void ICQBuddyUserInfo( IcqAccountRoot icqAccountRoot, byte[] packetData, int snacSubtype, int snacFlags, byte[] snacRequestId ) {
+  public static void ICQBuddyUserInfo( IcqAccountRoot icqAccountRoot, 
+          byte[] packetData, int snacSubtype, int snacFlags, 
+          byte[] snacRequestId ) {
     HexUtil.dump_( packetData, "buddy info: " );
+    // System.out.println(HexUtil.bytesToString( packetData ));
+
+    String firstName = "", lastName = "", nickName = "", icqNotes = "", mrimTitle = "", mrimPhones = "";
+    int gender=0, icqBirthday = 0;
+
+    int offset = 10;
+
+    int result = (int)DataUtil.get32( packetData, offset, true );
+    offset += 4;
+    if ( result == 0 ) {
+      System.out.println("Result good");
+      
+      int count0 = DataUtil.get16( packetData, offset ) + 8;
+      offset += 2;
+      offset += count0;
+
+      int count = (int)DataUtil.get32( packetData, offset,true );
+      offset += 4;
+
+      System.out.println("Count: " + count);
+      for ( int n = count; --n >= 0; ) {
+
+        int webaware = 0;
+        int online = 0;
+
+        int len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
+        offset += 2;
+        String key_t = DataUtil.byteArray2string( packetData, offset, len );
+        offset += len;
+
+        offset += 8;// packet.getDL ( ); // packet.skip ( 8 );
+        int num_prefs_n = DataUtil.get16( packetData, offset );
+        offset += 2;
+        for ( int num_prefs = num_prefs_n; --num_prefs >= 0; ) {
+          int sw_t = DataUtil.get16( packetData, offset );
+          offset += 2;
+          switch ( sw_t ) {
+            /*102*/ case UMD_PROFILE_FIRST_NAME: {
+              len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
+              offset += 2;
+              firstName = DataUtil.byteArray2string( packetData, offset, len );
+              offset += len;
+              continue;
+            }
+            /*103*/ case UMD_PROFILE_LAST_NAME: {
+              len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
+              offset += 2;
+              lastName = DataUtil.byteArray2string( packetData, offset, len );
+              offset += len;
+              continue;
+            }
+            /*104*/ case UMD_PROFILE_GENDER: {
+              gender = Math.max( CI_GENDER_MALE, (int)DataUtil.get32( packetData, offset + 2, true) );
+              break;
+            }
+            /*106*/ case UMD_PROFILE_FRIENDLY_NAME: {
+              len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
+              offset += 2;
+              nickName = DataUtil.byteArray2string( packetData, offset, len );
+              offset += len;
+              continue;
+            }
+            /*107*/ // case UMD_PROFILE_WEBSITE_1      : this.icqWebsite  = packet.readPascalUTF8 ( ); continue;
+/*111*/ case UMD_PROFILE_ABOUT_ME: {
+              len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
+              offset += 2;
+              icqNotes = DataUtil.byteArray2string( packetData, offset, len );
+              offset += len;
+              continue;
+            }
+            /*112*/ case UMD_PROFILE_BIRTH_DATE: {
+              icqBirthday = (int)DataUtil.get32( packetData, offset + 2, true);
+              break;
+            }
+            /*2035*/            case UMD_PROFILE_ONLINE_STATUS: {
+              online = (int)DataUtil.get32( packetData, offset + 2, true);
+              break;
+            }
+            /*2050*/            case UMD_PROFILE_WEBAWARE: {
+              webaware = (int)DataUtil.get32( packetData, offset + 2, true);
+              break;
+            }
+            /*2052*/            case UMD_PROFILE_STATUS_LINE: {
+              len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
+              offset += 2;
+              mrimTitle = DataUtil.byteArray2string( packetData, offset, len );
+              offset += len;
+              continue;
+            }
+            /*2056*/            case UMD_PROFILE_VALIDATED_CELLULAR: {
+              len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
+              offset += 2;
+              mrimPhones = DataUtil.byteArray2string( packetData, offset, len );
+              offset += len;
+              continue;
+            }
+          }
+          int val_t = DataUtil.get16( packetData, offset );
+          offset += 2;
+          offset += val_t;
+        }
+        offset += 4;
+        System.out.println(nickName + ", " + firstName + ", " + lastName + ", " + gender 
+                + ", " + icqNotes + ", " + TimeUtil.getDateString( icqBirthday, false) + ", " + online
+                 + ", " + webaware + ", " + mrimTitle + ", " + mrimPhones);
+        // setViewName( Util.getViewName( this.nickName, this.firstName, this.lastName, this.key ) );
+        // this.icon = ICQ_Contact.getIcqContactInfoIcon( this.key, online != 0, webaware != 0 );
+      }
+    }
   }
 }
