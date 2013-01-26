@@ -65,6 +65,9 @@ public class MmpItem extends BuddyItem {
     if ( getStatusIndex() != 0 && MidletMain.isSortOnline ) {
       weight = -2;
     }
+    if ( isPhone() ) {
+      weight = -1;
+    }
     if ( unreadCount > 0 ) {
       chatImage = ChatItem.TYPE_PLAIN_MSG;
       if ( MidletMain.isRaiseUnread ) {
