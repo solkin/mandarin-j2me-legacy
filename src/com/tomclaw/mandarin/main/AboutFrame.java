@@ -36,7 +36,7 @@ public class AboutFrame extends Window {
     Label titleLabel = new Label( "Mandarin " + MidletMain.version + " "
             + MidletMain.type + "-build " + MidletMain.build );
     try {
-      titleLabel.image = Image.createImage( "/res/huge/logo.png" );
+      ( ( PlainContent ) titleLabel.getContent() ).image = Image.createImage( "/res/huge/logo.png" );
     } catch ( IOException ex ) {
     }
     pane.addItem( titleLabel );

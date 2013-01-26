@@ -99,23 +99,22 @@ public class BuddyInfoFrame extends Window {
     pane.items.removeAllElements();
     if ( buddyInfo.avatar != null ) {
       Label avatarLabel = new Label( buddyInfo.nickName );
-      avatarLabel.setBold( true );
+      ( ( PlainContent ) avatarLabel.getContent() ).setBold( true );
       avatarLabel.setHeader( true );
-      avatarLabel.image = buddyInfo.avatar;
+      ( ( PlainContent ) avatarLabel.getContent() ).image = buddyInfo.avatar;
       pane.addItem( avatarLabel );
     }
     String labelMessage;
     String labelDescription;
-    Label descriptionLabel;
+    Label infoLabel;
     for ( int c = 0; c < buddyInfo.getKeyValueSize() + 2; c++ ) {
-      Label onlineLabel = new Label( "" );
-      onlineLabel.setTitle( true );
-      descriptionLabel = new Label( "" );
+      RichContent content = new RichContent( "" );
+      infoLabel = new Label( content );
       switch ( c ) {
         case 0x00: {
           labelMessage = "BUDDY_ID_LABEL";
-          if(buddyItem.getUserId().endsWith( "@uin.icq" ) ) {
-            labelDescription = buddyItem.getUserId().substring( 
+          if ( buddyItem.getUserId().endsWith( "@uin.icq" ) ) {
+            labelDescription = buddyItem.getUserId().substring(
                     0, buddyItem.getUserId().indexOf( "@uin.icq" ) );
           } else {
             labelDescription = buddyItem.getUserId();
@@ -148,14 +147,13 @@ public class BuddyInfoFrame extends Window {
           break;
         }
       }
-      onlineLabel.setCaption( Localization.getMessage( labelMessage ) + ": " );
-      descriptionLabel.setCaption( labelDescription );
+      content.setText( "[p][b]" + Localization.getMessage( labelMessage ) 
+              + ": [/b]" + labelDescription + "[/p]" );
 
-      clientBuffer += onlineLabel.caption + "\n";
+      clientBuffer += infoLabel.getContent().getText() + "\n";
       clientBuffer += labelDescription + "\n";
 
-      pane.addItem( onlineLabel );
-      pane.addItem( descriptionLabel );
+      pane.addItem( infoLabel );
     }
     soft.rightSoft = new PopupItem( Localization.getMessage( "COPY" ) ) {
       public void actionPerformed() {

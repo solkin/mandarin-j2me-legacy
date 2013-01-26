@@ -137,7 +137,7 @@ public class ClientInfoFrame extends Window {
       onlineLabel.setCaption( Localization.getMessage( labelMessage ) + ": " );
       descriptionLabel.setCaption( labelDescription );
 
-      clientBuffer += onlineLabel.caption + "\n";
+      clientBuffer += onlineLabel.getContent().getText() + "\n";
       clientBuffer += labelDescription + "\n";
 
       plainInfoPane.addItem( onlineLabel );
@@ -245,7 +245,7 @@ public class ClientInfoFrame extends Window {
       onlineLabel.setCaption( Localization.getMessage( labelMessage ) + ": " );
       descriptionLabel.setCaption( labelDescription );
 
-      clientBuffer += onlineLabel.caption + "\n";
+      clientBuffer += onlineLabel.getContent().getText() + "\n";
       clientBuffer += labelDescription + "\n";
 
       dcInfoPane.addItem( onlineLabel );

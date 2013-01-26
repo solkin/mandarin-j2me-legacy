@@ -44,14 +44,14 @@ public class StatusReaderFrame extends Window {
                 .concat( "\n" ).concat( Localization.getMessage( IcqStatusUtil
                 .getStatusDescr( icqItem.getStatusIndex() ) ) );
         if ( icqAccountRoot.statusIndex != 0 ) {
-          MidletMain.buffer += "\n".concat( statusText.caption );
+          MidletMain.buffer += "\n".concat( statusText.getContent().getText() );
         }
         if ( capability != null ) {
           MidletMain.buffer += "\n".concat(
                   Localization.getMessage( "X_STATUS" ) ).concat( "\n" )
                   .concat( Localization.getMessage( capability.capIcon ) );
           if ( icqAccountRoot.statusIndex != 0 ) {
-            MidletMain.buffer += "\n".concat( xStatusDescr.caption );
+            MidletMain.buffer += "\n".concat( xStatusDescr.getContent().getText() );
           }
         }
       }
