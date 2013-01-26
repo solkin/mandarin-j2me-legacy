@@ -275,14 +275,12 @@ public class ActionExec {
   }
 
   public static void showUserShortInfo( AccountRoot accountRoot, BuddyInfo buddyInfo ) {
-    LogUtil.outMessage( "User info response. \nreqSeqNum = " + buddyInfo.reqSeqNum );
     LogUtil.outMessage( "buddyId = " + buddyInfo.buddyId );
     LogUtil.outMessage( "nickName = " + buddyInfo.nickName );
     if ( MidletMain.mainFrame.buddyInfoFrame != null 
-            && ( MidletMain.mainFrame.buddyInfoFrame.reqSeqNum == buddyInfo.reqSeqNum 
-            || ( buddyInfo.buddyId != null 
+            && ( buddyInfo.buddyId != null 
             && MidletMain.mainFrame.buddyInfoFrame.buddyItem.getUserId()
-            .equals( buddyInfo.buddyId ) ) ) ) {
+            .equals( buddyInfo.buddyId ) ) ) {
       MidletMain.mainFrame.buddyInfoFrame.placeInfo( buddyInfo );
     }
   }

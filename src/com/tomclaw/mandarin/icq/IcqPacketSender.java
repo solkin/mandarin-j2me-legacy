@@ -83,9 +83,7 @@ public class IcqPacketSender {
   public static Cookie setUpdatePrivacy( IcqSession icqSession, int privateBuddyId, int privacyStatus ) throws IOException {
     Cookie cookie;
     if ( privateBuddyId != -1 ) {
-      /**
-       * If buddy list contain such fiel as privateBuddy 
-       */
+      /** If buddy list contain such field, as privateBuddy **/
       cookie = new Cookie();
       Snac snac = new Snac( 0x0013, 0x0009, 0, 0, cookie.cookieValue );
       snac.addWord( 0x0000 );
@@ -100,7 +98,6 @@ public class IcqPacketSender {
     } else {
       cookie = null;
       LogUtil.outMessage( "No private buddy" );
-      // MidletMain.pStatusId = 1;
     }
     return cookie;
   }
@@ -142,12 +139,6 @@ public class IcqPacketSender {
     return cookie;
   }
 
-  /*public static Cookie requestBuddyList(IcqSession icqSession) throws IOException {
-   Cookie cookie = new Cookie();
-   Snac p = new Snac(0x0013, 0x0004, 0, 0, cookie.cookieValue);
-   p.send(icqSession.getNetworkConnection(), icqSession.getNextSeq());
-   return cookie;
-   }*/
   public static Cookie addBuddy( IcqSession icqSession, byte[] buddyId, int groupId, int itemId, int itemFlag, boolean authReq, byte[] nickName ) throws IOException {
     Cookie cookie = new Cookie();
     Snac p = new Snac( 0x0013, 0x0008, 0, 0, cookie.cookieValue );

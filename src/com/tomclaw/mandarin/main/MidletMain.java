@@ -4,12 +4,10 @@ import com.tomclaw.bingear.BinGear;
 import com.tomclaw.bingear.GroupNotFoundException;
 import com.tomclaw.bingear.IncorrectValueException;
 import com.tomclaw.images.Splitter;
-import com.tomclaw.mandarin.icq.IcqPacketParser;
 import com.tomclaw.mandarin.xmpp.*;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.tcuilite.smiles.Smiles;
-import com.tomclaw.utils.HexUtil;
 import com.tomclaw.utils.LogUtil;
 import com.tomclaw.utils.RecordUtil;
 import com.tomclaw.utils.TimeUtil;
@@ -576,7 +574,7 @@ public class MidletMain extends MIDlet {
         long prevDataCount = 0;
         while ( true ) {
           try {
-            Thread.sleep( 2000 );
+            Thread.sleep( 3000 );
           } catch ( InterruptedException ex ) {
             continue;
           }

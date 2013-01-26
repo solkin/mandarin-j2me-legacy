@@ -79,7 +79,7 @@ public class RenameItemFrame extends Window {
       pane.addItem( new Label( Localization.getMessage( "PHONE_EDIT" ) ) );
       phoneNumberField = new Field( buddyItem.getUserPhone() );
       phoneNumberField.setFocusable( true );
-      phoneNumberField.title = Localization.getMessage( "PHONE" );
+      phoneNumberField.title = Localization.getMessage( "VALIDATED_CELLULAR_LABEL" );
       pane.addItem( phoneNumberField );
     }
     /** Applying pane **/

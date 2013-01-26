@@ -1,6 +1,7 @@
 package com.tomclaw.mandarin.main;
 
 import java.util.Hashtable;
+import java.util.Vector;
 import javax.microedition.lcdui.Image;
 
 /**
@@ -10,16 +11,41 @@ import javax.microedition.lcdui.Image;
  */
 public class BuddyInfo {
 
-  public Hashtable buddyHash;
-  public int reqSeqNum;
+  public Vector extInfo;
   public String buddyId;
   public String nickName;
   public Image avatar;
 
-  public BuddyInfo( String buddyId, String nickName, int reqSeqNum ) {
-    buddyHash = new Hashtable();
+  public BuddyInfo() {
+    this( null, null );
+  }
+
+  public BuddyInfo( String buddyId, String nickName ) {
+    extInfo = new Vector();
     this.buddyId = buddyId;
     this.nickName = nickName;
-    this.reqSeqNum = reqSeqNum;
+  }
+
+  public void addKeyValue( String key, String value ) {
+    extInfo.addElement( new KeyValue( key, value ) );
+  }
+
+  public int getKeyValueSize() {
+    return extInfo.size();
+  }
+
+  public KeyValue getKeyValue( int i ) {
+    return ( KeyValue ) extInfo.elementAt( i );
+  }
+
+  class KeyValue {
+
+    public String key;
+    public String value;
+
+    public KeyValue( String key, String value ) {
+      this.key = key;
+      this.value = value;
+    }
   }
 }

@@ -4,11 +4,16 @@ import com.tomclaw.mandarin.main.ActionExec;
 import com.tomclaw.mandarin.main.BuddyInfo;
 import com.tomclaw.mandarin.main.Cookie;
 import com.tomclaw.mandarin.main.MidletMain;
+import com.tomclaw.mandarin.mmp.MmpPacketParser;
 import com.tomclaw.tcuilite.ChatItem;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Vector;
+import javax.microedition.io.Connector;
+import javax.microedition.io.HttpConnection;
+import javax.microedition.lcdui.Image;
 
 /**
  * Solkin Igor Viktorovich, TomClaw Software, 2003-2013
@@ -1360,96 +1365,12 @@ public class IcqPacketParser {
   public static void ICQSpecificExtService( IcqAccountRoot icqAccountRoot, byte[] packetData, int snacSubtype, int snacFlags, byte[] snacRequestId ) {
     switch ( snacSubtype ) {
       case 0x0001: {
-        /**
-         * Error response
-         */
+        /** Error response **/
         int point = 10; // Ten bytes are Snac header and Snac Id
         int errorCode = DataUtil.get16( packetData, point );
-        /**
-         * In later versions user must be notifyed about error
-         */
+        /** In later versions user must be notifyed about error **/
         LogUtil.outMessage( "Ext Service Error: " + errorCode, true );
         break;
-      }
-      case 0x0003: {
-        /**
-         * Short user info reply
-         */
-        int point = 10; // Ten bytes are Snac header and Snac Id
-        int valueId = DataUtil.get16( packetData, point );
-        point += 2;
-        if ( valueId == 0x0001 ) {
-          /**
-           * Encapsulated meta data
-           */
-          /*int length = */
-          DataUtil.get16( packetData, point );
-          point += 2;
-          /*int chunkSize = */
-          DataUtil.get16_reversed( packetData, point );
-          point += 2;
-          /*long requestOwnerUin = */
-          DataUtil.get32_reversed( packetData, point, true );
-          point += 4;
-          int dataType = DataUtil.get16( packetData, point );
-          point += 2;
-          if ( dataType == 0xda07 ) { // data type: META_DATA
-            int reqSeqNum = DataUtil.get16_reversed( packetData, point );
-            point += 2;
-            int dataSubType = DataUtil.get16( packetData, point );
-            point += 2;
-            if ( dataSubType == 0x0401 ) { // data subtype: META_SHORT_USERINFO
-              byte successByte = ( byte ) DataUtil.get8int( packetData, point );
-              point += 1;
-              if ( successByte == 0x0a ) { // Success
-                int nickNameLength = DataUtil.get16_reversed( packetData, point );
-                point += 2;
-                byte[] nickName = DataUtil.getByteArray( packetData, point, nickNameLength - 1 ); // The last byte is 0x00
-                point += nickNameLength;
-
-                int firstNameLength = DataUtil.get16_reversed( packetData, point );
-                point += 2;
-                byte[] firstName = DataUtil.getByteArray( packetData, point, firstNameLength - 1 ); // The last byte is 0x00
-                point += firstNameLength;
-
-                int lastNameLength = DataUtil.get16_reversed( packetData, point );
-                point += 2;
-                byte[] lastName = DataUtil.getByteArray( packetData, point, lastNameLength - 1 ); // The last byte is 0x00
-                point += lastNameLength;
-
-                int eMailLength = DataUtil.get16_reversed( packetData, point );
-                point += 2;
-                byte[] eMail = DataUtil.getByteArray( packetData, point, eMailLength - 1 ); // The last byte is 0x00
-                point += eMailLength;
-
-                byte authFlag = ( byte ) DataUtil.get8int( packetData, point );
-
-                /**
-                 * Something wrong with gender detection
-                 * I'll correct this in the next versions
-                 */
-                //point += 1;
-                // Unknown flag
-                //point += 1;
-                // Gender
-                //int buddyGender = DataUtil.get8(packetData, point);
-                // 0 - Male
-                // 1 - Female
-                LogUtil.outMessage( "authFlag=" + authFlag );
-
-                BuddyInfo buddyInfo = new BuddyInfo( null, StringUtil.byteArrayToString( nickName, true ), reqSeqNum );
-                buddyInfo.buddyHash.put( "FIRST_NAME_LABEL", StringUtil.byteArrayToString( firstName, true ) );
-                buddyInfo.buddyHash.put( "LAST_NAME_LABEL", StringUtil.byteArrayToString( lastName, true ) );
-                buddyInfo.buddyHash.put( "EMAIL_LABEL", StringUtil.byteArrayToString( eMail, true ) );
-                buddyInfo.buddyHash.put( "AUTHORIZATION_LABEL", authFlag == 0 ? Localization.getMessage(
-                        "AUTH_REQUIRED" ) : Localization.getMessage(
-                        "AUTH_NOT_REQUIRED" ) );
-                // ActionExec.showUserShortInfo(icqAccountRoot, reqSeqNum, StringUtil.byteArrayToString(nickName, true), StringUtil.byteArrayToString(firstName, true), StringUtil.byteArrayToString(lastName, true), StringUtil.byteArrayToString(eMail, true), authFlag);
-                ActionExec.showUserShortInfo( icqAccountRoot, buddyInfo );
-              }
-            }
-          }
-        }
       }
     }
   }
@@ -1458,22 +1379,23 @@ public class IcqPacketParser {
           byte[] packetData, int snacSubtype, int snacFlags,
           byte[] snacRequestId ) {
     HexUtil.dump_( packetData, "buddy info: " );
-    String userId, firstName = "", lastName = "", nickName = "", icqNotes = "", mrimTitle = "", mrimPhones = "", icqWebsite = "";
-    int gender = 0, icqBirthday = 0, webaware = 0, online = 0;
+    BuddyInfo buddyInfo = new BuddyInfo();
     int offset = 10;
     int result = ( int ) DataUtil.get32( packetData, offset, true );
     offset += 4;
     if ( result == 0 ) {
+      System.out.println("Info OK");
       /** Skip **/
       offset += DataUtil.get16( packetData, offset ) + 2 + 8;
       int count = ( int ) DataUtil.get32( packetData, offset, true );
       offset += 4;
+      System.out.println("Count: " + count);
       for ( int n = count; --n >= 0; ) {
         int len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
         offset += 2;
-        userId = DataUtil.byteArray2string( packetData, offset, len );
+        buddyInfo.buddyId = DataUtil.byteArray2string( packetData, offset, len );
+        buddyInfo.nickName = buddyInfo.buddyId;
         offset += len;
-        System.out.println( "User id: " + userId );
         offset += 8;
         int prefsCount = DataUtil.get16( packetData, offset );
         offset += 2;
@@ -1484,65 +1406,76 @@ public class IcqPacketParser {
             /*102*/ case UMD_PROFILE_FIRST_NAME: {
               len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
               offset += 2;
-              firstName = DataUtil.byteArray2string( packetData, offset, len );
+              buddyInfo.addKeyValue( "FIRST_NAME_LABEL", DataUtil.byteArray2string( packetData, offset, len ) );
               offset += len;
               continue;
             }
             /*103*/ case UMD_PROFILE_LAST_NAME: {
               len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
               offset += 2;
-              lastName = DataUtil.byteArray2string( packetData, offset, len );
+              buddyInfo.addKeyValue( "LAST_NAME_LABEL", DataUtil.byteArray2string( packetData, offset, len ) );
               offset += len;
               continue;
             }
             /*104*/ case UMD_PROFILE_GENDER: {
-              gender = Math.max( CI_GENDER_MALE, ( int ) DataUtil.get32( packetData, offset + 2, true ) );
+              buddyInfo.addKeyValue( "GENDER_LABEL",
+                      Math.max( CI_GENDER_MALE, DataUtil.get32( packetData,
+                      offset + 2, true ) ) == CI_GENDER_MALE
+                      ? Localization.getMessage( "GENDER_MALE" ) : 
+                      Localization.getMessage( "GENDER_FEMALE" ) );
               break;
             }
             /*106*/ case UMD_PROFILE_FRIENDLY_NAME: {
               len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
               offset += 2;
-              nickName = DataUtil.byteArray2string( packetData, offset, len );
+              buddyInfo.nickName = DataUtil.byteArray2string( packetData, offset, len );
+              // buddyInfo.addKeyValue( "NICK_NAME_LABEL", buddyInfo.nickName );
               offset += len;
               continue;
             }
             /*107*/ case UMD_PROFILE_WEBSITE_1: {
               len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
               offset += 2;
-              icqWebsite = DataUtil.byteArray2string( packetData, offset, len );
+              buddyInfo.addKeyValue( "WEBSITE_LABEL", DataUtil.byteArray2string( packetData, offset, len ) );
               offset += len;
               continue;
             }
             /*111*/ case UMD_PROFILE_ABOUT_ME: {
               len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
               offset += 2;
-              icqNotes = DataUtil.byteArray2string( packetData, offset, len );
+              buddyInfo.addKeyValue( "ABOUT_ME_LABEL", DataUtil.byteArray2string( packetData, offset, len ) );
               offset += len;
               continue;
             }
             /*112*/ case UMD_PROFILE_BIRTH_DATE: {
-              icqBirthday = ( int ) DataUtil.get32( packetData, offset + 2, true );
+              buddyInfo.addKeyValue( "BIRTH_DATE_LABEL", TimeUtil.getDateString(
+                      DataUtil.get32( packetData, offset + 2, true ), false ) );
               break;
             }
-            /*2035*/ case UMD_PROFILE_ONLINE_STATUS: {
-              online = ( int ) DataUtil.get32( packetData, offset + 2, true );
+            /*2035*/ /*case UMD_PROFILE_ONLINE_STATUS: {
+              int status = (int)DataUtil.get32( packetData, offset + 2, true );
+              System.out.println("Status: " + status);
+              buddyInfo.addKeyValue( "STATUSTITLE", 
+                      Localization.getMessage( IcqStatusUtil.getStatusDescr( 
+                      IcqStatusUtil.getStatusIndex(
+                      status ) ) ) );
               break;
-            }
+            }*/
             /*2050*/ case UMD_PROFILE_WEBAWARE: {
-              webaware = ( int ) DataUtil.get32( packetData, offset + 2, true );
+              // webaware = ( int ) DataUtil.get32( packetData, offset + 2, true );
               break;
             }
             /*2052*/ case UMD_PROFILE_STATUS_LINE: {
               len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
               offset += 2;
-              mrimTitle = DataUtil.byteArray2string( packetData, offset, len );
+              buddyInfo.addKeyValue( "STATUSDESC", DataUtil.byteArray2string( packetData, offset, len ) );
               offset += len;
               continue;
             }
             /*2056*/ case UMD_PROFILE_VALIDATED_CELLULAR: {
               len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
               offset += 2;
-              mrimPhones = DataUtil.byteArray2string( packetData, offset, len );
+              buddyInfo.addKeyValue( "VALIDATED_CELLULAR_LABEL", DataUtil.byteArray2string( packetData, offset, len ) );
               offset += len;
               continue;
             }
@@ -1550,14 +1483,46 @@ public class IcqPacketParser {
           offset += DataUtil.get16( packetData, offset ) + 2;
         }
         offset += 4;
-        System.out.println( nickName + ", " + firstName + ", " + lastName + ", " + gender
-                + ", " + icqNotes + ", " + TimeUtil.getDateString( icqBirthday, false ) + ", " + online
-                + ", " + webaware + ", " + mrimTitle + ", " + mrimPhones );
-        BuddyInfo buddyInfo = new BuddyInfo(userId, nickName, -1);
+        System.out.println("Info completed");
+        buddyInfo.avatar = downloadAvatar( buddyInfo.buddyId );
         ActionExec.showUserShortInfo( icqAccountRoot, buddyInfo );
-        // setViewName( Util.getViewName( this.nickName, this.firstName, this.lastName, this.key ) );
-        // this.icon = ICQ_Contact.getIcqContactInfoIcon( this.key, online != 0, webaware != 0 );
       }
     }
+  }
+  
+  public static Image downloadAvatar( String userId ) {
+    if ( !StringUtil.isNullOrEmpty( userId ) ) {
+      int atIndex = userId.indexOf( '@' );
+      if( atIndex != -1 ) {
+        String domain = userId.substring( atIndex + 1 );
+        System.out.println("Domain: " + domain);
+        if(!StringUtil.isNullOrEmpty( domain ) 
+                && ( domain.equals( "corp.mail.ru" )
+                || domain.equals( "mail.ru" )
+                || domain.equals( "inbox.ru" )
+                || domain.equals( "bk.ru" )
+                || domain.equals( "list.ru" ) ) ) {
+          return MmpPacketParser.downloadAvatar( userId );
+        }
+      }
+      try {
+        HttpConnection http = ( HttpConnection ) Connector.open(
+                "http://api.icq.net/expressions/get?f=native&type=buddyIcon&t=" + userId,
+                Connector.READ, true );
+        http.setRequestMethod( "GET" );
+        if ( http.getResponseCode() == HttpConnection.HTTP_OK ) {
+          InputStream stream = http.openInputStream();
+          ArrayUtil array = new ArrayUtil();
+          byte[] buffer = new byte[ 4096 ];
+          int read;
+          while ( ( read = stream.read( buffer ) ) >= 0 ) {
+            array.append( buffer, 0, read );
+          }
+          return Image.createImage( array.byteString, 0, array.length() );
+        }
+      } catch ( Throwable ex ) {
+      }
+    }
+    return null;
   }
 }

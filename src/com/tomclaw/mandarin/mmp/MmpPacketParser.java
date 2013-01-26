@@ -1,5 +1,6 @@
 package com.tomclaw.mandarin.mmp;
 
+import com.tomclaw.mandarin.icq.IcqPacketParser;
 import com.tomclaw.mandarin.main.ActionExec;
 import com.tomclaw.mandarin.main.BuddyInfo;
 import com.tomclaw.mandarin.main.Cookie;
@@ -387,7 +388,7 @@ public class MmpPacketParser {
           fields[c] = new String( DataUtil.getByteArray( packet.data.byteString, offset, ( int ) fieldLength ) );
           offset += fieldLength;
         }
-        BuddyInfo buddyInfo = new BuddyInfo( null, null, -1 );
+        BuddyInfo buddyInfo = new BuddyInfo();
         for ( int c = 0; c < fieldNum; c++ ) {
           long fieldLength = DataUtil.get32_reversed( packet.data.byteString, offset, true );
           offset += 4;
@@ -397,35 +398,35 @@ public class MmpPacketParser {
             buddyInfo.buddyId = new String( value );
           } else if ( fields[c].equals( "Domain" ) ) {
             buddyInfo.buddyId += "@" + new String( value );
-            buddyInfo.buddyHash.put( "DOMAIN", new String( value ) );
+            // buddyInfo.addKeyValue( "DOMAIN", new String( value ) );
           } else if ( fields[c].equals( "Nickname" ) ) {
             buddyInfo.nickName = StringUtil.getWin1251( value );
           } else if ( fields[c].equals( "FirstName" ) ) {
-            buddyInfo.buddyHash.put( "FIRST_NAME_LABEL", StringUtil.getWin1251( value ) );
+            buddyInfo.addKeyValue( "FIRST_NAME_LABEL", StringUtil.getWin1251( value ) );
           } else if ( fields[c].equals( "LastName" ) ) {
-            buddyInfo.buddyHash.put( "LAST_NAME_LABEL", StringUtil.getWin1251( value ) );
+            buddyInfo.addKeyValue( "LAST_NAME_LABEL", StringUtil.getWin1251( value ) );
           } else if ( fields[c].equals( "Sex" ) ) {
             int sexValue = value.length > 0 ? value[0] : 0;
             String sexString;
             if ( sexValue == 49 ) {
               sexString = Localization.getMessage(
-                      "MALE" );
+                      "GENDER_MALE" );
             } else if ( sexValue == 50 ) {
               sexString = Localization.getMessage(
-                      "FEMALE" );
+                      "GENDER_FEMALE" );
             } else {
               sexString = Localization.getMessage(
-                      "UNK" );
+                      "GENDER_UNK" );
             }
-            buddyInfo.buddyHash.put( "SEX", sexString );
+            buddyInfo.addKeyValue( "GENDER_LABEL", sexString );
             // mailInfo.sex = 
           } else if ( fields[c].equals( "Birthday" ) ) {
-            buddyInfo.buddyHash.put( "BIRTHDAY", new String( value ) );
+            buddyInfo.addKeyValue( "BIRTH_DATE_LABEL", new String( value ) );
             // mailInfo.birthday = new String(value);
           } else if ( fields[c].equals( "City_id" ) ) {
             // mailInfo.cityId = Integer.parseInt(new String(value));
           } else if ( fields[c].equals( "Location" ) ) {
-            buddyInfo.buddyHash.put( "LOCATION", StringUtil.getWin1251( value ) );
+            buddyInfo.addKeyValue( "LOCATION", StringUtil.getWin1251( value ) );
             // mailInfo.location = StringUtil.getWin1251(value);
           } else if ( fields[c].equals( "Zodiac" ) ) {
             // mailInfo.zodiac = Integer.parseInt(new String(value));
@@ -436,17 +437,17 @@ public class MmpPacketParser {
           } else if ( fields[c].equals( "Country_id" ) ) {
             // mailInfo.countryId = Integer.parseInt(new String(value));
           } else if ( fields[c].equals( "Phone" ) ) {
-            buddyInfo.buddyHash.put( "PHONE", new String( value ) );
+            buddyInfo.addKeyValue( "VALIDATED_CELLULAR_LABEL", new String( value ) );
             // mailInfo.phone = new String(value);
           } else if ( fields[c].equals( "mrim_status" ) ) {
             // mailInfo.mrimStatus = value.length >= 4 ? DataUtil.get32_reversed(value, 0, true) : 0;
           } else if ( fields[c].equals( "status_uri" ) ) {
             // mailInfo.statusUri = new String(value);
           } else if ( fields[c].equals( "status_title" ) ) {
-            buddyInfo.buddyHash.put( "STATUSTITLE", StringUtil.getWin1251( value ) );
+            buddyInfo.addKeyValue( "STATUSTITLE", StringUtil.getWin1251( value ) );
             // mailInfo.statusTitle = StringUtil.getWin1251(value);
           } else if ( fields[c].equals( "status_desc" ) ) {
-            buddyInfo.buddyHash.put( "STATUSDESC", StringUtil.getWin1251( value ) );
+            buddyInfo.addKeyValue( "STATUSDESC", StringUtil.getWin1251( value ) );
             // mailInfo.statusDesc = StringUtil.getWin1251(value);
           } else if ( fields[c].equals( "ua_features" ) ) {
             // mailInfo.uaFeatures = value.length >= 4 ? DataUtil.get32_reversed(value, 0, true) : 0;
