@@ -75,6 +75,23 @@ public class MmpAccountRoot extends AccountRoot {
     }
     return cookie;
   }
+  
+  public void sendWakeup(BuddyItem buddyItem) throws IOException {
+    LogUtil.outMessage( ">>> contactItem.getUserId()="
+              + buddyItem.getUserId() );
+    MmpPacketSender.MRIM_CS_MESSAGE( this, buddyItem.getUserId(),
+              Localization.getMessage( "WAKE_UP_NOT_SUPPORTED" ), 
+              0x80400000, 
+              "eNptUsFugkAQJaYnE/9h0nOji6Kx+g29ND3uBXFBUgSDa3sw/lv7Cf7BalklWFCg"
+            + "aZtoSheMSY297Jt9M/PezmRLkiQ1SpI0xS7VZazaY7M4tJEh15sy7hNdR/lpqbYh"
+            + "I+V2inXHprRniQBh3TYtrGsD1R0TWkcKPKgDZ6h2Z7NKeYo1x3JcUdrFLukjbLiE"
+            + "2Aj3rAlBBVVvNo9kHuS0wPPE32p0XosuVU/t4t0FKzcb/7mdaIFFIr+fJU46LeXI"
+            + "C8zplnJpKdfbXTErfjLJ86Np9xU80WQ8Ut1+sZ6x3MZar4E1sdsewiPXoUSjlfI8"
+            + "WvCYe6EfwDba7hO2iTNYshh2bL1IPT853EDkhSyIIC34NE5YGC03PGRFvOPLbyZa"
+            + "+C72M7hTTat6P4GXNx4mDBZ8LWQ9j+9WgQ8faRh8+j5cvwrhzUF4XldhHrAvlhxA"
+            + "aKY/RxkBe3iPVjzhsPZ4fOjAgNJRp1ZTDWLT6jA3cSe1fDqolGdX4utkWSb9Alob"
+            + "C7Q=" );
+  }
 
   public MmpItem setBuddyStatus( String buddyId, long buddyStatus ) {
     GroupHeader groupItem;

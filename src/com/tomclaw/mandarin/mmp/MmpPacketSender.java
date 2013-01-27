@@ -35,12 +35,14 @@ public class MmpPacketSender {
     packet.send( mmpAccountRoot.session.netConnection );
   }
 
-  public static byte[] MRIM_CS_MESSAGE( MmpAccountRoot mmpAccountRoot, String destMail, String messageText, long flags, String addon ) throws IOException {
+  public static byte[] MRIM_CS_MESSAGE( MmpAccountRoot mmpAccountRoot, 
+          String destMail, String messageText, long flags, String addon ) 
+          throws IOException {
     LogUtil.outMessage( ">>> MRIM_CS_MESSAGE to " + destMail );
     Packet packet = new Packet();
     packet.seq = mmpAccountRoot.session.seqNum++;
     packet.msg = PacketType.MRIM_CS_MESSAGE;
-    packet.proto = 0x00010015; // 15 -> 0e
+    packet.proto = 0x00010016; // 15 -> 0e
     packet.data.append( DataUtil.mmputil_prepareBytesFromLong( flags ) );
     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( destMail ) );
     packet.data.append( DataUtil.mmputil_prepareBytesWthLength( StringUtil.string1251ToByteArray( messageText ) ) );

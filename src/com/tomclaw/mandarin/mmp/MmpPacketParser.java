@@ -1,12 +1,9 @@
 package com.tomclaw.mandarin.mmp;
 
-import com.tomclaw.mandarin.icq.IcqPacketParser;
 import com.tomclaw.mandarin.main.ActionExec;
 import com.tomclaw.mandarin.main.BuddyInfo;
 import com.tomclaw.mandarin.main.Cookie;
-import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.ChatItem;
-import com.tomclaw.tcuilite.Label;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.*;
 import java.io.IOException;
@@ -206,9 +203,7 @@ public class MmpPacketParser {
             }
           }
         }
-        /**
-         * Showing all the list
-         */
+        /** Showing all the list **/
         ActionExec.setBuddyList( mmpAccountRoot, buddyList, null, -1, 0, null );
       }
     } else if ( packet.msg == PacketType.MRIM_CS_CONNECTION_PARAMS ) {
@@ -309,6 +304,9 @@ public class MmpPacketParser {
       } else if ( ( flags & 0x0000ff00 ) == PacketType.MESSAGE_FLAG_NOTIFY ) {
         ActionExec.setBuddyTypingStatus( mmpAccountRoot, userMail, null, false, true );
         return;
+      } else if ( ( flags & 0x0000ff00 ) == PacketType.MESSAGE_FLAG_WAKEUP ) {
+        msgType = ChatItem.TYPE_INFO_MSG;
+        messageText = Localization.getMessage( "WAKEUP_TEXT" );
       } else {
         msgType = ChatItem.TYPE_PLAIN_MSG;
         if ( ( flags & 0x000000ff ) != PacketType.MESSAGE_FLAG_NORECV ) {

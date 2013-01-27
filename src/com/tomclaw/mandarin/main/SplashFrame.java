@@ -35,7 +35,8 @@ public class SplashFrame extends Window {
 
     try {
       logo = Image.createImage( "/res/huge/tangerine.png" );
-      this.directDraw_afterAll = new DirectDraw() {
+      
+      directDraw_afterAll = new DirectDraw() {
 
         int width, height;
 

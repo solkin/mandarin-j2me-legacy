@@ -1397,6 +1397,25 @@ public class MainFrame extends Window {
     mmpBuddyRightPopupItem.addSubItem( infoItem );
     mmpPhoneRightPopupItem.addSubItem( infoItem );
 
+    PopupItem wakeupItem = new PopupItem( Localization.getMessage( "WAKEUP" ) ) {
+      public void actionPerformed() {
+        AccountRoot accountRoot = getActiveAccountRoot();
+        if ( accountRoot instanceof MmpAccountRoot ) {
+          BuddyItem buddyItem = getSelectedBuddyItem();
+          if ( buddyItem != null ) {
+            try {
+              ( ( MmpAccountRoot ) accountRoot ).sendWakeup( buddyItem );
+            } catch ( IOException ex ) {
+              ex.printStackTrace();
+            }
+          }
+        }
+        // MainFrame.this.getKeyEvent( "KEY_BUDDYINFO" ).actionPerformed();
+      }
+    };
+
+    mmpBuddyRightPopupItem.addSubItem( wakeupItem );
+
     PopupItem historyItem = new PopupItem( Localization.getMessage( "HISTORY" ) ) {
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_HISTORY" ).actionPerformed();

@@ -36,6 +36,7 @@ public final class PacketType {
   public static final long MESSAGE_FLAG_CONTACT = 0x00000200;
   public static final long MESSAGE_FLAG_NOTIFY = 0x00000400;
   public static final long MESSAGE_FLAG_MULTICAST = 0x00001000;
+  public static final long MESSAGE_FLAG_WAKEUP = 0x00004000;
   public static final long MAX_MULTICAST_RECIPIENTS = 50;
   public static final long MESSAGE_USERFLAGS_MASK = 0x000036A8;// Flags that user is allowed to set himself
   public static final long MRIM_CS_MESSAGE_ACK = 0x1009;// S -> C
