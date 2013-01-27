@@ -22,15 +22,9 @@ public class SplashFrame extends Window {
   Font fontPlain = Font.getFont( Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL );
   Font fontBold = Font.getFont( Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_SMALL );
   String title, build;
-  long usedMemoryBefore = 0;
-  long usedMemoryCurrent = 0;
-  long timeBefore;
 
   public SplashFrame() {
     super( MidletMain.screen );
-    /** Fixing memory value **/
-    usedMemoryBefore = MidletMain.runtime.totalMemory() - MidletMain.runtime.freeMemory();
-    timeBefore = System.currentTimeMillis();
     /** Pane **/
     pane = new Pane( null, false );
 
@@ -52,11 +46,18 @@ public class SplashFrame extends Window {
         public void paint( Graphics grphcs, int i, int i1 ) {
           width = MidletMain.screen.getWidth();
           height = MidletMain.screen.getHeight();
-          grphcs.drawImage( logo, width / 2, height / 2, Graphics.VCENTER | Graphics.HCENTER );
+          grphcs.drawImage( logo, width / 2, height / 2, 
+                  Graphics.VCENTER | Graphics.HCENTER );
           grphcs.setFont( fontBold );
-          grphcs.drawString( title, width / 2 - fontBold.stringWidth( title ) / 2, height - ( fontBold.getHeight() + fontPlain.getHeight() ) * 3 / 2, Graphics.TOP | Graphics.LEFT );
+          grphcs.drawString( title, width / 2 
+                  - fontBold.stringWidth( title ) / 2, height 
+                  - ( fontBold.getHeight() + fontPlain.getHeight() ) * 3 / 2, 
+                  Graphics.TOP | Graphics.LEFT );
           grphcs.setFont( fontPlain );
-          grphcs.drawString( build, width / 2 - fontPlain.stringWidth( build ) / 2, height - fontPlain.getHeight() * 3 / 2, Graphics.TOP | Graphics.LEFT );
+          grphcs.drawString( build, width / 2 
+                  - fontPlain.stringWidth( build ) / 2, height 
+                  - fontPlain.getHeight() * 3 / 2, 
+                  Graphics.TOP | Graphics.LEFT );
         }
       };
     } catch ( IOException ex ) {
@@ -68,10 +69,6 @@ public class SplashFrame extends Window {
 
   public void updateGaugeValue( int value ) {
     gauge.setValue( value );
-    usedMemoryCurrent = ( MidletMain.runtime.totalMemory() - MidletMain.runtime.freeMemory() - usedMemoryBefore );
-    if ( ( System.currentTimeMillis() - timeBefore ) > 0 ) {
-      gauge.caption = String.valueOf( usedMemoryCurrent / 1024 + " KiB"/* +usedMemoryCurrent  / (System.currentTimeMillis() - timeBefore) + " KB / sec"*/ );
-    }
     MidletMain.screen.repaint();
   }
 }
