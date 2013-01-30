@@ -19,7 +19,8 @@ public class FlapHeader {
   public final byte[] byteArray;
 
   /**
-   * FLAPHeader constructor comment.
+   * FLAPHeader
+   * @param flap_header 
    */
   public FlapHeader( byte[] flap_header ) {
     if ( flap_header.length > 0 ) {
@@ -36,7 +37,10 @@ public class FlapHeader {
   }
 
   /**
-   * FLAPHeader constructor comment.
+   * FLAPHeader
+   * @param channel
+   * @param seqnum
+   * @param data_field_length 
    */
   public FlapHeader( int channel, int seqnum, int data_field_length ) {
     this.data_field_length = data_field_length;

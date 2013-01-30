@@ -42,17 +42,12 @@ public class BuddyInfoFrame extends Window {
     /** Initializing pane **/
     pane = new Pane( null, false );
     if ( accountRoot.getStatusIndex() == 0 || buddyItem.isPhone() ) {
-      Label idLabel = new Label( Localization.getMessage( "BUDDY_ID_LABEL" ) );
-      idLabel.setTitle( true );
-      pane.addItem( idLabel );
-      Label idLabel_a = new Label( buddyItem.getUserId() );
-      pane.addItem( idLabel_a );
-      Label nickLabel = new Label(
-              Localization.getMessage( "NICK_NAME_LABEL" ) );
-      nickLabel.setTitle( true );
-      pane.addItem( nickLabel );
-      Label nickLabel_a = new Label( buddyItem.getUserNick() );
-      pane.addItem( nickLabel_a );
+      pane.addItem( new Label( new RichContent( "[p][b]" + 
+              Localization.getMessage( "BUDDY_ID_LABEL" ) + ": [/b]" + 
+              buddyItem.getUserId() + "[/p]" ) ) );
+      pane.addItem( new Label( new RichContent( "[p][b]" + 
+              Localization.getMessage( "NICK_NAME_LABEL" ) + ": [/b]" + 
+              buddyItem.getUserNick() + "[/p]" ) ) );
     } else {
       String waitText;
       LogUtil.outMessage( "Dialog with reqSeqNum = " + reqSeqNum );
@@ -147,7 +142,7 @@ public class BuddyInfoFrame extends Window {
           break;
         }
       }
-      content.setText( "[p][b]" + Localization.getMessage( labelMessage ) 
+      content.setText( "[p][b]" + Localization.getMessage( labelMessage )
               + ": [/b]" + labelDescription + "[/p]" );
 
       clientBuffer += infoLabel.getContent().getText() + "\n";

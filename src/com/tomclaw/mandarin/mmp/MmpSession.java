@@ -4,11 +4,9 @@ import com.tomclaw.mandarin.main.ActionExec;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.mandarin.net.IncorrectAddressException;
 import com.tomclaw.mandarin.net.NetConnection;
-import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.DataUtil;
 import com.tomclaw.utils.HexUtil;
 import com.tomclaw.utils.LogUtil;
-import com.tomclaw.utils.StringUtil;
 import java.io.IOException;
 
 /**
@@ -22,8 +20,8 @@ public class MmpSession implements Runnable {
   public int seqNum = 1;
   public boolean isAlive = false;
   public long pingDelay = 60000;
-  public String clientId = null;
-  public String mraVer = null;
+  public static String clientId = null;
+  public static String mraVer = null;
   public Thread listener = null;
   public MmpAccountRoot mmpAccountRoot;
   public boolean isError = false;
@@ -44,7 +42,7 @@ public class MmpSession implements Runnable {
   }
 
   public boolean login_stage( String hostPort, String userId, String passwrd, 
-          long statusId, String statusString, String descrString ) 
+          long statusId, String statusString ) 
           throws IncorrectAddressException, IOException, InterruptedException, 
           IncorrectAddressException {
     isAlive = true;
@@ -144,7 +142,10 @@ public class MmpSession implements Runnable {
 //    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( clientId ) );
 //    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( mraVer ) );
     
-    byte[] temp = new byte[ 4 ];
+    /** Checking for status not set **/
+
+    MmpPacketSender.appendStatusChunk( packet, statusId, statusString, true );
+    /*byte[] temp = new byte[ 4 ];
     DataUtil.put32_reversed( temp, 0, statusId & 7 );
     packet.data.append( temp );
     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength(
@@ -164,7 +165,7 @@ public class MmpSession implements Runnable {
             mmpAccountRoot.session.clientId ) );
     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( 
             mmpAccountRoot.session.mraVer ) );
-    packet.data.append( temp );
+    packet.data.append( temp );*/
     
     packet.send( netConnection );
     LogUtil.outMessage( "Login sent" );

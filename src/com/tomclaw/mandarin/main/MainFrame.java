@@ -621,8 +621,8 @@ public class MainFrame extends Window {
       if ( accountRoot instanceof IcqAccountRoot ) {
         /** Showing buddy items **/
         LogUtil.outMessage( "Installing images" );
-        buddyList.imageLeftFileHash = new int[] { "/res/groups/img_chat.png".hashCode(), "/res/groups/img_icqstatus.png".hashCode(), "/res/groups/img_xstatus.png".hashCode() };
-        buddyList.imageRightFileHash = new int[] { IconsType.HASH_PLIST, IconsType.HASH_PLIST, IconsType.HASH_PLIST, IconsType.HASH_CLIENTS, IconsType.HASH_MAIN };
+        buddyList.imageLeftFileHash = new int[]{ "/res/groups/img_chat.png".hashCode(), "/res/groups/img_icqstatus.png".hashCode(), "/res/groups/img_xstatus.png".hashCode() };
+        buddyList.imageRightFileHash = new int[]{ IconsType.HASH_PLIST, IconsType.HASH_PLIST, IconsType.HASH_PLIST, IconsType.HASH_CLIENTS, IconsType.HASH_MAIN };
         LogUtil.outMessage( "Preparing items" );
         buddyList.items = ( ( IcqAccountRoot ) accountRoot ).buddyItems;
         /** Loading ICQ account data **/
@@ -657,7 +657,7 @@ public class MainFrame extends Window {
         buddyList.selectedRow = ( ( IcqAccountRoot ) accountRoot ).selectedRow;
         LogUtil.outMessage( "Complete." );
       } else if ( accountRoot instanceof MmpAccountRoot ) {
-        buddyList.imageLeftFileHash = new int[] { "/res/groups/img_chat.png".hashCode(), "/res/groups/img_mmpstatus.png".hashCode() };
+        buddyList.imageLeftFileHash = new int[]{ "/res/groups/img_chat.png".hashCode(), "/res/groups/img_mmpstatus.png".hashCode() };
         buddyList.items = ( ( MmpAccountRoot ) accountRoot ).buddyItems;
         if ( mmpSoft == null ) {
           initMmpSoft();
@@ -668,7 +668,7 @@ public class MainFrame extends Window {
         buddyList.selectedColumn = ( ( MmpAccountRoot ) accountRoot ).selectedColumn;
         buddyList.selectedRow = ( ( MmpAccountRoot ) accountRoot ).selectedRow;
       } else if ( accountRoot instanceof XmppAccountRoot ) {
-        buddyList.imageLeftFileHash = new int[] { "/res/groups/img_chat.png".hashCode(), "/res/groups/img_xmppstatus.png".hashCode() };
+        buddyList.imageLeftFileHash = new int[]{ "/res/groups/img_chat.png".hashCode(), "/res/groups/img_xmppstatus.png".hashCode() };
         buddyList.items = ( ( XmppAccountRoot ) accountRoot ).buddyItems;
         if ( xmppSoft == null ) {
           initXmppSoft();
@@ -1324,8 +1324,7 @@ public class MainFrame extends Window {
                 try {
                   /** Plain statusIndex changing **/
                   MmpPacketSender.MRIM_CS_CHANGE_STATUS( mmpAccountRoot,
-                          statusId, mmpAccountRoot.statusText,
-                          mmpAccountRoot.statusDscr );
+                          statusId, mmpAccountRoot.statusText );
                   mmpAccountRoot.statusIndex =
                           MmpStatusUtil.getStatusIndex( statusId );
                   updateAccountsStatus();

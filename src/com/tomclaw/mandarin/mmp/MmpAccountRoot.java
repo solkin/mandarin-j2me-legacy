@@ -24,7 +24,6 @@ public class MmpAccountRoot extends AccountRoot {
 
   /** Data **/
   public String statusText = "Mandarin";
-  public String statusDscr = MidletMain.version.concat( " [" ).concat( MidletMain.build.concat( "]" ) );
   /** Runtime **/
   public Stack queueActionStack;
   public MmpGroup phoneGroup = null;
@@ -159,7 +158,7 @@ public class MmpAccountRoot extends AccountRoot {
             }
             try {
               if ( session.login_stage( host + ":" + port, userId, userPassword,
-                      MmpStatusUtil.getStatus( statusIndex ), statusText, statusDscr ) ) {
+                      MmpStatusUtil.getStatus( statusIndex ), statusText ) ) {
                 MmpAccountRoot.this.statusIndex = statusIndex;
                 LogUtil.outMessage( "Updating status in AccountStatus" );
                 MidletMain.mainFrame.updateAccountsStatus();

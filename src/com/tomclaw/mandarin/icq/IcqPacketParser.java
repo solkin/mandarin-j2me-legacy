@@ -293,7 +293,7 @@ public class IcqPacketParser {
               /*
                * TLV.Type(0x0A) - external ip addr [ICQ only]
                */
-              clientInfo.externalIp = new byte[] { ( byte ) DataUtil.get8int( value, 0 ), ( byte ) DataUtil.get8int( value, 1 ), ( byte ) DataUtil.get8int( value, 2 ), ( byte ) DataUtil.get8int( value, 3 ) };
+              clientInfo.externalIp = new byte[]{ ( byte ) DataUtil.get8int( value, 0 ), ( byte ) DataUtil.get8int( value, 1 ), ( byte ) DataUtil.get8int( value, 2 ), ( byte ) DataUtil.get8int( value, 3 ) };
               LogUtil.outMessage( "ip addr ext: " + clientInfo.externalIp[0] + "." + clientInfo.externalIp[1] + "." + clientInfo.externalIp[2] + "." + clientInfo.externalIp[3] );
               break;
             }
@@ -301,7 +301,11 @@ public class IcqPacketParser {
               /*
                * TLV.Type(0x0C) - user DC info [ICQ only]
                */
-              clientInfo.internalIp = new byte[] { ( byte ) DataUtil.get8int( value, 0 ), ( byte ) DataUtil.get8int( value, 1 ), ( byte ) DataUtil.get8int( value, 2 ), ( byte ) DataUtil.get8int( value, 3 ) };
+              clientInfo.internalIp = new byte[]{ 
+                ( byte ) DataUtil.get8int( value, 0 ), 
+                ( byte ) DataUtil.get8int( value, 1 ), 
+                ( byte ) DataUtil.get8int( value, 2 ), 
+                ( byte ) DataUtil.get8int( value, 3 ) };
 
               clientInfo.dcTcpPort = DataUtil.get32( value, 4, true );
 
@@ -411,7 +415,7 @@ public class IcqPacketParser {
               offset += 16;
               LogUtil.outMessage( "plugin: " + HexUtil.bytesToString( plugin ) );
               if ( ArrayUtil.equals( plugin,
-                      new byte[] {
+                      new byte[]{
                         0x00, 0x00, 0x00, 0x00,
                         0x00, 0x00, 0x00, 0x00,
                         0x00, 0x00, 0x00, 0x00,
@@ -645,13 +649,18 @@ public class IcqPacketParser {
                   point += 2;
                   int insLength = DataUtil.get16( value, point );
                   point += 2;
-                  byte[] insValue = ArrayUtil.copyOfRange( value, point, point + insLength );
+                  byte[] insValue = ArrayUtil.copyOfRange( value, point, 
+                          point + insLength );
                   point += insLength;
                   switch ( insType ) {
                     case 0x0002: {
                       /** Proxy ip */
-                      proxyIp = new int[] { DataUtil.get8int( insValue, 0 ), DataUtil.get8int( insValue, 1 ), DataUtil.get8int( insValue, 2 ), DataUtil.get8int( insValue, 3 ) };
-                      LogUtil.outMessage( "ip addr proxy: " + proxyIp[0] + "." + proxyIp[1] + "." + proxyIp[2] + "." + proxyIp[3] );
+                      proxyIp = new int[]{ DataUtil.get8int( insValue, 0 ), 
+                        DataUtil.get8int( insValue, 1 ), 
+                        DataUtil.get8int( insValue, 2 ), 
+                        DataUtil.get8int( insValue, 3 ) };
+                      LogUtil.outMessage( "ip addr proxy: " + proxyIp[0] + "." 
+                              + proxyIp[1] + "." + proxyIp[2] + "." + proxyIp[3] );
                       break;
                     }
                     case 0x0004: {
@@ -682,7 +691,7 @@ public class IcqPacketParser {
                     }
                     case 0x2711: {
                       /** Extention data */
-                      if ( ArrayUtil.equals( guid, new byte[] {
+                      if ( ArrayUtil.equals( guid, new byte[]{
                                 ( byte ) 0x09, ( byte ) 0x46, ( byte ) 0x13, ( byte ) 0x43, //Send.f
                                 ( byte ) 0x4C, ( byte ) 0x7F, ( byte ) 0x11, ( byte ) 0xD1,
                                 ( byte ) 0x82, ( byte ) 0x22, ( byte ) 0x44, ( byte ) 0x45,
@@ -726,7 +735,7 @@ public class IcqPacketParser {
                           HexUtil.dump_( plugin, "plugin: " );
                         }
                         LogUtil.outMessage( "Other data length: " + ( insLength - follDataLength - nFollDataLength ) );
-                        if ( ArrayUtil.equals( plugin, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } ) ) {
+                        if ( ArrayUtil.equals( plugin, new byte[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } ) ) {
                           /**
                            * Message here
                            */
@@ -798,7 +807,7 @@ public class IcqPacketParser {
         }
         LogUtil.outMessage( "Cookie: " + stringCookie );
 
-        if ( ArrayUtil.equals( guid, new byte[] {
+        if ( ArrayUtil.equals( guid, new byte[]{
                   ( byte ) 0x09, ( byte ) 0x46, ( byte ) 0x13, ( byte ) 0x43, //Send.f
                   ( byte ) 0x4C, ( byte ) 0x7F, ( byte ) 0x11, ( byte ) 0xD1,
                   ( byte ) 0x82, ( byte ) 0x22, ( byte ) 0x44, ( byte ) 0x45,
@@ -1384,16 +1393,16 @@ public class IcqPacketParser {
     int result = ( int ) DataUtil.get32( packetData, offset, true );
     offset += 4;
     if ( result == 0 ) {
-      System.out.println("Info OK");
+      System.out.println( "Info OK" );
       /** Skip **/
       offset += DataUtil.get16( packetData, offset ) + 2 + 8;
       int count = ( int ) DataUtil.get32( packetData, offset, true );
       offset += 4;
-      System.out.println("Count: " + count);
+      System.out.println( "Count: " + count );
       for ( int n = count; --n >= 0; ) {
         int len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
         offset += 2;
-        buddyInfo.buddyId = DataUtil.byteArray2string( packetData, offset, len );
+        buddyInfo.buddyId = StringUtil.byteArrayToString( packetData, offset, len, true );
         buddyInfo.nickName = buddyInfo.buddyId;
         offset += len;
         offset += 8;
@@ -1406,14 +1415,16 @@ public class IcqPacketParser {
             /*102*/ case UMD_PROFILE_FIRST_NAME: {
               len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
               offset += 2;
-              buddyInfo.addKeyValue( "FIRST_NAME_LABEL", DataUtil.byteArray2string( packetData, offset, len ) );
+              buddyInfo.addKeyValue( "FIRST_NAME_LABEL",
+                      StringUtil.byteArrayToString( packetData, offset, len, true ) );
               offset += len;
               continue;
             }
             /*103*/ case UMD_PROFILE_LAST_NAME: {
               len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
               offset += 2;
-              buddyInfo.addKeyValue( "LAST_NAME_LABEL", DataUtil.byteArray2string( packetData, offset, len ) );
+              buddyInfo.addKeyValue( "LAST_NAME_LABEL",
+                      StringUtil.byteArrayToString( packetData, offset, len, true ) );
               offset += len;
               continue;
             }
@@ -1421,14 +1432,14 @@ public class IcqPacketParser {
               buddyInfo.addKeyValue( "GENDER_LABEL",
                       Math.max( CI_GENDER_MALE, DataUtil.get32( packetData,
                       offset + 2, true ) ) == CI_GENDER_MALE
-                      ? Localization.getMessage( "GENDER_MALE" ) : 
-                      Localization.getMessage( "GENDER_FEMALE" ) );
+                      ? Localization.getMessage( "GENDER_MALE" )
+                      : Localization.getMessage( "GENDER_FEMALE" ) );
               break;
             }
             /*106*/ case UMD_PROFILE_FRIENDLY_NAME: {
               len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
               offset += 2;
-              buddyInfo.nickName = DataUtil.byteArray2string( packetData, offset, len );
+              buddyInfo.nickName = StringUtil.byteArrayToString( packetData, offset, len, true );
               // buddyInfo.addKeyValue( "NICK_NAME_LABEL", buddyInfo.nickName );
               offset += len;
               continue;
@@ -1436,31 +1447,36 @@ public class IcqPacketParser {
             /*107*/ case UMD_PROFILE_WEBSITE_1: {
               len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
               offset += 2;
-              buddyInfo.addKeyValue( "WEBSITE_LABEL", DataUtil.byteArray2string( packetData, offset, len ) );
+              buddyInfo.addKeyValue( "WEBSITE_LABEL", StringUtil.byteArrayToString( packetData, offset, len, true ) );
               offset += len;
               continue;
             }
             /*111*/ case UMD_PROFILE_ABOUT_ME: {
               len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
               offset += 2;
-              buddyInfo.addKeyValue( "ABOUT_ME_LABEL", DataUtil.byteArray2string( packetData, offset, len ) );
+              buddyInfo.addKeyValue( "ABOUT_ME_LABEL", StringUtil.byteArrayToString( packetData, offset, len, true ) );
               offset += len;
               continue;
             }
             /*112*/ case UMD_PROFILE_BIRTH_DATE: {
-              buddyInfo.addKeyValue( "BIRTH_DATE_LABEL", TimeUtil.getDateString(
-                      DataUtil.get32( packetData, offset + 2, true ), false ) );
+              long date = DataUtil.get32( packetData, offset + 2, true );
+              if(date > 0) {
+                /** Plus one day - really don't know, why **/
+                date += 24 * 60 * 60;
+                buddyInfo.addKeyValue( "BIRTH_DATE_LABEL", TimeUtil.getDateString(
+                        date, false ) );
+              }
               break;
             }
             /*2035*/ /*case UMD_PROFILE_ONLINE_STATUS: {
-              int status = (int)DataUtil.get32( packetData, offset + 2, true );
-              System.out.println("Status: " + status);
-              buddyInfo.addKeyValue( "STATUSTITLE", 
-                      Localization.getMessage( IcqStatusUtil.getStatusDescr( 
-                      IcqStatusUtil.getStatusIndex(
-                      status ) ) ) );
-              break;
-            }*/
+             int status = (int)DataUtil.get32( packetData, offset + 2, true );
+             System.out.println("Status: " + status);
+             buddyInfo.addKeyValue( "STATUSTITLE", 
+             Localization.getMessage( IcqStatusUtil.getStatusDescr( 
+             IcqStatusUtil.getStatusIndex(
+             status ) ) ) );
+             break;
+             }*/
             /*2050*/ case UMD_PROFILE_WEBAWARE: {
               // webaware = ( int ) DataUtil.get32( packetData, offset + 2, true );
               break;
@@ -1468,14 +1484,16 @@ public class IcqPacketParser {
             /*2052*/ case UMD_PROFILE_STATUS_LINE: {
               len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
               offset += 2;
-              buddyInfo.addKeyValue( "STATUSDESC", DataUtil.byteArray2string( packetData, offset, len ) );
+              buddyInfo.addKeyValue( "STATUSDESC",
+                      StringUtil.byteArrayToString( packetData, offset, len, true ) );
               offset += len;
               continue;
             }
             /*2056*/ case UMD_PROFILE_VALIDATED_CELLULAR: {
               len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
               offset += 2;
-              buddyInfo.addKeyValue( "VALIDATED_CELLULAR_LABEL", DataUtil.byteArray2string( packetData, offset, len ) );
+              buddyInfo.addKeyValue( "VALIDATED_CELLULAR_LABEL",
+                      StringUtil.byteArrayToString( packetData, offset, len, true ) );
               offset += len;
               continue;
             }
@@ -1483,20 +1501,20 @@ public class IcqPacketParser {
           offset += DataUtil.get16( packetData, offset ) + 2;
         }
         offset += 4;
-        System.out.println("Info completed");
+        System.out.println( "Info completed" );
         buddyInfo.avatar = downloadAvatar( buddyInfo.buddyId );
         ActionExec.showUserShortInfo( icqAccountRoot, buddyInfo );
       }
     }
   }
-  
+
   public static Image downloadAvatar( String userId ) {
     if ( !StringUtil.isNullOrEmpty( userId ) ) {
       int atIndex = userId.indexOf( '@' );
-      if( atIndex != -1 ) {
+      if ( atIndex != -1 ) {
         String domain = userId.substring( atIndex + 1 );
-        System.out.println("Domain: " + domain);
-        if(!StringUtil.isNullOrEmpty( domain ) 
+        System.out.println( "Domain: " + domain );
+        if ( !StringUtil.isNullOrEmpty( domain )
                 && ( domain.equals( "corp.mail.ru" )
                 || domain.equals( "mail.ru" )
                 || domain.equals( "inbox.ru" )
@@ -1507,8 +1525,8 @@ public class IcqPacketParser {
       }
       try {
         HttpConnection http = ( HttpConnection ) Connector.open(
-                "http://api.icq.net/expressions/get?f=native&type=buddyIcon&t=" + userId,
-                Connector.READ, true );
+                "http://api.icq.net/expressions/get?f=native&type=buddyIcon&t="
+                + userId, Connector.READ, true );
         http.setRequestMethod( "GET" );
         if ( http.getResponseCode() == HttpConnection.HTTP_OK ) {
           InputStream stream = http.openInputStream();

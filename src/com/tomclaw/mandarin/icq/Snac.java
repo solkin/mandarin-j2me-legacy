@@ -23,21 +23,35 @@ public class Snac {
   private final ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 
   /**
-   * SNAC constructor comment.
+   * SNAC
+   * @param family
+   * @param subtype
+   * @throws IOException 
    */
   public Snac( int family, int subtype ) throws IOException {
     this( family, subtype, 0, 0 );
   }
 
   /**
-   * SNAC constructor comment.
+   * SNAC
+   * @param family
+   * @param subtype
+   * @param flag1
+   * @param flag2
+   * @throws IOException 
    */
   public Snac( int family, int subtype, int flag1, int flag2 ) throws IOException {
     this( family, subtype, 0, 0, 0 );
   }
 
   /**
-   * SNAC constructor comment.
+   * SNAC
+   * @param family
+   * @param subtype
+   * @param flag1
+   * @param flag2
+   * @param requestId
+   * @throws IOException 
    */
   public Snac( int family, int subtype, int flag1, int flag2, long requestId ) throws
           IOException {
@@ -53,6 +67,9 @@ public class Snac {
     addDWord( requestId );
   }
 
+  /**
+   * SNAC
+   */
   public Snac() {
     this.family = 0;
     this.subtype = 0;

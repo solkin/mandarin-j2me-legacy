@@ -77,8 +77,8 @@ public class MmpItem extends BuddyItem {
     if ( typingStatus ) {
       chatImage = 11;
     }
-    imageLeftIndex = new int[] { chatImage, isPhone() ? MmpStatusUtil.phoneStatus
-      : getStatusIndex(), -1 };
+    imageLeftIndex = new int[] { chatImage, isPhone() ? 
+            MmpStatusUtil.phoneStatus : getStatusIndex(), -1 };
     imageRightIndex = new int[] { -1, -1, -1, -1 };
     if ( MidletMain.chatFrame != null ) {
       isBold = MidletMain.chatFrame.getChatTab( userId ) != null;
