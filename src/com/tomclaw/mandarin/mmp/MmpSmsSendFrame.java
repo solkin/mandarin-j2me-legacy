@@ -25,13 +25,11 @@ public class MmpSmsSendFrame extends Window {
     soft = new Soft( MidletMain.screen );
 
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
-
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "SEND" ) ) {
-
       public void actionPerformed() {
         String phoneNumber = phoneField.getText();
         if ( phoneNumber.startsWith( "8" ) && phoneNumber.length() == 11 ) {

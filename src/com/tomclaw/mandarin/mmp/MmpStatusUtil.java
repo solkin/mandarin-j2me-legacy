@@ -11,9 +11,12 @@ import com.tomclaw.utils.StringUtil;
 public class MmpStatusUtil {
 
   public static int phoneStatus = 56;
-  public static final String[] statusesDescr = new String[] { "STATUS_OFFLINE", "STATUS_ONLINE", "STATUS_AWAY", "STATUS_FFC", "STATUS_DND", "STATUS_INVISIBLE" };
-  public static final long[] statusIds = new long[] { 0x00000000, 0x00000001, 0x00000002, 0x00000104, 0x00000204, 0x80000000 };
-  public static final String[] statusesNames = new String[] { "status_0", "status_1", "status_2", "status_chat", "status_dnd", "status_3" };
+  public static final String[] statusesDescr = new String[]{ 
+    "STATUS_OFFLINE", "STATUS_ONLINE", "STATUS_AWAY", "STATUS_FFC", "STATUS_DND", "STATUS_INVISIBLE" };
+  public static final long[] statusIds = new long[]{ 
+    0x00000000, 0x00000001, 0x00000002, 0x00000104, 0x00000204, 0x80000000 };
+  public static final String[] statusesNames = new String[]{ 
+    "status_0", "status_1", "status_2", "status_chat", "status_dnd", "status_3" };
   public static final String statusX = "status_";
   public static int baseStatusCount = 5;
   public static int extStatusCount = 50;

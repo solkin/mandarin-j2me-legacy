@@ -11,9 +11,9 @@ public class MmpGroup extends BuddyGroup {
 
   public int flags;
   public long contactId;
-  
-  public MmpGroup( ) {
-    super( );
+
+  public MmpGroup() {
+    super();
   }
 
   public MmpGroup( String userId ) {

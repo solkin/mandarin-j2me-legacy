@@ -7,7 +7,6 @@ package com.tomclaw.mandarin.net;
  */
 public class IncorrectAddressException extends Throwable {
 
-    public IncorrectAddressException() {
-    }
-
+  public IncorrectAddressException() {
+  }
 }

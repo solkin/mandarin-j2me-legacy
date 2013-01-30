@@ -74,14 +74,14 @@ public class MmpAccountRoot extends AccountRoot {
     }
     return cookie;
   }
-  
-  public void sendWakeup(BuddyItem buddyItem) throws IOException {
+
+  public void sendWakeup( BuddyItem buddyItem ) throws IOException {
     LogUtil.outMessage( ">>> contactItem.getUserId()="
-              + buddyItem.getUserId() );
+            + buddyItem.getUserId() );
     MmpPacketSender.MRIM_CS_MESSAGE( this, buddyItem.getUserId(),
-              Localization.getMessage( "WAKE_UP_NOT_SUPPORTED" ), 
-              0x80400000, 
-              "eNptUsFugkAQJaYnE/9h0nOji6Kx+g29ND3uBXFBUgSDa3sw/lv7Cf7BalklWFCg"
+            Localization.getMessage( "WAKE_UP_NOT_SUPPORTED" ),
+            0x80400000,
+            "eNptUsFugkAQJaYnE/9h0nOji6Kx+g29ND3uBXFBUgSDa3sw/lv7Cf7BalklWFCg"
             + "aZtoSheMSY297Jt9M/PezmRLkiQ1SpI0xS7VZazaY7M4tJEh15sy7hNdR/lpqbYh"
             + "I+V2inXHprRniQBh3TYtrGsD1R0TWkcKPKgDZ6h2Z7NKeYo1x3JcUdrFLukjbLiE"
             + "2Aj3rAlBBVVvNo9kHuS0wPPE32p0XosuVU/t4t0FKzcb/7mdaIFFIr+fJU46LeXI"

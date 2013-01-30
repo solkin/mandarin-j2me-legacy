@@ -22,30 +22,34 @@ public class NetConnection {
   public OutputStream outputStream = null;
   public InputStream inputStream = null;
 
-  public void connectAddress(String host, int port) throws IOException {
+  public void connectAddress( String host, int port ) throws IOException {
     connectAddress( host, port, false );
   }
 
-  public void connectAddress(String host, int port, boolean isUseSsl) throws IOException {
+  public void connectAddress( String host, int port, boolean isUseSsl )
+          throws IOException {
     if ( isUseSsl ) {
-      socket = ( SecureConnection ) Connector.open( "ssl://" + host + ":" + port, Connector.READ_WRITE );
+      socket = ( SecureConnection ) Connector.open( "ssl://" + host + ":"
+              + port, Connector.READ_WRITE );
     } else {
-      socket = ( SocketConnection ) Connector.open( "socket://" + host + ":" + port,
-              Connector.READ_WRITE );
+      socket = ( SocketConnection ) Connector.open( "socket://" + host + ":"
+              + port, Connector.READ_WRITE );
     }
     outputStream = socket.openOutputStream();
     inputStream = socket.openInputStream();
     LogUtil.outMessage( "Connected successfull" );
   }
 
-  public void connectAddress(String hostPort) throws IncorrectAddressException, IOException {
+  public void connectAddress( String hostPort )
+          throws IncorrectAddressException, IOException {
     String host;
     int port;
     int dividor = hostPort.lastIndexOf( ':' );
     if ( dividor != -1 ) {
       host = hostPort.substring( 0, dividor );
       try {
-        port = Integer.parseInt( hostPort.substring( dividor + 1, hostPort.length() ) );
+        port = Integer.parseInt(
+                hostPort.substring( dividor + 1, hostPort.length() ) );
       } catch ( java.lang.NumberFormatException ex1 ) {
         throw new IncorrectAddressException();
       }
@@ -61,12 +65,12 @@ public class NetConnection {
     socket.close();
   }
 
-  public void write(byte[] data) throws IOException {
+  public void write( byte[] data ) throws IOException {
     outputStream.write( data );
     MidletMain.incrementDataCount( data.length );
   }
 
-  public void write(byte[] data, int from, int size) throws IOException {
+  public void write( byte[] data, int from, int size ) throws IOException {
     outputStream.write( data, from, size );
     MidletMain.incrementDataCount( data.length );
   }
@@ -75,12 +79,14 @@ public class NetConnection {
     outputStream.flush();
   }
 
-  public byte[] read(int length) throws IOException, InterruptedException, java.io.InterruptedIOException, java.lang.IndexOutOfBoundsException {
+  public byte[] read( int length ) throws IOException, InterruptedException,
+          java.io.InterruptedIOException, java.lang.IndexOutOfBoundsException {
     byte[] data = new byte[ length ];
     int dataReadSum = 0;
     int dataRead;
     do {
-      dataRead = inputStream.read( data, dataReadSum, data.length - dataReadSum );
+      dataRead = inputStream.read( data, dataReadSum,
+              data.length - dataReadSum );
       if ( dataRead == -1 ) {
         throw new IOException();
       }
@@ -90,7 +96,8 @@ public class NetConnection {
     return data;
   }
 
-  public byte[] readTo(byte stopByte) throws IOException, InterruptedException, java.io.InterruptedIOException {
+  public byte[] readTo( byte stopByte ) throws IOException,
+          InterruptedException, java.io.InterruptedIOException {
     ArrayUtil data = new ArrayUtil();
     byte[] b = new byte[ 1 ];
     do {
@@ -105,18 +112,18 @@ public class NetConnection {
     return inputStream.available();
   }
 
-  public static void httpPing(String url) throws IOException {
-    /**
-     * Creating hidden HTTP connection for devices, that could not
-     * keep Socket connection while protocol negotation
-     */
+  /**
+   * Creating hidden HTTP connection for devices, that could not
+   * keep Socket connection while protocol negotation
+   */
+  public static void httpPing( String url ) throws IOException {
+
     HttpConnection c;
-    InputStream inputStream = null;
     c = ( HttpConnection ) Connector.open( url );
-    inputStream = c.openInputStream();
+    c.openInputStream();
   }
 
-  public static String retreiveData(String url) throws IOException {
+  public static String retreiveData( String url ) throws IOException {
     String data = new String();
     HttpConnection httpConnection = ( HttpConnection ) Connector.open( url );
     InputStream is = httpConnection.openInputStream();

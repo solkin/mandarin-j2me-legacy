@@ -23,7 +23,7 @@ public class Packet {
   long dlen = 0x00000000; 		// Длина данных
   long from = 0x00000000;		// Адрес отправителя
   long fromport = 0x00000000;         // Порт отправителя
-  byte[] reserved = new byte[16];	// Зарезервировано
+  byte[] reserved = new byte[ 16 ];	// Зарезервировано
 
   public Packet() {
   }
@@ -46,7 +46,7 @@ public class Packet {
   }
 
   public void send( NetConnection netConnection ) throws IOException {
-    byte[] header = new byte[44];
+    byte[] header = new byte[ 44 ];
     dlen = data.byteString.length;
     DataUtil.put32_reversed( header, 0, PacketType.CS_MAGIC );
     DataUtil.put32_reversed( header, 4, proto );

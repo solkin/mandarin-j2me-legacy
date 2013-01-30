@@ -41,9 +41,9 @@ public class MmpSession implements Runnable {
     mraVer = "Mandarin IM " + major + "." + minor;
   }
 
-  public boolean login_stage( String hostPort, String userId, String passwrd, 
-          long statusId, String statusString ) 
-          throws IncorrectAddressException, IOException, InterruptedException, 
+  public boolean login_stage( String hostPort, String userId, String passwrd,
+          long statusId, String statusString )
+          throws IncorrectAddressException, IOException, InterruptedException,
           IncorrectAddressException {
     isAlive = true;
     netConnection = new NetConnection();
@@ -53,7 +53,7 @@ public class MmpSession implements Runnable {
     LogUtil.outMessage( "Connected to: " + hostPort );
     byte[] header = netConnection.readTo( ( byte ) 0x0a );
     ActionExec.setConnectionStage( mmpAccountRoot, 2 );
-    if(MidletMain.logLevel == 1) {
+    if ( MidletMain.logLevel == 1 ) {
       HexUtil.dump_( header, "MRIM_CS_HELLO_ACK: " );
     }
     hostPort = new String( header, 0, header.length - 1 );
@@ -85,7 +85,6 @@ public class MmpSession implements Runnable {
      * MRIM_CS_PING
      */
     Thread thread = new Thread() {
-
       public void run() {
         while ( isAlive ) {
           try {
@@ -104,7 +103,6 @@ public class MmpSession implements Runnable {
     thread.start();
     ActionExec.setConnectionStage( mmpAccountRoot, 6 );
     Thread httpPing = new Thread() {
-
       public void run() {
         while ( isAlive && MidletMain.httpHiddenPing > 0 ) {
           try {
@@ -120,59 +118,19 @@ public class MmpSession implements Runnable {
     httpPing.setPriority( Thread.MIN_PRIORITY );
     httpPing.start();
     ActionExec.setConnectionStage( mmpAccountRoot, 7 );
-    /**
-     * MRIM_CS_LOGIN2
-     */
+    /** MRIM_CS_LOGIN2 **/
     packet = new Packet();
     packet.seq = seqNum++;
     packet.msg = PacketType.MRIM_CS_LOGIN2;
     packet.proto = 0x0001000e; // 0x0001000e
     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( userId ) );
     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( passwrd ) );
-//    byte[] temp = new byte[4];
-//    DataUtil.put32_reversed( temp, 0, statusId );
-//    packet.data.append( temp );
-//    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( "STATUS_ONLINE" ) );
-//    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( statusString ) );
-//    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( descrString ) );
-//    //packet.data.append(HexUtil.stringToBytes("3600000028000000636C69656E743D226A6167656E7422206E616D653D224D5241222076657273696F6E3D22312E34220A0000004D524120312E342E3336"));
-//    temp = new byte[4];
-//    DataUtil.put32_reversed( temp, 0, clientId.length() + mraVer.length() );
-//    packet.data.append( temp );
-//    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( clientId ) );
-//    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( mraVer ) );
-    
-    /** Checking for status not set **/
-
+    /** Appending status chunk **/
     MmpPacketSender.appendStatusChunk( packet, statusId, statusString, true );
-    /*byte[] temp = new byte[ 4 ];
-    DataUtil.put32_reversed( temp, 0, statusId & 7 );
-    packet.data.append( temp );
-    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength(
-            MmpStatusUtil.getStatusName( statusId ) ) );
-    packet.data.append( DataUtil.mmputil_prepareBytesWthLength(
-            StringUtil.string1251ToByteArray(
-            Localization.getMessage( MmpStatusUtil.getStatusDescr(
-            MmpStatusUtil.getStatusIndex( statusId ) ) ) ) ) );
-    DataUtil.put32_reversed( temp, 0, 0x00 );
-    packet.data.append( temp );
-    // DataUtil.put32_reversed( temp, 0, -1 );
-    temp = new byte[4];
-    DataUtil.put32_reversed( temp, 0, mmpAccountRoot.session.clientId.length() 
-            + mmpAccountRoot.session.mraVer.length() );
-    packet.data.append( temp );
-    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( 
-            mmpAccountRoot.session.clientId ) );
-    packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( 
-            mmpAccountRoot.session.mraVer ) );
-    packet.data.append( temp );*/
-    
     packet.send( netConnection );
     LogUtil.outMessage( "Login sent" );
     ActionExec.setConnectionStage( mmpAccountRoot, 8 );
-    /**
-     * MRIM_CS_LOGIN_ACK
-     */
+    /** MRIM_CS_LOGIN_ACK **/
     packet = receivePacket();
     if ( packet.msg == PacketType.MRIM_CS_LOGIN_ACK ) {
       LogUtil.outMessage( "Login ack received" );
@@ -191,14 +149,18 @@ public class MmpSession implements Runnable {
     byte[] data = netConnection.read( 44 );
     if ( data.length >= 44 ) {
       packet.parseHeader( data ); // Reading header
-      // LogUtil.outMessage(">> Header received");
-      // LogUtil.outMessage("   recv. head: " + HexUtil.bytesToString(data));
       packet.data.byteString = netConnection.read( ( int ) packet.dlen );
-      // LogUtil.outMessage("   recv. data: " + HexUtil.bytesToString(packet.data.byteString));
+      if ( MidletMain.logLevel == 1 ) {
+        LogUtil.outMessage( ">> Header received" );
+        LogUtil.outMessage( "   recv. head: " + HexUtil.bytesToString( data ) );
+        LogUtil.outMessage( "   recv. data: " + HexUtil.bytesToString( packet.data.byteString ) );
+      }
       return packet;
     } else {
       LogUtil.outMessage( ">> Header size is less than 44" );
-      // LogUtil.outMessage("   " + HexUtil.bytesToString(data));
+      if ( MidletMain.logLevel == 1 ) {
+        LogUtil.outMessage( "   " + HexUtil.bytesToString( data ) );
+      }
       return null;
     }
   }
