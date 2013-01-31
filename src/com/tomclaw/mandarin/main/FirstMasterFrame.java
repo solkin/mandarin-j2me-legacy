@@ -32,7 +32,6 @@ public class FirstMasterFrame extends Window {
     /** Soft **/
     soft = new Soft( MidletMain.screen );
     soft.leftSoft = new PopupItem( "" ) {
-
       public void actionPerformed() {
         if ( masterStep > 0 ) {
           masterStep--;
@@ -41,7 +40,6 @@ public class FirstMasterFrame extends Window {
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "NEXT" ) ) {
-
       public void actionPerformed() {
         if ( masterStep < stepsCount - 1 ) {
           masterStep++;
@@ -52,7 +50,7 @@ public class FirstMasterFrame extends Window {
       }
     };
     /** Pane **/
-    panes = new Pane[stepsCount];
+    panes = new Pane[ stepsCount ];
 
     /** 1 **/
     panes[0] = new Pane( null, false );
@@ -74,7 +72,7 @@ public class FirstMasterFrame extends Window {
     /** 3 **/
     panes[2] = new Pane( null, false );
     Label titleLabel3 = new Label( Localization.getMessage( "NETCHECK_TITLE" ) );
-    titleLabel3.setTitle(true);
+    titleLabel3.setTitle( true );
     panes[2].addItem( titleLabel3 );
     panes[2].addItem( new Label( Localization.getMessage( "NETCHECK_TEXT" ) ) );
 
@@ -109,7 +107,6 @@ public class FirstMasterFrame extends Window {
     if ( masterStep == 3 ) {
       MidletMain.screen.repaint();
       new Thread() {
-
         public void run() {
           String retreivedData = null;
           try {
@@ -127,7 +124,6 @@ public class FirstMasterFrame extends Window {
             LogUtil.outMessage( retreivedData );
             netCheckResult = "REG_SUCCESS";
           } catch ( Throwable ex1 ) {
-            //retreivedData = Localization.getMessage("REG_FAILED");
             netCheckResult = "REG_FAILED";
           }
           try {
@@ -145,7 +141,7 @@ public class FirstMasterFrame extends Window {
                     Localization.getMessage( "NUM_OF_INSTALLS_0" )
                     + " " + retreivedData
                     + Localization.getMessage( "NUM_OF_INSTALLS_1" ) );
-            titleLabel.setTitle(true);
+            titleLabel.setTitle( true );
             panes[4].addItem( titleLabel );
           }
           netCheckResultLabel1.setCaption( Localization.getMessage( netCheckResult + "_0" ) );

@@ -116,7 +116,6 @@ public class XmppSender {
       xmppSession.xmlWriter.flush();
       LogUtil.outMessage( "Message sent" );
     } catch ( final Exception e ) {
-      // e.printStackTrace();
       LogUtil.outMessage( "ERR: " + e.getMessage() );
     }
     return id;
@@ -126,7 +125,6 @@ public class XmppSender {
     try {
       LogUtil.outMessage( xmppSession.xmppAccountRoot.username.concat( "@" ).concat( xmppSession.xmppAccountRoot.domain ).concat( "/" ).concat( xmppSession.xmppAccountRoot.resource ) );
       xmppSession.xmlWriter.startTag( "iq" );
-      // xmppSession.xmlWriter.attribute("xmlns", "jabber:client");
       xmppSession.xmlWriter.attribute( "type", "get" );
       xmppSession.xmlWriter.attribute( "from", xmppSession.xmppAccountRoot.username.concat( "@" ).concat( xmppSession.xmppAccountRoot.domain ).concat( "/" ).concat( xmppSession.xmppAccountRoot.resource ) );
       xmppSession.xmlWriter.attribute( "to", to );
@@ -139,7 +137,6 @@ public class XmppSender {
       xmppSession.xmlWriter.endTag();
       xmppSession.xmlWriter.flush();
     } catch ( final Exception e ) {
-      // e.printStackTrace();
       LogUtil.outMessage( "ERR: " + e.getMessage() );
     }
   }
@@ -148,7 +145,6 @@ public class XmppSender {
     try {
       LogUtil.outMessage( xmppSession.xmppAccountRoot.username.concat( "@" ).concat( xmppSession.xmppAccountRoot.domain ).concat( "/" ).concat( xmppSession.xmppAccountRoot.resource ) );
       xmppSession.xmlWriter.startTag( "iq" );
-      // xmppSession.xmlWriter.attribute("xmlns", "jabber:client");
       xmppSession.xmlWriter.attribute( "type", "get" );
       xmppSession.xmlWriter.attribute( "from", xmppSession.xmppAccountRoot.username.concat( "@" ).concat( xmppSession.xmppAccountRoot.domain ).concat( "/" ).concat( xmppSession.xmppAccountRoot.resource ) );
       xmppSession.xmlWriter.attribute( "to", to );
@@ -164,7 +160,6 @@ public class XmppSender {
       xmppSession.xmlWriter.endTag();
       xmppSession.xmlWriter.flush();
     } catch ( final Exception e ) {
-      // e.printStackTrace();
       LogUtil.outMessage( "ERR: " + e.getMessage() );
     }
   }
@@ -272,7 +267,6 @@ public class XmppSender {
       xmppSession.xmlWriter.flush();
       LogUtil.outMessage( "Bookmarks sent" );
     } catch ( final Exception e ) {
-      // e.printStackTrace();
       LogUtil.outMessage( "ERR: " + e.getMessage() );
     }
   }
@@ -313,7 +307,6 @@ public class XmppSender {
       xmppSession.xmlWriter.flush();
       LogUtil.outMessage( "Client info sent" );
     } catch ( final Exception e ) {
-      // e.printStackTrace();
       LogUtil.outMessage( "ERR: " + e.getMessage() );
     }
   }
@@ -623,7 +616,6 @@ public class XmppSender {
       "jabber:iq:version",
       "jabber:x:data",
       "jabber:iq:time"
-    /*"jabber:iq:last","jabber:iq:oob","urn:xmpp:time","jabber:iq:version","jabber:x:conference","http://jabber.org/protocol/bytestreams","http://jabber.org/protocol/caps","http://jabber.org/protocol/chatstates","http://jabber.org/protocol/disco#info","http://jabber.org/protocol/disco#items","http://jabber.org/protocol/muc","http://jabber.org/protocol/muc#user","http://jabber.org/protocol/si","http://jabber.org/protocol/si/profile/file-transfer","http://jabber.org/protocol/xhtml-im","urn:xmpp:ping","urn:xmpp:attention:0","urn:xmpp:bob","urn:xmpp:jingle:1","http://www.google.com/xmpp/protocol/session","http://www.google.com/xmpp/protocol/voice/v1","http://www.google.com/xmpp/protocol/video/v1","http://www.google.com/xmpp/protocol/camera/v1","urn:xmpp:jingle:apps:rtp:1","urn:xmpp:jingle:apps:rtp:audio","urn:xmpp:jingle:apps:rtp:video","urn:xmpp:jingle:transports:raw-udp:1","urn:xmpp:jingle:transports:ice-udp:1","urn:xmpp:avatar:metadata+notify","http://jabber.org/protocol/mood+notify","http://jabber.org/protocol/tune+notify","http://jabber.org/protocol/nick+notify","http://jabber.org/protocol/ibb"*/
     };
 
     String platform = null;
@@ -647,17 +639,17 @@ public class XmppSender {
     String version = MidletMain.version + " "
             + MidletMain.type + "-build " + MidletMain.build;
 
-    String[][] fields = new String[][]{{
+    String[][] fields = new String[][]{ {
         "FORM_TYPE",
         "os",
         "os_version",
         "software",
-        "software_version"}, {
+        "software_version" }, {
         "urn:xmpp:dataforms:softwareinfo",
         platform,
         configuration,
         "Mandarin IM",
-        version}};
+        version } };
     xmppSession.xmlWriter.startTag( "iq" );
     xmppSession.xmlWriter.attribute( "type", "result" );
     xmppSession.xmlWriter.attribute( "to", jid );

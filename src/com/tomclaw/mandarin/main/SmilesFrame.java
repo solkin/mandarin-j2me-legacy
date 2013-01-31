@@ -25,7 +25,6 @@ public class SmilesFrame extends Window {
     soft = new Soft( MidletMain.screen );
 
     soft.leftSoft = new PopupItem( Localization.getMessage( "SELECT" ) ) {
-
       public void actionPerformed() {
         grid.actionObject = ( PaneObject ) grid.items.elementAt( grid.focusedColumn + grid.columns * grid.focusedRow );
         if ( grid.actionObject != null ) {
@@ -34,7 +33,6 @@ public class SmilesFrame extends Window {
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
-
       public void actionPerformed() {
         Display.getDisplay( MidletMain.midletMain ).setCurrent( MidletMain.chatFrame.textBox );
         MidletMain.chatFrame.textBox.getCaretPosition();
@@ -46,7 +44,6 @@ public class SmilesFrame extends Window {
     grid.focusedColumn = 0;
     grid.focusedRow = 0;
     grid.actionPerformedEvent = new PaneEvent() {
-
       public void actionPerformed( PaneObject po ) {
         if ( po != null ) {
           String smileDefinition = Smiles.smiles[( ( Smile ) po ).smileLink.smileIndex].getSmileDefinitions()[0];

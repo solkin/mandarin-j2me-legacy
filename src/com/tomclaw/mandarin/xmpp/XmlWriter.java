@@ -98,24 +98,6 @@ public class XmlWriter {
   }
 
   private void writeEscaped( final String str ) throws IOException {
-    /*final int index = 0;
-     for (int i = 0; i < str.length(); i++) {
-     final char c = str.charAt(i);
-     switch (c) {
-     case '<':
-     writer.write("&lt;");
-     case '>':
-     writer.write("&gt;");
-     case '&':
-     writer.write("&amp;");
-     case '\'':
-     writer.write("&apos;");
-     case '"':
-     writer.write("&quot;");
-     default:
-     writer.write(c);
-     }
-     }*/
     baos.write( encodeUTF( StringUtil.toXmlWellFormed( str ) ) );
   }
 

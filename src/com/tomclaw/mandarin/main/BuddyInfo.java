@@ -1,6 +1,5 @@
 package com.tomclaw.mandarin.main;
 
-import java.util.Hashtable;
 import java.util.Vector;
 import javax.microedition.lcdui.Image;
 

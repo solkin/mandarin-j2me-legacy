@@ -10,8 +10,6 @@ import com.tomclaw.utils.Base64;
 import com.tomclaw.utils.LogUtil;
 import com.tomclaw.utils.StringUtil;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Hashtable;
 import java.util.Vector;
 import javax.microedition.lcdui.TextField;
@@ -157,9 +155,7 @@ public class XmppSession {
             XmppSession.this.netConnection.write( " ".getBytes() );
             sleep( 5000 );
           }
-        } catch ( InterruptedException ex ) {
-          LogUtil.outMessage( "XmppSession: " + ex.getMessage() );
-        } catch ( IOException ex ) {
+        } catch ( Throwable ex ) {
           LogUtil.outMessage( "XmppSession: " + ex.getMessage() );
         }
       }
@@ -188,9 +184,6 @@ public class XmppSession {
             }
             try {
               sleep( MidletMain.reconnectTime );
-            } catch ( InterruptedException ex1 ) {
-            }
-            try {
               connect( prevStatus );
             } catch ( Throwable ex1 ) {
               LogUtil.outMessage( "XmppSession: " + ex1.getMessage() );
@@ -234,7 +227,6 @@ public class XmppSession {
       } else {
         // Passing tag
       }
-      // LogUtil.outSystem( "\n" );
       if ( MidletMain.pack_count > MidletMain.pack_count_invoke_gc ) {
         System.gc();
         MidletMain.pack_count = 0;
@@ -359,9 +351,6 @@ public class XmppSession {
           if ( xmlReader.tagName.equals( "body" ) && xmlReader.tagType == XmlReader.TAG_CLOSING ) {
             LogUtil.outMessage( "Message or subject from " + from + ": " + xmlReader.body );
             if ( type.equals( "chat" ) ) {
-              /*int dpIndex = xmlReader.body.indexOf(':');
-               if(dpIndex != -1 && xmlReader.body.indexOf(' ') > dpIndex) {
-               }*/
               ActionExec.recMess( xmppAccountRoot, getClearJid( from ), getJidResource( from ), null, xmlReader.body, t_id.getBytes(), com.tomclaw.tcuilite.ChatItem.TYPE_PLAIN_MSG );
             } else if ( type.equals( "groupchat" ) ) {
               if ( MidletMain.bookmarksFrame != null ) {
@@ -401,7 +390,6 @@ public class XmppSession {
         }
       }
     } catch ( Throwable ex1 ) {
-      // ex1.printStackTrace();
       LogUtil.outMessage( "XmppSession: " + ex1.getMessage() );
     }
   }
@@ -424,12 +412,9 @@ public class XmppSession {
               String t_jid = "";
               String t_name = "";
               Vector groups = new Vector();
-              // Vector groups = new Vector();
-              // removeAllChildren();
               roster.clear();
               Vector buddyItems = new Vector();
               XmppGroup unclassified = new XmppGroup( Localization.getMessage( "XMPP_UNCLASSIFIED" ) );
-              // xmppAccountRoot.buddyItems.removeAllElements();
               while ( xmlReader.nextTag() && !( xmlReader.tagName.equals( "query" ) && xmlReader.tagType == XmlReader.TAG_CLOSING ) ) {
                 LogUtil.outMessage( xmlReader.tagName );
                 if ( xmlReader.tagName.equals( "item" ) && ( xmlReader.tagType == XmlReader.TAG_PLAIN || xmlReader.tagType == XmlReader.TAG_SELFCLOSING ) ) {
@@ -459,13 +444,10 @@ public class XmppSession {
                           localizeString( t_name ) );
                   roster.put( t_jid, rosterItem );
                   if ( groups.isEmpty() ) {
-                    //add(rosterItem);
                     unclassified.addChild( rosterItem );
                     LogUtil.outMessage( "Not in group" );
                   } else {
                     for ( int c = 0; c < groups.size(); c++ ) {
-                      // add(((XmppItem) groups.elementAt(c)));
-                      // roster.put(t_jid, rosterItem);
                       ( ( XmppGroup ) groups.elementAt( c ) ).addChild( rosterItem );
                       LogUtil.outMessage( "Group: " + ( ( XmppGroup ) groups.elementAt( c ) ).userId );
                     }
@@ -478,7 +460,7 @@ public class XmppSession {
                 LogUtil.outMessage( "unclassified appended" );
               }
               LogUtil.outMessage( "Roster parsed." );
-              ActionExec.setBuddyList( xmppAccountRoot, buddyItems, null, 0, 0, new byte[] {} );
+              ActionExec.setBuddyList( xmppAccountRoot, buddyItems, null, 0, 0, new byte[]{} );
               // Main.mainFrame.updateRoster();
             } else if ( xmlReader.getAttrValue( "xmlns", false ).equals( "http://jabber.org/protocol/disco#items" )
                     && xmlReader.tagType == XmlReader.TAG_PLAIN ) {
@@ -630,7 +612,6 @@ public class XmppSession {
                       field.setFocused( isFocused );
                       isFocused = false;
                       field.setName( fieldVar );
-                      // field.constraints = TextField.EMAILADDR;
                       field.title = fieldLabel;
                       objects.addElement( field );
                     }
@@ -787,31 +768,19 @@ public class XmppSession {
           if ( xmlReader.getAttrValue( "xmlns", false ).equals( "http://jabber.org/protocol/disco#info" ) ) {
             if ( id.startsWith( "srvfrm_host" ) ) {
               LogUtil.outMessage( "No host info" );
-              // ActionExec.setHostInfo(this.xmppAccountRoot, int_id, new Vector(), new Vector());
             } else if ( id.startsWith( "srvfrm_info" ) ) {
               LogUtil.outMessage( "No service info" );
-              // ActionExec.setServiceInfo(this.xmppAccountRoot, from, int_id, new Vector(), new Vector());
             }
           } else if ( xmlReader.getAttrValue( "xmlns", false ).equals( "http://jabber.org/protocol/muc#admin" ) ) {
             if ( id.startsWith( "grchus_frm_" ) ) {
               LogUtil.outMessage( "Permission denied" );
               MidletMain.groupChatUsersFrame.setError( xmppAccountRoot, id );
-            }/* else if (int_id.startsWith("srvfrm_info")) {
-             LogUtil.outMessage("No service info");
-             // ActionExec.setServiceInfo(this.xmppAccountRoot, from, int_id, new Vector(), new Vector());
-             }*/
+            }
           } else if ( xmlReader.getAttrValue( "xmlns", false ).equals( "http://jabber.org/protocol/muc#owner" ) ) {
             if ( id.startsWith( "grchus_frm_" ) ) {
               LogUtil.outMessage( "Permission denied" );
               MidletMain.groupChatUsersFrame.setError( xmppAccountRoot, id );
             }
-            /*if (int_id.startsWith("srvfrm_host")) {
-             LogUtil.outMessage("No host info");
-             // ActionExec.setHostInfo(this.xmppAccountRoot, int_id, new Vector(), new Vector());
-             } else if (int_id.startsWith("srvfrm_info")) {
-             LogUtil.outMessage("No service info");
-             // ActionExec.setServiceInfo(this.xmppAccountRoot, from, int_id, new Vector(), new Vector());
-             }*/
           }
         } else if ( type != null && type.equals( "get" ) ) {
           if ( xmlReader.tagName.equals( "query" ) ) {
@@ -823,9 +792,7 @@ public class XmppSession {
           }
           if ( xmlReader.getAttrValue( "xmlns", false ).equals( "jabber:iq:version" ) ) {
             if ( type.equals( "get" ) && xmlReader.tagType == XmlReader.TAG_SELFCLOSING ) {
-              /**
-               * Client info requesting
-               */
+              /** Client info requesting **/
               XmppSender.sendClientVersion( this, from, id );
             }
           }
@@ -833,7 +800,7 @@ public class XmppSession {
             XmppSender.sendTime( this, from, id );
           }
         } else if ( type != null && type.equals( "set" ) ) {
-          if ( xmlReader.tagName.equals( "si" )/* && xmlReader.tagType == XmlReader.TAG_PLAIN*/ ) {
+          if ( xmlReader.tagName.equals( "si" ) ) {
             if ( xmlReader.getAttrValue( "xmlns", false ).equals( "http://jabber.org/protocol/si" ) ) {
               String sid = xmlReader.getAttrValue( "id", false );
               String mimeType = xmlReader.getAttrValue( "mime-type", false );
@@ -886,7 +853,6 @@ public class XmppSession {
                       LogUtil.outMessage( "Sending file receive" );
                       directConnection.receiveFile( id );
                     } catch ( IOException ex ) {
-                      // ex.printStackTrace();
                       LogUtil.outMessage( "IOException: " + ex.getMessage(), true );
                     }
                   }
@@ -922,59 +888,7 @@ public class XmppSession {
     if ( string == null ) {
       return null;
     } else {
-      return string;//StringUtil.byteArrayToString(string.getBytes(), true);
-    }
-  }
-
-  /** Temporary, to watch traffic **/
-  public class VirtualInputStream extends InputStream {
-
-    public InputStream is;
-    private int read;
-    public OutputStream[] os_a;
-
-    public VirtualInputStream( InputStream is ) {
-      this.is = is;
-      os_a = LogUtil.getOutputStreams();
-    }
-
-    public int read() throws IOException {
-      read = is.read();
-      // System.out.print((char) read);
-      // System.out.flush();
-            /*for (int c = 0; c < os_a.length; c++) {
-       if (os_a[c] != null) {
-       os_a[c].write(read);
-       os_a[c].flush();
-       }
-       }*/
-      LogUtil.outSystem( String.valueOf( ( char ) read ) );
-      return read;
-    }
-  }
-
-  /** Temporary, to watch traffic **/
-  public class VirtualOutputStream extends OutputStream {
-
-    public OutputStream os;
-    public OutputStream[] os_a;
-
-    public VirtualOutputStream( OutputStream os ) {
-      this.os = os;
-      os_a = LogUtil.getOutputStreams();
-    }
-
-    public void write( int b ) throws IOException {
-      // System.err.print((char) b);
-      // System.err.flush();
-            /*for (int c = 0; c < os_a.length; c++) {
-       if (os_a[c] != null) {
-       os_a[c].write(b);
-       os_a[c].flush();
-       }
-       }*/
-      LogUtil.outSystem( String.valueOf( ( char ) b ) );
-      os.write( b );
+      return string;
     }
   }
 

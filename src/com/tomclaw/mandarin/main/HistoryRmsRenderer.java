@@ -41,13 +41,11 @@ public class HistoryRmsRenderer extends ListRmsRenderer {
     offset += 2;
     int dlvStatus = DataUtil.get8int( data, offset );
     offset++;
-
     try {
       BBResult bbResult = BBUtil.processText( text, 0, 0, 2048 );
       text = bbResult.originalString;
     } catch ( Throwable ex ) {
     }
-
     ListItem listItem = new ListItem( text,
             IconsType.HASH_CHAT, ( ( ( itemType == ChatItem.TYPE_PLAIN_MSG
             ? ( itemType + dlvStatus ) : itemType ) ) ) );
@@ -77,44 +75,22 @@ public class HistoryRmsRenderer extends ListRmsRenderer {
     offset += 2;
     int dlvStatus = DataUtil.get8int( data, offset );
     offset++;
-
     ChatItem chatItem = new ChatItem( pane, buddyId, buddyNick, itemDateTime, itemType, text );
     chatItem.dlvStatus = ( byte ) dlvStatus;
-    /*ListItem listItem = new ListItem(text,
-     IconsType.HASH_CHAT, (((itemType == ChatItem.TYPE_PLAIN_MSG
-     ? (itemType + dlvStatus) : itemType))));*/
-
     return chatItem;
   }
 
   public byte[] getRmsData( ChatItem chatItem ) {
-    /*byte[] titleData = listItem.title == null ? new byte[0] : StringUtil.stringToByteArray(listItem.title, true);
-     byte[] data = new byte[8 + titleData.length];
-     DataUtil.put32(data, 0, listItem.imageFileHash);
-     DataUtil.put16(data, 4, listItem.imageIndex);
-     if (listItem.title != null) {
-     DataUtil.put16(data, 6, titleData.length);
-     DataUtil.putArray(data, 8, titleData);
-     }*/
-    /*byteString.byteString = new byte[0];
-     byteString.append(StringUtil.stringToByteArray(chatItem.text, true));
-     byteString.append(StringUtil.stringToByteArray(chatItem.buddyId, true));
-     byteString.append(StringUtil.stringToByteArray(chatItem.buddyNick, true));
-     byteString.append(StringUtil.stringToByteArray(chatItem.itemDateTime, true));
-     byte[] itemType = new byte[2];
-     DataUtil.put16(itemType, 0, chatItem.itemType);
-     byteString.append(itemType);
-     byteString.append(new byte[]{chatItem.dlvStatus});*/
     byte[] text = StringUtil.stringToByteArray( chatItem.text, true );
     byte[] buddyId = StringUtil.stringToByteArray( chatItem.buddyId, true );
     byte[] buddyNick = StringUtil.stringToByteArray( chatItem.buddyNick, true );
     byte[] itemDateTime = StringUtil.stringToByteArray( chatItem.itemDateTime, true );
-    byte[] data = new byte[2 + text.length
+    byte[] data = new byte[ 2 + text.length
             + 2 + buddyId.length
             + 2 + buddyNick.length
             + 2 + itemDateTime.length
             + 2
-            + 1];
+            + 1 ];
     int offset = 0;
     DataUtil.put16( data, offset, text.length );
     offset += 2;

@@ -569,7 +569,7 @@ public class MainFrame extends Window {
     };
     accountTabs.gObject = buddyList;
 
-    /** Init accounts list **/
+    /** Initialize accounts list **/
     updateAccountsList();
     /** Load offline buddy list **/
     if ( !accountTabs.items.isEmpty() ) {
@@ -689,7 +689,9 @@ public class MainFrame extends Window {
   public final void loadOfflineBuddyList( AccountRoot accountRoot ) {
     BinGear dataGear = null;
     try {
-      RecordUtil.readFile( "/icq/".concat( String.valueOf( accountRoot.getUserId().hashCode() ) ).concat( "/buddylist.dat" ), dataGear );
+      RecordUtil.readFile( "/icq/".concat( 
+              String.valueOf( accountRoot.getUserId().hashCode() ) )
+              .concat( "/buddylist.dat" ), dataGear );
       Vector buddyItems = new Vector();
       /** Loading buddyItems from dataGear **/
       accountRoot.setBuddyItems( buddyItems );
@@ -919,7 +921,6 @@ public class MainFrame extends Window {
     icqSoft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "FILETRANFSER" ), IconsType.HASH_MAIN, 2 ) {
       public void actionPerformed() {
         AccountRoot accountRoot = getActiveAccountRoot();
-        // accountRoot.setTransactionsFrame(new TransactionsFrame(accountRoot));
         accountRoot.getTransactionsFrame().s_prevWindow = MainFrame.this;
         MidletMain.screen.setActiveWindow( accountRoot.getTransactionsFrame() );
       }

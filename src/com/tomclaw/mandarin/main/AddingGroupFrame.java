@@ -1,10 +1,5 @@
 package com.tomclaw.mandarin.main;
 
-import com.tomclaw.mandarin.icq.IcqAccountRoot;
-import com.tomclaw.mandarin.icq.IcqGroup;
-import com.tomclaw.mandarin.mmp.MmpAccountRoot;
-import com.tomclaw.mandarin.mmp.MmpGroup;
-import com.tomclaw.mandarin.mmp.PacketType;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.LogUtil;

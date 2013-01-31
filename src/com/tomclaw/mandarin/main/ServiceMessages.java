@@ -56,7 +56,7 @@ public class ServiceMessages {
     if ( messages.size() > messagesCount ) {
       messages.removeElementAt( 0 );
     }
-    /** Checking for screen existance **/
+    /** Checking for screen exist **/
     if ( MidletMain.serviceMessagesFrame.pane.items.equals( messages )
             && MidletMain.screen.activeWindow.equals( MidletMain.serviceMessagesFrame ) ) {
       MidletMain.serviceMessagesFrame.updateItemsLocation( true );

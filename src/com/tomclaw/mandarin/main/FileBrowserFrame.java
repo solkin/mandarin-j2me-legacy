@@ -20,12 +20,13 @@ import javax.microedition.io.file.FileConnection;
 public class FileBrowserFrame extends Window {
 
   /** Local variables **/
-  public List filesList = null;
-  FileConnection fileConnection;
-  String systemPath = "";
-  public final int manType;
+  private List filesList = null;
+  private FileConnection fileConnection;
+  private String systemPath = "";
+  private final int manType;
 
-  public FileBrowserFrame( final int manType, final AccountRoot accountRoot, final String buddyId ) {
+  public FileBrowserFrame( final int manType, final AccountRoot accountRoot,
+          final String buddyId ) {
     super( MidletMain.screen );
     this.manType = manType;
     header = new Header( Localization.getMessage( "FILE_BROWSER_FRAME" ) );

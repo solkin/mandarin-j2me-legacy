@@ -39,18 +39,12 @@ public class XmppAccountRoot extends AccountRoot {
 
     username = userId.substring( 0, userId.indexOf( '@' ) );
     domain = userId.substring( userId.indexOf( '@' ) + 1 );
-    //resource = MidletMain.getString( MidletMain.accounts, jid, "resource" );
 
     if ( StringUtil.isNullOrEmpty( host ) ) {
       host = domain;
     }
 
     resource = "Mandarin IM ".concat( MidletMain.version ).concat( " [" ).concat( MidletMain.build.concat( "]" ) );
-
-    // if ( isStart ) {
-    // transactionManager = new TransactionManager();
-    // serviceMessages = new ServiceMessages();
-    // }
   }
 
   public void saveSpecialSettings() throws Throwable {
@@ -128,7 +122,7 @@ public class XmppAccountRoot extends AccountRoot {
 
   public void setPrivateItems( Vector privateList ) {
   }
-  
+
   public BuddyGroup getGroupInstance() {
     return new XmppGroup();
   }
@@ -141,22 +135,22 @@ public class XmppAccountRoot extends AccountRoot {
     return null;
   }
 
-  public Cookie addBuddy( BuddyItem buddyItem, BuddyGroup buddyGroup ) 
+  public Cookie addBuddy( BuddyItem buddyItem, BuddyGroup buddyGroup )
           throws IOException {
     return null;
   }
 
-  public Cookie renameBuddy( String itemName, BuddyItem buddyItem, 
+  public Cookie renameBuddy( String itemName, BuddyItem buddyItem,
           String phones ) throws IOException {
     return null;
   }
 
-  public Cookie renameGroup( String text, BuddyGroup buddyGroup ) 
+  public Cookie renameGroup( String text, BuddyGroup buddyGroup )
           throws IOException {
     return null;
   }
 
-  public void requestAuth( String text, BuddyItem buddyItem ) 
+  public void requestAuth( String text, BuddyItem buddyItem )
           throws IOException {
   }
 
@@ -181,7 +175,7 @@ public class XmppAccountRoot extends AccountRoot {
   public int getNextBuddyId() {
     return 0;
   }
-  
+
   public int getNextGroupId() {
     return 0;
   }

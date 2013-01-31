@@ -70,8 +70,8 @@ public class XmppItem extends BuddyItem {
         weight = -3;
       }
     }
-    imageLeftIndex = new int[] { chatImage, status };
-    imageRightIndex = new int[] { -1, -1, -1, -1, -1 };
+    imageLeftIndex = new int[]{ chatImage, status };
+    imageRightIndex = new int[]{ -1, -1, -1, -1, -1 };
     if ( MidletMain.chatFrame != null ) {
       isBold = ( MidletMain.chatFrame.getChatTab( userId ) != null
               || MidletMain.getBoolean( MidletMain.uniquest,

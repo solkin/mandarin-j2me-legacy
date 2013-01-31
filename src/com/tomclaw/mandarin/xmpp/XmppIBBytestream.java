@@ -101,7 +101,7 @@ public class XmppIBBytestream implements DirectConnection {
     this.isReceivingFile = isReceivingFile;
   }
 
-  public boolean isCompare( DirectConnection directConnection ) {
+  public boolean equals( DirectConnection directConnection ) {
     if ( directConnection instanceof XmppIBBytestream ) {
       if ( ArrayUtil.equals( ( ( XmppIBBytestream ) directConnection ).icbmCookie, icbmCookie ) ) {
         return true;

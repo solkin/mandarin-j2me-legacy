@@ -32,13 +32,13 @@ public class ChatFrame extends Window {
   public PopupItem hyperlinkPopupItem;
   public PopupItem authAcceptPopupItem;
   public PopupItem replyItem;
-  public char[] http_den_sym = new char[]{ ' ', '\n', '\r', '\t', '!', '"', '#', '\'', '*', ',', ';', '<', '>', '[', ']', '^', '`', '{', '|', '}' };
+  public char[] http_den_sym = new char[]{ ' ', '\n', '\r', '\t', '!', '"',
+    '#', '\'', '*', ',', ';', '<', '>', '[', ']', '^', '`', '{', '|', '}' };
 
   public ChatFrame() {
     super( MidletMain.screen );
 
     this.addKeyEvent( new KeyEvent( 0, "KEY_WRITE", true ) {
-
       public void actionPerformed() {
         ChatTab chatTab = getSelectedChatTab();
         if ( chatTab == null ) {
@@ -51,7 +51,6 @@ public class ChatFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_COPY", true ) {
-
       public void actionPerformed() {
         /**
          * Message deoptimization
@@ -63,7 +62,6 @@ public class ChatFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_PASTE", true ) {
-
       public void actionPerformed() {
         ChatTab chatTab = getSelectedChatTab();
         if ( chatTab == null ) {
@@ -79,7 +77,6 @@ public class ChatFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_APPEND", true ) {
-
       public void actionPerformed() {
         if ( !chatPane.items.isEmpty() && chatPane.psvLstFocusedIndex >= 0 && chatPane.psvLstFocusedIndex < chatPane.items.size() ) {
           ChatItem chatItem = ( ( ChatItem ) chatPane.items.elementAt( chatPane.psvLstFocusedIndex ) );
@@ -88,14 +85,12 @@ public class ChatFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_CLEARCHAT", true ) {
-
       public void actionPerformed() {
         ( ( ChatTab ) ChatFrame.this.chatTabs.items.elementAt( ChatFrame.this.chatTabs.selectedIndex ) ).chatItems.removeAllElements();
         System.gc();
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_CLOSECHAT", true ) {
-
       public void actionPerformed() {
         ChatTab chatTab = ( ( ChatTab ) ChatFrame.this.chatTabs.items.elementAt( ChatFrame.this.chatTabs.selectedIndex ) );
         if ( chatTab.buddyItem instanceof XmppItem && !chatTab.resource.resource.equals( "" ) && MidletMain.isRemoveResources ) {
@@ -132,7 +127,6 @@ public class ChatFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_REPLY", true ) {
-
       public void actionPerformed() {
         if ( !chatPane.items.isEmpty() && chatPane.psvLstFocusedIndex >= 0 && chatPane.psvLstFocusedIndex < chatPane.items.size() ) {
           ChatItem chatItem = ( ( ChatItem ) chatPane.items.elementAt( chatPane.psvLstFocusedIndex ) );
@@ -150,7 +144,6 @@ public class ChatFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_CHAT_SCREEN_TOP", true ) {
-
       public void actionPerformed() {
         chatPane.yOffset = 0;
         if ( !chatPane.items.isEmpty() ) {
@@ -159,7 +152,6 @@ public class ChatFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_CHAT_SCREEN_BOTTOM", true ) {
-
       public void actionPerformed() {
         int maxOffset = chatPane.maxHeight - chatPane.height;
         if ( maxOffset < 0 ) {
@@ -178,8 +170,7 @@ public class ChatFrame extends Window {
     textBox.addCommand( new Command( Localization.getMessage( "SMILES" ), Command.HELP, 2 ) );
     textBox.addCommand( new Command( Localization.getMessage( "CLEAR" ), Command.EXIT, 1 ) );
     textBox.setCommandListener( new CommandListener() {
-
-      public void commandAction(Command c, Displayable d) {
+      public void commandAction( Command c, Displayable d ) {
         switch ( c.getCommandType() ) {
           case Command.OK: {
             try {
@@ -248,13 +239,11 @@ public class ChatFrame extends Window {
      */
     hyperlinkPopupItem = new PopupItem( Localization.getMessage( "GO_TO_HYPERLINK" ) );
     replyItem = new PopupItem( Localization.getMessage( "REPLY" ) ) {
-
       public void actionPerformed() {
         ChatFrame.this.getKeyEvent( "KEY_REPLY" ).actionPerformed();
       }
     };
     authAcceptPopupItem = new PopupItem( Localization.getMessage( "AUTH_ACCEPT" ) ) {
-
       public void actionPerformed() {
         if ( !chatPane.items.isEmpty() && chatPane.psvLstFocusedIndex >= 0 && chatPane.psvLstFocusedIndex < chatPane.items.size() ) {
           ChatTab chatTab = getSelectedChatTab();
@@ -269,13 +258,11 @@ public class ChatFrame extends Window {
       }
     };
     replyItem = new PopupItem( Localization.getMessage( "REPLY" ) ) {
-
       public void actionPerformed() {
         ChatFrame.this.getKeyEvent( "KEY_REPLY" ).actionPerformed();
       }
     };
     soft.leftSoft = new PopupItem( Localization.getMessage( "MENU" ) ) {
-
       public void actionPerformed() {
         /**
          * Links
@@ -291,7 +278,7 @@ public class ChatFrame extends Window {
           chatItem = ( ( ChatItem ) chatPane.items.elementAt(
                   chatPane.psvLstFocusedIndex ) );
           /**
-           * Links recogizing
+           * Links recognition
            */
           int linkPoint;
           int offset = 0;
@@ -313,7 +300,6 @@ public class ChatFrame extends Window {
             if ( hyperlink.length() < 256 ) {
               isLinkPresent = true;
               hyperlinkPopupItem.addSubItem( new PopupItem( hyperlink ) {
-
                 public void actionPerformed() {
                   try {
                     MidletMain.midletMain.platformRequest( hyperlink );
@@ -327,10 +313,9 @@ public class ChatFrame extends Window {
           }
         }
         /**
-         * Добавление / удаление контекстных ссылок в зависимости от типа
-         * сообщения
+         * Adding / removing shortcut links depending on the type of message
          */
-        // Переход по ссылке
+        // Link jump
         if ( soft.leftSoft.subPopup.items.contains( hyperlinkPopupItem ) ) {
           if ( !isLinkPresent ) {
             soft.leftSoft.subPopup.items.removeElement( hyperlinkPopupItem );
@@ -340,7 +325,7 @@ public class ChatFrame extends Window {
             soft.leftSoft.subPopup.items.insertElementAt( hyperlinkPopupItem, 1 );
           }
         }
-        // Подтверждение на запрос авторизации
+        // Authorization accept
         if ( soft.leftSoft.subPopup.items.contains( authAcceptPopupItem ) ) {
           if ( chatItem == null
                   || chatItem.itemType != ChatItem.TYPE_AUTH_REQ_MSG ) {
@@ -371,37 +356,31 @@ public class ChatFrame extends Window {
       }
     };
     soft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "WRITE" ) ) {
-
       public void actionPerformed() {
         ChatFrame.this.getKeyEvent( "KEY_WRITE" ).actionPerformed();
       }
     } );
     soft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "CLEAR" ) ) {
-
       public void actionPerformed() {
         ChatFrame.this.getKeyEvent( "KEY_CLEARCHAT" ).actionPerformed();
       }
     } );
     soft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "COPY" ) ) {
-
       public void actionPerformed() {
         ChatFrame.this.getKeyEvent( "KEY_COPY" ).actionPerformed();
       }
     } );
     soft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "APPEND" ) ) {
-
       public void actionPerformed() {
         ChatFrame.this.getKeyEvent( "KEY_APPEND" ).actionPerformed();
       }
     } );
     soft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "PASTE" ) ) {
-
       public void actionPerformed() {
         ChatFrame.this.getKeyEvent( "KEY_PASTE" ).actionPerformed();
       }
     } );
     soft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "CLOSE" ) ) {
-
       public void actionPerformed() {
         ChatFrame.this.getKeyEvent( "KEY_CLOSECHAT" ).actionPerformed();
       }
@@ -410,7 +389,6 @@ public class ChatFrame extends Window {
      * Right soft items
      */
     soft.rightSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
-
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( MidletMain.mainFrame );
       }
@@ -418,8 +396,7 @@ public class ChatFrame extends Window {
 
     chatTabs = new Tab( screen );
     chatTabs.tabEvent = new TabEvent() {
-
-      public void stateChanged(int prevIndex, int currIndex, int totlItems) {
+      public void stateChanged( int prevIndex, int currIndex, int totlItems ) {
         try {
           /**
            * Saving previous yOffset
@@ -427,7 +404,7 @@ public class ChatFrame extends Window {
           LogUtil.outMessage( "totlItems = " + totlItems );
           LogUtil.outMessage( "prevIndex = " + prevIndex );
           /**
-           * Checking for nulltype of chat
+           * Checking for null-type of chat
            */
           ChatTab t_ChatTab = ( ( ChatTab ) chatTabs.items.elementAt( currIndex ) );
           if ( t_ChatTab.chatItems == null ) {
@@ -438,7 +415,7 @@ public class ChatFrame extends Window {
            */
           chatPane.items = t_ChatTab.chatItems;
           /**
-           * Applting scroll flag
+           * Applying scroll flag
            */
           ChatFrame.this.prepareGraphics();
           if ( chatPane.maxHeight > chatPane.getHeight() ) {
@@ -466,7 +443,6 @@ public class ChatFrame extends Window {
           t_ChatTab.buddyItem.setUnreadCount( 0, resource );
           t_ChatTab.buddyItem.updateUiData();
           t_ChatTab.updateChatCaption();
-          //ChatFrame.this.prepareGraphics();
           screen.repaint();
         } catch ( Throwable ex1 ) {
           LogUtil.outMessage( "chatTabs.tabEvent: " + ex1.getMessage() );
@@ -477,8 +453,7 @@ public class ChatFrame extends Window {
     chatPane.setTouchOrientation( MidletMain.screen.isPointerEvents );
     chatPane.moveStep = Theme.font.getHeight() * 3;
     chatPane.actionPerformedEvent = new PaneEvent() {
-
-      public void actionPerformed(PaneObject po) {
+      public void actionPerformed( PaneObject po ) {
         ChatTab chatTab = getSelectedChatTab();
         if ( chatTab == null ) {
           return;
@@ -495,7 +470,7 @@ public class ChatFrame extends Window {
     setGObject( chatTabs );
   }
 
-  public void addChatTab(ChatTab chatTab, boolean isSwitchTo) {
+  public void addChatTab( ChatTab chatTab, boolean isSwitchTo ) {
     chatTabs.addTabItem( chatTab );
     chatTab.buddyItem.updateUiData();
     if ( isSwitchTo ) {
@@ -514,12 +489,12 @@ public class ChatFrame extends Window {
     MidletMain.mainFrame.s_nextWindow = this;
   }
 
-  public void removeChatTab(ChatTab chatTab) {
+  public void removeChatTab( ChatTab chatTab ) {
     chatTab.buddyItem.updateUiData();
     chatTabs.items.removeElement( chatTab );
   }
 
-  public void removeChatTab(int index) {
+  public void removeChatTab( int index ) {
     try {
       ChatTab chatTab = ( ( ChatTab ) chatTabs.items.elementAt( index ) );
       chatTabs.items.removeElementAt( index );
@@ -528,7 +503,7 @@ public class ChatFrame extends Window {
     }
   }
 
-  public ChatTab getChatTab(AccountRoot accountRoot, String buddyId, String resource, boolean isSwitchTo) {
+  public ChatTab getChatTab( AccountRoot accountRoot, String buddyId, String resource, boolean isSwitchTo ) {
     ChatTab chatTab;
     for ( int c = 0; c < chatTabs.items.size(); c++ ) {
       chatTab = ( ChatTab ) chatTabs.items.elementAt( c );
@@ -558,14 +533,14 @@ public class ChatFrame extends Window {
     return null;
   }
 
-  public boolean addChatItem(ChatTab chatTab, String groupChatNick, String decMsg, byte[] msgCookie, int type, boolean isIncoming) {
+  public boolean addChatItem( ChatTab chatTab, String groupChatNick, String decMsg, byte[] msgCookie, int type, boolean isIncoming ) {
     decMsg = StringUtil.replace( decMsg, "[", "\\[" );
     decMsg = StringUtil.replace( decMsg, "]", "\\]" );
     decMsg = Smiles.replaceSmilesForCodes( decMsg );
     decMsg = StringUtil.replace( decMsg, "\n", "[br/]" );
     if ( groupChatNick != null && chatTab.accountRoot instanceof XmppAccountRoot ) {
       /**
-       * Special addon for XMPP chatrooms
+       * Special addition for XMPP chat-rooms
        */
       if ( decMsg.startsWith( "/me" ) ) {
         decMsg = "[c=purple][i]".concat( groupChatNick ).concat( decMsg.substring( "/me".length(), decMsg.length() ) ).concat( "[/i][/c]" );
@@ -614,29 +589,18 @@ public class ChatFrame extends Window {
     }
 
     /**
-     * Checking chatTab for nulltype *
+     * Checking chatTab for null-type
      */
     if ( chatTab.chatItems == null ) {
       chatTab.chatItems = new Vector();
     }
     /**
-     * Focus chatItem *
+     * Focus chatItem
      */
-    /**
-     * * if (chatTab.focusedIndex >= 0 && chatTab.chatItems.size() >
-     * chatTab.focusedIndex) { // ((PaneObject)
-     * chatPane.items.elementAt(chatPane.focusedIndex)).setFocused(false);
-     * ((PaneObject)
-     * chatTab.chatItems.elementAt(chatTab.focusedIndex)).setFocused(false);
-     * LogUtil.outMessage("Unfocus index: " + chatTab.focusedIndex); }
-     * chatItem.setFocused(true);
-     */
-    // chatTab.focusedIndex = chatTab.chatItems.size();
-    // LogUtil.outMessage("Focusing index: " + chatTab.focusedIndex);
     chatTab.chatItems.addElement( chatItem );
     MidletMain.chatFrame.prepareGraphics();
     /**
-     * Scrolling to the last message *
+     * Scrolling to the last message
      */
     ChatTab tempChatTab = getSelectedChatTab();
 
@@ -644,9 +608,8 @@ public class ChatFrame extends Window {
     LogUtil.outMessage( "Items total:   " + chatPane.items.size() );
     if ( tempChatTab != null && tempChatTab.equals( chatTab ) && chatPane.psvLstFocusedIndex == chatPane.items.size() - 2 || chatPane.items.size() == 1 ) {
       /**
-       * This tab is active *
+       * This tab is active
        */
-      // chatPane.setFocused(chatTab.focusedIndex);
       if ( chatPane.maxHeight > chatPane.getHeight() ) {
         chatPane.yOffset = chatPane.maxHeight - chatPane.getHeight();
       } else {
@@ -668,7 +631,7 @@ public class ChatFrame extends Window {
     return false;
   }
 
-  public void msgAck(AccountRoot accountRoot, String buddyId, String resource, byte[] msgCookie, byte dlvStatus) {
+  public void msgAck( AccountRoot accountRoot, String buddyId, String resource, byte[] msgCookie, byte dlvStatus ) {
     ChatTab chatTab;
     chatTab = getChatTab( accountRoot, buddyId, resource );
     if ( chatTab != null ) {
@@ -681,7 +644,7 @@ public class ChatFrame extends Window {
     }
   }
 
-  public void msgAck(AccountRoot accountRoot, byte[] msgCookie, byte dlvStatus) {
+  public void msgAck( AccountRoot accountRoot, byte[] msgCookie, byte dlvStatus ) {
     ChatTab chatTab;
     for ( int c = 0; c < chatTabs.items.size(); c++ ) {
       chatTab = ( ( ChatTab ) chatTabs.items.elementAt( c ) );
@@ -696,20 +659,13 @@ public class ChatFrame extends Window {
     }
   }
 
-  public ChatTab getChatTab(AccountRoot accountRoot, String buddyId, String resource) {
-    /*
-     * ChatTab chatTab; for (int c = 0; c < chatTabs.items.size(); c++) {
-     * chatTab = (ChatTab) chatTabs.items.elementAt(c); if
-     * (chatTab.accountRoot.equals(accountRoot) &&
-     * chatTab.buddyItem.getUserId().equals(buddyId)) { return chatTab; } }
-     * return null;
-     */
+  public ChatTab getChatTab( AccountRoot accountRoot, String buddyId, String resource ) {
     return getChatTab( accountRoot, buddyId, resource, false );
   }
 
-  public ChatTab getChatTab(String buddyId) {
+  public ChatTab getChatTab( String buddyId ) {
     /**
-     * Warning! Tabs from any AccountRoot could compare *
+     * Warning! Tabs from any AccountRoot could compare
      */
     ChatTab chatTab;
     for ( int c = 0; c < chatTabs.items.size(); c++ ) {
@@ -755,7 +711,7 @@ public class ChatFrame extends Window {
     }
   }
 
-  private void saveToHistory(String accType, String userId, ChatItem chatItem) {
+  private void saveToHistory( String accType, String userId, ChatItem chatItem ) {
     try {
       RecordStore recordStore = RecordStore.openRecordStore( accType + userId.hashCode() + ".his", true );
       byte[] data = MidletMain.historyRmsRenderer.getRmsData( chatItem );
@@ -766,7 +722,7 @@ public class ChatFrame extends Window {
     }
   }
 
-  public static String getMessageText(ChatItem chatItem) {
+  public static String getMessageText( ChatItem chatItem ) {
     return chatItem.bbResult.originalString;
   }
 }

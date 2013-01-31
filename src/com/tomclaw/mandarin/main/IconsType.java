@@ -24,9 +24,7 @@ public interface IconsType {
   public static final int FILES_FOLDER = 0x06;
   public static final int FILES_FILE = 0x07;
   public static final int FILES_UP = 0x08;
-  /**
-   * Private list
-   */
+  /** Private list **/
   public static final int HASH_PLIST = "/res/groups/img_plist.png".hashCode();
   public static final int PLIST_VISIBLE = 0x00;
   public static final int PLIST_INVISIBLE = 0x01;

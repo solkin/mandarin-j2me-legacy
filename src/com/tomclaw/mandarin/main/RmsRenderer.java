@@ -53,7 +53,7 @@ public class RmsRenderer {
   public static byte[] getRmsData( GroupHeader groupHeader ) {
     byte[] data;
     byte[] titleData = StringUtil.stringToByteArray( groupHeader.title, true );
-    data = new byte[4 + titleData.length];
+    data = new byte[ 4 + titleData.length ];
     DataUtil.put16( data, 0, titleData.length );
     DataUtil.putArray( data, 2, titleData );
     DataUtil.put16( data, 2 + titleData.length, groupHeader.getChildsCount() );
@@ -66,7 +66,7 @@ public class RmsRenderer {
         // offset = 0;
         groupChild = ( BuddyItem ) groupHeader.getChilds().elementAt( c );
         titleData = StringUtil.stringToByteArray( groupChild.getUserId(), true );
-        itemData = new byte[9 + titleData.length + StringUtil.stringToByteArray( groupChild.getUserNick(), true ).length + StringUtil.stringToByteArray( groupChild.getUserPhone(), true ).length];
+        itemData = new byte[ 9 + titleData.length + StringUtil.stringToByteArray( groupChild.getUserNick(), true ).length + StringUtil.stringToByteArray( groupChild.getUserPhone(), true ).length ];
         /** Title **/
         DataUtil.put16( itemData, 0, titleData.length );
         DataUtil.putArray( itemData, 2, titleData );
@@ -95,7 +95,7 @@ public class RmsRenderer {
         DataUtil.put8( itemData, offset, groupChild.isPhone() ? 1 : 0 );
         offset++;
         /** Glueing array **/
-        t_Byte = new byte[data.length + itemData.length];
+        t_Byte = new byte[ data.length + itemData.length ];
         System.arraycopy( data, 0, t_Byte, 0, data.length );
         System.arraycopy( itemData, 0, t_Byte, data.length, itemData.length );
         data = t_Byte;

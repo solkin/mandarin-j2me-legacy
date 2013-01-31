@@ -27,14 +27,14 @@ public class Cookie {
   }
 
   public Cookie( long cookieValue ) {
-    cookie = new byte[4];
+    cookie = new byte[ 4 ];
     this.cookieValue = cookieValue;
     DataUtil.put32_reversed( cookie, 0, cookieValue );
     cookieString = new String( cookie );
   }
 
   public Cookie( String cookieString ) {
-    cookie = new byte[4];
+    cookie = new byte[ 4 ];
     this.cookieString = cookieString;
     cookie = cookieString.getBytes();
     cookieValue = DataUtil.get32( cookie, 0, false );

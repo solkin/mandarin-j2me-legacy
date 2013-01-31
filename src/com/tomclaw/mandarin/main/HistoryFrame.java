@@ -7,10 +7,7 @@ import com.tomclaw.utils.StringUtil;
 import java.io.DataOutputStream;
 import javax.microedition.io.Connector;
 import javax.microedition.io.file.FileConnection;
-import javax.microedition.rms.InvalidRecordIDException;
 import javax.microedition.rms.RecordStore;
-import javax.microedition.rms.RecordStoreException;
-import javax.microedition.rms.RecordStoreNotOpenException;
 
 /**
  * Solkin Igor Viktorovich, TomClaw Software, 2003-2013
@@ -19,12 +16,12 @@ import javax.microedition.rms.RecordStoreNotOpenException;
  */
 public class HistoryFrame extends Window {
 
-  public List list;
-  public Pane pane;
+  private List list;
+  private Pane pane;
   /** Temporary **/
-  public ChatItem chatItem;
-  public Soft chatSoft;
-  public Soft listSoft;
+  private ChatItem chatItem;
+  private Soft chatSoft;
+  private Soft listSoft;
 
   public HistoryFrame( final String accType, final String buddyId ) {
     super( MidletMain.screen );
@@ -52,11 +49,7 @@ public class HistoryFrame extends Window {
         try {
           ChatItem chatItem = MidletMain.historyRmsRenderer.getRmsItem( list.recordStore.getRecord( list.selectedIndex + 1 ), pane );
           MidletMain.buffer += "\n[".concat( chatItem.buddyNick ).concat( "]\n " ).concat( chatItem.itemDateTime ).concat( " \n" ).concat( chatItem.text );
-        } catch ( RecordStoreNotOpenException ex ) {
-          LogUtil.outMessage( HistoryFrame.this.getClass(), ex );
-        } catch ( InvalidRecordIDException ex ) {
-          LogUtil.outMessage( HistoryFrame.this.getClass(), ex );
-        } catch ( RecordStoreException ex ) {
+        } catch ( Throwable ex ) {
           LogUtil.outMessage( HistoryFrame.this.getClass(), ex );
         }
       }
@@ -66,11 +59,7 @@ public class HistoryFrame extends Window {
         try {
           ChatItem chatItem = MidletMain.historyRmsRenderer.getRmsItem( list.recordStore.getRecord( list.selectedIndex + 1 ), pane );
           MidletMain.buffer = "[".concat( chatItem.buddyNick ).concat( "]\n " ).concat( chatItem.itemDateTime ).concat( " \n" ).concat( chatItem.text );
-        } catch ( RecordStoreNotOpenException ex ) {
-          LogUtil.outMessage( HistoryFrame.this.getClass(), ex );
-        } catch ( InvalidRecordIDException ex ) {
-          LogUtil.outMessage( HistoryFrame.this.getClass(), ex );
-        } catch ( RecordStoreException ex ) {
+        } catch ( Throwable ex ) {
           LogUtil.outMessage( HistoryFrame.this.getClass(), ex );
         }
       }
@@ -84,12 +73,8 @@ public class HistoryFrame extends Window {
           list.recordStore = RecordStore.openRecordStore( rsName, true );
           list.recordStore.closeRecordStore();
           list.items.removeAllElements();
-        } catch ( RecordStoreNotOpenException ex ) {
+        } catch ( Throwable ex ) {
           LogUtil.outMessage( HistoryFrame.this.getClass(), ex );
-          // ex.printStackTrace();
-        } catch ( RecordStoreException ex ) {
-          LogUtil.outMessage( HistoryFrame.this.getClass(), ex );
-          // ex.printStackTrace();
         }
       }
     } );
@@ -146,7 +131,6 @@ public class HistoryFrame extends Window {
         } catch ( Throwable ex ) {
           LogUtil.outMessage( "Export error: " + ex.getMessage() );
         }
-
         ActionExec.showDialog( Localization.getMessage( cmplTitle ),
                 Localization.getMessage( cmplMessage ) + " " + filePath );
       }
@@ -166,11 +150,7 @@ public class HistoryFrame extends Window {
           chatItem = MidletMain.historyRmsRenderer.getRmsItem( list.recordStore.getRecord( list.selectedIndex + 1 ), pane );
           pane.addItem( chatItem );
           soft = chatSoft;
-        } catch ( RecordStoreNotOpenException ex ) {
-          LogUtil.outMessage( HistoryFrame.this.getClass(), ex );
-        } catch ( InvalidRecordIDException ex ) {
-          LogUtil.outMessage( HistoryFrame.this.getClass(), ex );
-        } catch ( RecordStoreException ex ) {
+        } catch ( Throwable ex ) {
           LogUtil.outMessage( HistoryFrame.this.getClass(), ex );
         }
       }

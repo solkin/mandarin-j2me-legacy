@@ -27,7 +27,7 @@ public class MmpPacketSender {
     packet.send( mmpAccountRoot.session.netConnection );
   }
 
-  public static void appendStatusChunk( Packet packet, long statusId, 
+  public static void appendStatusChunk( Packet packet, long statusId,
           String statusString, boolean isSendClientInfo ) {
     /** Checking for status not set **/
     if ( StringUtil.isNullOrEmpty( statusString ) ) {

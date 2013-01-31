@@ -41,7 +41,7 @@ public class MidletMain extends MIDlet {
   public static GroupChatConfFrame groupChatConfFrame;
   public static GroupChatUsersFrame groupChatUsersFrame;
   public static AffiliationAddFrame affiliationAddFrame;
-  /** Data storers **/
+  /** Data keepers **/
   public static BinGear settings = new BinGear();
   public static BinGear accounts = new BinGear();
   public static BinGear statuses = new BinGear();
@@ -62,7 +62,7 @@ public class MidletMain extends MIDlet {
   /** Sound **/
   public static boolean isSound = true;
   public static String defSoundLocation = "/res/sounds/";
-  public static String[] eventSound = new String[]{"incoming.mp3", "outgoing.mp3", "online.mp3", "offline.mp3"};
+  public static String[] eventSound = new String[]{ "incoming.mp3", "outgoing.mp3", "online.mp3", "offline.mp3" };
   public static int volumeLevel = 100;
   public static boolean isExpand = true;
   public static boolean alarmRepliesOnly = false;
@@ -74,10 +74,10 @@ public class MidletMain extends MIDlet {
   public static boolean isRemoveResources = false;
   public static boolean isStoreHistory = true;
   public static boolean isUseEffects = true;
-  /** Filetransfer **/
+  /** File transfer **/
   public static boolean isAutoAcceptFiles = false;
   public static String incomingFilesFolder = "/e:/";
-  /** Tarification **/
+  /** Tariff rating **/
   public static boolean isCountData = true;
   public static int dataCost = 0;
   public static long dataCount = 0;
@@ -106,7 +106,7 @@ public class MidletMain extends MIDlet {
   public static String build = null;
   public static int pack_count_invoke_gc = 10;
   public static int pack_count = 0;
-  
+
   public void startApp() {
     version = getAppProperty( "MIDlet-Version" );
     type = getAppProperty( "Type" );
@@ -147,7 +147,7 @@ public class MidletMain extends MIDlet {
     /** Temporary logger **/
     LogUtil.initLogger( isLoggerEnabled, false, "127.0.0.1", 2000, false, "/root1/" );
     LogUtil.outMessage( "2 mem. eaten = [ " + ( freeMemory - runtime.freeMemory() ) / 1024 + " ] KiB" );
-    /** Fixing midlet instance **/
+    /** Fixing MIDlet instance **/
     midletMain = this;
     /** Screen instance **/
     screen = new Screen( this );
@@ -160,7 +160,7 @@ public class MidletMain extends MIDlet {
     /** Splash **/
     SplashFrame splashFrame = new SplashFrame();
     screen.activeWindow = splashFrame;
-    /** Displaying scren **/
+    /** Displaying screen **/
     screen.show();
     splashFrame.updateGaugeValue( 10 );
     /** Nothing to do **/
@@ -192,11 +192,11 @@ public class MidletMain extends MIDlet {
           loggerServerHost = "127.0.0.1:2000";
         }
         LogUtil.initLogger( true,
-                getBoolean( settings, "Logger", "outToSocket" ), 
+                getBoolean( settings, "Logger", "outToSocket" ),
                 loggerServerHost.substring( 0, loggerServerHost
                 .indexOf( ":" ) ), Integer.parseInt( loggerServerHost
                 .substring( loggerServerHost.indexOf( ":" ) + 1 ) ),
-                getBoolean( settings, "Logger", "outToFile" ), 
+                getBoolean( settings, "Logger", "outToFile" ),
                 getString( settings, "Logger", "loggerFile" ) );
         String s_logLevel = getAppProperty( "Loglevel" );
         if ( s_logLevel != null && s_logLevel.equals( "1" ) ) {
@@ -255,7 +255,7 @@ public class MidletMain extends MIDlet {
     chatFrame.s_prevWindow = mainFrame;
     serviceMessagesFrame.s_prevWindow = mainFrame;
     LogUtil.outMessage( "7 mem. eaten = [ " + ( freeMemory - runtime.freeMemory() ) / 1024 + " ] KiB" );
-    /** Updating hotkeys **/
+    /** Updating hot keys **/
     updateHotkeysSettings();
     splashFrame.updateGaugeValue( 100 );
     /** Displaying frame on screen **/
@@ -301,8 +301,6 @@ public class MidletMain extends MIDlet {
     }
     loadResData( true, true, true );
     saveRmsData( true, true, true );
-    /*loadResData();
-     saveRmsData(false, true, false);*/
   }
 
   public static void validateSettings() {
@@ -327,14 +325,7 @@ public class MidletMain extends MIDlet {
       }
     } catch ( Throwable ex ) {
       LogUtil.outMessage( "Error in vallidating: " + ex.getMessage() );
-      // ex.printStackTrace();
     }
-    /*System.out.println("After -------------------------------------");
-     try{
-     settings.exportToIni(System.out);
-     } catch (IOException ex){
-     ex.printStackTrace();
-     }*/
     saveRmsData( false, true, false );
   }
 
@@ -440,7 +431,7 @@ public class MidletMain extends MIDlet {
       getBoolean( settings, "Alarm", "onIncoming" ) ? "incoming.mp3" : "",
       getBoolean( settings, "Alarm", "onOutgoing" ) ? "outgoing.mp3" : "",
       getBoolean( settings, "Alarm", "onOnline" ) ? "online.mp3" : "",
-      getBoolean( settings, "Alarm", "onOffline" ) ? "offline.mp3" : ""};
+      getBoolean( settings, "Alarm", "onOffline" ) ? "offline.mp3" : "" };
     volumeLevel = getInteger( settings, "Alarm", "volumeLevel" );
     vibrateDelay = getInteger( settings, "Alarm", "vibrateDelay" );
     isExpand = getBoolean( settings, "Alarm", "expandOnIncoming" );
@@ -498,27 +489,10 @@ public class MidletMain extends MIDlet {
   }
 
   public static void updateHotkeysSettings() {
-    /*try {
-     // LogUtil.outMessage("KEY_CLIENTINFO = " + getInteger(settings, "Hotkeys", "KEY_CLIENTINFO"));
-     settings.exportToIni(System.out);
-     } catch (IOException ex) {
-     ex.printStackTrace();
-     }*/
     KeyEvent t_keyEvent;
     int keyCode;
     for ( int c = 0; c < settingsFrame.keysCaption.length; c++ ) {
       keyCode = getInteger( settings, "Hotkeys", settingsFrame.keysCaption[c] );
-      /*if (keyCode == 0 || keyCode == -1 || keyCode == -2) {
-       /*try {
-       // Hot key not setted up
-       settings.setValue("Hotkeys", settingsFrame.keysCaption[c], "0");
-       } catch (GroupNotFoundException ex) {
-       ex.printStackTrace();
-       } catch (IncorrectValueException ex) {
-       ex.printStackTrace();
-       }
-       continue;
-       }*/
       if ( settingsFrame.keysCaption[c].equals( "KEY_LEFTACCOUNT" ) ) {
         if ( keyCode == 0 ) {
           mainFrame.accountTabs.KEY_LEFT_EVENT = Screen.LEFT;
@@ -541,12 +515,6 @@ public class MidletMain extends MIDlet {
         }
       }
     }
-    /*mainFrame.addKeyEvent(new KeyEvent(getInteger(settings, "Hotkeys", "KEY_CLIENTINFO"), "KEY_CLIENTINFO", true) {
-        
-     public void actionPerformed() {
-     }
-     });*/
-
   }
 
   public static void updateDataCount() {
@@ -568,7 +536,6 @@ public class MidletMain extends MIDlet {
 
   public static void saveDataCountThread() {
     new Thread() {
-
       public void run() {
         Thread.currentThread().setPriority( Thread.MIN_PRIORITY );
         long prevDataCount = 0;
@@ -582,7 +549,9 @@ public class MidletMain extends MIDlet {
             if ( dataCount == prevDataCount ) {
               continue;
             }
-            dataCountStore.setRecord( 1, String.valueOf( dataCount ).getBytes(), 0, String.valueOf( dataCount ).getBytes().length );
+            dataCountStore.setRecord( 1, 
+                    String.valueOf( dataCount ).getBytes(), 0, 
+                    String.valueOf( dataCount ).getBytes().length );
             prevDataCount = dataCount;
           } catch ( RecordStoreNotOpenException ex ) {
           } catch ( InvalidRecordIDException ex ) {

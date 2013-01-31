@@ -9,10 +9,10 @@ import com.tomclaw.mandarin.main.BuddyGroup;
  */
 public class XmppGroup extends BuddyGroup {
 
-  public XmppGroup( ) {
-    super( );
+  public XmppGroup() {
+    super();
   }
-  
+
   public XmppGroup( String userId ) {
     super( userId );
   }

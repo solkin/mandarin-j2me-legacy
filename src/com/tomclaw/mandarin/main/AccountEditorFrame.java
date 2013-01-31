@@ -32,7 +32,7 @@ public class AccountEditorFrame extends Window {
                 Localization.getMessage( "UIN" ).concat( ":" ) );
         fldLogin.setText( "" );
         fldLogin.updateCaption();
-        fldLogin.constraints = TextField.EMAILADDR; // NUMERIC;
+        fldLogin.constraints = TextField.EMAILADDR;
         fldHost.setText( "login.icq.com" );
         fldHost.updateCaption();
         fldPort.setText( "5190" );

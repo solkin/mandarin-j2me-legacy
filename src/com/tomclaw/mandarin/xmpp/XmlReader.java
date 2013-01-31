@@ -140,7 +140,7 @@ public class XmlReader {
   }
 
   public String subChars( StringBuffer sb, int start, int end, boolean utf8 ) {
-    byte[] data = new byte[end - start];
+    byte[] data = new byte[ end - start ];
     for ( int c = 0; c < data.length; c++ ) {
       data[c] = ( byte ) sb.charAt( c );
     }

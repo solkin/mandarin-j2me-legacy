@@ -18,7 +18,7 @@ import javax.microedition.io.SocketConnection;
  */
 public class NetConnection {
 
-  SocketConnection socket = null;
+  private SocketConnection socket = null;
   public OutputStream outputStream = null;
   public InputStream inputStream = null;
 
@@ -114,7 +114,7 @@ public class NetConnection {
 
   /**
    * Creating hidden HTTP connection for devices, that could not
-   * keep Socket connection while protocol negotation
+   * keep Socket connection while protocol negotiation
    */
   public static void httpPing( String url ) throws IOException {
 

@@ -99,7 +99,7 @@ public class BookmarksFrame extends Window {
       }
     };
     setGObject( bookmarksList );
-    
+
     requestBookmarks();
   }
 
@@ -160,7 +160,7 @@ public class BookmarksFrame extends Window {
       }
       xmppAccountRoot.removeBuddyItem( conferenceItem.userId );
       xmppAccountRoot.conferenceGroup.addChild( conferenceItem );
-      xmppAccountRoot.xmppSession.roster.put( conferenceItem.userId, 
+      xmppAccountRoot.xmppSession.roster.put( conferenceItem.userId,
               conferenceItem );
       xmppAccountRoot.updateMainFrameUI();
       MidletMain.screen.setWaitScreenState( false );

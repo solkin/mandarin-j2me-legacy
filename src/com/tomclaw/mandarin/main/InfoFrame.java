@@ -10,6 +10,8 @@ import com.tomclaw.tcuilite.localization.Localization;
  */
 public class InfoFrame extends Window {
 
+  private Pane pane;
+
   public InfoFrame( String[] param, String[] value ) {
     super( MidletMain.screen );
     /** Header **/
@@ -18,21 +20,20 @@ public class InfoFrame extends Window {
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
-
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     /** Pane **/
-    Pane pane = new Pane( null, false );
+    pane = new Pane( null, false );
     for ( int c = 0; c < param.length; c++ ) {
-      Label paramLabel = new Label( Localization.getMessage( param[c] ).concat( ":" ) );
-      paramLabel.setTitle(true);
-      pane.addItem( paramLabel );
-      Label valueLabel = new Label( value[c] );
-      valueLabel.setTitle(false);
-      pane.addItem( valueLabel );
+      addLabels( param[c], value[c] );
     }
     setGObject( pane );
+  }
+
+  private void addLabels( String title, String descr ) {
+    pane.addItem( new Label( new RichContent( "[p][b]" + Localization
+            .getMessage( title ) + ": [/b]" + descr + "[/p]" ) ) );
   }
 }

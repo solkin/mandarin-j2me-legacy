@@ -37,13 +37,11 @@ public class UniqueFrame extends Window {
     /** Soft **/
     soft = new Soft( MidletMain.screen );
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
-
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "SAVE" ) ) {
-
       public void actionPerformed() {
         if ( rdgSettingsType.getCombed() == 0 ) {
           MidletMain.uniquest.removeGroup( groupName );

@@ -14,7 +14,8 @@ public class AccountTab extends TabItem {
   public String accountUserId;
   public int protocolFileHash = 0;
 
-  public AccountTab( String accountUserId, String title, int imageFileHash, int imageFileIndex ) {
+  public AccountTab( String accountUserId, String title, int imageFileHash, 
+          int imageFileIndex ) {
     super( title, imageFileHash, imageFileIndex );
     protocolFileHash = imageFileHash;
     this.accountUserId = accountUserId;

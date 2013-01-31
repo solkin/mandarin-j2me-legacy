@@ -27,7 +27,8 @@ public class GroupChatUsersFrame extends Window {
   public List outcastList;
   public String requestId = "";
 
-  public GroupChatUsersFrame( final XmppAccountRoot xmppAccountRoot, final String groupChatJid, final boolean isRole ) {
+  public GroupChatUsersFrame( final XmppAccountRoot xmppAccountRoot,
+          final String groupChatJid, final boolean isRole ) {
     super( MidletMain.screen );
     this.xmppAccountRoot = xmppAccountRoot;
     this.isRole = isRole;

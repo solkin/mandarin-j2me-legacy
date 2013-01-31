@@ -27,7 +27,6 @@ public class TransactionsFrame extends Window {
     soft = new Soft( MidletMain.screen );
 
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
-
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
@@ -36,7 +35,6 @@ public class TransactionsFrame extends Window {
     soft.rightSoft = new PopupItem( Localization.getMessage( "MENU" ) );
 
     soft.rightSoft.addSubItem( new PopupItem( Localization.getMessage( "SELECT" ) ) {
-
       public void actionPerformed() {
         if ( list.selectedIndex >= 0 && list.selectedIndex < list.items.size() ) {
           ( ( ListItem ) list.items.elementAt( list.selectedIndex ) ).actionPerformed();
@@ -45,7 +43,6 @@ public class TransactionsFrame extends Window {
     } );
 
     soft.rightSoft.addSubItem( new PopupItem( Localization.getMessage( "REMOVE_COMPLETED" ) ) {
-
       public void actionPerformed() {
         accountRoot.getTransactionManager().removeCompleted();
       }
@@ -64,9 +61,8 @@ public class TransactionsFrame extends Window {
       for ( int c = 0; c < accountRoot.getTransactionManager().transactions.size(); c++ ) {
         final DirectConnection directConnection = ( DirectConnection ) accountRoot.getTransactionManager().transactions.elementAt( c );
         ListItem item = new ListItem( directConnection.getBuddyId() + " - " + StringUtil.byteArrayToString( directConnection.getFileName(), true ) ) {
-
           public void actionPerformed() {
-            LogUtil.outMessage( "Showed" );
+            LogUtil.outMessage( "Transaction showed" );
             transactionItemFrame = new TransactionItemFrame( directConnection );
             transactionItemFrame.s_prevWindow = TransactionsFrame.this;
             MidletMain.screen.setActiveWindow( transactionItemFrame );

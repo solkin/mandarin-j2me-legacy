@@ -35,9 +35,8 @@ public class SplashFrame extends Window {
 
     try {
       logo = Image.createImage( "/res/huge/tangerine.png" );
-      
-      directDraw_afterAll = new DirectDraw() {
 
+      directDraw_afterAll = new DirectDraw() {
         int width, height;
 
         public void paint( Graphics grphcs ) {
@@ -47,17 +46,17 @@ public class SplashFrame extends Window {
         public void paint( Graphics grphcs, int i, int i1 ) {
           width = MidletMain.screen.getWidth();
           height = MidletMain.screen.getHeight();
-          grphcs.drawImage( logo, width / 2, height / 2, 
+          grphcs.drawImage( logo, width / 2, height / 2,
                   Graphics.VCENTER | Graphics.HCENTER );
           grphcs.setFont( fontBold );
-          grphcs.drawString( title, width / 2 
-                  - fontBold.stringWidth( title ) / 2, height 
-                  - ( fontBold.getHeight() + fontPlain.getHeight() ) * 3 / 2, 
+          grphcs.drawString( title, width / 2
+                  - fontBold.stringWidth( title ) / 2, height
+                  - ( fontBold.getHeight() + fontPlain.getHeight() ) * 3 / 2,
                   Graphics.TOP | Graphics.LEFT );
           grphcs.setFont( fontPlain );
-          grphcs.drawString( build, width / 2 
-                  - fontPlain.stringWidth( build ) / 2, height 
-                  - fontPlain.getHeight() * 3 / 2, 
+          grphcs.drawString( build, width / 2
+                  - fontPlain.stringWidth( build ) / 2, height
+                  - fontPlain.getHeight() * 3 / 2,
                   Graphics.TOP | Graphics.LEFT );
         }
       };

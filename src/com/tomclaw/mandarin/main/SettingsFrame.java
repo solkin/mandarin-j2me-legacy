@@ -96,7 +96,7 @@ public class SettingsFrame extends Window {
           MidletMain.settings.addItem( "Alarm", "vibrateDelay", vibrateDelay.getText() );
           MidletMain.settings.addItem( "Alarm", "expandOnIncoming", expandOnIncoming.state ? "true" : "false" );
           MidletMain.settings.addItem( "Alarm", "alarmRepliesOnly", alarmRepliesOnly.state ? "true" : "false" );
-          /** Filetransfer **/
+          /** File transfer **/
           MidletMain.settings.addGroup( "Filetransfer" );
           MidletMain.settings.addItem( "Filetransfer", "autoAcceptFiles", autoAcceptFiles.state ? "true" : "false" );
           MidletMain.settings.addItem( "Filetransfer", "acceptFilesFolder", acceptFilesFolder.getText() );
@@ -116,14 +116,14 @@ public class SettingsFrame extends Window {
           MidletMain.settings.addItem( "General", "gmtOffset", gmtOffset.getText() );
           MidletMain.settings.addItem( "General", "columnCount", String.valueOf( columnCount.getCombed() ) );
           MidletMain.settings.addItem( "General", "useEffects", useEffects.state ? "true" : "false" );
-          /** Tarification **/
+          /** Tariff rate **/
           MidletMain.settings.addGroup( "Tarification" );
           MidletMain.settings.addItem( "Tarification", "countData", countData.state ? "true" : "false" );
           MidletMain.settings.addItem( "Tarification", "costValue", costValue.getText() );
           /** Themes **/
           // MidletMain.settings.addGroup("Themes");
           MidletMain.settings.addItem( "Themes", "selectedTheme", "_" + themesGroup.getCombed() );
-          /** Hotkeys **/
+          /** Hot keys **/
           MidletMain.settings.addGroup( "Hotkeys" );
           for ( int c = 0; c < keysCaption.length; c++ ) {
             MidletMain.settings.addItem( "Hotkeys", keysCaption[c], Integer.toString( keyValues[c] ) );
@@ -140,16 +140,6 @@ public class SettingsFrame extends Window {
           LogUtil.outMessage( "IncorrectValueException: " + ex.getMessage() );
         }
         MidletMain.saveRmsData( false, true, false );
-
-        /* GRABBING_SETTINGS
-         try {
-         FileConnection fc = (FileConnection) Connector.open("file:///e:/settings.ini");
-         fc.create();
-         MidletMain.settings.exportToIni(fc.openOutputStream());
-         fc.close();
-         } catch (IOException ex) {
-         ex.printStackTrace();
-         }*/
 
         MidletMain.updateAlarmSettings();
         MidletMain.updateFiletransferSettings();
@@ -186,7 +176,7 @@ public class SettingsFrame extends Window {
         settingsTab.setGObject( panes[currIndex] );
       }
     };
-    
+
     settingsTab.selectedIndex = 0;
 
     startUpdateDataThread();
@@ -363,7 +353,7 @@ public class SettingsFrame extends Window {
     };
     button.setFocusable( true );
     ( ( Pane ) panes[3] ).addItem( button );
-    /** Tarification **/
+    /** Tariff rate **/
     panes[4] = new Pane( null, false );
     panes[4].setTouchOrientation( MidletMain.screen.isPointerEvents );
     Label label8 = new Label( Localization.getMessage( "TARIFICATION_NOTE" ) );
@@ -508,10 +498,7 @@ public class SettingsFrame extends Window {
     this.capKeyEvent = new KeyEvent( 0, "", false ) {
       public void actionPerformed() {
         if ( Screen.getExtGameAct( keyCode ) != Screen.FIRE
-                && /*Screen.getExtGameAct(keyCode) != Screen.UP &&
-                 Screen.getExtGameAct(keyCode) != Screen.DOWN &&
-                 Screen.getExtGameAct(keyCode) != Screen.LEFT &&
-                 Screen.getExtGameAct(keyCode) != Screen.RIGHT &&*/ Screen.getExtGameAct( keyCode ) != Screen.KEY_CODE_LEFT_MENU
+                && Screen.getExtGameAct( keyCode ) != Screen.KEY_CODE_LEFT_MENU
                 && Screen.getExtGameAct( keyCode ) != Screen.KEY_CODE_RIGHT_MENU ) {
           keyValues[( ( List ) panes[5] ).selectedIndex] = keyCode;
           LogUtil.outMessage( "capKeyCode = " + keyCode );

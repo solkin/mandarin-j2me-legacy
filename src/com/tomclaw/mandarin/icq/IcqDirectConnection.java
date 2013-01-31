@@ -99,7 +99,7 @@ public class IcqDirectConnection implements DirectConnection {
     this.isReceivingFile = isReceivingFile;
   }
 
-  public boolean isCompare( DirectConnection directConnection ) {
+  public boolean equals( DirectConnection directConnection ) {
     if ( directConnection instanceof IcqDirectConnection ) {
       if ( ArrayUtil.equals( ( ( IcqDirectConnection ) directConnection ).icbmCookie, icbmCookie ) ) {
         return true;

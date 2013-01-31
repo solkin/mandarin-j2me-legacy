@@ -22,7 +22,6 @@ public class ServicesFrame extends Window {
   public PopupItem hostChangePopup;
   public XmppAccountRoot xmppAccountRoot;
   public String requestId = "";
-  // public String from = "";
   public Vector services;
   public ServiceItem parentService;
   private ServiceGroup tempItemsHeader;
@@ -168,7 +167,6 @@ public class ServicesFrame extends Window {
       this.services = services;
       servicesGroup.items.removeAllElements();
       servicesGroup.yOffset = 0;
-      // servicesGroup.setSelectedIndex( 0 );
 
       tempItemsHeader = new ServiceGroup( "unclassified", Localization.getMessage( "UNCLASSIFIED" ) );
       tempItemsHeader.setChilds( services );

@@ -14,8 +14,8 @@ import javax.microedition.lcdui.TextField;
  */
 public class MmpSmsSendFrame extends Window {
 
-  public Field phoneField;
-  public Field textField;
+  private Field phoneField;
+  private Field textField;
 
   public MmpSmsSendFrame( final MmpAccountRoot mmpAccountRoot ) {
     super( MidletMain.screen );
@@ -54,7 +54,7 @@ public class MmpSmsSendFrame extends Window {
     Pane pane = new Pane( this, false );
 
     Label titleLabel = new Label( Localization.getMessage( "ABOUT_MMP_SMS_SERVICE" ) );
-    titleLabel.setTitle( true );
+    titleLabel.setHeader( true );
     pane.addItem( titleLabel );
 
     pane.addItem( new Label( Localization.getMessage( "PHONE_NUMBER" ) ) );

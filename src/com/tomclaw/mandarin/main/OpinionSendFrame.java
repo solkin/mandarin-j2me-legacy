@@ -23,13 +23,11 @@ public class OpinionSendFrame extends Window {
     /** Soft **/
     soft = new Soft( MidletMain.screen );
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
-
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "SEND" ) ) {
-
       public boolean isEmpty( String textData ) {
         boolean isEmpty = false;
         for ( int c = 0; c < textData.length(); c++ ) {
@@ -46,7 +44,7 @@ public class OpinionSendFrame extends Window {
         soft.rightSoft = new PopupItem( "" );
 
         Label sendLabel = new Label( Localization.getMessage( "OPINION_SENDING_STATUS" ) );
-        sendLabel.setTitle(true);
+        sendLabel.setTitle( true );
         pane.addItem( sendLabel );
 
         Label infoLabel = new Label( Localization.getMessage( "INFO_LABEL" ) );
@@ -71,7 +69,6 @@ public class OpinionSendFrame extends Window {
         String retreivedData;
         try {
           /** Sending data **/
-          // retreivedData = NetConnection.retreiveData(linkAdd);
           retreivedData = Localization.getMessage( "OPINION_SENT" );
         } catch ( Throwable ex1 ) {
           retreivedData = Localization.getMessage( "SENDING_FAILED" );

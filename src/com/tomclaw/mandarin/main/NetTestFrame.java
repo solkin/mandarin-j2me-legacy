@@ -21,7 +21,6 @@ public class NetTestFrame extends Window {
     /** Soft **/
     soft = new Soft( MidletMain.screen );
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
-
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
@@ -30,7 +29,7 @@ public class NetTestFrame extends Window {
     pane = new Pane( null, false );
 
     Label sendLabel = new Label( Localization.getMessage( "NETWORK_TEST_STATUS" ) );
-    sendLabel.setTitle(true);
+    sendLabel.setTitle( true );
     pane.addItem( sendLabel );
 
     infoLabel = new Label( Localization.getMessage( "NET_TEST_LABEL" ) );
@@ -43,7 +42,6 @@ public class NetTestFrame extends Window {
 
   private void startCheck() {
     new Thread() {
-
       public void run() {
         String retreivedData;
         String linkTest = "http://www.tomclaw.com/services/"
@@ -51,7 +49,8 @@ public class NetTestFrame extends Window {
         try {
           /** Sending data **/
           retreivedData = NetConnection.retreiveData( linkTest );
-          retreivedData = Localization.getMessage( "TEST_OK_YOUR_IP" ).concat( " " ).concat( retreivedData );
+          retreivedData = Localization.getMessage( "TEST_OK_YOUR_IP" )
+                  .concat( " " ).concat( retreivedData );
         } catch ( Throwable ex1 ) {
           retreivedData = Localization.getMessage( "TEST_FAILED" );
         }

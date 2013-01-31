@@ -28,7 +28,7 @@ public class PacketBuilder {
   }
 
   public static InputStream openMapStream( String mapFileName ) {
-    InputStream inputStream = MidletMain.clazz.getResourceAsStream( rootFolder 
+    InputStream inputStream = MidletMain.clazz.getResourceAsStream( rootFolder
             + mapFileName );
     return inputStream;
   }
@@ -45,13 +45,13 @@ public class PacketBuilder {
     return packet;
   }
 
-  public static void sendPacket( NetConnection netConnection, String fileName, 
+  public static void sendPacket( NetConnection netConnection, String fileName,
           Hashtable data ) throws IOException {
     PacketBuilder.setup( data );
     Packet packet = null;
     try {
       packet = PacketBuilder.cacheMap( fileName );
-      if(MidletMain.logLevel == 1) {
+      if ( MidletMain.logLevel == 1 ) {
         HexUtil.dump_( packet.getData(), ">> " );
       }
     } catch ( Throwable ex ) {

@@ -2,7 +2,6 @@ package com.tomclaw.mandarin.main;
 
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
-import javax.microedition.io.ConnectionNotFoundException;
 
 /**
  * Solkin Igor Viktorovich, TomClaw Software, 2003-2013
@@ -20,41 +19,29 @@ public class DonateFrame extends Window {
     /** Soft **/
     soft = new Soft( MidletMain.screen );
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
-
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
-      }
-    };
-    soft.rightSoft = new PopupItem( Localization.getMessage( "SMS_WALLET" ) ) {
-
-      public void actionPerformed() {
-        try {
-          MidletMain.midletMain.platformRequest( "http://smskopilka.ru/?info&id=59978" );
-        } catch ( ConnectionNotFoundException ex ) {
-        }
       }
     };
     /** Pane **/
     pane = new Pane( null, false );
 
     Label titleLabel = new Label( Localization.getMessage( "DONATE_NOTE" ) );
+    titleLabel.setHeader( true );
     pane.addItem( titleLabel );
-    addLabelPair( "WHY_DONATE_TITLE", Localization.getMessage( "WHY_DONATE" ) );
-    addLabelPair( "SMS_WALLET", Localization.getMessage( "SMS_WALLET_DESCR" ) );
-    addLabelPair( "PAY_PAL", "inbox@tomclaw.com" );
-    addLabelPair( "WEB_MONEY", "WMR: R948790084724, WMZ: Z111853743320" );
-    addLabelPair( "YANDEX_MONEY", "41001664768952" );
+    pane.addItem( new Label( new RichContent( "[p][b]" + Localization
+            .getMessage( "WHY_DONATE_TITLE" ) + " [/b]"
+            + Localization.getMessage( "WHY_DONATE" ) + "[/p]" ) ) );
+    addLabels( "PAY_PAL", "inbox@tomclaw.com" );
+    addLabels( "WEB_MONEY", "WMR: R948790084724, WMZ: Z111853743320" );
+    addLabels( "YANDEX_MONEY", "41001664768952" );
 
     /** Set GObject **/
     setGObject( pane );
   }
 
-  public final void addLabelPair( String title, String caption ) {
-    Label label1 = new Label( Localization.getMessage( title ) );
-    label1.setTitle(true);
-    pane.addItem( label1 );
-
-    Label label2 = new Label( caption );
-    pane.addItem( label2 );
+  private void addLabels( String title, String descr ) {
+    pane.addItem( new Label( new RichContent( "[p][b]" + Localization
+            .getMessage( title ) + ": [/b]" + descr + "[/p]" ) ) );
   }
 }

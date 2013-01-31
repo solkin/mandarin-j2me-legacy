@@ -24,8 +24,8 @@ public abstract class BuddyItem extends GroupChild {
   /**Typing thread **/
   private Timer typingTimer;
   private TimerTask timerTask;
-  
-  public BuddyItem( ) {
+
+  public BuddyItem() {
     this( "" );
   }
 
@@ -46,7 +46,7 @@ public abstract class BuddyItem extends GroupChild {
   public void setLeftImages( int[] leftImages ) {
     this.imageLeftIndex = leftImages;
   }
-  
+
   public int getUnreadCount() {
     return unreadCount;
   }
@@ -117,7 +117,7 @@ public abstract class BuddyItem extends GroupChild {
   public String getUserNick() {
     return userNick;
   }
-  
+
   public int getBuddyType() {
     return buddyType;
   }
@@ -125,11 +125,11 @@ public abstract class BuddyItem extends GroupChild {
   public boolean isPhone() {
     return isPhone;
   }
-  
-  public void setStatusIndex(int statusIndex, String resource) {
+
+  public void setStatusIndex( int statusIndex, String resource ) {
     this.statusIndex = statusIndex;
   }
-  
+
   public int getStatusIndex() {
     return statusIndex;
   }

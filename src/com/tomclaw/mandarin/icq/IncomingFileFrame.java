@@ -19,7 +19,7 @@ public class IncomingFileFrame extends Window {
           final long fileLength, final byte[] fileName, final byte[] cookie ) {
     super( MidletMain.screen );
 
-    header = new Header( Localization.getMessage( "INC_FILE_FROM" ).concat( " " ).concat( buddyId ) );
+    header = new Header( Localization.getMessage( "INC_FILE" ) );
 
     soft = new Soft( MidletMain.screen );
 
@@ -33,7 +33,8 @@ public class IncomingFileFrame extends Window {
         /** Accepting file **/
         new Thread() {
           public void run() {
-            ActionExec.performTransferAction( icqAccountRoot, ch2msgType, buddyId, externalIp, dcTcpPort, isViaRendezvousServer,
+            ActionExec.performTransferAction( icqAccountRoot, ch2msgType,
+                    buddyId, externalIp, dcTcpPort, isViaRendezvousServer,
                     fileLength, fileName, cookie, true );
           }
         }.start();
@@ -43,21 +44,34 @@ public class IncomingFileFrame extends Window {
 
     pane = new Pane( null, false );
 
+    Label label = new Label( Localization.getMessage( "INC_FILE_FROM" )
+            .concat( " " ).concat( buddyId ) );
+    label.setHeader( true );
+    pane.addItem( label );
+
     addLabels( "BUDDYID_LABEL", buddyId );
-    addLabels( "FILENAME_LABEL", StringUtil.byteArrayToString( fileName, true ) );
-    addLabels( "FILESIZE_LABEL", String.valueOf( fileLength ) );
+    addLabels( "FILENAME_LABEL", StringUtil.byteArrayToString( fileName ) );
+    /** Optimizing file size output **/
+    long humanFileLength = fileLength;
+    String fileSizeMetrix = "BYTES";
+    /** KibiBytes **/
+    if ( humanFileLength > 1024 ) {
+      humanFileLength /= 1024;
+      fileSizeMetrix = "KIB";
+    }
+    /** MibiBytes **/
+    if ( humanFileLength > 1024 ) {
+      humanFileLength /= 1024;
+      fileSizeMetrix = "MIB";
+    }
+    addLabels( "FILESIZE_LABEL", String.valueOf( humanFileLength )
+            + " " + Localization.getMessage( fileSizeMetrix ) );
 
     setGObject( pane );
   }
 
-  private Label addLabels( String title, String descr ) {
-    Label label1 = new Label( Localization.getMessage( title ) );
-    label1.setFocusable( false );
-    label1.setTitle( true );
-    pane.addItem( label1 );
-    Label label2 = new Label( descr );
-    label2.setFocusable( false );
-    pane.addItem( label2 );
-    return label2;
+  private void addLabels( String title, String descr ) {
+    pane.addItem( new Label( new RichContent( "[p][b]" + Localization
+            .getMessage( title ) + ": [/b]" + descr + "[/p]" ) ) );
   }
 }

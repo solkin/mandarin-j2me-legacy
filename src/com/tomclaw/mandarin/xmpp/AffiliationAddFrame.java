@@ -30,13 +30,11 @@ public class AffiliationAddFrame extends Window {
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
-
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "AFFILIATION_ADD" ) ) {
-
       public void actionPerformed() {
         try {
           AffiliationAddFrame.this.sendAffiliationAdd();

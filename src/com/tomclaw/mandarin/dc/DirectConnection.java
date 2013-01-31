@@ -39,7 +39,7 @@ public interface DirectConnection {
 
   public void setIsReceivingFile( boolean isReceivingFile );
 
-  public boolean isCompare( DirectConnection directConnection );
+  public boolean equals( DirectConnection directConnection );
 
   public byte[] getSessCookie();
 

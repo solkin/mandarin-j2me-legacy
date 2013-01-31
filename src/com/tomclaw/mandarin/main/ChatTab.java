@@ -46,7 +46,8 @@ public class ChatTab extends TabItem {
       }
       if ( buddyItem.getUnreadCount( resourceTitle ) == 0 ) {
         this.imageFileHash = statusFileHash;
-        if ( buddyItem instanceof XmppItem /*&& ((XmppItem) buddyItem).isGroupChat*/ && resource != null && resource.resource.length() > 0 ) {
+        if ( buddyItem instanceof XmppItem && resource != null
+                && resource.resource.length() > 0 ) {
           this.imageIndex = resource.statusIndex;
         } else {
           this.imageIndex = buddyItem.getLeftImages()[1];
@@ -62,8 +63,11 @@ public class ChatTab extends TabItem {
       titleAddon = "";
       if ( resource != null ) {
         if ( buddyItem instanceof XmppItem ) {
-          if ( ( ( XmppItem ) buddyItem ).isGroupChat && ( resource == null || resource.resource.length() == 0 ) ) {
-            titleAddon = " (".concat( String.valueOf( ( ( XmppItem ) buddyItem ).getResourcesCount() - 1 ) ).concat( ")" );
+          if ( ( ( XmppItem ) buddyItem ).isGroupChat && ( resource == null
+                  || resource.resource.length() == 0 ) ) {
+            titleAddon = " (".concat( String.valueOf(
+                    ( ( XmppItem ) buddyItem ).getResourcesCount() - 1 ) )
+                    .concat( ")" );
           } else {
             if ( resource.resource.length() > 0 ) {
               titleAddon = " [".concat( resource.resource ).concat( "]" );
@@ -71,7 +75,7 @@ public class ChatTab extends TabItem {
           }
         }
       }
-      this.title = buddyItem.getUserNick().concat( titleAddon ); // + (resource == null ? "" : " [" + resource.resource + "]");
+      title = buddyItem.getUserNick().concat( titleAddon );
       LogUtil.outMessage( title );
     }
   }

@@ -42,12 +42,12 @@ public class BuddyInfoFrame extends Window {
     /** Initializing pane **/
     pane = new Pane( null, false );
     if ( accountRoot.getStatusIndex() == 0 || buddyItem.isPhone() ) {
-      pane.addItem( new Label( new RichContent( "[p][b]" + 
-              Localization.getMessage( "BUDDY_ID_LABEL" ) + ": [/b]" + 
-              buddyItem.getUserId() + "[/p]" ) ) );
-      pane.addItem( new Label( new RichContent( "[p][b]" + 
-              Localization.getMessage( "NICK_NAME_LABEL" ) + ": [/b]" + 
-              buddyItem.getUserNick() + "[/p]" ) ) );
+      pane.addItem( new Label( new RichContent( "[p][b]"
+              + Localization.getMessage( "BUDDY_ID_LABEL" ) + ": [/b]"
+              + buddyItem.getUserId() + "[/p]" ) ) );
+      pane.addItem( new Label( new RichContent( "[p][b]"
+              + Localization.getMessage( "NICK_NAME_LABEL" ) + ": [/b]"
+              + buddyItem.getUserNick() + "[/p]" ) ) );
     } else {
       String waitText;
       LogUtil.outMessage( "Dialog with reqSeqNum = " + reqSeqNum );

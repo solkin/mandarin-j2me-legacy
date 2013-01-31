@@ -22,7 +22,8 @@ public class UpdateChecker {
   public static String versionURL = "";
   public static String changeLog = "";
   public static String updateURL = "http://www.tomclaw.com/dload/update.php?f="
-          + fileName + "&e=" + fileExt + "&v=" + MidletMain.version + "&l=" + MidletMain.locale;
+          + fileName + "&e=" + fileExt + "&v=" + MidletMain.version + "&l="
+          + MidletMain.locale;
   /** Coming version **/
   public static String comingVersion = "";
   public static String comingDate = "";
@@ -38,7 +39,7 @@ public class UpdateChecker {
       LogUtil.outMessage( "URL: " + updateURL );
       c = ( HttpConnection ) Connector.open( updateURL );
       s = c.openInputStream();
-      byte[] buffer = new byte[128];
+      byte[] buffer = new byte[ 128 ];
       int read;
       while ( ( read = s.read( buffer ) ) != -1 ) {
         data.append( buffer, 0, read );
@@ -54,11 +55,8 @@ public class UpdateChecker {
         c.close();
       }
     }
-    // updateInfo = "4.0.1;1000;500;http://www.tomclaw.com/dload/dload.php?f=Mandarin&e=jar;Список изменений будет позднее;";
-    // LogUtil.outMessage(updateInfo);
     int offs = updateInfo.indexOf( ";" );
     LogUtil.outMessage( updateInfo );
-
     latestVersion = ( updateInfo.substring( 0, offs ) );
     if ( latestVersion.equals( MidletMain.version ) ) {
       comingVersion = updateInfo.substring( ++offs,

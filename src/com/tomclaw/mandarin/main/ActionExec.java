@@ -277,15 +277,15 @@ public class ActionExec {
   public static void showUserShortInfo( AccountRoot accountRoot, BuddyInfo buddyInfo ) {
     LogUtil.outMessage( "buddyId = " + buddyInfo.buddyId );
     LogUtil.outMessage( "nickName = " + buddyInfo.nickName );
-    if ( MidletMain.mainFrame.buddyInfoFrame != null 
-            && ( buddyInfo.buddyId != null 
+    if ( MidletMain.mainFrame.buddyInfoFrame != null
+            && ( buddyInfo.buddyId != null
             && MidletMain.mainFrame.buddyInfoFrame.buddyItem.getUserId()
             .equals( buddyInfo.buddyId ) ) ) {
       MidletMain.mainFrame.buddyInfoFrame.placeInfo( buddyInfo );
     }
   }
-  
-  public static void setBuddyList( AccountRoot accountRoot, Vector buddyList, 
+
+  public static void setBuddyList( AccountRoot accountRoot, Vector buddyList,
           Vector privateList, int privateBuddyId, int snacFlags, byte[] snacRequestId ) {
     LogUtil.outMessage( "setBuddyList(".concat( accountRoot.getUserId() ).concat( ")" ) );
     if ( accountRoot instanceof IcqAccountRoot && privateBuddyId != -1 ) {
@@ -317,10 +317,10 @@ public class ActionExec {
       return;
     }
     try {
-      LogUtil.outMessage( "Playing: " + MidletMain.defSoundLocation 
+      LogUtil.outMessage( "Playing: " + MidletMain.defSoundLocation
               + MidletMain.eventSound[eventType] );
       InputStream is = Class.forName( "com.tomclaw.mandarin.main.MidletMain" )
-              .getResourceAsStream( MidletMain.defSoundLocation 
+              .getResourceAsStream( MidletMain.defSoundLocation
               + MidletMain.eventSound[eventType] );
 
       if ( is != null ) {
@@ -377,45 +377,44 @@ public class ActionExec {
     window.showDialog( new Dialog( MidletMain.screen, soft, title, message ) );
     MidletMain.screen.repaint();
   }
-  
+
   public static void showDialog( String title, String message ) {
     showDialog( MidletMain.screen.activeWindow, title, message, false );
   }
 
   public static void showInfo( String message ) {
-    showDialog( MidletMain.screen.activeWindow, 
+    showDialog( MidletMain.screen.activeWindow,
             Localization.getMessage( "INFO_ITEM" ), message, false );
   }
 
   public static void showNotify( String message ) {
-    showDialog( MidletMain.screen.activeWindow, 
+    showDialog( MidletMain.screen.activeWindow,
             Localization.getMessage( "WARNING" ), message, false );
   }
 
   public static void showError( String message ) {
-    showDialog( MidletMain.screen.activeWindow, 
+    showDialog( MidletMain.screen.activeWindow,
             Localization.getMessage( "ERROR" ), message, false );
   }
 
   public static void showFail( String message ) {
-    showDialog( MidletMain.screen.activeWindow, 
+    showDialog( MidletMain.screen.activeWindow,
             Localization.getMessage( "ERROR" ), message, true );
   }
 
-  public static void performTransferAction( final IcqAccountRoot icqAccountRoot, 
-          int ch2msgType, String buddyId, final int[] externalIp, 
-          final int dcTcpPort, boolean isViaRendezvousServer, long fileLength, 
+  public static void performTransferAction( final IcqAccountRoot icqAccountRoot,
+          int ch2msgType, String buddyId, final int[] externalIp,
+          final int dcTcpPort, boolean isViaRendezvousServer, long fileLength,
           byte[] fileName, final byte[] cookie, boolean isFromMsgDialog ) {
 
-    IcqDirectConnection directConnection = ( IcqDirectConnection ) 
-            icqAccountRoot.getTransactionManager().getTransaction( cookie );
+    IcqDirectConnection directConnection = ( IcqDirectConnection ) icqAccountRoot.getTransactionManager().getTransaction( cookie );
     if ( directConnection == null || directConnection.isReceivingFile ) {
       if ( directConnection == null ) {
         if ( MidletMain.isAutoAcceptFiles || isFromMsgDialog ) {
           directConnection = new IcqDirectConnection( icqAccountRoot );
           icqAccountRoot.getTransactionManager().addTransaction( directConnection );
         } else {
-          showFileRequestMessage( icqAccountRoot, ch2msgType, buddyId, 
+          showFileRequestMessage( icqAccountRoot, ch2msgType, buddyId,
                   externalIp, dcTcpPort, isViaRendezvousServer,
                   fileLength, fileName, cookie );
           return;
@@ -436,7 +435,7 @@ public class ActionExec {
                   .byteArrayToString( directConnection.fileName, true ) ) );
         }
         updateTransactions( icqAccountRoot );
-        if ( !ArrayUtil.equals( externalIp, new int[] { 0x00, 0x00, 0x00, 0x00 } ) && isViaRendezvousServer ) {
+        if ( !ArrayUtil.equals( externalIp, new int[]{ 0x00, 0x00, 0x00, 0x00 } ) && isViaRendezvousServer ) {
           // Proxy received
           LogUtil.outMessage( "Proxy received" );
           directConnection.proxyIp = externalIp[0] + "." + externalIp[1] + "." + externalIp[2] + "." + externalIp[3];
@@ -493,7 +492,7 @@ public class ActionExec {
       }
     } else {
       // Sending file
-      if ( !ArrayUtil.equals( externalIp, new int[] { 0x00, 0x00, 0x00, 0x00 } ) ) {
+      if ( !ArrayUtil.equals( externalIp, new int[]{ 0x00, 0x00, 0x00, 0x00 } ) ) {
         Thread thread = new Thread() {
           public void run() {
             ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager()
@@ -513,12 +512,11 @@ public class ActionExec {
     }
   }
 
-  public static void updateTransactionInfo( AccountRoot accountRoot, 
+  public static void updateTransactionInfo( AccountRoot accountRoot,
           byte[] cookie ) {
     if ( accountRoot.getTransactionsFrame() != null && accountRoot
             .getTransactionsFrame().transactionItemFrame != null ) {
-      if ( ArrayUtil.equals( accountRoot.getTransactionsFrame()
-              .transactionItemFrame.directConnection.getSessCookie(), cookie ) 
+      if ( ArrayUtil.equals( accountRoot.getTransactionsFrame().transactionItemFrame.directConnection.getSessCookie(), cookie )
               && MidletMain.screen.activeWindow.equals( accountRoot
               .getTransactionsFrame().transactionItemFrame ) ) {
         // Active frame is equals
@@ -535,12 +533,12 @@ public class ActionExec {
     }
   }
 
-  public static void showFileRequestMessage( final IcqAccountRoot icqAccountRoot, 
-          final int ch2msgType, final String buddyId, final int[] externalIp, 
+  public static void showFileRequestMessage( final IcqAccountRoot icqAccountRoot,
+          final int ch2msgType, final String buddyId, final int[] externalIp,
           final int dcTcpPort, final boolean isViaRendezvousServer,
           final long fileLength, final byte[] fileName, final byte[] cookie ) {
-    IncomingFileFrame incomingFileFrame = new IncomingFileFrame( icqAccountRoot, 
-            ch2msgType, buddyId, externalIp, dcTcpPort, isViaRendezvousServer, 
+    IncomingFileFrame incomingFileFrame = new IncomingFileFrame( icqAccountRoot,
+            ch2msgType, buddyId, externalIp, dcTcpPort, isViaRendezvousServer,
             fileLength, fileName, cookie );
 
     icqAccountRoot.getServiceMessages().addMessage( buddyId, buddyId,
@@ -552,26 +550,26 @@ public class ActionExec {
     MidletMain.screen.setActiveWindow( incomingFileFrame );
   }
 
-  public static void setMailStatus( MmpAccountRoot mmpAccountRoot, 
+  public static void setMailStatus( MmpAccountRoot mmpAccountRoot,
           String userMail, long userStatus ) {
     long prevBuddyStatus = mmpAccountRoot.getBuddyStatus( userMail );
 
     MmpItem mmpItem = mmpAccountRoot.setBuddyStatus( userMail, userStatus );
     if ( mmpItem != null ) {
-      ChatTab chatTab = MidletMain.chatFrame.getChatTab( mmpAccountRoot, 
+      ChatTab chatTab = MidletMain.chatFrame.getChatTab( mmpAccountRoot,
               userMail, null, false );
       if ( chatTab != null ) {
         // chatTab.buddyItem = icqItem;
         chatTab.updateChatCaption();
       }
     }
-    if ( ( prevBuddyStatus != 0 && userStatus == 0 ) || ( prevBuddyStatus == 0 
+    if ( ( prevBuddyStatus != 0 && userStatus == 0 ) || ( prevBuddyStatus == 0
             && userStatus != 0 ) ) {
       LogUtil.outMessage( "Changing status in service messages" );
-      mmpAccountRoot.getServiceMessages().addMessage( userMail, mmpItem != null 
+      mmpAccountRoot.getServiceMessages().addMessage( userMail, mmpItem != null
               ? mmpItem.getUserNick() : userMail,
               Localization.getMessage( "CHANGED_STATUS" ).concat( " \"" )
-              .concat( Localization.getMessage( MmpStatusUtil.getStatusDescr( 
+              .concat( Localization.getMessage( MmpStatusUtil.getStatusDescr(
               MmpStatusUtil.getStatusIndex( prevBuddyStatus ) ) ) ).
               concat( "\" " ).concat( Localization.getMessage( "TO" ) )
               .concat( " \"" ).concat( Localization.getMessage( MmpStatusUtil
@@ -586,7 +584,7 @@ public class ActionExec {
       }
     }
   }
-  
+
   public static void setMainFrameAction( MmpAccountRoot mmpAccountRoot, String message ) {
   }
 

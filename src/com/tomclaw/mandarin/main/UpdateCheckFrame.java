@@ -12,8 +12,8 @@ import javax.microedition.io.ConnectionNotFoundException;
  */
 public class UpdateCheckFrame extends Window {
 
-  public Pane pane;
-  public UpdateChecker versionLoader;
+  private Pane pane;
+  private UpdateChecker versionLoader;
   private Label sendLabel;
   private Label infoLabel;
 
@@ -32,13 +32,11 @@ public class UpdateCheckFrame extends Window {
     /** Soft **/
     soft = new Soft( MidletMain.screen );
     soft.leftSoft = new PopupItem( Localization.getMessage( "CANCEL" ) ) {
-
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "CHECK" ) ) {
-
       public void actionPerformed() {
         showPlainForm();
         MidletMain.screen.repaint();
@@ -64,13 +62,11 @@ public class UpdateCheckFrame extends Window {
     /** Soft **/
     soft = new Soft( MidletMain.screen );
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
-
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "HOMEPAGE" ) ) {
-
       public void actionPerformed() {
         try {
           MidletMain.midletMain.platformRequest( "http://www.tomclaw.com" );
@@ -80,38 +76,30 @@ public class UpdateCheckFrame extends Window {
     };
     /** Pane **/
     pane = new Pane( null, false );
-
     sendLabel = new Label( Localization.getMessage( "UPDATE_CHECK_STATUS" ) );
-    sendLabel.setTitle( true );
+    sendLabel.setHeader( true );
     pane.addItem( sendLabel );
-
     infoLabel = new Label( Localization.getMessage( "CHECKING_LABEL" ) );
     pane.addItem( infoLabel );
-
     /** Set GObject **/
     setGObject( pane );
-
     /** Update check **/
     requestUpdateCheck();
   }
 
   public final void requestUpdateCheck() {
     new Thread() {
-
       public void run() {
         try {
-          /**
-           * Requesting page
-           */
+          /** Requesting page **/
           if ( UpdateChecker.isUpdatePresent() ) {
             sendLabel.setCaption( Localization.getMessage( "UPDATE_STATUS" ) );
             infoLabel.setCaption( Localization.getMessage( "UPDATE_IS_READY" ) );
-            addLabelPair( "LATEST_VERSION", UpdateChecker.latestVersion );
-            addLabelPair( "DOWNLOAD_COUNT", String.valueOf( UpdateChecker.downloadCount ) );
-            addLabelPair( "UPDATE_COUNT", String.valueOf( UpdateChecker.updateCount ) );
-            addLabelPair( "VERSION_URL", UpdateChecker.versionURL );
+            addLabels( "LATEST_VERSION", UpdateChecker.latestVersion );
+            addLabels( "DOWNLOAD_COUNT", String.valueOf( UpdateChecker.downloadCount ) );
+            addLabels( "UPDATE_COUNT", String.valueOf( UpdateChecker.updateCount ) );
+            addLabels( "VERSION_URL", UpdateChecker.versionURL );
             Button dlButton = new Button( Localization.getMessage( "DOWNLOAD" ) ) {
-
               public void actionPerformed() {
                 try {
                   MidletMain.midletMain.platformRequest( UpdateChecker.versionURL );
@@ -122,13 +110,13 @@ public class UpdateCheckFrame extends Window {
             dlButton.setFocusable( true );
             dlButton.setFocused( true );
             pane.addItem( dlButton );
-            addLabelPair( "CHANGE_LOG", TagUtil.removeTags( UpdateChecker.changeLog ) );
+            addLabels( "CHANGE_LOG", TagUtil.removeTags( UpdateChecker.changeLog ) );
           } else {
             sendLabel.setCaption( Localization.getMessage( "UPDATE_STATUS" ) );
             infoLabel.setCaption( Localization.getMessage( "VERSION_UP_TO_DATE" ) );
-            addLabelPair( "COMING_VERSION", UpdateChecker.comingVersion );
-            addLabelPair( "COMING_DATE", UpdateChecker.comingDate );
-            addLabelPair( "COMING_TEXT", UpdateChecker.comingText );
+            addLabels( "COMING_VERSION", UpdateChecker.comingVersion );
+            addLabels( "COMING_DATE", UpdateChecker.comingDate );
+            addLabels( "COMING_TEXT", UpdateChecker.comingText );
           }
         } catch ( Throwable ex ) {
           infoLabel.setCaption( Localization.getMessage( "UPDATE_CHECK_FAILED" ) );
@@ -138,12 +126,8 @@ public class UpdateCheckFrame extends Window {
     }.start();
   }
 
-  public void addLabelPair( String title, String caption ) {
-    Label label1 = new Label( Localization.getMessage( title ) );
-    label1.setTitle( true );
-    pane.addItem( label1 );
-
-    Label label2 = new Label( caption );
-    pane.addItem( label2 );
+  private void addLabels( String title, String descr ) {
+    pane.addItem( new Label( new RichContent( "[p][b]" + Localization
+            .getMessage( title ) + ": [/b]" + descr + "[/p]" ) ) );
   }
 }

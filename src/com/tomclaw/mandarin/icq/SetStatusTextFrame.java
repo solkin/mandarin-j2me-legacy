@@ -1,7 +1,5 @@
 package com.tomclaw.mandarin.icq;
 
-import com.tomclaw.bingear.GroupNotFoundException;
-import com.tomclaw.bingear.IncorrectValueException;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
@@ -13,8 +11,8 @@ import com.tomclaw.tcuilite.localization.Localization;
  */
 public class SetStatusTextFrame extends Window {
 
-  public Field textField;
-  public Check readableCheck;
+  private Field textField;
+  private Check readableCheck;
 
   public SetStatusTextFrame( final IcqAccountRoot icqAccountRoot, final int statusId ) {
     super( MidletMain.screen );
@@ -51,8 +49,7 @@ public class SetStatusTextFrame extends Window {
           icqAccountRoot.saveAllSettings();
           MidletMain.screen.setWaitScreenState( false );
           MidletMain.screen.setActiveWindow( s_prevWindow );
-        } catch ( GroupNotFoundException ex ) {
-        } catch ( IncorrectValueException ex ) {
+        } catch ( Throwable ex ) {
         }
         MidletMain.screen.setWaitScreenState( false );
       }
@@ -63,7 +60,7 @@ public class SetStatusTextFrame extends Window {
     statusHeader.setTitle( true );
     pane.addItem( statusHeader );
     pane.addItem( new Label( Localization.getMessage( IcqStatusUtil.getStatusDescr( IcqStatusUtil.getStatusIndex( statusId ) ) ).concat( ":" ) ) );
-    /** Initializing textField with presetted status text **/
+    /** Initializing textField with default status text **/
     String statusText = MidletMain.getString( MidletMain.statuses, "PStatus", String.valueOf( statusId ) );
     if ( statusText == null ) {
       statusText = "";

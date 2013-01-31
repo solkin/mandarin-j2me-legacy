@@ -21,7 +21,6 @@ public class ServiceMessagesFrame extends Window {
     soft = new Soft( MidletMain.screen );
 
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
-
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
@@ -29,7 +28,6 @@ public class ServiceMessagesFrame extends Window {
     soft.rightSoft = new PopupItem( Localization.getMessage( "MENU" ) );
 
     soft.rightSoft.addSubItem( new PopupItem( Localization.getMessage( "APPEND" ) ) {
-
       public void actionPerformed() {
         ChatItem chatItem = ( ( ChatItem ) pane.getFocusedPaneObject() );
         if ( chatItem == null ) {
@@ -39,7 +37,6 @@ public class ServiceMessagesFrame extends Window {
       }
     } );
     soft.rightSoft.addSubItem( new PopupItem( Localization.getMessage( "COPY" ) ) {
-
       public void actionPerformed() {
         ChatItem chatItem = ( ( ChatItem ) pane.getFocusedPaneObject() );
         if ( chatItem == null ) {
@@ -50,7 +47,6 @@ public class ServiceMessagesFrame extends Window {
       }
     } );
     soft.rightSoft.addSubItem( new PopupItem( Localization.getMessage( "CLEAR" ) ) {
-
       public void actionPerformed() {
         serviceMessages.clearMessages();
       }

@@ -16,7 +16,8 @@ public class GroupChatNickEditFrame extends Window {
   public XmppItem xmppItem;
   public Field nickField;
 
-  public GroupChatNickEditFrame( final XmppAccountRoot xmppAccountRoot, final XmppItem xmppItem ) {
+  public GroupChatNickEditFrame( final XmppAccountRoot xmppAccountRoot, 
+          final XmppItem xmppItem ) {
     super( MidletMain.screen );
     /** Accepting variables **/
     this.xmppAccountRoot = xmppAccountRoot;
@@ -27,19 +28,17 @@ public class GroupChatNickEditFrame extends Window {
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
-
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     /** Right soft items **/
     soft.rightSoft = new PopupItem( Localization.getMessage( "APPLY" ) ) {
-
       public void actionPerformed() {
         try {
-          XmppSender.sendPresence( xmppAccountRoot.xmppSession.xmlWriter, null, 
-                  xmppItem.userId.concat( "/" ).concat( nickField.getText() ), 
-                  null, XmppStatusUtil.getStatusDescr( 
+          XmppSender.sendPresence( xmppAccountRoot.xmppSession.xmlWriter, null,
+                  xmppItem.userId.concat( "/" ).concat( nickField.getText() ),
+                  null, XmppStatusUtil.getStatusDescr(
                   xmppAccountRoot.statusIndex ), null, 5, false, null, null );
           xmppItem.groupChatNick = nickField.getText();
         } catch ( IOException ex ) {

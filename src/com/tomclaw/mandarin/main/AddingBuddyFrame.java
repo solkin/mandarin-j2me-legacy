@@ -1,9 +1,7 @@
 package com.tomclaw.mandarin.main;
 
-import com.tomclaw.mandarin.icq.IcqItem;
 import com.tomclaw.mandarin.mmp.MmpAccountRoot;
 import com.tomclaw.mandarin.mmp.MmpItem;
-import com.tomclaw.mandarin.mmp.PacketType;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.LogUtil;
@@ -19,17 +17,16 @@ import javax.microedition.lcdui.TextField;
  */
 public class AddingBuddyFrame extends Window {
 
+  /** Constants **/
+  private static final int TYPE_ICQ = 0x00;
+  private static final int TYPE_MMP = 0x01;
+  private static final int TYPE_PHONE = 0x02;
+  /** Fields **/
   public Field buddyIdField;
   public Field buddyNickField;
   public RadioGroup buddyGroup;
 
   public AddingBuddyFrame( final AccountRoot accountRoot, final int winType ) {
-    /**
-     * winType:
-     * 0x00 - ICQ item
-     * 0x01 - Mail.Ru mail item
-     * 0x02 - Mail.Ru phone item
-     */
     super( MidletMain.screen );
     /** Header **/
     header = new Header( Localization.getMessage( "ADD_BUDDY" ) );
@@ -48,13 +45,13 @@ public class AddingBuddyFrame extends Window {
           ActionExec.showNotify( Localization.getMessage( "EMPTY_FIELDS" ) );
         } else {
           try {
-            BuddyGroup groupItem = ( winType == 0x02
+            BuddyGroup groupItem = ( winType == TYPE_PHONE
                     ? ( ( MmpAccountRoot ) accountRoot ).phoneGroup
                     : ( BuddyGroup ) accountRoot.getBuddyItems()
                     .elementAt( buddyGroup.getCombed() ) );
 
             BuddyItem buddyItem = accountRoot.getBuddyInstance();
-            buddyItem.setIsPhone( winType == 0x02 );
+            buddyItem.setIsPhone( winType == TYPE_PHONE );
             buddyItem.setUserId( buddyIdField.getText() );
             buddyItem.setUserNick( buddyNickField.getText() );
 
@@ -64,8 +61,8 @@ public class AddingBuddyFrame extends Window {
                     buddyItem, cookie ) {
               public void actionPerformed( Hashtable params ) {
                 switch ( winType ) {
-                  case 0x01:
-                  case 0x02: {
+                  case TYPE_MMP:
+                  case TYPE_PHONE: {
                     ( ( MmpItem ) buddyItem ).contactId =
                             ( ( Long ) params.get( "contactId" ) ).longValue();
                     break;
@@ -94,17 +91,17 @@ public class AddingBuddyFrame extends Window {
     String idLabelString = "";
     int constraints = TextField.ANY;
     switch ( winType ) {
-      case 0x00: {
+      case TYPE_ICQ: {
         idLabelString = "ENTER_ID_HERE";
         constraints = TextField.NUMERIC;
         break;
       }
-      case 0x01: {
+      case TYPE_MMP: {
         idLabelString = "ENTER_MAIL_HERE";
         constraints = TextField.EMAILADDR;
         break;
       }
-      case 0x02: {
+      case TYPE_PHONE: {
         idLabelString = "ENTER_PHONE_HERE";
         constraints = TextField.PHONENUMBER;
         break;
@@ -125,7 +122,7 @@ public class AddingBuddyFrame extends Window {
     buddyNickField.setFocusable( true );
     buddyNickField.title = Localization.getMessage( "BUDDY_NICK" );
     pane.addItem( buddyNickField );
-    if ( winType != 2 ) {
+    if ( winType != TYPE_PHONE ) {
       pane.addItem( new Label( Localization.getMessage( "SELECT_GROUP" ) ) );
       buddyGroup = new RadioGroup();
       if ( accountRoot.getBuddyItems().isEmpty() ) {

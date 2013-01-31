@@ -52,7 +52,7 @@ public class ServiceItem extends GroupChild {
   }
 
   public boolean containsFeature( String feature ) {
-    LogUtil.outMessage( "Features presend: " + ( features != null ) );
+    LogUtil.outMessage( "Features present: " + ( features != null ) );
     if ( features != null ) {
       LogUtil.outMessage( "-------Features-------" );
       for ( int c = 0; c < features.size(); c++ ) {

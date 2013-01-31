@@ -7,7 +7,8 @@ package com.tomclaw.mandarin.xmpp;
  */
 public class XmppStatusUtil {
 
-  public static String[] statuses = new String[]{"offline", "online", "away", "chat", "invisible", "xa", "dnd"};
+  public static String[] statuses = new String[]{ "offline", "online", "away",
+    "chat", "invisible", "xa", "dnd" };
   public static int offlineIndex = 0;
   public static int onlineIndex = 1;
   public static int groupChatIndex = 7;

@@ -23,13 +23,11 @@ public class TopicEditFrame extends Window {
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
-
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "SAVE" ) ) {
-
       public void actionPerformed() {
         XmppSender.sendMessage( xmppAccountRoot.xmppSession, groupChatJid, topicField.getText(), "groupchat", true );
         MidletMain.screen.setActiveWindow( s_prevWindow );

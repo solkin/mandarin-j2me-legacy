@@ -17,7 +17,7 @@ public class TransactionManager {
     DirectConnection tempDirectConnection;
     for ( int c = 0; c < transactions.size(); c++ ) {
       tempDirectConnection = ( DirectConnection ) transactions.elementAt( c );
-      if ( tempDirectConnection.isCompare( directConnection ) ) {
+      if ( tempDirectConnection.equals( directConnection ) ) {
         // Transaction already exist
         return tempDirectConnection;
       }

@@ -23,7 +23,7 @@ public class TransactionItemFrame extends Window {
   public Label ___speedLabel;
   public Gauge gauge;
 
-  public TransactionItemFrame(final DirectConnection directConnection) {
+  public TransactionItemFrame( final DirectConnection directConnection ) {
     super( MidletMain.screen );
 
     header = new Header( Localization.getMessage( "TRANSACTION_WITH" ).concat( " " ).concat( directConnection.getBuddyId() ) );
@@ -33,19 +33,16 @@ public class TransactionItemFrame extends Window {
     soft = new Soft( MidletMain.screen );
 
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
-
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
 
     soft.rightSoft = new PopupItem( Localization.getMessage( "STOP" ) ) {
-
       public void actionPerformed() {
         try {
           directConnection.sendStop();
         } catch ( IOException ex ) {
-          // ex.printStackTrace();
           LogUtil.outMessage( "IOException: ".concat( ex.getMessage() ) );
         }
       }
@@ -66,7 +63,7 @@ public class TransactionItemFrame extends Window {
     setGObject( pane );
   }
 
-  private Label addLabels(String title, String descr) {
+  private Label addLabels( String title, String descr ) {
     Label label1 = new Label( Localization.getMessage( title ) );
     label1.setFocusable( false );
     label1.setTitle( true );
