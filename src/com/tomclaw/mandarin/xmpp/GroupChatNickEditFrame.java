@@ -1,5 +1,6 @@
 package com.tomclaw.mandarin.xmpp;
 
+import com.tomclaw.mandarin.main.ActionExec;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
@@ -12,16 +13,11 @@ import java.io.IOException;
  */
 public class GroupChatNickEditFrame extends Window {
 
-  public XmppAccountRoot xmppAccountRoot;
-  public XmppItem xmppItem;
-  public Field nickField;
+  private Field nickField;
 
   public GroupChatNickEditFrame( final XmppAccountRoot xmppAccountRoot, 
           final XmppItem xmppItem ) {
     super( MidletMain.screen );
-    /** Accepting variables **/
-    this.xmppAccountRoot = xmppAccountRoot;
-    this.xmppItem = xmppItem;
     /** Header **/
     header = new Header( Localization.getMessage( "GROUP_CHAT_NICK_EDIT" ) );
     /** Soft **/
@@ -42,6 +38,7 @@ public class GroupChatNickEditFrame extends Window {
                   xmppAccountRoot.statusIndex ), null, 5, false, null, null );
           xmppItem.groupChatNick = nickField.getText();
         } catch ( IOException ex ) {
+          ActionExec.showFail( "IO_EXCEPTION" );
         }
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }

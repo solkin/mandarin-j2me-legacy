@@ -15,17 +15,17 @@ import java.util.Vector;
  */
 public class GroupChatUsersFrame extends Window {
 
-  public XmppAccountRoot xmppAccountRoot;
-  public String groupChatJid;
-  public boolean isRole;
-  public Tab tab;
-  public List participantList;
-  public List moderatorList;
-  public List memberList;
-  public List adminList;
-  public List ownerList;
-  public List outcastList;
-  public String requestId = "";
+  private XmppAccountRoot xmppAccountRoot;
+  private String groupChatJid;
+  private boolean isRole;
+  private Tab tab;
+  private List participantList;
+  private List moderatorList;
+  private List memberList;
+  private List adminList;
+  private List ownerList;
+  private List outcastList;
+  private String requestId = "";
 
   public GroupChatUsersFrame( final XmppAccountRoot xmppAccountRoot,
           final String groupChatJid, final boolean isRole ) {
@@ -43,21 +43,23 @@ public class GroupChatUsersFrame extends Window {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
-    final PopupItem infoPopupItem = new PopupItem( Localization.getMessage( "INFO_AFFILIATION" ) ) {
+    final PopupItem infoPopupItem = new PopupItem(
+            Localization.getMessage( "INFO_AFFILIATION" ) ) {
       public void actionPerformed() {
         if ( ( ( List ) tab.gObject ).selectedIndex != -1
                 && ( ( List ) tab.gObject ).selectedIndex < ( ( List ) tab.gObject ).items.size() ) {
-          GroupChatUser groupChatUser = ( GroupChatUser ) ( ( List ) tab.gObject ).items.elementAt( ( ( List ) tab.gObject ).selectedIndex );
+          GroupChatUser groupChatUser = ( GroupChatUser ) ( ( List ) tab.gObject ).items.elementAt(
+                  ( ( List ) tab.gObject ).selectedIndex );
           String[] param = null;
           String[] value = null;
           if ( groupChatUser.affiliation != null ) {
-            param = new String[]{ "AFFILIATION_JID", "NICK", "AFFILIATION_REASON", "AFFILIATION" };
-            value = new String[]{ groupChatUser.jid, groupChatUser.nick,
+            param = new String[] { "AFFILIATION_JID", "NICK", "AFFILIATION_REASON", "AFFILIATION" };
+            value = new String[] { groupChatUser.jid, groupChatUser.nick,
               groupChatUser.reason == null ? Localization.getMessage( "NO_REASON" ) : groupChatUser.reason,
               Localization.getMessage( groupChatUser.affiliation.toUpperCase() ) };
           } else if ( groupChatUser.role != null ) {
-            param = new String[]{ "AFFILIATION_JID", "NICK", "AFFILIATION_REASON", "ROLE" };
-            value = new String[]{ groupChatUser.jid, groupChatUser.nick, groupChatUser.reason == null ? Localization.getMessage( "NO_REASON" ) : groupChatUser.reason,
+            param = new String[] { "AFFILIATION_JID", "NICK", "AFFILIATION_REASON", "ROLE" };
+            value = new String[] { groupChatUser.jid, groupChatUser.nick, groupChatUser.reason == null ? Localization.getMessage( "NO_REASON" ) : groupChatUser.reason,
               Localization.getMessage( groupChatUser.role.toUpperCase() ) };
           }
           InfoFrame infoFrame = new InfoFrame( param, value );
@@ -131,6 +133,7 @@ public class GroupChatUsersFrame extends Window {
         }
       }
     };
+    tab.selectedIndex = 0;
     /** Setting GObject **/
     setGObject( tab );
     /** Requesting lists **/
@@ -188,7 +191,8 @@ public class GroupChatUsersFrame extends Window {
   }
 
   public void setError( XmppAccountRoot xmppAccountRoot, String id ) {
-    if ( this.xmppAccountRoot.equals( xmppAccountRoot ) && id.startsWith( requestId ) ) {
+    if ( this.xmppAccountRoot.equals( xmppAccountRoot )
+            && id.startsWith( requestId ) ) {
       MidletMain.screen.setWaitScreenState( false );
       ActionExec.showFail( Localization.getMessage( "PERMISSION_DENIED" ) );
       requestId = "";

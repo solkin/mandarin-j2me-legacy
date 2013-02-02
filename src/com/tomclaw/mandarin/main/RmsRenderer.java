@@ -35,6 +35,7 @@ public class RmsRenderer {
         t_Int = DataUtil.get16( data, offset );
         offset += 2;
         groupChild.setUserPhone( StringUtil.byteArrayToString( data, offset, t_Int, true ) );
+        System.out.println(groupChild.getUserPhone());
         offset += t_Int;
         groupChild.setBuddyType( DataUtil.get16( data, offset ) );
         offset += 2;

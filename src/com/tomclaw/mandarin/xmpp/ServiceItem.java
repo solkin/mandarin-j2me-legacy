@@ -54,14 +54,12 @@ public class ServiceItem extends GroupChild {
   public boolean containsFeature( String feature ) {
     LogUtil.outMessage( "Features present: " + ( features != null ) );
     if ( features != null ) {
-      LogUtil.outMessage( "-------Features-------" );
       for ( int c = 0; c < features.size(); c++ ) {
         LogUtil.outMessage( ( String ) features.elementAt( c ) );
         if ( ( ( String ) features.elementAt( c ) ).equals( feature ) ) {
           return true;
         }
       }
-      LogUtil.outMessage( "----------------------" );
     }
     return false;
   }

@@ -20,7 +20,8 @@ public class AffiliationAddFrame extends Window {
   public Field reasonField;
   String requestId = "";
 
-  public AffiliationAddFrame( XmppAccountRoot xmppAccountRoot, String groupChatJid ) {
+  public AffiliationAddFrame( XmppAccountRoot xmppAccountRoot, 
+          String groupChatJid ) {
     super( MidletMain.screen );
     this.xmppAccountRoot = xmppAccountRoot;
     this.groupChatJid = groupChatJid;
@@ -44,35 +45,30 @@ public class AffiliationAddFrame extends Window {
     };
     /** Crating pane **/
     Pane pane = new Pane( null, false );
-
     pane.addItem( new Label( Localization.getMessage( "AFFILIATION_JID" ).concat( ":" ) ) );
     jidField = new Field( "" );
     jidField.setFocusable( true );
     jidField.setFocused( true );
     pane.addItem( jidField );
-
     afflTypeGroup = new RadioGroup();
     Radio memberRadio = new Radio( Localization.getMessage( "GROUP_CHAT_MEMBER" ), true );
     Radio adminRadio = new Radio( Localization.getMessage( "GROUP_CHAT_ADMIN" ), false );
     Radio ownerRadio = new Radio( Localization.getMessage( "GROUP_CHAT_OWNER" ), false );
     Radio outcastRadio = new Radio( Localization.getMessage( "GROUP_CHAT_OUTCAST" ), false );
-
     memberRadio.setFocusable( true );
     adminRadio.setFocusable( true );
     ownerRadio.setFocusable( true );
     outcastRadio.setFocusable( true );
-
     afflTypeGroup.addRadio( memberRadio );
     afflTypeGroup.addRadio( adminRadio );
     afflTypeGroup.addRadio( ownerRadio );
     afflTypeGroup.addRadio( outcastRadio );
-
-    pane.addItem( new Label( Localization.getMessage( "AFFILIATION_TYPE" ).concat( ":" ) ) );
+    pane.addItem( new Label( Localization.getMessage( "AFFILIATION_TYPE" )
+            .concat( ":" ) ) );
     pane.addItem( memberRadio );
     pane.addItem( adminRadio );
     pane.addItem( ownerRadio );
     pane.addItem( outcastRadio );
-
     pane.addItem( new Label( Localization.getMessage( "AFFILIATION_REASON" ) ) );
     reasonField = new Field( "" );
     reasonField.setFocusable( true );
@@ -108,8 +104,10 @@ public class AffiliationAddFrame extends Window {
     MidletMain.screen.setWaitScreenState( true );
   }
 
-  public void setRequestResult( XmppAccountRoot xmppAccountRoot, String requestId ) {
-    if ( xmppAccountRoot.equals( this.xmppAccountRoot ) && requestId.equals( this.requestId ) ) {
+  public void setRequestResult( XmppAccountRoot xmppAccountRoot, 
+          String requestId ) {
+    if ( xmppAccountRoot.equals( this.xmppAccountRoot ) 
+            && requestId.equals( this.requestId ) ) {
       MidletMain.screen.setWaitScreenState( false );
       MidletMain.screen.setActiveWindow( s_prevWindow );
       try {

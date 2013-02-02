@@ -1,6 +1,7 @@
 package com.tomclaw.mandarin.main;
 
 import com.tomclaw.tcuilite.GroupChild;
+import com.tomclaw.utils.StringUtil;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,7 +22,7 @@ public abstract class BuddyItem extends GroupChild {
   private int statusIndex = 0;
   public boolean isAvaitingAuth = false;
   public int unreadCount = 0;
-  /**Typing thread **/
+  /** Typing thread **/
   private Timer typingTimer;
   private TimerTask timerTask;
 
@@ -61,7 +62,9 @@ public abstract class BuddyItem extends GroupChild {
 
   public void setUserPhone( String userPhone ) {
     this.userPhone = userPhone;
-    userId = userPhone;
+    if ( StringUtil.isNullOrEmpty( userId ) ) {
+      userId = userPhone;
+    }
   }
 
   public void setTypingStatus( boolean isTyping ) {
