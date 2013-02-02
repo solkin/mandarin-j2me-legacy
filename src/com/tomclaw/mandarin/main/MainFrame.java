@@ -62,6 +62,7 @@ public class MainFrame extends Window {
   /** Info popups **/
   public PopupItem infoPopupItem;
   /** Minimize & Exit popups **/
+  public PopupItem lockPopupItem;
   public PopupItem minimizePopupItem;
   public PopupItem exitPopupItem;
   public Pane pane;
@@ -436,6 +437,11 @@ public class MainFrame extends Window {
         buddyList.selectedRow = selRow;
       }
     } );
+    this.addKeyEvent( new KeyEvent( 0, "KEY_LOCKSCREEN", true ) {
+      public void actionPerformed() {
+        MidletMain.screen.setActiveWindow( new LockFrame() );
+      }
+    } );
     /** Soft **/
     soft = new Soft( screen );
     /** Tabs **/
@@ -548,6 +554,11 @@ public class MainFrame extends Window {
     } );
     infoPopupItem.addSubItem( donatePopupItem );
     /** Minimize & Exit popups **/
+    lockPopupItem = new PopupItem( Localization.getMessage( "LOCK_SCREEN" ), IconsType.HASH_MAIN, 28 ) {
+      public void actionPerformed() {
+        MainFrame.this.getKeyEvent( "KEY_LOCKSCREEN" ).actionPerformed();
+      }
+    };
     minimizePopupItem = new PopupItem( Localization.getMessage( "MINIMIZE" ), IconsType.HASH_MAIN, 21 ) {
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_MINIMIZE" ).actionPerformed();
@@ -621,8 +632,8 @@ public class MainFrame extends Window {
       if ( accountRoot instanceof IcqAccountRoot ) {
         /** Showing buddy items **/
         LogUtil.outMessage( "Installing images" );
-        buddyList.imageLeftFileHash = new int[]{ "/res/groups/img_chat.png".hashCode(), "/res/groups/img_icqstatus.png".hashCode(), "/res/groups/img_xstatus.png".hashCode() };
-        buddyList.imageRightFileHash = new int[]{ IconsType.HASH_PLIST, IconsType.HASH_PLIST, IconsType.HASH_PLIST, IconsType.HASH_CLIENTS, IconsType.HASH_MAIN };
+        buddyList.imageLeftFileHash = new int[] { "/res/groups/img_chat.png".hashCode(), "/res/groups/img_icqstatus.png".hashCode(), "/res/groups/img_xstatus.png".hashCode() };
+        buddyList.imageRightFileHash = new int[] { IconsType.HASH_PLIST, IconsType.HASH_PLIST, IconsType.HASH_PLIST, IconsType.HASH_CLIENTS, IconsType.HASH_MAIN };
         LogUtil.outMessage( "Preparing items" );
         buddyList.items = ( ( IcqAccountRoot ) accountRoot ).buddyItems;
         /** Loading ICQ account data **/
@@ -657,7 +668,7 @@ public class MainFrame extends Window {
         buddyList.selectedRow = ( ( IcqAccountRoot ) accountRoot ).selectedRow;
         LogUtil.outMessage( "Complete." );
       } else if ( accountRoot instanceof MmpAccountRoot ) {
-        buddyList.imageLeftFileHash = new int[]{ "/res/groups/img_chat.png".hashCode(), "/res/groups/img_mmpstatus.png".hashCode() };
+        buddyList.imageLeftFileHash = new int[] { "/res/groups/img_chat.png".hashCode(), "/res/groups/img_mmpstatus.png".hashCode() };
         buddyList.items = ( ( MmpAccountRoot ) accountRoot ).buddyItems;
         if ( mmpSoft == null ) {
           initMmpSoft();
@@ -668,7 +679,7 @@ public class MainFrame extends Window {
         buddyList.selectedColumn = ( ( MmpAccountRoot ) accountRoot ).selectedColumn;
         buddyList.selectedRow = ( ( MmpAccountRoot ) accountRoot ).selectedRow;
       } else if ( accountRoot instanceof XmppAccountRoot ) {
-        buddyList.imageLeftFileHash = new int[]{ "/res/groups/img_chat.png".hashCode(), "/res/groups/img_xmppstatus.png".hashCode() };
+        buddyList.imageLeftFileHash = new int[] { "/res/groups/img_chat.png".hashCode(), "/res/groups/img_xmppstatus.png".hashCode() };
         buddyList.items = ( ( XmppAccountRoot ) accountRoot ).buddyItems;
         if ( xmppSoft == null ) {
           initXmppSoft();
@@ -689,7 +700,7 @@ public class MainFrame extends Window {
   public final void loadOfflineBuddyList( AccountRoot accountRoot ) {
     BinGear dataGear = null;
     try {
-      RecordUtil.readFile( "/icq/".concat( 
+      RecordUtil.readFile( "/icq/".concat(
               String.valueOf( accountRoot.getUserId().hashCode() ) )
               .concat( "/buddylist.dat" ), dataGear );
       Vector buddyItems = new Vector();
@@ -952,6 +963,7 @@ public class MainFrame extends Window {
     icqSoft.leftSoft.addSubItem( servicePopupItem );
     icqSoft.leftSoft.addSubItem( servicesPopupItem );
     icqSoft.leftSoft.addSubItem( infoPopupItem );
+    icqSoft.leftSoft.addSubItem( lockPopupItem );
     icqSoft.leftSoft.addSubItem( minimizePopupItem );
     icqSoft.leftSoft.addSubItem( exitPopupItem );
 
@@ -1352,6 +1364,7 @@ public class MainFrame extends Window {
     mmpSoft.leftSoft.addSubItem( servicePopupItem );
     mmpSoft.leftSoft.addSubItem( servicesPopupItem );
     mmpSoft.leftSoft.addSubItem( infoPopupItem );
+    mmpSoft.leftSoft.addSubItem( lockPopupItem );
     mmpSoft.leftSoft.addSubItem( minimizePopupItem );
     mmpSoft.leftSoft.addSubItem( exitPopupItem );
 
@@ -1406,11 +1419,9 @@ public class MainFrame extends Window {
             try {
               ( ( MmpAccountRoot ) accountRoot ).sendWakeup( buddyItem );
             } catch ( IOException ex ) {
-              ex.printStackTrace();
             }
           }
         }
-        // MainFrame.this.getKeyEvent( "KEY_BUDDYINFO" ).actionPerformed();
       }
     };
 
@@ -1590,6 +1601,7 @@ public class MainFrame extends Window {
     xmppSoft.leftSoft.addSubItem( servicePopupItem );
     xmppSoft.leftSoft.addSubItem( servicesPopupItem );
     xmppSoft.leftSoft.addSubItem( infoPopupItem );
+    mmpSoft.leftSoft.addSubItem( lockPopupItem );
     xmppSoft.leftSoft.addSubItem( minimizePopupItem );
     xmppSoft.leftSoft.addSubItem( exitPopupItem );
 
