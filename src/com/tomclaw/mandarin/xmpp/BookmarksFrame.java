@@ -142,9 +142,9 @@ public class BookmarksFrame extends Window {
   public void setBookmarkStatus( XmppAccountRoot xmppAccountRoot, String jid ) {
     if ( bookmark != null && xmppAccountRoot.equals( xmppAccountRoot ) && jid.equals( bookmark.jid ) ) {
       if ( xmppAccountRoot.conferenceGroup == null
-              || !xmppAccountRoot.buddyItems.contains( xmppAccountRoot.conferenceGroup ) ) {
+              || !xmppAccountRoot.getBuddyItems().contains( xmppAccountRoot.conferenceGroup ) ) {
         xmppAccountRoot.conferenceGroup = new XmppGroup( Localization.getMessage( "CONFERENCE_GROUP" ) );
-        xmppAccountRoot.buddyItems.addElement( xmppAccountRoot.conferenceGroup );
+        xmppAccountRoot.getBuddyItems().addElement( xmppAccountRoot.conferenceGroup );
       }
       XmppItem conferenceItem = new XmppItem( bookmark.jid, bookmark.name );
       conferenceItem.isGroupChat = true;

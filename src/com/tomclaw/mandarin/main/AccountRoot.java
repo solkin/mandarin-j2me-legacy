@@ -19,7 +19,7 @@ public abstract class AccountRoot {
   public String userPassword;
   public String host = "";
   public String port = "";
-  public Vector buddyItems = new Vector();
+  protected Vector buddyItems = new Vector();
   public int statusIndex = 0;
   private String buddyListFile = null;
   public boolean isUseSsl = false;

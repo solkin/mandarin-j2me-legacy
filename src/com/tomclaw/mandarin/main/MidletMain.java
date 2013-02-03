@@ -1,5 +1,6 @@
 package com.tomclaw.mandarin.main;
 
+import com.flurry.javame.FlurryAgent;
 import com.tomclaw.bingear.BinGear;
 import com.tomclaw.bingear.GroupNotFoundException;
 import com.tomclaw.bingear.IncorrectValueException;
@@ -106,8 +107,11 @@ public class MidletMain extends MIDlet {
   public static String build = null;
   public static int pack_count_invoke_gc = 10;
   public static int pack_count = 0;
+  public static final String flurryApiKey = "VGGJK36VGWHYTR839G6G";
 
   public void startApp() {
+    FlurryAgent.setUseBluetoothIdentification( false );
+    FlurryAgent.onStartApp( midletMain, flurryApiKey );
     version = getAppProperty( "MIDlet-Version" );
     type = getAppProperty( "Type" );
     build = getAppProperty( "Build" );
@@ -563,9 +567,11 @@ public class MidletMain extends MIDlet {
   }
 
   public void pauseApp() {
+    FlurryAgent.onPauseApp();
   }
 
   public void destroyApp( boolean unconditional ) {
+    FlurryAgent.onDestroyApp();
   }
 
   public static void loadOfflineBuddyList( AccountRoot accountRoot, String buddyListFile, Vector buddyItems ) {
