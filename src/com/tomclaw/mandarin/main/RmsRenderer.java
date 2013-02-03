@@ -35,7 +35,6 @@ public class RmsRenderer {
         t_Int = DataUtil.get16( data, offset );
         offset += 2;
         groupChild.setUserPhone( StringUtil.byteArrayToString( data, offset, t_Int, true ) );
-        System.out.println(groupChild.getUserPhone());
         offset += t_Int;
         groupChild.setBuddyType( DataUtil.get16( data, offset ) );
         offset += 2;
@@ -46,7 +45,6 @@ public class RmsRenderer {
       }
     } catch ( Throwable ex ) {
       LogUtil.outMessage( "Error while loading RMS list: " + ex.getMessage() );
-      // ex.printStackTrace();
     }
     return groupHeader;
   }
@@ -102,7 +100,6 @@ public class RmsRenderer {
         data = t_Byte;
       }
     } catch ( Throwable ex1 ) {
-      // ex1.printStackTrace();
     }
     return data;
   }

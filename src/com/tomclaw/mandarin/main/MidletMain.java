@@ -261,7 +261,7 @@ public class MidletMain extends MIDlet {
     /** Displaying frame on screen **/
     if ( getBoolean( settings, "Master", "isFirstRun" ) ) {
       LogUtil.outMessage( "First run master" );
-      //screen.activeWindow = new FirstMasterFrame();
+      screen.activeWindow = new FirstMasterFrame();
     } else {
       if ( getLong( settings, "Master", "updateCheck" ) < System.currentTimeMillis() / 1000 ) {
         try {

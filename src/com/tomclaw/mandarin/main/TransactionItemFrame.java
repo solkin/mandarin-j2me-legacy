@@ -22,6 +22,7 @@ public class TransactionItemFrame extends Window {
   public Label ___proxyLabel;
   public Label ___speedLabel;
   public Gauge gauge;
+  private String proxyString;
 
   public TransactionItemFrame( final DirectConnection directConnection ) {
     super( MidletMain.screen );
@@ -53,7 +54,7 @@ public class TransactionItemFrame extends Window {
     _buddyIdLabel = addLabels( "BUDDYID_LABEL", directConnection.getBuddyId() );
     fileNameLabel = addLabels( "FILENAME_LABEL", StringUtil.byteArrayToString( directConnection.getFileName(), true ) );
     fileSizeLabel = addLabels( "FILESIZE_LABEL", String.valueOf( directConnection.getFileByteSize() ) );
-    ___proxyLabel = addLabels( "PROXY_LABEL", directConnection.getProxyIp() + ":" + directConnection.getProxyPort() );
+    ___proxyLabel = addLabels( "PROXY_LABEL", Localization.getMessage( "NO_PROXY" ) );
     ___speedLabel = addLabels( "SPEED_LABEL", Localization.getMessage( "CALCULATING" ) );
     gauge = new Gauge( Localization.getMessage( "STATUS_LABEL" ) );
     pane.addItem( gauge );
@@ -64,25 +65,29 @@ public class TransactionItemFrame extends Window {
   }
 
   private Label addLabels( String title, String descr ) {
-    Label label1 = new Label( Localization.getMessage( title ) );
-    label1.setFocusable( false );
-    label1.setTitle( true );
-    pane.addItem( label1 );
-    Label label2 = new Label( descr );
-    label2.setFocusable( false );
-    pane.addItem( label2 );
-    return label2;
+    Label label = updateLabels( new Label( new RichContent( "" ) ), title, descr );
+    pane.addItem( label );
+    return label;
+  }
+
+  private Label updateLabels( Label label, String title, String descr ) {
+    label.getContent().setText( "[p][b]" + Localization
+            .getMessage( title ) + ": [/b]" + descr + "[/p]" );
+    label.updateCaption();
+    return label;
   }
 
   public final void updateData() {
-    if ( directConnection.getProxyIp() != null ) {
-      ___proxyLabel.setCaption( directConnection.getProxyIp() + ":" + directConnection.getProxyPort() );
-      ___proxyLabel.updateCaption();
+    if ( directConnection.getProxyIp() != null
+            && directConnection.getProxyPort() != -1 ) {
+      proxyString = directConnection.getProxyIp() + ":" + directConnection.getProxyPort();
+    } else {
+      proxyString = Localization.getMessage( "NO_PROXY" );
     }
+    updateLabels( ___proxyLabel, "PROXY_LABEL", proxyString );
+    updateLabels( ___speedLabel, "SPEED_LABEL", directConnection.getSpeed() + " " + Localization.getMessage( "KBIT_PER_SEC" ) );
     gauge.caption = ( Localization.getMessage( directConnection.getStatusString() ) );
     gauge.setValue( directConnection.getPercentValue() );
-    ___speedLabel.setCaption( directConnection.getSpeed() + " " + Localization.getMessage( "KBIT_PER_SEC" ) );
-    ___speedLabel.updateCaption();
     MidletMain.screen.repaint();
   }
 }
