@@ -1,9 +1,7 @@
 package com.tomclaw.mandarin.main;
 
-import com.flurry.javame.FlurryAgent;
 import com.tomclaw.bingear.BinGear;
 import com.tomclaw.bingear.GroupNotFoundException;
-import com.tomclaw.bingear.IncorrectValueException;
 import com.tomclaw.images.Splitter;
 import com.tomclaw.mandarin.xmpp.*;
 import com.tomclaw.tcuilite.*;
@@ -16,10 +14,8 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Vector;
 import javax.microedition.midlet.MIDlet;
-import javax.microedition.rms.InvalidRecordIDException;
 import javax.microedition.rms.RecordStore;
 import javax.microedition.rms.RecordStoreException;
-import javax.microedition.rms.RecordStoreNotOpenException;
 
 /**
  * Solkin Igor Viktorovich, TomClaw Software, 2003-2013
@@ -107,11 +103,8 @@ public class MidletMain extends MIDlet {
   public static String build = null;
   public static int pack_count_invoke_gc = 10;
   public static int pack_count = 0;
-  public static final String flurryApiKey = "VGGJK36VGWHYTR839G6G";
 
   public void startApp() {
-    FlurryAgent.setUseBluetoothIdentification( false );
-    FlurryAgent.onStartApp( midletMain, flurryApiKey );
     version = getAppProperty( "MIDlet-Version" );
     type = getAppProperty( "Type" );
     build = getAppProperty( "Build" );
@@ -271,8 +264,7 @@ public class MidletMain extends MIDlet {
         try {
           settings.setValue( "Master", "updateCheck", String.valueOf( System.currentTimeMillis() / 1000 + 60 * 60 * 24 * 30 ) );
           saveRmsData( false, true, false );
-        } catch ( GroupNotFoundException ex ) {
-        } catch ( IncorrectValueException ex ) {
+        } catch ( Throwable ex ) {
         }
         UpdateCheckFrame updateCheckFrame = new UpdateCheckFrame( true );
         updateCheckFrame.s_prevWindow = mainFrame;
@@ -393,20 +385,14 @@ public class MidletMain extends MIDlet {
       if ( isStatuses ) {
         statuses.importFromIni( new DataInputStream( clazz.getResourceAsStream( "/res/".concat( statusesResFile ) ) ) );
       }
-    } catch ( IOException ex ) {
-    } catch ( IncorrectValueException ex ) {
-    } catch ( GroupNotFoundException ex ) {
-    } catch ( Throwable ex1 ) {
+    } catch ( Throwable ex ) {
     }
   }
 
   public static void loadResData( String fileName, BinGear dataGear ) {
     try {
       dataGear.importFromIni( new DataInputStream( clazz.getResourceAsStream( "/res/".concat( fileName ) ) ) );
-    } catch ( IOException ex ) {
-    } catch ( IncorrectValueException ex ) {
-    } catch ( GroupNotFoundException ex ) {
-    } catch ( Throwable ex1 ) {
+    } catch ( Throwable ex ) {
     }
   }
 
@@ -557,9 +543,7 @@ public class MidletMain extends MIDlet {
                     String.valueOf( dataCount ).getBytes(), 0, 
                     String.valueOf( dataCount ).getBytes().length );
             prevDataCount = dataCount;
-          } catch ( RecordStoreNotOpenException ex ) {
-          } catch ( InvalidRecordIDException ex ) {
-          } catch ( RecordStoreException ex ) {
+          } catch ( Throwable ex ) {
           }
         }
       }
@@ -567,11 +551,9 @@ public class MidletMain extends MIDlet {
   }
 
   public void pauseApp() {
-    FlurryAgent.onPauseApp();
   }
 
   public void destroyApp( boolean unconditional ) {
-    FlurryAgent.onDestroyApp();
   }
 
   public static void loadOfflineBuddyList( AccountRoot accountRoot, String buddyListFile, Vector buddyItems ) {
