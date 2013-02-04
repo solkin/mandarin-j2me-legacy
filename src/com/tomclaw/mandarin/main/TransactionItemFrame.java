@@ -16,12 +16,9 @@ public class TransactionItemFrame extends Window {
 
   public final DirectConnection directConnection;
   private Pane pane;
-  public Label _buddyIdLabel;
-  public Label fileNameLabel;
-  public Label fileSizeLabel;
-  public Label ___proxyLabel;
-  public Label ___speedLabel;
-  public Gauge gauge;
+  private Label ___proxyLabel;
+  private Label ___speedLabel;
+  private Gauge gauge;
   private String proxyString;
 
   public TransactionItemFrame( final DirectConnection directConnection ) {
@@ -51,9 +48,9 @@ public class TransactionItemFrame extends Window {
 
     pane = new Pane( null, false );
 
-    _buddyIdLabel = addLabels( "BUDDYID_LABEL", directConnection.getBuddyId() );
-    fileNameLabel = addLabels( "FILENAME_LABEL", StringUtil.byteArrayToString( directConnection.getFileName(), true ) );
-    fileSizeLabel = addLabels( "FILESIZE_LABEL", String.valueOf( directConnection.getFileByteSize() ) );
+    addLabels( "BUDDYID_LABEL", directConnection.getBuddyId() );
+    addLabels( "FILENAME_LABEL", StringUtil.byteArrayToString( directConnection.getFileName(), true ) );
+    addLabels( "FILESIZE_LABEL", String.valueOf( directConnection.getFileByteSize() ) );
     ___proxyLabel = addLabels( "PROXY_LABEL", Localization.getMessage( "NO_PROXY" ) );
     ___speedLabel = addLabels( "SPEED_LABEL", Localization.getMessage( "CALCULATING" ) );
     gauge = new Gauge( Localization.getMessage( "STATUS_LABEL" ) );

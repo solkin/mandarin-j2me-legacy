@@ -13,25 +13,23 @@ import com.tomclaw.utils.LogUtil;
  */
 public class UniqueFrame extends Window {
 
-  public BuddyItem buddyItem;
-  public RadioGroup rdgSettingsType;
-  public Check chkNotifStatChange;
-  public Check chkNotifMessages;
-  public Check chkOnTop;
-  public Check chkLockIncoming;
-  public Check chkDisableHistory;
-  public Check chkDisablePStatusReading;
-  public Check chkDisableXStatusReading;
-  public Check chkSendSpecialPStatus;
-  public Field fldSpecialPStatus;
-  public Check chkSendSpecialXStatus;
-  public Field fldSpecialXTitle;
-  public Field fldSpecialXDescr;
+  private RadioGroup rdgSettingsType;
+  private Check chkNotifStatChange;
+  private Check chkNotifMessages;
+  private Check chkOnTop;
+  private Check chkLockIncoming;
+  private Check chkDisableHistory;
+  private Check chkDisablePStatusReading;
+  private Check chkDisableXStatusReading;
+  private Check chkSendSpecialPStatus;
+  private Field fldSpecialPStatus;
+  private Check chkSendSpecialXStatus;
+  private Field fldSpecialXTitle;
+  private Field fldSpecialXDescr;
 
   public UniqueFrame( final AccountRoot accountRoot, final BuddyItem buddyItem ) throws IncorrectValueException, GroupNotFoundException {
     super( MidletMain.screen );
     final String groupName = "icq" + buddyItem.getUserId().hashCode();
-    this.buddyItem = buddyItem;
     /** Header **/
     header = new Header( Localization.getMessage( "UNIQUE_FRAME" ) + " " + buddyItem.getUserId() );
     /** Soft **/

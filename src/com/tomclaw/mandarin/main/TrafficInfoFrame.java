@@ -11,9 +11,9 @@ import com.tomclaw.tcuilite.smiles.Smiles;
  */
 public class TrafficInfoFrame extends Window {
 
-  public Pane pane;
-  public Label dataCount;
-  public Label moneyCount;
+  private Pane pane;
+  private Label dataCount;
+  private Label moneyCount;
 
   public TrafficInfoFrame() {
     super( MidletMain.screen );

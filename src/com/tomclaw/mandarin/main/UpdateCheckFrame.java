@@ -13,7 +13,6 @@ import javax.microedition.io.ConnectionNotFoundException;
 public class UpdateCheckFrame extends Window {
 
   private Pane pane;
-  private UpdateChecker versionLoader;
   private Label sendLabel;
   private Label infoLabel;
 

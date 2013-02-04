@@ -13,8 +13,8 @@ import com.tomclaw.utils.StringUtil;
  */
 public class TransactionsFrame extends Window {
 
-  public List list;
-  public AccountRoot accountRoot;
+  private List list;
+  private AccountRoot accountRoot;
   public TransactionItemFrame transactionItemFrame;
 
   public TransactionsFrame( final AccountRoot accountRoot ) {

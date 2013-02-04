@@ -59,7 +59,7 @@ public class MidletMain extends MIDlet {
   /** Sound **/
   public static boolean isSound = true;
   public static String defSoundLocation = "/res/sounds/";
-  public static String[] eventSound = new String[]{ "incoming.mp3", "outgoing.mp3", "online.mp3", "offline.mp3" };
+  public static String[] eventSound = new String[] { "incoming.mp3", "outgoing.mp3", "online.mp3", "offline.mp3" };
   public static int volumeLevel = 100;
   public static boolean isExpand = true;
   public static boolean alarmRepliesOnly = false;
@@ -120,26 +120,17 @@ public class MidletMain extends MIDlet {
     clazz = Runtime.getRuntime().getClass();
     long freeMemory = Runtime.getRuntime().freeMemory();
     System.out.println( "freeMemory = [ " + freeMemory / 1024 + " ] KiB" );
-    try {
-      String isTestString = getAppProperty( "Logger" );
-      if ( isTestString != null && isTestString.equals( "true" ) ) {
-        isLoggerEnabled = true;
-      }
-    } catch ( Throwable ex ) {
+    String isTestString = this.getAppProperty( "Logger" );
+    if ( isTestString != null && isTestString.equals( "true" ) ) {
+      isLoggerEnabled = true;
     }
-    try {
-      String logLevelString = getAppProperty( "Loglevel" );
-      if ( logLevelString != null ) {
-        logLevel = Integer.parseInt( logLevelString );
-      }
-    } catch ( Throwable ex ) {
+    String logLevelString = getAppProperty( "Loglevel" );
+    if ( logLevelString != null ) {
+      logLevel = Integer.parseInt( logLevelString );
     }
-    try {
-      String isTestString = getAppProperty( "Test" );
-      if ( isTestString != null && isTestString.equals( "true" ) ) {
-        isTest = true;
-      }
-    } catch ( Throwable ex ) {
+    isTestString = getAppProperty( "Test" );
+    if ( isTestString != null && isTestString.equals( "true" ) ) {
+      isTest = true;
     }
     /** Temporary logger **/
     LogUtil.initLogger( isLoggerEnabled, false, "127.0.0.1", 2000, false, "/root1/" );
@@ -417,7 +408,7 @@ public class MidletMain extends MIDlet {
   }
 
   public static void updateAlarmSettings() {
-    eventSound = new String[]{
+    eventSound = new String[] {
       getBoolean( settings, "Alarm", "onIncoming" ) ? "incoming.mp3" : "",
       getBoolean( settings, "Alarm", "onOutgoing" ) ? "outgoing.mp3" : "",
       getBoolean( settings, "Alarm", "onOnline" ) ? "online.mp3" : "",
@@ -539,8 +530,8 @@ public class MidletMain extends MIDlet {
             if ( dataCount == prevDataCount ) {
               continue;
             }
-            dataCountStore.setRecord( 1, 
-                    String.valueOf( dataCount ).getBytes(), 0, 
+            dataCountStore.setRecord( 1,
+                    String.valueOf( dataCount ).getBytes(), 0,
                     String.valueOf( dataCount ).getBytes().length );
             prevDataCount = dataCount;
           } catch ( Throwable ex ) {
