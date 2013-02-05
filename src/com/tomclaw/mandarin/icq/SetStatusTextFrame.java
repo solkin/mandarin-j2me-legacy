@@ -1,8 +1,10 @@
 package com.tomclaw.mandarin.icq;
 
+import com.tomclaw.mandarin.main.AccountRoot;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
+import com.tomclaw.utils.LogUtil;
 
 /**
  * Solkin Igor Viktorovich, TomClaw Software, 2003-2013
@@ -14,8 +16,10 @@ public class SetStatusTextFrame extends Window {
   private Field textField;
   private Check readableCheck;
 
-  public SetStatusTextFrame( final IcqAccountRoot icqAccountRoot, final int statusId ) {
+  public SetStatusTextFrame( final AccountRoot accountRoot, final int statusIndex ) {
     super( MidletMain.screen );
+    boolean isReadableEnabled = !accountRoot.getAccType().toUpperCase().equals( "MMP" );
+    final String groupHeader = "PStatus_".concat( accountRoot.getAccType().toUpperCase() );
     /** Header **/
     header = new Header( Localization.getMessage( "STATUS_TEXT" ) );
     /** Initializing soft **/
@@ -31,25 +35,23 @@ public class SetStatusTextFrame extends Window {
       public void actionPerformed() {
         MidletMain.screen.setWaitScreenState( true );
         try {
-          String[] groups = MidletMain.statuses.listGroups();
-          for ( int c = 0; c < groups.length; c++ ) {
-            if ( groups[c].equals( "PStatus" ) ) {
-              groups = null;
-              break;
-            }
+          /** Checking for group present **/
+          if ( MidletMain.statuses.getGroup( groupHeader ) == null ) {
+            /** Earlier versions have no such group, only PStatus **/
+            MidletMain.statuses.addGroup( groupHeader );
           }
-          if ( groups != null ) {
-            MidletMain.statuses.addGroup( "PStatus" );
-          }
-          MidletMain.statuses.addItem( "PStatus", String.valueOf( statusId ),
-                  textField.getText().concat( "&rdb" ).concat( readableCheck.state ? "true" : "false" ) );
+          MidletMain.statuses.addItem( groupHeader, String.valueOf( statusIndex ),
+                  textField.getText().concat( "&rdb" )
+                  .concat( readableCheck.state ? "true" : "false" ) );
           MidletMain.saveRmsData( false, false, true );
-          icqAccountRoot.statusText = textField.getText();
-          icqAccountRoot.isPStatusReadable = readableCheck.state;
-          icqAccountRoot.saveAllSettings();
+          /** Sending status to the network **/
+          accountRoot.setStatusText( textField.getText(), readableCheck.state );
+          /** Closing window **/
           MidletMain.screen.setWaitScreenState( false );
           MidletMain.screen.setActiveWindow( s_prevWindow );
+          return;
         } catch ( Throwable ex ) {
+          LogUtil.outMessage( ex );
         }
         MidletMain.screen.setWaitScreenState( false );
       }
@@ -57,11 +59,11 @@ public class SetStatusTextFrame extends Window {
     /** Initializing pane **/
     Pane pane = new Pane( null, false );
     Label statusHeader = new Label( Localization.getMessage( "PLAIN_STATUS_TEXT" ) );
-    statusHeader.setTitle( true );
+    statusHeader.setHeader( true );
     pane.addItem( statusHeader );
-    pane.addItem( new Label( Localization.getMessage( IcqStatusUtil.getStatusDescr( IcqStatusUtil.getStatusIndex( statusId ) ) ).concat( ":" ) ) );
+    pane.addItem( new Label( Localization.getMessage( IcqStatusUtil.getStatusDescr( statusIndex ) ).concat( ":" ) ) );
     /** Initializing textField with default status text **/
-    String statusText = MidletMain.getString( MidletMain.statuses, "PStatus", String.valueOf( statusId ) );
+    String statusText = MidletMain.getString( MidletMain.statuses, groupHeader, String.valueOf( statusIndex ) );
     if ( statusText == null ) {
       statusText = "";
     }
@@ -71,7 +73,8 @@ public class SetStatusTextFrame extends Window {
     pane.addItem( textField );
     readableCheck = new Check( Localization.getMessage( "STATUS_READABLE" ),
             ( statusText.indexOf( "&rdb" ) == -1 ) ? false : statusText.substring( statusText.indexOf( "&rdb" ) + 4 ).equals( "true" ) );
-    readableCheck.setFocusable( true );
+    readableCheck.setFocusable( isReadableEnabled );
+    readableCheck.state = true;
     pane.addItem( readableCheck );
     /** Applying pane **/
     setGObject( pane );

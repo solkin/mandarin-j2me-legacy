@@ -24,10 +24,8 @@ public class IcqAccountRoot extends AccountRoot {
   public int xStatusId = -1;
   public int pStatusId = 1;
   public int privateBuddyId = -1;
-  public String statusText = "Mandarin ".concat( MidletMain.version ).concat( " [" ).concat( MidletMain.build.concat( "]" ) );
   public String xTitle = "";
   public String xText = "";
-  public boolean isPStatusReadable = true;
   public boolean isXStatusReadable = true;
   /** Threads and states **/
   public IcqSession session;
@@ -52,10 +50,6 @@ public class IcqAccountRoot extends AccountRoot {
     pStatusId = MidletMain.getInteger( MidletMain.accounts, userId, "pStatusId" );
     privateBuddyId = MidletMain.getInteger( MidletMain.accounts, userId, "privateBuddyId" );
     /** Status **/
-    String statusData = MidletMain.getString( MidletMain.statuses, "PStatus", String.valueOf( statusIndex ) );
-    statusText = statusData.substring( 0, ( statusData.indexOf( "&rdb" ) == -1 ) ? statusData.length() : statusData.indexOf( "&rdb" ) );
-    isPStatusReadable = ( statusData.indexOf( "&rdb" ) == -1 )
-            ? false : statusData.substring( statusData.indexOf( "&rdb" ) + 4 ).equals( "true" );
     String extStatusText = MidletMain.getString( MidletMain.statuses, "XStatus", String.valueOf( xStatusId ) );
     if ( extStatusText == null || extStatusText.length() == 0 ) {
       extStatusText = "&dsc";

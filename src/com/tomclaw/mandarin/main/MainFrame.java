@@ -779,38 +779,34 @@ public class MainFrame extends Window {
     PopupItem tempPopupItem;
     for ( int c = 0; c < IcqStatusUtil.getStatusCount(); c++ ) {
       final int statusId = IcqStatusUtil.getStatus( c );
+      final int statusIndex = c;
       tempPopupItem = new PopupItem( Localization.getMessage( IcqStatusUtil.getStatusDescr( c ) ) ) {
         public void actionPerformed() {
           final IcqAccountRoot icqAccountRoot = ( IcqAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
           /** Status is selected **/
-          if ( icqAccountRoot.statusIndex == 0 && statusId != -1 ) {
+          if ( icqAccountRoot.statusIndex == 0 && statusIndex != -1 ) {
             /** Need to connect **/
-            String statusData = MidletMain.getString( MidletMain.statuses, "PStatus", String.valueOf( statusId ) );
-            icqAccountRoot.statusText = statusData.substring( 0, ( statusData.indexOf( "&rdb" ) == -1 ) ? statusData.length() : statusData.indexOf( "&rdb" ) );
-            icqAccountRoot.isPStatusReadable = ( statusData.indexOf( "&rdb" ) == -1 )
-                    ? false : statusData.substring( statusData.indexOf( "&rdb" ) + 4 ).equals( "true" );
-            icqAccountRoot.connectAction( IcqStatusUtil.getStatusIndex( statusId ) );
+            icqAccountRoot.loadStatus( statusIndex );
+            icqAccountRoot.connectAction( statusIndex );
           } else {
-            if ( icqAccountRoot.statusIndex != 0 && statusId == -1 ) {
+            if ( icqAccountRoot.statusIndex != 0 && statusIndex == -1 ) {
               /** Need go offline **/
               ActionExec.disconnectEvent( icqAccountRoot );
               icqAccountRoot.session.disconnect();
-            } else {
-              if ( icqAccountRoot.statusIndex != 0 ) {
-                try {
-                  /** Plain statusIndex changing **/
-                  IcqPacketSender.setStatus( icqAccountRoot.session, ( statusId < 0x1000 ) ? statusId : 0x0000 );
-                  IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, statusId );
-                  icqAccountRoot.statusIndex = IcqStatusUtil.getStatusIndex( statusId );
-                  icqAccountRoot.isPStatusReadable = false;
-                  updateAccountsStatus();
-                } catch ( IOException ex ) {
-                  LogUtil.outMessage( "Can't set status", true );
-                }
-                SetStatusTextFrame setStatusTextFrame = new SetStatusTextFrame( icqAccountRoot, statusId );
-                setStatusTextFrame.s_prevWindow = MainFrame.this;
-                MidletMain.screen.setActiveWindow( setStatusTextFrame );
+            } else if ( icqAccountRoot.statusIndex != 0 ) {
+              try {
+                /** Plain statusIndex changing **/
+                icqAccountRoot.statusIndex = statusIndex;
+                icqAccountRoot.loadStatus( statusIndex );
+                IcqPacketSender.setStatus( icqAccountRoot.session, ( statusId < 0x1000 ) ? statusId : 0x0000 );
+                IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, statusId );
+                updateAccountsStatus();
+              } catch ( IOException ex ) {
+                LogUtil.outMessage( "Can't set status", true );
               }
+              SetStatusTextFrame setStatusTextFrame = new SetStatusTextFrame( icqAccountRoot, statusIndex );
+              setStatusTextFrame.s_prevWindow = MainFrame.this;
+              MidletMain.screen.setActiveWindow( setStatusTextFrame );
             }
           }
         }
@@ -1317,6 +1313,7 @@ public class MainFrame extends Window {
     int statusImageHashCode = "/res/groups/img_mmpstatus.png".hashCode();
     for ( int c = 0; c < MmpStatusUtil.getStatusCount(); c++ ) {
       final long statusId = MmpStatusUtil.getStatus( c );
+      final int statusIndex = c;
       if ( Localization.getMessage( MmpStatusUtil.getStatusDescr( c ) ).equals( Localization._DEFAULT_STRING ) ) {
         continue;
       }
@@ -1324,26 +1321,30 @@ public class MainFrame extends Window {
         public void actionPerformed() {
           final MmpAccountRoot mmpAccountRoot = ( MmpAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
           /** Status is selected **/
-          if ( mmpAccountRoot.statusIndex == 0 && statusId != 0 ) {
+          if ( mmpAccountRoot.statusIndex == 0 && statusIndex != 0 ) {
             /** Need to connect **/
-            mmpAccountRoot.connectAction( MmpStatusUtil.getStatusIndex( statusId ) );
+            mmpAccountRoot.loadStatus( statusIndex );
+            mmpAccountRoot.connectAction( statusIndex );
           } else {
-            if ( mmpAccountRoot.statusIndex != 0 && statusId == 0 ) {
+            if ( mmpAccountRoot.statusIndex != 0 && statusIndex == 0 ) {
               /** Need go offline **/
               ActionExec.disconnectEvent( mmpAccountRoot );
               mmpAccountRoot.session.disconnect();
             } else {
               if ( mmpAccountRoot.statusIndex != 0 ) {
                 try {
+                  mmpAccountRoot.statusIndex = statusIndex;
+                  mmpAccountRoot.loadStatus( statusIndex );
                   /** Plain statusIndex changing **/
                   MmpPacketSender.MRIM_CS_CHANGE_STATUS( mmpAccountRoot,
                           statusId, mmpAccountRoot.statusText );
-                  mmpAccountRoot.statusIndex =
-                          MmpStatusUtil.getStatusIndex( statusId );
                   updateAccountsStatus();
                 } catch ( IOException ex ) {
                   LogUtil.outMessage( "Can't set status", true );
                 }
+                SetStatusTextFrame setStatusTextFrame = new SetStatusTextFrame( mmpAccountRoot, statusIndex );
+                setStatusTextFrame.s_prevWindow = MainFrame.this;
+                MidletMain.screen.setActiveWindow( setStatusTextFrame );
               }
             }
           }

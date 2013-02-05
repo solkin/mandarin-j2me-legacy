@@ -22,8 +22,6 @@ import java.util.Vector;
  */
 public class MmpAccountRoot extends AccountRoot {
 
-  /** Data **/
-  public String statusText = "Mandarin";
   /** Runtime **/
   public Stack queueActionStack;
   public MmpGroup phoneGroup = null;
@@ -194,6 +192,16 @@ public class MmpAccountRoot extends AccountRoot {
   }
 
   public void setPrivateItems( Vector privateList ) {
+  }
+
+  public void setStatusText( String statusText, boolean isStatusReadable ) {
+    super.setStatusText( statusText, isStatusReadable );
+    try {
+      MmpPacketSender.MRIM_CS_CHANGE_STATUS( this,
+              MmpStatusUtil.getStatus( statusIndex ), statusText );
+    } catch ( IOException ex ) {
+      LogUtil.outMessage( "Error while sending status in MMP" );
+    }
   }
 
   public BuddyGroup getGroupInstance() {

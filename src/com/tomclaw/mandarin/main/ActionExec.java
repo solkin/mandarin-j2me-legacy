@@ -227,9 +227,9 @@ public class ActionExec {
   public static void sendStatusMessage( IcqAccountRoot icqAccountRoot, byte[] msgCookie, String screenName ) {
     IcqItem icqItem = icqAccountRoot.getBuddy( screenName );
     icqAccountRoot.getServiceMessages().addMessage( screenName, icqItem != null ? icqItem.getUserNick() : screenName,
-            Localization.getMessage( "REQUEST_STATUS" ) + " " + ( icqAccountRoot.isPStatusReadable ? Localization.getMessage( "STATUS_SENT" ) : Localization.getMessage( "STATUS_NOT_SENT" ) ),
+            Localization.getMessage( "REQUEST_STATUS" ) + " " + ( icqAccountRoot.isStatusReadable ? Localization.getMessage( "STATUS_SENT" ) : Localization.getMessage( "STATUS_NOT_SENT" ) ),
             ServiceMessages.TYPE_MSTATUS_READ );
-    if ( icqAccountRoot.isPStatusReadable && !MidletMain.getBoolean( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "DISABLE_PSTATUS_READING" )
+    if ( icqAccountRoot.isStatusReadable && !MidletMain.getBoolean( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "DISABLE_PSTATUS_READING" )
             || ( MidletMain.getBoolean( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "SEND_SPECIAL_PSTATUS" ) && ( !MidletMain.getBoolean( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "DISABLE_PSTATUS_READING" ) ) ) ) {
       try {
         String pStatus;

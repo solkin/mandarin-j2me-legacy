@@ -45,8 +45,6 @@ public class MmpPacketSender {
             MmpStatusUtil.getStatusIndex( statusId ) ) ) ) ) );
     packet.data.append( DataUtil.mmputil_prepareBytesWthLength(
             StringUtil.string1251ToByteArray( statusString ) ) );
-    // DataUtil.put32_reversed( temp, 0, 0x00 );
-    // packet.data.append( temp );
     if ( isSendClientInfo ) {
       DataUtil.put32_reversed( temp, 0, MmpSession.clientId.length()
               + MmpSession.mraVer.length() );
@@ -57,7 +55,7 @@ public class MmpPacketSender {
               MmpSession.mraVer ) );
       packet.data.append( temp );
     } else {
-      DataUtil.put32_reversed( temp, 0, -1 );
+      DataUtil.put32_reversed( temp, 0, 0 );
       packet.data.append( temp );
     }
   }

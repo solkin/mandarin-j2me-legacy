@@ -21,6 +21,9 @@ public abstract class AccountRoot {
   public String port = "";
   protected Vector buddyItems = new Vector();
   public int statusIndex = 0;
+  public String statusText = "Mandarin ".concat( MidletMain.version ).concat( " [" ).concat( MidletMain.build.concat( "]" ) );
+  ;
+  public boolean isStatusReadable = true;
   private String buddyListFile = null;
   public boolean isUseSsl = false;
   /** Frames and managers **/
@@ -55,6 +58,11 @@ public abstract class AccountRoot {
     host = MidletMain.getString( MidletMain.accounts, userId, "host" );
     port = MidletMain.getString( MidletMain.accounts, userId, "port" );
     if ( isStart ) {
+      loadStatus( statusIndex );
+      /*String statusData = MidletMain.getString( MidletMain.statuses, "PStatus", String.valueOf( statusIndex ) );
+       statusText = statusData.substring( 0, ( statusData.indexOf( "&rdb" ) == -1 ) ? statusData.length() : statusData.indexOf( "&rdb" ) );
+       isStatusReadable = ( statusData.indexOf( "&rdb" ) == -1 )
+       ? false : statusData.substring( statusData.indexOf( "&rdb" ) + 4 ).equals( "true" );*/
       /** Settings **/
       isShowGroups = MidletMain.getBoolean( MidletMain.accounts, userId, "isShowGroups" );
       isShowOffline = MidletMain.getBoolean( MidletMain.accounts, userId, "isShowOffline" );
@@ -128,6 +136,12 @@ public abstract class AccountRoot {
 
   public Vector getBuddyItems() {
     return buddyItems;
+  }
+
+  public void setStatusText( String statusText, boolean isStatusReadable ) {
+    this.statusText = statusText;
+    this.isStatusReadable = isStatusReadable;
+    saveAllSettings();
   }
 
   public void setBuddyItems( Vector buddyItems ) {
@@ -215,6 +229,19 @@ public abstract class AccountRoot {
     isReset = true;
   }
 
+  public void loadStatus( int statusIndex ) {
+    String statusData = MidletMain.getString( MidletMain.statuses,
+            "PStatus_".concat( getAccType().toUpperCase() ),
+            String.valueOf( statusIndex ) );
+    statusText = statusData.substring( 0,
+            ( statusData.indexOf( "&rdb" ) == -1 )
+            ? statusData.length() : statusData.indexOf( "&rdb" ) );
+    isStatusReadable = ( statusData.indexOf( "&rdb" ) == -1 ) ? false
+            : statusData.substring( statusData.indexOf( "&rdb" ) + 4 )
+            .equals( "true" );
+    System.out.println("loadStatus: " + statusText + " [" + isStatusReadable + "]");
+  }
+
   public void setShowGroups( boolean isShowGroups ) {
     this.isShowGroups = isShowGroups;
   }
@@ -250,11 +277,11 @@ public abstract class AccountRoot {
   public abstract Cookie removeGroup( BuddyGroup buddyGroup ) throws IOException;
 
   public abstract BuddyItem getBuddyInstance();
-  
+
   public abstract BuddyGroup getGroupInstance();
 
   public TransactionManager getTransactionManager() {
-    if(transactionManager == null) {
+    if ( transactionManager == null ) {
       transactionManager = new TransactionManager();
     }
     return transactionManager;
@@ -281,5 +308,6 @@ public abstract class AccountRoot {
   public abstract DirectConnection getDirectConnectionInstance();
 
   public abstract int getNextBuddyId();
+
   public abstract int getNextGroupId();
 }

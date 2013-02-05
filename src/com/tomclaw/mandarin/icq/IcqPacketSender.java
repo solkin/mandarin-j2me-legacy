@@ -5,6 +5,7 @@ import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tompacket.PacketBuilder;
 import com.tomclaw.utils.ArrayUtil;
 import com.tomclaw.utils.DataUtil;
+import com.tomclaw.utils.HexUtil;
 import com.tomclaw.utils.LogUtil;
 import java.io.IOException;
 import java.util.Hashtable;
@@ -74,7 +75,7 @@ public class IcqPacketSender {
     Snac snac = new Snac( 0x0001, 0x001e, 0, 0, cookie.cookieValue );
     snac.addByteArray( new byte[] {
               ( byte ) 0x00, ( byte ) 0x06, ( byte ) 0x00, ( byte ) 0x04 } );
-    snac.addWord( 0x0001 );
+    snac.addWord( 0x0001 ); // Web-aware
     snac.addWord( statusId );
     snac.send( icqSession.getNetworkConnection(), icqSession.getNextSeq() );
     return cookie;
