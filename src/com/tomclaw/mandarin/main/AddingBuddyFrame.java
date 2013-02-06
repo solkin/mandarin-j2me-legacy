@@ -63,15 +63,15 @@ public class AddingBuddyFrame extends Window {
                 switch ( winType ) {
                   case TYPE_MMP:
                   case TYPE_PHONE: {
-                    ( ( MmpItem ) buddyItem ).contactId =
+                    ( ( MmpItem ) this.buddyItem ).contactId =
                             ( ( Long ) params.get( "contactId" ) ).longValue();
                     break;
                   }
                 }
-                getBuddyGroup().addChild( buddyItem );
+                getBuddyGroup().addChild( this.buddyItem );
                 LogUtil.outMessage( "Action Performed" );
-                buddyItem.updateUiData();
-                accountRoot.updateOfflineBuddylist();
+                this.buddyItem.updateUiData();
+                this.accountRoot.updateOfflineBuddylist();
               }
             };
             queueAction.setBuddyGroup( groupItem );

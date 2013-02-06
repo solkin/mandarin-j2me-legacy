@@ -44,12 +44,12 @@ public class RenameItemFrame extends Window {
             QueueAction queueAction = new QueueAction( accountRoot, buddyItem, cookie ) {
               public void actionPerformed( Hashtable params ) {
                 LogUtil.outMessage( "Action Performed" );
-                buddyItem.setUserNick( itemNameField.getText() );
+                this.buddyItem.setUserNick( itemNameField.getText() );
                 if ( isPhone ) {
-                  buddyItem.setUserPhone( phoneNumberField.getText() );
+                  this.buddyItem.setUserPhone( phoneNumberField.getText() );
                 }
-                buddyItem.updateUiData();
-                accountRoot.updateOfflineBuddylist();
+                this.buddyItem.updateUiData();
+                this.accountRoot.updateOfflineBuddylist();
               }
             };
             LogUtil.outMessage( "QueueAction created" );
@@ -110,9 +110,9 @@ public class RenameItemFrame extends Window {
             QueueAction queueAction = new QueueAction( accountRoot, buddyGroup, cookie ) {
               public void actionPerformed( Hashtable params ) {
                 LogUtil.outMessage( "Action Performed" );
-                buddyGroup.setUserId( itemNameField.getText() );
-                buddyGroup.updateUiData();
-                accountRoot.updateOfflineBuddylist();
+                this.buddyGroup.setUserId( itemNameField.getText() );
+                this.buddyGroup.updateUiData();
+                this.accountRoot.updateOfflineBuddylist();
               }
             };
             LogUtil.outMessage( "QueueAction created" );

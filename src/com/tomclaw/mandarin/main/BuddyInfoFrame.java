@@ -74,9 +74,9 @@ public class BuddyInfoFrame extends Window {
               accountRoot, buddyItem, cookie ) {
         public void actionPerformed( Hashtable params ) {
           LogUtil.outMessage( "Action Performed" );
-          buddyItem.setUserNick( buddyInfo.nickName );
-          buddyItem.updateUiData();
-          accountRoot.updateOfflineBuddylist();
+          this.buddyItem.setUserNick( buddyInfo.nickName );
+          this.buddyItem.updateUiData();
+          this.accountRoot.updateOfflineBuddylist();
         }
       };
       LogUtil.outMessage( "QueueAction created" );
