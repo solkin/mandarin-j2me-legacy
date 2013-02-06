@@ -127,6 +127,7 @@ public class MmpSession implements Runnable {
     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength( passwrd ) );
     /** Appending status chunk **/
     MmpPacketSender.appendStatusChunk( packet, statusId, statusString, true );
+    // MmpPacketSender.MRIM_CS_CHANGE_STATUS( mmpAccountRoot, statusId, statusString );
     packet.send( netConnection );
     LogUtil.outMessage( "Login sent" );
     ActionExec.setConnectionStage( mmpAccountRoot, 8 );

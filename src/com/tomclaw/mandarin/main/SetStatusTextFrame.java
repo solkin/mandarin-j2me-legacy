@@ -1,5 +1,6 @@
-package com.tomclaw.mandarin.icq;
+package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.icq.IcqStatusUtil;
 import com.tomclaw.mandarin.main.AccountRoot;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.*;
@@ -73,9 +74,11 @@ public class SetStatusTextFrame extends Window {
     pane.addItem( textField );
     readableCheck = new Check( Localization.getMessage( "STATUS_READABLE" ),
             ( statusText.indexOf( "&rdb" ) == -1 ) ? false : statusText.substring( statusText.indexOf( "&rdb" ) + 4 ).equals( "true" ) );
-    readableCheck.setFocusable( isReadableEnabled );
+    readableCheck.setFocusable( true );
     readableCheck.state = true;
-    pane.addItem( readableCheck );
+    if ( isReadableEnabled ) {
+      pane.addItem( readableCheck );
+    }
     /** Applying pane **/
     setGObject( pane );
   }

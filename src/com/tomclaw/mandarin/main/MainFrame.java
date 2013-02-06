@@ -789,7 +789,7 @@ public class MainFrame extends Window {
             icqAccountRoot.loadStatus( statusIndex );
             icqAccountRoot.connectAction( statusIndex );
           } else {
-            if ( icqAccountRoot.statusIndex != 0 && statusIndex == -1 ) {
+            if ( icqAccountRoot.statusIndex != 0 && statusIndex == 0 ) {
               /** Need go offline **/
               ActionExec.disconnectEvent( icqAccountRoot );
               icqAccountRoot.session.disconnect();
