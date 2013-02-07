@@ -181,6 +181,7 @@ public class MmpSession implements Runnable {
         }
         MidletMain.pack_count++;
       } catch ( Throwable ex ) {
+        ex.printStackTrace();
         if ( isAlive ) {
           isError = true;
           isAlive = false;

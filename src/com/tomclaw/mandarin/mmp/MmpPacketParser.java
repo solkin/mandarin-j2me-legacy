@@ -34,11 +34,11 @@ public class MmpPacketParser {
         offset += 4;
         int maskLength = ( int ) DataUtil.get32_reversed( packet.data.byteString, offset, true );
         offset += 4;
-        String groupMask = new String( DataUtil.getByteArray( packet.data.byteString, offset, maskLength ) );
+        String groupMask = StringUtil.byteArrayToString( DataUtil.getByteArray( packet.data.byteString, offset, maskLength ), false );
         offset += maskLength;
         maskLength = ( int ) DataUtil.get32_reversed( packet.data.byteString, offset, true );
         offset += 4;
-        String buddyMask = new String( DataUtil.getByteArray( packet.data.byteString, offset, maskLength ) );
+        String buddyMask = StringUtil.byteArrayToString( DataUtil.getByteArray( packet.data.byteString, offset, maskLength ), false );
         offset += maskLength;
         Vector buddyList = new Vector();
         long contactIdIncrm = 0;
@@ -111,8 +111,8 @@ public class MmpPacketParser {
               case 2: { // s
                 // Address
                 int nameLength = ( int ) DataUtil.get32( packet.data.byteString, offset, false );
-                mmpItem.userId = new String( DataUtil.getByteArray( packet.data.byteString,
-                        offset += 4, nameLength ) );
+                mmpItem.userId = StringUtil.byteArrayToString( DataUtil.getByteArray( packet.data.byteString,
+                        offset += 4, nameLength ), false );
                 offset += nameLength;
                 break;
               }
@@ -141,8 +141,8 @@ public class MmpPacketParser {
               case 6: { // s
                 // Phone
                 int nameLength = ( int ) DataUtil.get32( packet.data.byteString, offset, false );
-                mmpItem.userPhone = new String( DataUtil.getByteArray( packet.data.byteString,
-                        offset += 4, nameLength ) );
+                mmpItem.userPhone = StringUtil.byteArrayToString( DataUtil.getByteArray( packet.data.byteString,
+                        offset += 4, nameLength ), false );
                 offset += nameLength;
                 break;
               }
@@ -151,8 +151,8 @@ public class MmpPacketParser {
                 int length = ( int ) DataUtil.get32( packet.data.byteString, offset, false );
                 offset += 4;
                 if ( length > 0 ) {
-                  String statusIdString = new String( DataUtil.getByteArray( packet.data.byteString,
-                          offset, length ) );
+                  String statusIdString = StringUtil.byteArrayToString( DataUtil.getByteArray( packet.data.byteString,
+                          offset, length ), false );
                   offset += length;
                   if ( !StringUtil.isNullOrEmpty( statusIdString ) ) {
                     mmpItem.setStatusIndex( MmpStatusUtil.getStatusIndex( statusIdString ), null );
@@ -218,25 +218,25 @@ public class MmpPacketParser {
       offset += 4;
       int nameLength = ( int ) DataUtil.get32_reversed( packet.data.byteString, offset, true );
       offset += 4;
-      String statusIdString = new String( DataUtil.getByteArray( packet.data.byteString, offset, nameLength ) );
+      String statusIdString = StringUtil.byteArrayToString( DataUtil.getByteArray( packet.data.byteString, offset, nameLength ), false );
       offset += nameLength;
       nameLength = ( int ) DataUtil.get32_reversed( packet.data.byteString, offset, true );
       offset += 4;
-      String statusString = new String( DataUtil.getByteArray( packet.data.byteString, offset, nameLength ) );
+      String statusString = StringUtil.byteArrayToString( DataUtil.getByteArray( packet.data.byteString, offset, nameLength ), false );
       offset += nameLength;
       nameLength = ( int ) DataUtil.get32_reversed( packet.data.byteString, offset, true );
       offset += 4;
-      String statusDescr = new String( DataUtil.getByteArray( packet.data.byteString, offset, nameLength ) );
+      String statusDescr = StringUtil.byteArrayToString( DataUtil.getByteArray( packet.data.byteString, offset, nameLength ), false );
       offset += nameLength;
       nameLength = ( int ) DataUtil.get32_reversed( packet.data.byteString, offset, true );
       offset += 4;
-      String userMail = new String( DataUtil.getByteArray( packet.data.byteString, offset, nameLength ) );
+      String userMail = StringUtil.byteArrayToString( DataUtil.getByteArray( packet.data.byteString, offset, nameLength ), false );
       offset += nameLength;
       long clientFlags = DataUtil.get32_reversed( packet.data.byteString, offset, true );
       offset += 4;
       nameLength = ( int ) DataUtil.get32_reversed( packet.data.byteString, offset, true );
       offset += 4;
-      String clientIdString = new String( DataUtil.getByteArray( packet.data.byteString, offset, nameLength ) );
+      String clientIdString = StringUtil.byteArrayToString( DataUtil.getByteArray( packet.data.byteString, offset, nameLength ), false );
       offset += nameLength;
       LogUtil.outMessage( "userMail = " + userMail );
       LogUtil.outMessage( "userStatus = " + userStatus );
@@ -257,7 +257,7 @@ public class MmpPacketParser {
       offset += 4;
       int stringLength = ( int ) DataUtil.get32_reversed( packet.data.byteString, offset, true );
       offset += 4;
-      String userMail = new String( DataUtil.getByteArray( packet.data.byteString, offset, stringLength ) );
+      String userMail = StringUtil.byteArrayToString( DataUtil.getByteArray( packet.data.byteString, offset, stringLength ), false );
       offset += stringLength;
       stringLength = ( int ) DataUtil.get32_reversed( packet.data.byteString, offset, true );
       offset += 4;
@@ -383,7 +383,7 @@ public class MmpPacketParser {
         for ( int c = 0; c < fieldNum; c++ ) {
           long fieldLength = DataUtil.get32_reversed( packet.data.byteString, offset, true );
           offset += 4;
-          fields[c] = new String( DataUtil.getByteArray( packet.data.byteString, offset, ( int ) fieldLength ) );
+          fields[c] = StringUtil.byteArrayToString( DataUtil.getByteArray( packet.data.byteString, offset, ( int ) fieldLength ) );
           offset += fieldLength;
         }
         BuddyInfo buddyInfo = new BuddyInfo();
@@ -393,10 +393,9 @@ public class MmpPacketParser {
           byte[] value = ( DataUtil.getByteArray( packet.data.byteString, offset, ( int ) fieldLength ) );
           offset += fieldLength;
           if ( fields[c].equals( "Username" ) ) {
-            buddyInfo.buddyId = new String( value );
+            buddyInfo.buddyId = StringUtil.byteArrayToString( value );
           } else if ( fields[c].equals( "Domain" ) ) {
-            buddyInfo.buddyId += "@" + new String( value );
-            // buddyInfo.addKeyValue( "DOMAIN", new String( value ) );
+            buddyInfo.buddyId += "@" + StringUtil.byteArrayToString( value );
           } else if ( fields[c].equals( "Nickname" ) ) {
             buddyInfo.nickName = StringUtil.getWin1251( value );
           } else if ( fields[c].equals( "FirstName" ) ) {
@@ -419,28 +418,27 @@ public class MmpPacketParser {
             buddyInfo.addKeyValue( "GENDER_LABEL", sexString );
             // mailInfo.sex = 
           } else if ( fields[c].equals( "Birthday" ) ) {
-            buddyInfo.addKeyValue( "BIRTH_DATE_LABEL", new String( value ) );
-            // mailInfo.birthday = new String(value);
+            buddyInfo.addKeyValue( "BIRTH_DATE_LABEL", StringUtil.byteArrayToString( value ) );
           } else if ( fields[c].equals( "City_id" ) ) {
-            // mailInfo.cityId = Integer.parseInt(new String(value));
+            // mailInfo.cityId = Integer.parseInt(StringUtil.byteArrayToString(value, false));
           } else if ( fields[c].equals( "Location" ) ) {
             buddyInfo.addKeyValue( "LOCATION", StringUtil.getWin1251( value ) );
             // mailInfo.location = StringUtil.getWin1251(value);
           } else if ( fields[c].equals( "Zodiac" ) ) {
-            // mailInfo.zodiac = Integer.parseInt(new String(value));
+            // mailInfo.zodiac = Integer.parseInt(StringUtil.byteArrayToString(value, false));
           } else if ( fields[c].equals( "BMonth" ) ) {
-            // mailInfo.bMonth = Integer.parseInt(new String(value));
+            // mailInfo.bMonth = Integer.parseInt(StringUtil.byteArrayToString(value, false));
           } else if ( fields[c].equals( "BDay" ) ) {
-            // mailInfo.bDay = Integer.parseInt(new String(value));
+            // mailInfo.bDay = Integer.parseInt(StringUtil.byteArrayToString(value, false));
           } else if ( fields[c].equals( "Country_id" ) ) {
-            // mailInfo.countryId = Integer.parseInt(new String(value));
+            // mailInfo.countryId = Integer.parseInt(StringUtil.byteArrayToString(value, false));
           } else if ( fields[c].equals( "Phone" ) ) {
-            buddyInfo.addKeyValue( "VALIDATED_CELLULAR_LABEL", new String( value ) );
-            // mailInfo.phone = new String(value);
+            buddyInfo.addKeyValue( "VALIDATED_CELLULAR_LABEL", StringUtil.getWin1251( value ) );
+            // mailInfo.phone = StringUtil.byteArrayToString(value, false);
           } else if ( fields[c].equals( "mrim_status" ) ) {
             // mailInfo.mrimStatus = value.length >= 4 ? DataUtil.get32_reversed(value, 0, true) : 0;
           } else if ( fields[c].equals( "status_uri" ) ) {
-            // mailInfo.statusUri = new String(value);
+            // mailInfo.statusUri = StringUtil.byteArrayToString(value, false);
           } else if ( fields[c].equals( "status_title" ) ) {
             buddyInfo.addKeyValue( "STATUSTITLE", StringUtil.getWin1251( value ) );
             // mailInfo.statusTitle = StringUtil.getWin1251(value);

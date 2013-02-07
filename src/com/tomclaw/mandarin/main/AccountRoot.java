@@ -195,9 +195,9 @@ public abstract class AccountRoot {
   public abstract String getStatusImages();
 
   public void offlineAllBuddyes() {
-    BuddyGroup tempGroupItem;
+    GroupHeader tempGroupItem;
     for ( int i = 0; i < buddyItems.size(); i++ ) {
-      tempGroupItem = ( ( BuddyGroup ) buddyItems.elementAt( i ) );
+      tempGroupItem = ( ( GroupHeader ) buddyItems.elementAt( i ) );
       for ( int j = 0; j < ( ( GroupHeader ) tempGroupItem ).getChildsCount(); j++ ) {
         BuddyItem tempIcqItem = ( ( BuddyItem ) tempGroupItem.getChilds().elementAt( j ) );
         tempIcqItem.setStatusIndex( 0, null );
