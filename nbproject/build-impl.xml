@@ -395,6 +395,18 @@
         <jar jarfile="${obfuscator.srcjar}" basedir="${buildsystem.baton}"/>
         <property name="obfuscation.custom" value=""/>
         <nb-obfuscate srcjar="${obfuscator.srcjar}" destjar="${obfuscator.destjar}" obfuscatorclasspath="${obfuscator.classpath}" classpath="${platform.bootclasspath}:${extra.classpath}" obfuscationLevel="${obfuscation.level}" extraScript="${obfuscation.custom}"/>
+        <copy file="${obfuscator.destjar}" tofile="${obfuscator.srcjar}" overwrite="true" failonerror="false"/>
+        <nb-obfuscate srcjar="${obfuscator.srcjar}" destjar="${obfuscator.destjar}" obfuscatorclasspath="${obfuscator.classpath}" classpath="${platform.bootclasspath}:${extra.classpath}" obfuscationLevel="${obfuscation.level}" extraScript="${obfuscation.custom}"/>
+        <copy file="${obfuscator.destjar}" tofile="${obfuscator.srcjar}" overwrite="true" failonerror="false"/>
+        <nb-obfuscate srcjar="${obfuscator.srcjar}" destjar="${obfuscator.destjar}" obfuscatorclasspath="${obfuscator.classpath}" classpath="${platform.bootclasspath}:${extra.classpath}" obfuscationLevel="${obfuscation.level}" extraScript="${obfuscation.custom}"/>
+        <copy file="${obfuscator.destjar}" tofile="${obfuscator.srcjar}" overwrite="true" failonerror="false"/>
+        <nb-obfuscate srcjar="${obfuscator.srcjar}" destjar="${obfuscator.destjar}" obfuscatorclasspath="${obfuscator.classpath}" classpath="${platform.bootclasspath}:${extra.classpath}" obfuscationLevel="${obfuscation.level}" extraScript="${obfuscation.custom}"/>
+        <copy file="${obfuscator.destjar}" tofile="${obfuscator.srcjar}" overwrite="true" failonerror="false"/>
+        <nb-obfuscate srcjar="${obfuscator.srcjar}" destjar="${obfuscator.destjar}" obfuscatorclasspath="${obfuscator.classpath}" classpath="${platform.bootclasspath}:${extra.classpath}" obfuscationLevel="${obfuscation.level}" extraScript="${obfuscation.custom}"/>
+        <copy file="${obfuscator.destjar}" tofile="${obfuscator.srcjar}" overwrite="true" failonerror="false"/>
+        <nb-obfuscate srcjar="${obfuscator.srcjar}" destjar="${obfuscator.destjar}" obfuscatorclasspath="${obfuscator.classpath}" classpath="${platform.bootclasspath}:${extra.classpath}" obfuscationLevel="${obfuscation.level}" extraScript="${obfuscation.custom}"/>
+        <copy file="${obfuscator.destjar}" tofile="${obfuscator.srcjar}" overwrite="true" failonerror="false"/>
+        <nb-obfuscate srcjar="${obfuscator.srcjar}" destjar="${obfuscator.destjar}" obfuscatorclasspath="${obfuscator.classpath}" classpath="${platform.bootclasspath}:${extra.classpath}" obfuscationLevel="${obfuscation.level}" extraScript="${obfuscation.custom}"/>
         <mkdir dir="${obfuscated.classes.dir}"/>
         <unjar src="${obfuscator.destjar}" dest="${obfuscated.classes.dir}"/>
         <nb-overrideproperty name="buildsystem.baton" value="${obfuscated.classes.dir}"/>
