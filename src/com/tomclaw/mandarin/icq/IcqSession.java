@@ -471,7 +471,6 @@ public class IcqSession implements Runnable {
      */
     snac = new Snac( 0x0002, 0x0002, 0, 0, 9 );
     snac.send( netConnection, ++seq );
-
     /**
      * Server replies via location service limitations
      */
@@ -479,97 +478,30 @@ public class IcqSession implements Runnable {
     /**
      * Client sends its capabilities / profile to server
      */
-    /*snac = new Snac(0x0002, 0x0004, 0, 0, 0x0004);
-        
-     byte defSize = (byte) 0xB0;
-     snac.addByteArray(new byte[]{
-     (byte) 0x00, (byte) 0x05, (byte) 0x00, defSize,
-     (byte) 0x09, (byte) 0x46, (byte) 0x13, (byte) 0x44,
-     (byte) 0x4C, (byte) 0x7F, (byte) 0x11, (byte) 0xD1,
-     (byte) 0x82, (byte) 0x22, (byte) 0x44, (byte) 0x45,
-     (byte) 0x53, (byte) 0x54, (byte) 0x00, (byte) 0x00,
-     (byte) 0x4D, (byte) 0x61, (byte) 0x6E, (byte) 0x64, //Mand
-     (byte) 0x61, (byte) 0x72, (byte) 0x69, (byte) 0x6E,
-     (byte) 0x20, (byte) 0x49, (byte) 0x4D, (byte) 0x00,
-     (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
-     (byte) 0x54, (byte) 0x6F, (byte) 0x6D, (byte) 0x43, //TC
-     (byte) 0x6C, (byte) 0x61, (byte) 0x77, (byte) 0x20,
-     (byte) 0x53, (byte) 0x6F, (byte) 0x66, (byte) 0x74,
-     (byte) 0x77, (byte) 0x61, (byte) 0x72, (byte) 0x65,
-     (byte) 0x97, (byte) 0xB1, (byte) 0x27, (byte) 0x51, //RTF
-     (byte) 0x24, (byte) 0x3C, (byte) 0x43, (byte) 0x34,
-     (byte) 0xAD, (byte) 0x22, (byte) 0xD6, (byte) 0xAB,
-     (byte) 0xF7, (byte) 0x3F, (byte) 0x14, (byte) 0x92,
-     (byte) 0x09, (byte) 0x46, (byte) 0x13, (byte) 0x43, //Send.f
-     (byte) 0x4C, (byte) 0x7F, (byte) 0x11, (byte) 0xD1,
-     (byte) 0x82, (byte) 0x22, (byte) 0x44, (byte) 0x45,
-     (byte) 0x53, (byte) 0x54, (byte) 0x00, (byte) 0x00,
-     (byte) 0x09, (byte) 0x46, (byte) 0x13, (byte) 0x49, //Channel2
-     (byte) 0x4C, (byte) 0x7F, (byte) 0x11, (byte) 0xD1,
-     (byte) 0x82, (byte) 0x22, (byte) 0x44, (byte) 0x45,
-     (byte) 0x53, (byte) 0x54, (byte) 0x00, (byte) 0x00,
-     (byte) 0x54, (byte) 0x43, (byte) 0x20, (byte) 0x48, //HLMP Support
-     (byte) 0x4C, (byte) 0x4D, (byte) 0x50, (byte) 0x20,
-     (byte) 0x53, (byte) 0x75, (byte) 0x70, (byte) 0x70,
-     (byte) 0x6F, (byte) 0x72, (byte) 0x74, (byte) 0x00,
-     (byte) 0x56, (byte) 0x3f, (byte) 0xc8, (byte) 0x09, //Typing notify
-     (byte) 0x0b, (byte) 0x6f, (byte) 0x41, (byte) 0xbd,
-     (byte) 0x9f, (byte) 0x79, (byte) 0x42, (byte) 0x26,
-     (byte) 0x09, (byte) 0xdf, (byte) 0xa2, (byte) 0xf3,
-     (byte) 0x09, (byte) 0x46, (byte) 0x13, (byte) 0x4e, //UTF-8 messages
-     (byte) 0x4c, (byte) 0x7f, (byte) 0x11, (byte) 0xd1,
-     (byte) 0x82, (byte) 0x22, (byte) 0x44, (byte) 0x45,
-     (byte) 0x53, (byte) 0x54, (byte) 0x00, (byte) 0x00,
-     (byte) 0x1A, (byte) 0x09, (byte) 0x3C, (byte) 0x6C, //XTRAZ
-     (byte) 0xD7, (byte) 0xFD, (byte) 0x4E, (byte) 0xC5,
-     (byte) 0x9D, (byte) 0x51, (byte) 0xA6, (byte) 0x47,
-     (byte) 0x4E, (byte) 0x34, (byte) 0xF5, (byte) 0xA0,
-     (byte) 0x09, (byte) 0x46, (byte) 0x13, (byte) 0x4C, // Avatars
-     (byte) 0x4C, (byte) 0x7F, (byte) 0x11, (byte) 0xD1,
-     (byte) 0x82, (byte) 0x22, (byte) 0x44, (byte) 0x45,
-     (byte) 0x53, (byte) 0x54, (byte) 0x00, (byte) 0x00
-     });
-     snac.send(netConnection, ++seq);*/
     IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, initStatus );
-
     /**
      * Client ask server BLM service limitations
      */
     snac = new Snac( 0x0003, 0x0002, 0, 0, 10 );
     snac.send( netConnection, ++seq );
-
     ActionExec.setConnectionStage( icqAccountRoot, 8 );
     /**
      * Server replies via BLM service limitations
      */
-    receiveAllPackets();
-
+    // REMOVED: receiveAllPackets();
     /**
      * Client ask server ICBM service parameters
      */
     snac = new Snac( 0x0004, 0x0004, 0, 0, 11 );
     snac.send( netConnection, ++seq );
-
     /**
      * Server sends ICBM service parameters to client
      */
-    receiveAllPackets();
-
+    // REMOVED: receiveAllPackets();
     /**
      * ICBM parameters could be changed here by SNAC (0x04, 0x02)
      */
     snac = new Snac( 0x0004, 0x0002, 0, 0, 12 );
-    /*// Channel to set up
-     snac.addWord(0x1f40);
-     // Max message snac size
-     snac.addWord(0x1f40);
-     // Max sender warning level
-     snac.addWord(0x03e7);
-     // Minimum message interval
-     snac.addWord(0x0000);
-     // Max receiver warning level
-     snac.addWord(0x03e8);*/
-
     // Channel to set up
     snac.addWord( 0x0000 );
     // Message flags
@@ -584,24 +516,19 @@ public class IcqSession implements Runnable {
     snac.addWord( 0x0000 );
     // Unknown parameter 0x0000
     snac.addWord( 0x0000 );
-
     snac.send( netConnection, ++seq );
     /** Server sends ICBM service parameters to client **/
     // receiveAllPackets();
     /** Client ask server PRM service limitations **/
     snac = new Snac( 0x0009, 0x0002, 0, 0, 13 );
     snac.send( netConnection, ++seq );
-
     /** Server sends PRM service limitations to client **/
-    receiveAllPackets();
-
+    // REMOVED: receiveAllPackets();
     /** Client ask server for SSI service limitations **/
     snac = new Snac( 0x0013, 0x0002, 0, 0, 14 );
     snac.send( netConnection, ++seq );
-
     /** Server sends SSI service limitations to client **/
-    receiveAllPackets();
-
+    // REMOVED: receiveAllPackets();
     ActionExec.setConnectionStage( icqAccountRoot, 9 );
     /** Client requests SSI **/
     snac = new Snac( 0x0013, 0x0004, 0, 0, 15 );
@@ -611,7 +538,6 @@ public class IcqSession implements Runnable {
     /** Client activates server SSI data **/
     snac = new Snac( 0x0013, 0x0007, 0, 0, 16 );
     snac.send( netConnection, ++seq );
-
     /*****************************************************
      ************** Final actions ************************
      *****************************************************/

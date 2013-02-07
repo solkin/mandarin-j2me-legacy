@@ -31,6 +31,7 @@ public class ActionExec {
 
   public static void setConnectionStage( AccountRoot accountRoot, int i ) {
     LogUtil.outMessage( "setConnectionStage(".concat( accountRoot.getUserId() ).concat( ": " ).concat( String.valueOf( i ) ).concat( ")" ) );
+    System.out.println( "setConnectionStage(".concat( accountRoot.getUserId() ).concat( ": " ).concat( String.valueOf( i ) ).concat( ")" ) );
     MidletMain.mainFrame.getAccountTab( accountRoot.getUserId() ).fillPercent = 100 * i / 10;
     MidletMain.screen.repaint();
   }

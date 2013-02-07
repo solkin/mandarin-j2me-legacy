@@ -20,7 +20,8 @@ public class MmpPacketSender {
     Packet packet = new Packet();
     packet.seq = mmpAccountRoot.session.seqNum++;
     packet.msg = PacketType.MRIM_CS_CHANGE_STATUS;
-    packet.proto = 0x00010016;
+    packet.proto = 0x0001000e;
+    // packet.proto = 0x00010016;
 
     appendStatusChunk( packet, statusId, statusString, false );
 
@@ -44,7 +45,8 @@ public class MmpPacketSender {
             Localization.getMessage( MmpStatusUtil.getStatusDescr(
             MmpStatusUtil.getStatusIndex( statusId ) ) ) ) ) );
     packet.data.append( DataUtil.mmputil_prepareBytesWthLength(
-            StringUtil.string1251ToByteArray( statusString ) ) );
+            // StringUtil.string1251ToByteArray( statusString ) ) ); // for protocol version 0x00010016
+            StringUtil.stringToByteArray( statusString, false ) ) ); // for protocol version 0x0001000e
     if ( isSendClientInfo ) {
       DataUtil.put32_reversed( temp, 0, MmpSession.clientId.length()
               + MmpSession.mraVer.length() );

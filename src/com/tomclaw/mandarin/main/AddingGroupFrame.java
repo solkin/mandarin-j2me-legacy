@@ -40,10 +40,10 @@ public class AddingGroupFrame extends Window {
             QueueAction queueAction = new QueueAction(
                     accountRoot, buddyGroup, cookie ) {
               public void actionPerformed( Hashtable params ) {
-                accountRoot.getBuddyItems().addElement( buddyGroup );
+                this.accountRoot.getBuddyItems().addElement( this.buddyGroup );
                 LogUtil.outMessage( "Action Performed" );
-                buddyGroup.updateUiData();
-                accountRoot.updateOfflineBuddylist();
+                this.buddyGroup.updateUiData();
+                this.accountRoot.updateOfflineBuddylist();
               }
             };
             LogUtil.outMessage( "QueueAction created" );

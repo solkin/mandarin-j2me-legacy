@@ -168,7 +168,7 @@ public class MainFrame extends Window {
               public void actionPerformed( Hashtable params ) {
                 // Removing buddyItem
                 LogUtil.outMessage( "Action Performed" );
-                Vector buddyItems = accountRoot.getBuddyItems();
+                Vector buddyItems = this.accountRoot.getBuddyItems();
                 if ( buddyItems != null && !buddyItems.isEmpty() ) {
                   LogUtil.outMessage( "BuddyItems present" );
                   for ( int c = 0; c < buddyItems.size(); c++ ) {
@@ -176,13 +176,13 @@ public class MainFrame extends Window {
                     if ( groupHeader == null || groupHeader.getChildsCount() == 0 ) {
                       continue;
                     }
-                    if ( groupHeader.getChilds().indexOf( buddyItem ) != -1 ) {
-                      groupHeader.getChilds().removeElement( buddyItem );
+                    if ( groupHeader.getChilds().indexOf( this.buddyItem ) != -1 ) {
+                      groupHeader.getChilds().removeElement( this.buddyItem );
                       LogUtil.outMessage( "Removed." );
                       break;
                     }
                   }
-                  accountRoot.updateOfflineBuddylist();
+                  this.accountRoot.updateOfflineBuddylist();
                   LogUtil.outMessage( "Updated." );
                 }
               }
@@ -197,9 +197,9 @@ public class MainFrame extends Window {
               QueueAction queueAction = new QueueAction( accountRoot, buddyGroup, cookie ) {
                 public void actionPerformed( Hashtable params ) {
                   // Removing buddyGroup
-                  accountRoot.getBuddyItems().removeElement( buddyGroup );
+                  this.accountRoot.getBuddyItems().removeElement( this.buddyGroup );
                   LogUtil.outMessage( "Action Performed" );
-                  accountRoot.updateOfflineBuddylist();
+                  this.accountRoot.updateOfflineBuddylist();
                 }
               };
               LogUtil.outMessage( "QueueAction created" );
@@ -789,7 +789,7 @@ public class MainFrame extends Window {
             icqAccountRoot.loadStatus( statusIndex );
             icqAccountRoot.connectAction( statusIndex );
           } else {
-            if ( icqAccountRoot.statusIndex != 0 && statusIndex == -1 ) {
+            if ( icqAccountRoot.statusIndex != 0 && statusIndex == 0 ) {
               /** Need go offline **/
               ActionExec.disconnectEvent( icqAccountRoot );
               icqAccountRoot.session.disconnect();
@@ -977,9 +977,9 @@ public class MainFrame extends Window {
                 public void actionPerformed( Hashtable params ) {
                   // Removing buddyItem
                   LogUtil.outMessage( "Action Performed" );
-                  ( ( IcqItem ) buddyItem ).isInPermitList = false;
-                  buddyItem.updateUiData();
-                  accountRoot.updateOfflineBuddylist();
+                  ( ( IcqItem ) this.buddyItem ).isInPermitList = false;
+                  this.buddyItem.updateUiData();
+                  this.accountRoot.updateOfflineBuddylist();
                 }
               };
               LogUtil.outMessage( "QueueAction created" );
@@ -992,10 +992,10 @@ public class MainFrame extends Window {
                 public void actionPerformed( Hashtable params ) {
                   // Removing buddyItem
                   LogUtil.outMessage( "Action Performed" );
-                  ( ( IcqItem ) buddyItem ).isInPermitList = true;
-                  ( ( IcqItem ) buddyItem ).permitBuddyId = permitBuddyId;
-                  buddyItem.updateUiData();
-                  accountRoot.updateOfflineBuddylist();
+                  ( ( IcqItem ) this.buddyItem ).isInPermitList = true;
+                  ( ( IcqItem ) this.buddyItem ).permitBuddyId = permitBuddyId;
+                  this.buddyItem.updateUiData();
+                  this.accountRoot.updateOfflineBuddylist();
                 }
               };
               LogUtil.outMessage( "QueueAction created" );
@@ -1018,9 +1018,9 @@ public class MainFrame extends Window {
                 public void actionPerformed( Hashtable params ) {
                   // Removing buddyItem
                   LogUtil.outMessage( "Action Performed" );
-                  ( ( IcqItem ) buddyItem ).isInDenyList = false;
-                  buddyItem.updateUiData();
-                  accountRoot.updateOfflineBuddylist();
+                  ( ( IcqItem ) this.buddyItem ).isInDenyList = false;
+                  this.buddyItem.updateUiData();
+                  this.accountRoot.updateOfflineBuddylist();
                 }
               };
               LogUtil.outMessage( "QueueAction created" );
@@ -1032,10 +1032,10 @@ public class MainFrame extends Window {
                 public void actionPerformed( Hashtable params ) {
                   // Removing buddyItem
                   LogUtil.outMessage( "Action Performed" );
-                  ( ( IcqItem ) buddyItem ).isInDenyList = true;
-                  ( ( IcqItem ) buddyItem ).denyBuddyId = denyBuddyId;
-                  buddyItem.updateUiData();
-                  accountRoot.updateOfflineBuddylist();
+                  ( ( IcqItem ) this.buddyItem ).isInDenyList = true;
+                  ( ( IcqItem ) this.buddyItem ).denyBuddyId = denyBuddyId;
+                  this.buddyItem.updateUiData();
+                  this.accountRoot.updateOfflineBuddylist();
                 }
               };
               LogUtil.outMessage( "QueueAction created" );
@@ -1058,9 +1058,9 @@ public class MainFrame extends Window {
                 public void actionPerformed( Hashtable params ) {
                   // Removing buddyItem
                   LogUtil.outMessage( "Action Performed" );
-                  ( ( IcqItem ) buddyItem ).isInIgnoreList = false;
-                  buddyItem.updateUiData();
-                  accountRoot.updateOfflineBuddylist();
+                  ( ( IcqItem ) this.buddyItem ).isInIgnoreList = false;
+                  this.buddyItem.updateUiData();
+                  this.accountRoot.updateOfflineBuddylist();
                 }
               };
               LogUtil.outMessage( "QueueAction created" );
@@ -1072,10 +1072,10 @@ public class MainFrame extends Window {
                 public void actionPerformed( Hashtable params ) {
                   // Removing buddyItem
                   LogUtil.outMessage( "Action Performed" );
-                  ( ( IcqItem ) buddyItem ).isInIgnoreList = true;
-                  ( ( IcqItem ) buddyItem ).ignoreBuddyId = ignoreBuddyId;
-                  buddyItem.updateUiData();
-                  accountRoot.updateOfflineBuddylist();
+                  ( ( IcqItem ) this.buddyItem ).isInIgnoreList = true;
+                  ( ( IcqItem ) this.buddyItem ).ignoreBuddyId = ignoreBuddyId;
+                  this.buddyItem.updateUiData();
+                  this.accountRoot.updateOfflineBuddylist();
                 }
               };
               LogUtil.outMessage( "QueueAction created" );

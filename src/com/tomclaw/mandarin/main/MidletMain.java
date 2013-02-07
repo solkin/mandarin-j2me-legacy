@@ -272,7 +272,9 @@ public class MidletMain extends MIDlet {
 
   public static void loadRmsData() {
     try {
-      if ( RecordUtil.getRecordsCount( settingsResFile ) > 0 && RecordUtil.getRecordsCount( accountsResFile ) > 0 && RecordUtil.getRecordsCount( statusesResFile ) > 0 ) {
+      if ( RecordUtil.getRecordsCount( settingsResFile ) > 0 
+              && RecordUtil.getRecordsCount( accountsResFile ) > 0 
+              && RecordUtil.getRecordsCount( statusesResFile ) > 0 ) {
         RecordUtil.readFile( settingsResFile, settings );
         LogUtil.outMessage( "Settings read" );
         validateSettings();
@@ -293,7 +295,8 @@ public class MidletMain extends MIDlet {
   public static void validateSettings() {
     BinGear resSettings = new BinGear();
     try {
-      resSettings.importFromIni( new DataInputStream( clazz.getResourceAsStream( "/res/".concat( settingsResFile ) ) ) );
+      resSettings.importFromIni( new DataInputStream( 
+              clazz.getResourceAsStream( "/res/".concat( settingsResFile ) ) ) );
       String[] resGroups = resSettings.listGroups();
       for ( int c = 0; c < resGroups.length; c++ ) {
         String[] resItems = resSettings.listItems( resGroups[c] );
@@ -547,7 +550,8 @@ public class MidletMain extends MIDlet {
   public void destroyApp( boolean unconditional ) {
   }
 
-  public static void loadOfflineBuddyList( AccountRoot accountRoot, String buddyListFile, Vector buddyItems ) {
+  public static void loadOfflineBuddyList( AccountRoot accountRoot, 
+          String buddyListFile, Vector buddyItems ) {
     RecordStore recordStore = null;
     try {
       recordStore = RecordStore.openRecordStore( buddyListFile, true );
