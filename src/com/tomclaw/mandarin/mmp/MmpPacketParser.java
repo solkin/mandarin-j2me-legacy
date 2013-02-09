@@ -267,7 +267,7 @@ public class MmpPacketParser {
       LogUtil.outMessage( "encoding = " + ( int ) ( ( flags & 0xffff0000 ) >> 16 ) );
       switch ( StringUtil.determEncoding( bArray ) ) { // (int) ((flags & 0xffff0000) >> 16)
         case 0x01: {
-          messageText = StringUtil.byteArrayToString1251( bArray );
+          messageText = StringUtil.ucs2leByteArrayToString( bArray );
           break;
         }
         case 0x02: {
@@ -288,7 +288,7 @@ public class MmpPacketParser {
           byte[] data = ArrayUtil.copyOfRange( unBase64, 12, unBase64.length );
           switch ( StringUtil.determEncoding( data ) ) { // (int) ((flags & 0xffff0000) >> 16)
             case 0x01: {
-              messageText = StringUtil.byteArrayToString1251( data );
+              messageText = StringUtil.ucs2leByteArrayToString( data );
               break;
             }
             case 0x02: {
@@ -397,11 +397,11 @@ public class MmpPacketParser {
           } else if ( fields[c].equals( "Domain" ) ) {
             buddyInfo.buddyId += "@" + StringUtil.byteArrayToString( value );
           } else if ( fields[c].equals( "Nickname" ) ) {
-            buddyInfo.nickName = StringUtil.byteArrayToString1251( value );
+            buddyInfo.nickName = StringUtil.ucs2leByteArrayToString( value );
           } else if ( fields[c].equals( "FirstName" ) ) {
-            buddyInfo.addKeyValue( "FIRST_NAME_LABEL", StringUtil.byteArrayToString1251( value ) );
+            buddyInfo.addKeyValue( "FIRST_NAME_LABEL", StringUtil.ucs2leByteArrayToString( value ) );
           } else if ( fields[c].equals( "LastName" ) ) {
-            buddyInfo.addKeyValue( "LAST_NAME_LABEL", StringUtil.byteArrayToString1251( value ) );
+            buddyInfo.addKeyValue( "LAST_NAME_LABEL", StringUtil.ucs2leByteArrayToString( value ) );
           } else if ( fields[c].equals( "Sex" ) ) {
             int sexValue = value.length > 0 ? value[0] : 0;
             String sexString;
@@ -422,7 +422,7 @@ public class MmpPacketParser {
           } else if ( fields[c].equals( "City_id" ) ) {
             // mailInfo.cityId = Integer.parseInt(StringUtil.byteArrayToString(value, false));
           } else if ( fields[c].equals( "Location" ) ) {
-            buddyInfo.addKeyValue( "LOCATION", StringUtil.byteArrayToString1251( value ) );
+            buddyInfo.addKeyValue( "LOCATION", StringUtil.ucs2leByteArrayToString( value ) );
             // mailInfo.location = StringUtil.getWin1251(value);
           } else if ( fields[c].equals( "Zodiac" ) ) {
             // mailInfo.zodiac = Integer.parseInt(StringUtil.byteArrayToString(value, false));
@@ -433,17 +433,17 @@ public class MmpPacketParser {
           } else if ( fields[c].equals( "Country_id" ) ) {
             // mailInfo.countryId = Integer.parseInt(StringUtil.byteArrayToString(value, false));
           } else if ( fields[c].equals( "Phone" ) ) {
-            buddyInfo.addKeyValue( "VALIDATED_CELLULAR_LABEL", StringUtil.byteArrayToString1251( value ) );
+            buddyInfo.addKeyValue( "VALIDATED_CELLULAR_LABEL", StringUtil.ucs2leByteArrayToString( value ) );
             // mailInfo.phone = StringUtil.byteArrayToString(value, false);
           } else if ( fields[c].equals( "mrim_status" ) ) {
             // mailInfo.mrimStatus = value.length >= 4 ? DataUtil.get32_reversed(value, 0, true) : 0;
           } else if ( fields[c].equals( "status_uri" ) ) {
             // mailInfo.statusUri = StringUtil.byteArrayToString(value, false);
           } else if ( fields[c].equals( "status_title" ) ) {
-            buddyInfo.addKeyValue( "STATUSTITLE", StringUtil.byteArrayToString1251( value ) );
+            buddyInfo.addKeyValue( "STATUSTITLE", StringUtil.ucs2leByteArrayToString( value ) );
             // mailInfo.statusTitle = StringUtil.getWin1251(value);
           } else if ( fields[c].equals( "status_desc" ) ) {
-            buddyInfo.addKeyValue( "STATUSDESC", StringUtil.byteArrayToString1251( value ) );
+            buddyInfo.addKeyValue( "STATUSDESC", StringUtil.ucs2leByteArrayToString( value ) );
             // mailInfo.statusDesc = StringUtil.getWin1251(value);
           } else if ( fields[c].equals( "ua_features" ) ) {
             // mailInfo.uaFeatures = value.length >= 4 ? DataUtil.get32_reversed(value, 0, true) : 0;

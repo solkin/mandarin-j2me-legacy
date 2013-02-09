@@ -41,12 +41,14 @@ public class MmpPacketSender {
     packet.data.append( DataUtil.mmputil_prepareByteStringWthLength(
             MmpStatusUtil.getStatusName( statusId ) ) );
     packet.data.append( DataUtil.mmputil_prepareBytesWthLength(
-            StringUtil.string1251ToByteArray(
+            DataUtil.getByteArray(
+            StringUtil.stringToByteArray1251(
             Localization.getMessage( MmpStatusUtil.getStatusDescr(
-            MmpStatusUtil.getStatusIndex( statusId ) ) ) ) ) );
+            MmpStatusUtil.getStatusIndex( statusId ) ) ) ), 0, statusString.length() ) ) );
     packet.data.append( DataUtil.mmputil_prepareBytesWthLength(
-            StringUtil.string1251ToByteArray( statusString ) ) ); // for protocol version 0x00010016
-            // StringUtil.stringTobyteArray1251( statusString ) ) ); // for protocol version 0x0001000e
+            // StringUtil.string1251ToByteArray( statusString ) ) ); // for protocol version 0x00010016
+            DataUtil.getByteArray(
+            StringUtil.stringToByteArray1251( statusString ), 0, statusString.length() ) ) ); // for protocol version 0x0001000e
     if ( isSendClientInfo ) {
       DataUtil.put32_reversed( temp, 0, MmpSession.clientId.length()
               + MmpSession.mraVer.length() );
