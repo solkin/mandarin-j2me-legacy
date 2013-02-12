@@ -963,7 +963,6 @@ public class MainFrame extends Window {
     icqSoft.leftSoft.addSubItem( minimizePopupItem );
     icqSoft.leftSoft.addSubItem( exitPopupItem );
 
-
     PopupItem privacyPopupItem = new PopupItem( Localization.getMessage( "PRIVACY" ) );
     final PopupItem visiblePopupItem = new PopupItem( Localization.getMessage( "PRI_VISIBLE_ADD" ) ) {
       public void actionPerformed() {
@@ -1602,7 +1601,7 @@ public class MainFrame extends Window {
     xmppSoft.leftSoft.addSubItem( servicePopupItem );
     xmppSoft.leftSoft.addSubItem( servicesPopupItem );
     xmppSoft.leftSoft.addSubItem( infoPopupItem );
-    mmpSoft.leftSoft.addSubItem( lockPopupItem );
+    xmppSoft.leftSoft.addSubItem( lockPopupItem );
     xmppSoft.leftSoft.addSubItem( minimizePopupItem );
     xmppSoft.leftSoft.addSubItem( exitPopupItem );
 
