@@ -41,11 +41,11 @@ public class SetExtStatusFrame extends Window {
           if ( groups != null ) {
             MidletMain.statuses.addGroup( "XStatus" );
           }
-          MidletMain.statuses.addItem( "XStatus", String.valueOf( xStatusId ), titleField.getText().concat( "&dsc" ).concat( descrField.getText() ).concat( "&rdb" ).concat( readableCheck.state ? "true" : "false" ) );
+          MidletMain.statuses.addItem( "XStatus", String.valueOf( xStatusId ), titleField.getText().concat( "&dsc" ).concat( descrField.getText() ).concat( "&rdb" ).concat( readableCheck.getState() ? "true" : "false" ) );
           MidletMain.saveRmsData( false, false, true );
           icqAccountRoot.xTitle = titleField.getText();
           icqAccountRoot.xText = descrField.getText();
-          icqAccountRoot.isXStatusReadable = readableCheck.state;
+          icqAccountRoot.isXStatusReadable = readableCheck.getState();
           icqAccountRoot.saveAllSettings();
           MidletMain.screen.setActiveWindow( s_prevWindow );
         } catch ( Throwable ex ) {

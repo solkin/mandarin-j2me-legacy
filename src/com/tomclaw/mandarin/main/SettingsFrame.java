@@ -80,45 +80,45 @@ public class SettingsFrame extends Window {
           if ( MidletMain.isTest ) {
             /** LogUtil **/
             MidletMain.settings.addGroup( "Logger" );
-            MidletMain.settings.addItem( "Logger", "outToSocket", outToSocket.state ? "true" : "false" );
-            MidletMain.settings.addItem( "Logger", "outToFile", outToFile.state ? "true" : "false" );
+            MidletMain.settings.addItem( "Logger", "outToSocket", outToSocket.getState() ? "true" : "false" );
+            MidletMain.settings.addItem( "Logger", "outToFile", outToFile.getState() ? "true" : "false" );
             MidletMain.settings.addItem( "Logger", "loggerServerHost", loggerServerHost.getText() );
             MidletMain.settings.addItem( "Logger", "loggerFile", loggerFile.getText() );
           }
           /** Alarm **/
           MidletMain.settings.addGroup( "Alarm" );
-          MidletMain.settings.addItem( "Alarm", "soundEnabled", soundEnabled.state ? "true" : "false" );
-          MidletMain.settings.addItem( "Alarm", "onOnline", onOnline.state ? "true" : "false" );
-          MidletMain.settings.addItem( "Alarm", "onOffline", onOffline.state ? "true" : "false" );
-          MidletMain.settings.addItem( "Alarm", "onIncoming", onIncoming.state ? "true" : "false" );
-          MidletMain.settings.addItem( "Alarm", "onOutgoing", onOutgoing.state ? "true" : "false" );
+          MidletMain.settings.addItem( "Alarm", "soundEnabled", soundEnabled.getState() ? "true" : "false" );
+          MidletMain.settings.addItem( "Alarm", "onOnline", onOnline.getState() ? "true" : "false" );
+          MidletMain.settings.addItem( "Alarm", "onOffline", onOffline.getState() ? "true" : "false" );
+          MidletMain.settings.addItem( "Alarm", "onIncoming", onIncoming.getState() ? "true" : "false" );
+          MidletMain.settings.addItem( "Alarm", "onOutgoing", onOutgoing.getState() ? "true" : "false" );
           MidletMain.settings.addItem( "Alarm", "volumeLevel", String.valueOf( volumeLevel.value ) );
           MidletMain.settings.addItem( "Alarm", "vibrateDelay", vibrateDelay.getText() );
-          MidletMain.settings.addItem( "Alarm", "expandOnIncoming", expandOnIncoming.state ? "true" : "false" );
-          MidletMain.settings.addItem( "Alarm", "alarmRepliesOnly", alarmRepliesOnly.state ? "true" : "false" );
+          MidletMain.settings.addItem( "Alarm", "expandOnIncoming", expandOnIncoming.getState() ? "true" : "false" );
+          MidletMain.settings.addItem( "Alarm", "alarmRepliesOnly", alarmRepliesOnly.getState() ? "true" : "false" );
           /** File transfer **/
           MidletMain.settings.addGroup( "Filetransfer" );
-          MidletMain.settings.addItem( "Filetransfer", "autoAcceptFiles", autoAcceptFiles.state ? "true" : "false" );
+          MidletMain.settings.addItem( "Filetransfer", "autoAcceptFiles", autoAcceptFiles.getState() ? "true" : "false" );
           MidletMain.settings.addItem( "Filetransfer", "acceptFilesFolder", acceptFilesFolder.getText() );
           /** Network **/
           MidletMain.settings.addGroup( "Network" );
-          MidletMain.settings.addItem( "Network", "autoReconnect", autoReconnect.state ? "true" : "false" );
-          MidletMain.settings.addItem( "Network", "isHttpPing", isHttpPing.state ? "true" : "false" );
+          MidletMain.settings.addItem( "Network", "autoReconnect", autoReconnect.getState() ? "true" : "false" );
+          MidletMain.settings.addItem( "Network", "isHttpPing", isHttpPing.getState() ? "true" : "false" );
           MidletMain.settings.addItem( "Network", "httpPingDelay", httpPingDelay.getText() );
           MidletMain.settings.addItem( "Network", "socketPingDelay", socketPingDelay.getText() );
           /** General **/
           MidletMain.settings.addGroup( "General" );
-          MidletMain.settings.addItem( "General", "storeHistory", storeHistory.state ? "true" : "false" );
-          MidletMain.settings.addItem( "General", "isSortOnline", isSortOnline.state ? "true" : "false" );
-          MidletMain.settings.addItem( "General", "isRaiseUnread", isRaiseUnread.state ? "true" : "false" );
-          MidletMain.settings.addItem( "General", "isRemoveResources", isRemoveResources.state ? "true" : "false" );
-          MidletMain.settings.addItem( "General", "switchTime", switchTime.state ? "true" : "false" );
+          MidletMain.settings.addItem( "General", "storeHistory", storeHistory.getState() ? "true" : "false" );
+          MidletMain.settings.addItem( "General", "isSortOnline", isSortOnline.getState() ? "true" : "false" );
+          MidletMain.settings.addItem( "General", "isRaiseUnread", isRaiseUnread.getState() ? "true" : "false" );
+          MidletMain.settings.addItem( "General", "isRemoveResources", isRemoveResources.getState() ? "true" : "false" );
+          MidletMain.settings.addItem( "General", "switchTime", switchTime.getState() ? "true" : "false" );
           MidletMain.settings.addItem( "General", "gmtOffset", gmtOffset.getText() );
           MidletMain.settings.addItem( "General", "columnCount", String.valueOf( columnCount.getCombed() ) );
-          MidletMain.settings.addItem( "General", "useEffects", useEffects.state ? "true" : "false" );
+          MidletMain.settings.addItem( "General", "useEffects", useEffects.getState() ? "true" : "false" );
           /** Tariff rate **/
           MidletMain.settings.addGroup( "Tarification" );
-          MidletMain.settings.addItem( "Tarification", "countData", countData.state ? "true" : "false" );
+          MidletMain.settings.addItem( "Tarification", "countData", countData.getState() ? "true" : "false" );
           MidletMain.settings.addItem( "Tarification", "costValue", costValue.getText() );
           /** Themes **/
           // MidletMain.settings.addGroup("Themes");
@@ -130,10 +130,10 @@ public class SettingsFrame extends Window {
           }
           /** Spy **/
           MidletMain.settings.addGroup( "Spy" );
-          MidletMain.settings.addItem( "Spy", "statusChange", statusChange.state ? "true" : "false" );
-          MidletMain.settings.addItem( "Spy", "xStatusRead", xStatusRead.state ? "true" : "false" );
-          MidletMain.settings.addItem( "Spy", "mStatusRead", mStatusRead.state ? "true" : "false" );
-          MidletMain.settings.addItem( "Spy", "fileTransfer", fileTransfer.state ? "true" : "false" );
+          MidletMain.settings.addItem( "Spy", "statusChange", statusChange.getState() ? "true" : "false" );
+          MidletMain.settings.addItem( "Spy", "xStatusRead", xStatusRead.getState() ? "true" : "false" );
+          MidletMain.settings.addItem( "Spy", "mStatusRead", mStatusRead.getState() ? "true" : "false" );
+          MidletMain.settings.addItem( "Spy", "fileTransfer", fileTransfer.getState() ? "true" : "false" );
         } catch ( GroupNotFoundException ex ) {
           LogUtil.outMessage( "GroupNotFoundException: " + ex.getMessage() );
         } catch ( IncorrectValueException ex ) {

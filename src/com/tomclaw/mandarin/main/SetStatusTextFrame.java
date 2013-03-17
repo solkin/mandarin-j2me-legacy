@@ -1,8 +1,6 @@
 package com.tomclaw.mandarin.main;
 
 import com.tomclaw.mandarin.icq.IcqStatusUtil;
-import com.tomclaw.mandarin.main.AccountRoot;
-import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.LogUtil;
@@ -43,10 +41,10 @@ public class SetStatusTextFrame extends Window {
           }
           MidletMain.statuses.addItem( groupHeader, String.valueOf( statusIndex ),
                   textField.getText().concat( "&rdb" )
-                  .concat( readableCheck.state ? "true" : "false" ) );
+                  .concat( readableCheck.getState() ? "true" : "false" ) );
           MidletMain.saveRmsData( false, false, true );
           /** Sending status to the network **/
-          accountRoot.setStatusText( textField.getText(), readableCheck.state );
+          accountRoot.setStatusText( textField.getText(), readableCheck.getState() );
           /** Closing window **/
           MidletMain.screen.setWaitScreenState( false );
           MidletMain.screen.setActiveWindow( s_prevWindow );
@@ -75,7 +73,7 @@ public class SetStatusTextFrame extends Window {
     readableCheck = new Check( Localization.getMessage( "STATUS_READABLE" ),
             ( statusText.indexOf( "&rdb" ) == -1 ) ? false : statusText.substring( statusText.indexOf( "&rdb" ) + 4 ).equals( "true" ) );
     readableCheck.setFocusable( true );
-    readableCheck.state = true;
+    readableCheck.setState( true );
     if ( isReadableEnabled ) {
       pane.addItem( readableCheck );
     }

@@ -11,11 +11,12 @@ import java.util.Vector;
  */
 public class ServiceItem extends GroupChild {
 
-  public String jid = null;
-  public String node = null;
-  public Vector features = null;
+  public String name;
+  public String jid;
+  public String node;
+  public Vector features;
   /** Identity **/
-  public Vector identityes = null;
+  public Vector identityes;
 
   public ServiceItem( String jid, String node, String name ) {
     super( "" );

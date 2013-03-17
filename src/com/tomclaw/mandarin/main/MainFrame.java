@@ -274,7 +274,7 @@ public class MainFrame extends Window {
     this.addKeyEvent( new KeyEvent( 0, "KEY_SOUNDS", true ) {
       public void actionPerformed() {
         MidletMain.isSound = !MidletMain.isSound;
-        MidletMain.settingsFrame.soundEnabled.state = MidletMain.isSound;
+        MidletMain.settingsFrame.soundEnabled.setState( MidletMain.isSound );
         try {
           MidletMain.settings.setValue( "Alarm", "soundEnabled", MidletMain.isSound ? "true" : "false" );
           MidletMain.saveRmsData( false, true, false );
@@ -1647,8 +1647,6 @@ public class MainFrame extends Window {
               }
             } );
           } else {
-            dialogsPopup.thread = null;
-            sendFilePopup.thread = null;
             while ( resources.hasMoreElements() ) {
               final Resource resource = ( Resource ) resources.nextElement();
               dialogsPopup.addSubItem( new PopupItem(

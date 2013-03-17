@@ -1,7 +1,7 @@
-MIDlet-Jar-Size: 182538
+MIDlet-Jar-Size: 177689
 MIDlet-Jar-URL: TCUILiteLib.jar
 MIDlet-Name: TCUILiteLib
 MIDlet-Vendor: TomClaw Software
-MIDlet-Version: 0.8.95
-MicroEdition-Configuration: CLDC-1.0
+MIDlet-Version: 0.9.6
+MicroEdition-Configuration: CLDC-1.1
 MicroEdition-Profile: MIDP-2.0

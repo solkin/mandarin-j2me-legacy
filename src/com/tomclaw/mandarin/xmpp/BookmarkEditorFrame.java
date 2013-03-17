@@ -45,8 +45,8 @@ public class BookmarkEditorFrame extends Window {
         BookmarkEditorFrame.this.bookmark.name = nameField.getText();
         BookmarkEditorFrame.this.bookmark.nick = nickField.getText();
         BookmarkEditorFrame.this.bookmark.password = passwordField.getText();
-        BookmarkEditorFrame.this.bookmark.autojoin = autojoin.state;
-        BookmarkEditorFrame.this.bookmark.minimize = minimize.state;
+        BookmarkEditorFrame.this.bookmark.autojoin = autojoin.getState();
+        BookmarkEditorFrame.this.bookmark.minimize = minimize.getState();
         BookmarkEditorFrame.this.bookmark.title = BookmarkEditorFrame.this.bookmark.name;
         MidletMain.bookmarksFrame.setBookmark( BookmarkEditorFrame.this.bookmark );
         MidletMain.bookmarksFrame.saveBookmarks();

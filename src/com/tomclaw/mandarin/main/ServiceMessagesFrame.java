@@ -68,8 +68,8 @@ public class ServiceMessagesFrame extends Window {
     }
     if ( !pane.items.isEmpty() ) {
       pane.setFocused( pane.items.size() - 1 );
-      if ( pane.maxHeight > pane.getHeight() ) {
-        pane.yOffset = pane.maxHeight - pane.getHeight();
+      if ( pane.getTotalHeight() > pane.getHeight() ) {
+        pane.yOffset = pane.getTotalHeight() - pane.getHeight();
       }
     }
     if ( isPrepareGraphics ) {

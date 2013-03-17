@@ -381,7 +381,7 @@ public class XmppSender {
           xmppSession.xmlWriter.startTag( "field" );
           xmppSession.xmlWriter.attribute( "var", paneObject.getName() );
           xmppSession.xmlWriter.startTag( "value" );
-          xmppSession.xmlWriter.text( ( ( Check ) paneObject ).state ? "1" : "0" );
+          xmppSession.xmlWriter.text( ( ( Check ) paneObject ).getState() ? "1" : "0" );
           xmppSession.xmlWriter.endTag();
           xmppSession.xmlWriter.endTag();
         }

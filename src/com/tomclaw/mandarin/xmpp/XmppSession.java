@@ -635,7 +635,7 @@ public class XmppSession {
                         }
                         if ( fieldType.equals( "boolean" ) ) {
                           if ( xmlReader.tagName.equals( "value" ) && xmlReader.tagType == XmlReader.TAG_CLOSING ) {
-                            check.state = xmlReader.getBody().equals( "1" ) || xmlReader.getBody().equals( "true" );
+                            check.setState( xmlReader.getBody().equals( "1" ) || xmlReader.getBody().equals( "true" ) );
                           }
                         }
                         if ( fieldType.equals( "list-single" ) ) {

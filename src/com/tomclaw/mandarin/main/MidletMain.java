@@ -7,6 +7,7 @@ import com.tomclaw.mandarin.xmpp.*;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.tcuilite.smiles.Smiles;
+import com.tomclaw.utils.DrawUtil;
 import com.tomclaw.utils.LogUtil;
 import com.tomclaw.utils.RecordUtil;
 import com.tomclaw.utils.TimeUtil;
@@ -451,19 +452,20 @@ public class MidletMain extends MIDlet {
     columnCount = getInteger( settings, "General", "columnCount" ) + 1;
     isUseEffects = getBoolean( settings, "General", "useEffects" );
     if ( !isUseEffects ) {
-      Settings.MENU_DRAW_DIRECTSHADOWS = false;
-      Settings.DIALOG_DRAW_SHADOWS = false;
+      Settings.MENU_DRAW_SHADOWS = false;
+      Settings.MENU_DRAW_ALPHABACK = false;
       Settings.DIALOG_DRAW_ALPHABACK = false;
       Settings.DIALOG_SHOW_ANIMATION = false;
       Settings.SCREEN_SHOW_ANIMATION = false;
-      Settings.MENU_DRAW_ALPHABACK = false;
+      DrawUtil.isLightGraphics = true;
     } else {
-      Settings.MENU_DRAW_DIRECTSHADOWS = true;
-      Settings.DIALOG_DRAW_SHADOWS = true;
+      Settings.MENU_DRAW_SHADOWS = true;
+      Settings.MENU_DRAW_ALPHABACK = false;
       Settings.DIALOG_DRAW_ALPHABACK = true;
       Settings.DIALOG_SHOW_ANIMATION = true;
       Settings.SCREEN_SHOW_ANIMATION = true;
       Settings.MENU_DRAW_ALPHABACK = false;
+      DrawUtil.isLightGraphics = false;
     }
   }
 

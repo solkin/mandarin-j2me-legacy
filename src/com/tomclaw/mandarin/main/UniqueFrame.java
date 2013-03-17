@@ -46,16 +46,16 @@ public class UniqueFrame extends Window {
         } else if ( rdgSettingsType.getCombed() == 1 ) {
           try {
             MidletMain.uniquest.addGroup( groupName );
-            MidletMain.uniquest.addItem( groupName, "NOTIF_STAT_CHANGE", chkNotifStatChange.state ? "true" : "false" );
-            MidletMain.uniquest.addItem( groupName, "NOTIF_MESSAGES", chkNotifMessages.state ? "true" : "false" );
-            MidletMain.uniquest.addItem( groupName, "ON_TOP", chkOnTop.state ? "true" : "false" );
-            MidletMain.uniquest.addItem( groupName, "LOCK_INCOMING", chkLockIncoming.state ? "true" : "false" );
-            MidletMain.uniquest.addItem( groupName, "DISABLE_HISTORY", chkDisableHistory.state ? "true" : "false" );
-            MidletMain.uniquest.addItem( groupName, "DISABLE_PSTATUS_READING", chkDisablePStatusReading.state ? "true" : "false" );
-            MidletMain.uniquest.addItem( groupName, "DISABLE_XSTATUS_READING", chkDisableXStatusReading.state ? "true" : "false" );
-            MidletMain.uniquest.addItem( groupName, "SEND_SPECIAL_PSTATUS", chkSendSpecialPStatus.state ? "true" : "false" );
+            MidletMain.uniquest.addItem( groupName, "NOTIF_STAT_CHANGE", chkNotifStatChange.getState() ? "true" : "false" );
+            MidletMain.uniquest.addItem( groupName, "NOTIF_MESSAGES", chkNotifMessages.getState() ? "true" : "false" );
+            MidletMain.uniquest.addItem( groupName, "ON_TOP", chkOnTop.getState() ? "true" : "false" );
+            MidletMain.uniquest.addItem( groupName, "LOCK_INCOMING", chkLockIncoming.getState() ? "true" : "false" );
+            MidletMain.uniquest.addItem( groupName, "DISABLE_HISTORY", chkDisableHistory.getState() ? "true" : "false" );
+            MidletMain.uniquest.addItem( groupName, "DISABLE_PSTATUS_READING", chkDisablePStatusReading.getState() ? "true" : "false" );
+            MidletMain.uniquest.addItem( groupName, "DISABLE_XSTATUS_READING", chkDisableXStatusReading.getState() ? "true" : "false" );
+            MidletMain.uniquest.addItem( groupName, "SEND_SPECIAL_PSTATUS", chkSendSpecialPStatus.getState() ? "true" : "false" );
             MidletMain.uniquest.addItem( groupName, "FLD_SPECIAL_PSTATUS", fldSpecialPStatus.getText() );
-            MidletMain.uniquest.addItem( groupName, "SEND_SPECIAL_XSTATUS", chkSendSpecialXStatus.state ? "true" : "false" );
+            MidletMain.uniquest.addItem( groupName, "SEND_SPECIAL_XSTATUS", chkSendSpecialXStatus.getState() ? "true" : "false" );
             MidletMain.uniquest.addItem( groupName, "FLD_SPECIAL_XTITLE", fldSpecialXTitle.getText() );
             MidletMain.uniquest.addItem( groupName, "FLD_SPECIAL_XDESCR", fldSpecialXDescr.getText() );
           } catch ( Throwable ex ) {

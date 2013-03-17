@@ -42,7 +42,7 @@ public class HistoryRmsRenderer extends ListRmsRenderer {
     int dlvStatus = DataUtil.get8int( data, offset );
     offset++;
     try {
-      BBResult bbResult = BBUtil.processText( text, 0, 0, 2048 );
+      BBResult bbResult = BBUtil.processText( text, 0, 0, 2048, ChatItem.foreColor );
       text = bbResult.originalString;
     } catch ( Throwable ex ) {
     }

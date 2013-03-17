@@ -99,7 +99,7 @@ public class PhotoPreparingFrame extends Window {
                 if ( flashModesGroup != null ) {
                   flash.setMode( flash.getSupportedModes()[flashModesGroup.getCombed()] );
                 }
-                if ( isAutoFocus != null && isAutoFocus.state ) {
+                if ( isAutoFocus != null && isAutoFocus.getState() ) {
                   try {
                     focus.setFocus( FocusControl.AUTO );
                   } catch ( MediaException ex ) {
@@ -107,7 +107,7 @@ public class PhotoPreparingFrame extends Window {
                 }
                 if ( isMacroFocus != null ) {
                   try {
-                    focus.setMacro( isMacroFocus.state );
+                    focus.setMacro( isMacroFocus.getState() );
                   } catch ( MediaException ex ) {
                   }
                 }

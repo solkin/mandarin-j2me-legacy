@@ -37,7 +37,7 @@ public class AccountEditorFrame extends Window {
         fldHost.updateCaption();
         fldPort.setText( "5190" );
         fldPort.updateCaption();
-        isUseSsl.state = false;
+        isUseSsl.setState(false );
         isUseSsl.setFocusable( false );
         break;
       }
@@ -51,7 +51,7 @@ public class AccountEditorFrame extends Window {
         fldHost.updateCaption();
         fldPort.setText( "2042" );
         fldPort.updateCaption();
-        isUseSsl.state = false;
+        isUseSsl.setState( false );
         isUseSsl.setFocusable( false );
         break;
       }
@@ -65,7 +65,7 @@ public class AccountEditorFrame extends Window {
         fldHost.updateCaption();
         fldPort.setText( "5222" );
         fldPort.updateCaption();
-        isUseSsl.state = true;
+        isUseSsl.setState( true );
         isUseSsl.setFocusable( true );
         break;
       }
@@ -106,7 +106,7 @@ public class AccountEditorFrame extends Window {
               MidletMain.accounts.addItem( fldLogin.getText(), "pass", fldPassw.getText() );
               MidletMain.accounts.addItem( fldLogin.getText(), "host", fldHost.getText() );
               MidletMain.accounts.addItem( fldLogin.getText(), "port", fldPort.getText() );
-              MidletMain.accounts.addItem( fldLogin.getText(), "ussl", isUseSsl.state ? "true" : "false" );
+              MidletMain.accounts.addItem( fldLogin.getText(), "ussl", isUseSsl.getState() ? "true" : "false" );
               switch ( AccountEditorFrame.this.protocolSwitcher.getCombed() ) {
                 case 0x00: {
                   accType = "icq";

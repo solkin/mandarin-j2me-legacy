@@ -153,7 +153,7 @@ public class ChatFrame extends Window {
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_CHAT_SCREEN_BOTTOM", true ) {
       public void actionPerformed() {
-        int maxOffset = chatPane.maxHeight - chatPane.height;
+        int maxOffset = chatPane.getTotalHeight() - chatPane.height;
         if ( maxOffset < 0 ) {
           maxOffset = 0;
         }
@@ -418,8 +418,8 @@ public class ChatFrame extends Window {
            * Applying scroll flag
            */
           ChatFrame.this.prepareGraphics();
-          if ( chatPane.maxHeight > chatPane.getHeight() ) {
-            chatPane.yOffset = chatPane.maxHeight - chatPane.getHeight();
+          if ( chatPane.getTotalHeight() > chatPane.getHeight() ) {
+            chatPane.yOffset = chatPane.getTotalHeight() - chatPane.getHeight();
           } else {
             chatPane.yOffset = 0;
           }
@@ -594,24 +594,18 @@ public class ChatFrame extends Window {
     if ( chatTab.chatItems == null ) {
       chatTab.chatItems = new Vector();
     }
-    /**
-     * Focus chatItem
-     */
+    /** Focus chatItem **/
     chatTab.chatItems.addElement( chatItem );
     MidletMain.chatFrame.prepareGraphics();
-    /**
-     * Scrolling to the last message
-     */
+    /** Scrolling to the last message **/
     ChatTab tempChatTab = getSelectedChatTab();
 
     LogUtil.outMessage( "Focused index: " + chatPane.psvLstFocusedIndex );
     LogUtil.outMessage( "Items total:   " + chatPane.items.size() );
     if ( tempChatTab != null && tempChatTab.equals( chatTab ) && chatPane.psvLstFocusedIndex == chatPane.items.size() - 2 || chatPane.items.size() == 1 ) {
-      /**
-       * This tab is active
-       */
-      if ( chatPane.maxHeight > chatPane.getHeight() ) {
-        chatPane.yOffset = chatPane.maxHeight - chatPane.getHeight();
+      /** This tab is active **/
+      if ( chatPane.getTotalHeight() > chatPane.getHeight() ) {
+        chatPane.yOffset = chatPane.getTotalHeight() - chatPane.getHeight();
       } else {
         chatPane.yOffset = 0;
       }
