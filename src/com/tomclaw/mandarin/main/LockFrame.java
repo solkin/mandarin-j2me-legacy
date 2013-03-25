@@ -5,6 +5,7 @@ import com.tomclaw.tcuilite.DirectDraw;
 import com.tomclaw.tcuilite.Header;
 import com.tomclaw.tcuilite.Label;
 import com.tomclaw.tcuilite.Pane;
+import com.tomclaw.tcuilite.PlainContent;
 import com.tomclaw.tcuilite.PopupItem;
 import com.tomclaw.tcuilite.Soft;
 import com.tomclaw.tcuilite.Window;
@@ -19,31 +20,34 @@ import javax.microedition.lcdui.Image;
  * @author Solkin
  */
 public class LockFrame extends Window {
-  
+
   private Pane pane;
   private Image lock;
   private Label label;
+  private Label unread;
   private Soft m_soft;
 
   public LockFrame() {
-    super(MidletMain.screen);
-    
-    header = new Header(Localization.getMessage( "LOCKED_SCREEN" ) );
-    m_soft = new Soft(screen);
+    super( MidletMain.screen );
+
+    header = new Header( Localization.getMessage( "LOCKED_SCREEN" ) );
+    m_soft = new Soft( screen );
     soft = m_soft;
-    
-    soft.leftSoft = new PopupItem(Localization.getMessage( "UNLOCK" ) ) {
+
+    soft.leftSoft = new PopupItem( Localization.getMessage( "UNLOCK" ) ) {
       public void actionPerformed() {
         showConfirm();
       }
     };
     /** Pane **/
     pane = new Pane( null, false );
-    
-    label = new Label(Localization.getMessage( "SCREEN_IS_LOCKED" ) );
+
+    label = new Label( Localization.getMessage( "SCREEN_IS_LOCKED" ) );
     label.setHeader( true );
     pane.addItem( label );
-    
+    unread = new Label( getUnreadLabelText() );
+    pane.addItem( unread );
+
     try {
       lock = Image.createImage( "/res/huge/lock.png" );
 
@@ -64,9 +68,9 @@ public class LockFrame extends Window {
     } catch ( IOException ex ) {
       lock = null;
     }
-    setGObject(pane);
+    setGObject( pane );
   }
-  
+
   private void showConfirm() {
     Soft t_soft = new Soft( MidletMain.screen );
     t_soft.leftSoft = new PopupItem( Localization.getMessage( "YES" ) ) {
@@ -81,9 +85,22 @@ public class LockFrame extends Window {
       }
     };
     soft = t_soft;
-    showDialog( new Dialog( MidletMain.screen, soft, 
-            Localization.getMessage( "CONFIRMATION" ), 
+    showDialog( new Dialog( MidletMain.screen, soft,
+            Localization.getMessage( "CONFIRMATION" ),
             Localization.getMessage( "REALLY_UNLOCK" ) ) );
     MidletMain.screen.repaint();
+  }
+
+  public void updateUnreadLabel() {
+    ( (PlainContent) unread.getContent() ).setText( getUnreadLabelText() );
+  }
+
+  private String getUnreadLabelText() {
+    int totalUnread = MidletMain.mainFrame.getUnreadCount();
+    if ( totalUnread == 0 ) {
+      return Localization.getMessage( "NO_UNREAD_MESSAGES" );
+    } else {
+      return totalUnread + " " + Localization.getMessage( "UNREAD_MESSAGES" );
+    }
   }
 }

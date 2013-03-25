@@ -198,6 +198,11 @@ public class ActionExec {
       }
     } catch ( Throwable ex1 ) {
     }
+    /** Checking for current frame is lock **/
+    if(Screen.screen.activeWindow.getClass() == LockFrame.class) {
+      ((LockFrame)Screen.screen.activeWindow).updateUnreadLabel();
+      MidletMain.screen.repaint();
+    }
   }
 
   public static void sendXStatusMessage( IcqAccountRoot icqAccountRoot, byte[] msgCookie, String screenName ) {

@@ -4,10 +4,8 @@ import com.tomclaw.tcuilite.DirectDraw;
 import com.tomclaw.tcuilite.Gauge;
 import com.tomclaw.tcuilite.Label;
 import com.tomclaw.tcuilite.Pane;
-import com.tomclaw.tcuilite.RichContent;
 import com.tomclaw.tcuilite.Theme;
 import com.tomclaw.tcuilite.Window;
-import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.DrawUtil;
 import java.io.IOException;
 import javax.microedition.lcdui.Font;
@@ -32,12 +30,11 @@ public class SplashFrame extends Window {
     super( MidletMain.screen );
     /** Pane **/
     pane = new Pane( null, false );
+    pane.repaintScrollWidth = 0;
 
     title = "Mandarin " + MidletMain.version;
     build = MidletMain.type + "-build " + MidletMain.build;
     gauge = new Gauge( "Loading..." );
-    gauge.setFocusable( true );
-    gauge.setFocused( true );
     gauge.setSize( screen.getWidth() - 1,
             Theme.font.getHeight() + 2 * 2 + 4 );
     gauge.setLocation( 0, screen.getHeight() - gauge.getHeight() - 1 );
