@@ -156,7 +156,7 @@ public class MmpAccountRoot extends AccountRoot {
             }
             try {
               if ( session.login_stage( host + ":" + port, userId, userPassword,
-                      MmpStatusUtil.getStatus( statusIndex ), statusText ) ) {
+                      MmpStatusUtil.getStatus( statusIndex ), "" ) ) {
                 MmpAccountRoot.this.statusIndex = statusIndex;
                 LogUtil.outMessage( "Updating status in AccountStatus" );
                 MidletMain.mainFrame.updateAccountsStatus();
