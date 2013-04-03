@@ -196,7 +196,7 @@ public class FirstMasterFrame extends Window {
                     Localization.getMessage( "NUM_OF_INSTALLS_0" )
                     + " " + retreivedData
                     + Localization.getMessage( "NUM_OF_INSTALLS_1" ) );
-            titleLabel.setTitle( true );
+            titleLabel.setHeader( true );
             panes[5].addItem( titleLabel );
           }
           netCheckResultLabel1.setCaption( Localization.getMessage( netCheckResult + "_0" ) );

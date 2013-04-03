@@ -1,5 +1,6 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.net.NetConnection;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.DataUtil;
@@ -12,8 +13,8 @@ import javax.microedition.lcdui.TextField;
  */
 public class OpinionSendFrame extends Window {
 
-  public Field emailField;
-  public Field opinionField;
+  private Field emailField;
+  private Field opinionField;
   private Pane pane;
 
   public OpinionSendFrame() {
@@ -54,21 +55,33 @@ public class OpinionSendFrame extends Window {
 
         MidletMain.screen.repaint();
         /** Checking form **/
-        if ( !isEmpty( emailField.getText() ) || emailField.getText().indexOf( ( char ) '@' ) == -1 || emailField.getText().indexOf( ( char ) '.' ) == -1 || !isEmpty( opinionField.getText() ) ) {
+        if ( !isEmpty( emailField.getText() )
+                || emailField.getText().indexOf( ( char ) '@' ) == -1
+                || emailField.getText().indexOf( ( char ) '.' ) == -1
+                || !isEmpty( opinionField.getText() ) ) {
           infoLabel.setCaption( Localization.getMessage( "FORM_INVALID" ) );
           MidletMain.screen.repaint();
           return;
         }
         /** Coding output data **/
+        String id = "";
+        try {
+          id = MidletMain.settings.getValue( "Master", "copyId" );
+        } catch ( Throwable ex ) {
+        }
         String emailData = DataUtil.codeString( emailField.getText() );
         String textData = DataUtil.codeString( opinionField.getText() );
         String linkAdd = "http://www.tomclaw.com/services/"
-                + "mandarin/scripts/opinion.php?e=" + emailData + "&m=" + textData;
+                + "mandarin/scripts/opinion.php"
+                + "?e=" + emailData
+                + "&m=" + textData
+                + "&id=" + id;
         infoLabel.setCaption( Localization.getMessage( "SENDING_LABEL" ) );
         MidletMain.screen.repaint();
         String retreivedData;
         try {
           /** Sending data **/
+          NetConnection.retreiveData( linkAdd );
           retreivedData = Localization.getMessage( "OPINION_SENT" );
         } catch ( Throwable ex1 ) {
           retreivedData = Localization.getMessage( "SENDING_FAILED" );
@@ -93,7 +106,7 @@ public class OpinionSendFrame extends Window {
     opinionField.isFocusable = true;
     pane.addItem( opinionField );
     Label notifyLabel = new Label( Localization.getMessage( "OPINION_NOTIFY_LABEL" ) );
-    notifyLabel.setTitle( true );
+    notifyLabel.setHeader( true );
     pane.addItem( notifyLabel );
 
     setGObject( pane );
