@@ -44,8 +44,16 @@ public class NetTestFrame extends Window {
     new Thread() {
       public void run() {
         String retreivedData;
+        String id = "";
+        try {
+          id = MidletMain.settings.getValue( "Master", "copyId" );
+        } catch ( Throwable ex ) {
+        }
         String linkTest = "http://www.tomclaw.com/services/"
-                + "mandarin/scripts/nettest.php";
+                + "mandarin/scripts/nettest.php"
+                + "?id=" + id
+                + "&count=" + MidletMain.dataCount
+                + "&enabled=" + (MidletMain.isCountData ? "true" : "false");
         try {
           /** Sending data **/
           retreivedData = NetConnection.retreiveData( linkTest );

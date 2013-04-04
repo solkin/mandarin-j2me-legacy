@@ -45,10 +45,10 @@ public class OpinionSendFrame extends Window {
         soft.rightSoft = new PopupItem( "" );
 
         Label sendLabel = new Label( Localization.getMessage( "OPINION_SENDING_STATUS" ) );
-        sendLabel.setTitle( true );
+        sendLabel.setHeader( true );
         pane.addItem( sendLabel );
 
-        Label infoLabel = new Label( Localization.getMessage( "INFO_LABEL" ) );
+        final Label infoLabel = new Label( Localization.getMessage( "INFO_LABEL" ) );
         pane.addItem( infoLabel );
 
         setGObject( pane );
@@ -71,23 +71,28 @@ public class OpinionSendFrame extends Window {
         }
         String emailData = DataUtil.codeString( emailField.getText() );
         String textData = DataUtil.codeString( opinionField.getText() );
-        String linkAdd = "http://www.tomclaw.com/services/"
+        final String linkAdd = "http://www.tomclaw.com/services/"
                 + "mandarin/scripts/opinion.php"
                 + "?e=" + emailData
                 + "&m=" + textData
                 + "&id=" + id;
         infoLabel.setCaption( Localization.getMessage( "SENDING_LABEL" ) );
         MidletMain.screen.repaint();
-        String retreivedData;
-        try {
-          /** Sending data **/
-          NetConnection.retreiveData( linkAdd );
-          retreivedData = Localization.getMessage( "OPINION_SENT" );
-        } catch ( Throwable ex1 ) {
-          retreivedData = Localization.getMessage( "SENDING_FAILED" );
-        }
-        infoLabel.setCaption( retreivedData );
-        MidletMain.screen.repaint();
+
+        new Thread() {
+          public void run() {
+            String retreivedData;
+            try {
+              /** Sending data **/
+              NetConnection.retreiveData( linkAdd );
+              retreivedData = Localization.getMessage( "OPINION_SENT" );
+            } catch ( Throwable ex1 ) {
+              retreivedData = Localization.getMessage( "SENDING_FAILED" );
+            }
+            infoLabel.setCaption( retreivedData );
+            MidletMain.screen.repaint();
+          }
+        }.start();
       }
     };
     /** GObject **/
@@ -106,7 +111,7 @@ public class OpinionSendFrame extends Window {
     opinionField.isFocusable = true;
     pane.addItem( opinionField );
     Label notifyLabel = new Label( Localization.getMessage( "OPINION_NOTIFY_LABEL" ) );
-    notifyLabel.setHeader( true );
+    notifyLabel.setTitle( true );
     pane.addItem( notifyLabel );
 
     setGObject( pane );
