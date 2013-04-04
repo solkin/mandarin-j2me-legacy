@@ -87,6 +87,7 @@ public class FirstMasterFrame extends Window {
     panes[2].addItem( titleLabel4 );
     panes[2].addItem( new Label( Localization.getMessage( "INFO_MANDARIN_NEEDS" ) ) );
     genderMale = new Radio( Localization.getMessage( "GENDER_MALE" ), false );
+    genderMale.setFocused( true );
     genderFemale = new Radio( Localization.getMessage( "GENDER_FEMALE" ), false );
     genderGroup = new RadioGroup();
     genderGroup.addRadio( genderMale );
