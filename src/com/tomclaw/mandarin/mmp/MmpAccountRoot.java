@@ -339,4 +339,8 @@ public class MmpAccountRoot extends AccountRoot {
     }
     return 0;
   }
+
+  public String getStatusDescr( int statusIndex ) {
+    return MmpStatusUtil.getStatusDescr( statusIndex );
+  }
 }

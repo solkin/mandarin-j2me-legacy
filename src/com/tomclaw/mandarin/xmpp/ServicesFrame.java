@@ -15,15 +15,15 @@ import java.util.Vector;
  */
 public class ServicesFrame extends Window {
 
-  public Pane hostChangePane;
-  public Field hostField;
-  public Group servicesGroup;
-  public PopupItem servicesPopup;
-  public PopupItem hostChangePopup;
-  public XmppAccountRoot xmppAccountRoot;
-  public String requestId = "";
-  public Vector services;
-  public ServiceItem parentService;
+  private Pane hostChangePane;
+  private Field hostField;
+  private Group servicesGroup;
+  private PopupItem servicesPopup;
+  private PopupItem hostChangePopup;
+  private XmppAccountRoot xmppAccountRoot;
+  private String requestId = "";
+  private Vector services;
+  private ServiceItem parentService;
   private ServiceGroup tempItemsHeader;
 
   public ServicesFrame( final XmppAccountRoot accountRoot ) {
@@ -35,6 +35,7 @@ public class ServicesFrame extends Window {
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "CANCEL" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
@@ -42,6 +43,7 @@ public class ServicesFrame extends Window {
     /** Right soft items **/
     servicesPopup = new PopupItem( Localization.getMessage( "MENU" ) );
     servicesPopup.addSubItem( new PopupItem( Localization.getMessage( "CHANGE_HOST" ) ) {
+
       public void actionPerformed() {
         soft.rightSoft = hostChangePopup;
         setGObject( hostChangePane );
@@ -49,16 +51,19 @@ public class ServicesFrame extends Window {
       }
     } );
     servicesPopup.addSubItem( new PopupItem( Localization.getMessage( "SERVICES_ROOT" ) ) {
+
       public void actionPerformed() {
         hostChangePopup.actionPerformed();
       }
     } );
     servicesPopup.addSubItem( new PopupItem( Localization.getMessage( "REFRESH" ) ) {
+
       public void actionPerformed() {
         requestItems();
       }
     } );
     servicesPopup.addSubItem( new PopupItem( Localization.getMessage( "SERVICE_INFO" ) ) {
+
       public void actionPerformed() {
         ServiceItem serviceItem = getSelectedItem();
         String[] param = new String[]{ "SERV_JID", "SERV_NAME", "SERV_NODE", "SERV_IDENT", "SERV_FEAT" };
@@ -93,6 +98,7 @@ public class ServicesFrame extends Window {
     } );
     /** Right soft items **/
     hostChangePopup = new PopupItem( Localization.getMessage( "SEARCH" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setWaitScreenState( true );
         soft.rightSoft = servicesPopup;
@@ -122,6 +128,7 @@ public class ServicesFrame extends Window {
     /** Creating list **/
     servicesGroup = new Group();
     servicesGroup.actionPerformedEvent = new GroupEvent() {
+
       public void actionPerformed( GroupChild gc ) {
         if ( ( ( ServiceItem ) gc ).containsFeature( "http://jabber.org/protocol/disco#items" ) ) {
           parentService = ( ServiceItem ) gc;
@@ -145,6 +152,7 @@ public class ServicesFrame extends Window {
       requestId = "srvfrm_items".concat( xmppAccountRoot.xmppSession.getId() );
       XmppSender.requesingAllItems( xmppAccountRoot.xmppSession, parentService.jid, parentService.node, requestId );
       new Thread() {
+
         public void run() {
           String id = requestId;
           try {

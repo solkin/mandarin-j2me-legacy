@@ -56,7 +56,7 @@ public class MidletMain extends MIDlet {
   public static int keepAliveDelay = 20;
   public static int httpHiddenPing = 120;
   public static boolean autoReconnect = true;
-  public static int reconnectTime = 15000;
+  public static int reconnectTime = 20000;
   /** Sound **/
   public static boolean isSound = true;
   public static String defSoundLocation = "/res/sounds/";
@@ -166,7 +166,6 @@ public class MidletMain extends MIDlet {
     splashFrame.updateGaugeValue( 40 );
     updateSpySettings();
     splashFrame.updateGaugeValue( 43 );
-
     updateDataCount();
     splashFrame.updateGaugeValue( 45 );
     saveDataCountThread();

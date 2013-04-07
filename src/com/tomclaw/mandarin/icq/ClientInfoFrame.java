@@ -15,11 +15,11 @@ import com.tomclaw.utils.TimeUtil;
  */
 public class ClientInfoFrame extends Window {
 
-  public Pane plainInfoPane;
-  public Pane dcInfoPane;
-  public List capsInfoList;
-  public String clientBuffer = "";
-  public Tab tab;
+  private Pane plainInfoPane;
+  private Pane dcInfoPane;
+  private List capsInfoList;
+  private String clientBuffer = "";
+  private Tab tab;
 
   public ClientInfoFrame( final IcqAccountRoot icqAccountRoot, IcqItem icqItem ) {
     super( MidletMain.screen );

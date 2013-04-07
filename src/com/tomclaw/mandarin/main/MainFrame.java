@@ -1348,7 +1348,7 @@ public class MainFrame extends Window {
                   MmpPacketSender.MRIM_CS_CHANGE_STATUS( mmpAccountRoot,
                           statusId, mmpAccountRoot.statusText );
                   updateAccountsStatus();
-                } catch ( IOException ex ) {
+                } catch ( Throwable ex ) {
                   LogUtil.outMessage( "Can't set status", true );
                 }
                 SetStatusTextFrame setStatusTextFrame = new SetStatusTextFrame( mmpAccountRoot, statusIndex );

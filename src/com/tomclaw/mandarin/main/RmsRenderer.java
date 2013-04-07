@@ -13,9 +13,11 @@ import com.tomclaw.utils.StringUtil;
  */
 public class RmsRenderer {
 
-  public static GroupHeader getRmsGroupHeader( byte[] data, AccountRoot accoutRoot ) {
+  public static GroupHeader getRmsGroupHeader(
+          byte[] data, AccountRoot accoutRoot ) {
     int offset;
-    GroupHeader groupHeader = new GroupHeader( StringUtil.byteArrayToString( data, 2, offset = DataUtil.get16( data, 0 ), true ) );
+    GroupHeader groupHeader = new GroupHeader( StringUtil.byteArrayToString(
+            data, 2, offset = DataUtil.get16( data, 0 ), true ) );
     offset += 2;
     int childsCount = DataUtil.get16( data, offset );
     offset += 2;
@@ -65,7 +67,11 @@ public class RmsRenderer {
         // offset = 0;
         groupChild = ( BuddyItem ) groupHeader.getChilds().elementAt( c );
         titleData = StringUtil.stringToByteArray( groupChild.getUserId(), true );
-        itemData = new byte[ 9 + titleData.length + StringUtil.stringToByteArray( groupChild.getUserNick(), true ).length + StringUtil.stringToByteArray( groupChild.getUserPhone(), true ).length ];
+        itemData = new byte[ 9 + titleData.length
+                + StringUtil.stringToByteArray(
+                groupChild.getUserNick(), true ).length
+                + StringUtil.stringToByteArray( groupChild.getUserPhone(),
+                true ).length ];
         /** Title **/
         DataUtil.put16( itemData, 0, titleData.length );
         DataUtil.putArray( itemData, 2, titleData );

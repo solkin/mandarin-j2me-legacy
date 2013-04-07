@@ -212,7 +212,9 @@ public class IcqDirectConnection implements DirectConnection {
     proxyServerPacket = localProxyConnection.read( 2 );
     int length = DataUtil.get16( proxyServerPacket, 0 );
     proxyServerPacket = localProxyConnection.read( length );
-    HexUtil.dump_( proxyServerPacket, "proxyServerPacket " );
+    if ( MidletMain.logLevel == 1 ) {
+      HexUtil.dump_( proxyServerPacket, "proxyServerPacket " );
+    }
 
     int offset = 0;
     int protVer = DataUtil.get16( proxyServerPacket, offset );
@@ -427,17 +429,19 @@ public class IcqDirectConnection implements DirectConnection {
         int offset = 0;
         int length = DataUtil.get16( lengthData, offset );
         byte[] proxyData = dcConnection.read( length );
-        HexUtil.dump_( proxyData, "proxyData " );
         int packVer = DataUtil.get16( proxyData, offset );
-        LogUtil.outMessage( "packVer=" + packVer );
         int cmdType = DataUtil.get16( proxyData, offset += 2 );
-        LogUtil.outMessage( "cmdType=" + cmdType );
         int unk1 = DataUtil.get16( proxyData, offset += 2 );
-        LogUtil.outMessage( "unk1=" + unk1 );
         int unk2 = DataUtil.get16( proxyData, offset += 2 );
-        LogUtil.outMessage( "unk2=" + unk2 );
         int flags = DataUtil.get16( proxyData, offset += 2 );
-        LogUtil.outMessage( "flags=" + flags );
+        if ( MidletMain.logLevel == 1 ) {
+          HexUtil.dump_( proxyData, "proxyData " );
+          LogUtil.outMessage( "packVer=" + packVer );
+          LogUtil.outMessage( "cmdType=" + cmdType );
+          LogUtil.outMessage( "unk1=" + unk1 );
+          LogUtil.outMessage( "unk2=" + unk2 );
+          LogUtil.outMessage( "flags=" + flags );
+        }
         if ( cmdType == 0x0001 ) {
           int errCode = DataUtil.get16( proxyData, offset += 2 );
           LogUtil.outMessage( "errCode=" + cmdType );
@@ -479,7 +483,9 @@ public class IcqDirectConnection implements DirectConnection {
 
     LogUtil.outMessage( "Ready to receive" );
     byte[] proxyServerPacket = dcConnection.read( 256 );
-    HexUtil.dump_( proxyServerPacket, "proxyServerPacket " );
+    if ( MidletMain.logLevel == 1 ) {
+      HexUtil.dump_( proxyServerPacket, "proxyServerPacket " );
+    }
     DataUtil.put16( proxyServerPacket, 0x06, 0x0202 );
     dcConnection.write( proxyServerPacket );
     dcConnection.flush();
@@ -488,7 +494,6 @@ public class IcqDirectConnection implements DirectConnection {
 
     LogUtil.outMessage( "Receiving file: " + ( int ) fileByteSize );
 
-    //Logger.outMessage(fileName);
     FileConnection fileConnection;
     OutputStream outputStream;
     try {
@@ -579,17 +584,19 @@ public class IcqDirectConnection implements DirectConnection {
       int offset = 0;
       int length = DataUtil.get16( lengthData, offset );
       byte[] proxyData = localProxyConnection.read( length );
-      HexUtil.dump_( proxyData, "proxyData " );
       int packVer = DataUtil.get16( proxyData, offset );
-      LogUtil.outMessage( "packVer=" + packVer );
       int cmdType = DataUtil.get16( proxyData, offset += 2 );
-      LogUtil.outMessage( "cmdType=" + cmdType );
       int unk1 = DataUtil.get16( proxyData, offset += 2 );
-      LogUtil.outMessage( "unk1=" + unk1 );
       int unk2 = DataUtil.get16( proxyData, offset += 2 );
-      LogUtil.outMessage( "unk2=" + unk2 );
       int flags = DataUtil.get16( proxyData, offset += 2 );
-      LogUtil.outMessage( "flags=" + flags );
+      if ( MidletMain.logLevel == 1 ) {
+        HexUtil.dump_( proxyData, "proxyData " );
+        LogUtil.outMessage( "packVer=" + packVer );
+        LogUtil.outMessage( "cmdType=" + cmdType );
+        LogUtil.outMessage( "unk1=" + unk1 );
+        LogUtil.outMessage( "unk2=" + unk2 );
+        LogUtil.outMessage( "flags=" + flags );
+      }
       if ( cmdType == 0x0001 ) {
         int errCode = DataUtil.get16( proxyData, offset += 2 );
         LogUtil.outMessage( "errCode=" + cmdType );
@@ -699,7 +706,10 @@ public class IcqDirectConnection implements DirectConnection {
     dcConnection.flush();
 
     byte[] proxyServerPacket = dcConnection.read( 256 );
-    HexUtil.dump_( proxyServerPacket, "proxyServerPacket " );
+    
+    if ( MidletMain.logLevel == 1 ) {
+      HexUtil.dump_( proxyServerPacket, "proxyServerPacket " );
+    }
 
     statusString = "TRANSFERING_FILE";
     ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
@@ -760,7 +770,9 @@ public class IcqDirectConnection implements DirectConnection {
     ActionExec.updateTransactions( icqAccountRoot );
 
     proxyServerPacket = dcConnection.read( 256 );
-    HexUtil.dump_( proxyServerPacket, "proxyServerPacket " );
+    if ( MidletMain.logLevel == 1 ) {
+      HexUtil.dump_( proxyServerPacket, "proxyServerPacket " );
+    }
     dcConnection.disconnect();
   }
 }

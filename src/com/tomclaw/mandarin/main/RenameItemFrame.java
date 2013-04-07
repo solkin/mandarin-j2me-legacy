@@ -14,8 +14,8 @@ import java.util.Hashtable;
  */
 public class RenameItemFrame extends Window {
 
-  public Field itemNameField;
-  public Field phoneNumberField;
+  private Field itemNameField;
+  private Field phoneNumberField;
 
   public RenameItemFrame( final AccountRoot accountRoot, final BuddyItem buddyItem ) {
     super( MidletMain.screen );
@@ -26,11 +26,13 @@ public class RenameItemFrame extends Window {
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "CANCEL" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "RENAME" ) ) {
+
       public void actionPerformed() {
         LogUtil.outMessage( "Rename pressed" );
         if ( !StringUtil.isFill( itemNameField.getText() ) ) {
@@ -42,6 +44,7 @@ public class RenameItemFrame extends Window {
             Cookie cookie = accountRoot.renameBuddy( itemNameField.getText(), buddyItem, isPhone ? phoneNumberField.getText() : "" );
             LogUtil.outMessage( "Request queued, cookie received" );
             QueueAction queueAction = new QueueAction( accountRoot, buddyItem, cookie ) {
+
               public void actionPerformed( Hashtable params ) {
                 LogUtil.outMessage( "Action Performed" );
                 this.buddyItem.setUserNick( itemNameField.getText() );
@@ -94,11 +97,13 @@ public class RenameItemFrame extends Window {
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "CANCEL" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "RENAME" ) ) {
+
       public void actionPerformed() {
         if ( !StringUtil.isFill( itemNameField.getText() ) ) {
           ActionExec.showNotify( Localization.getMessage( "EMPTY_FIELD" ) );
@@ -108,6 +113,7 @@ public class RenameItemFrame extends Window {
             Cookie cookie = accountRoot.renameGroup( itemNameField.getText(), buddyGroup );
             LogUtil.outMessage( "Request queued, cookie received" );
             QueueAction queueAction = new QueueAction( accountRoot, buddyGroup, cookie ) {
+
               public void actionPerformed( Hashtable params ) {
                 LogUtil.outMessage( "Action Performed" );
                 this.buddyGroup.setUserId( itemNameField.getText() );

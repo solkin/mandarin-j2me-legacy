@@ -29,7 +29,7 @@ public class NetTestFrame extends Window {
     pane = new Pane( null, false );
 
     Label sendLabel = new Label( Localization.getMessage( "NETWORK_TEST_STATUS" ) );
-    sendLabel.setTitle( true );
+    sendLabel.setHeader( true );
     pane.addItem( sendLabel );
 
     infoLabel = new Label( Localization.getMessage( "NET_TEST_LABEL" ) );

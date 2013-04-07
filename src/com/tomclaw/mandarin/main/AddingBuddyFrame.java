@@ -22,9 +22,9 @@ public class AddingBuddyFrame extends Window {
   private static final int TYPE_MMP = 0x01;
   private static final int TYPE_PHONE = 0x02;
   /** Fields **/
-  public Field buddyIdField;
-  public Field buddyNickField;
-  public RadioGroup buddyGroup;
+  private Field buddyIdField;
+  private Field buddyNickField;
+  private RadioGroup buddyGroup;
 
   public AddingBuddyFrame( final AccountRoot accountRoot, final int winType ) {
     super( MidletMain.screen );

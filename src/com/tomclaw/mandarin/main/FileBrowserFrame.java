@@ -32,6 +32,7 @@ public class FileBrowserFrame extends Window {
     header = new Header( Localization.getMessage( "FILE_BROWSER_FRAME" ) );
     soft = new Soft( MidletMain.screen );
     PopupItem openItem = new PopupItem( Localization.getMessage( "OPEN_ITEM" ) ) {
+
       public void actionPerformed() {
         filesList.listEvent.actionPerformed( null );
       }
@@ -40,6 +41,7 @@ public class FileBrowserFrame extends Window {
     PopupItem menuItem = new PopupItem( Localization.getMessage( "MENU_ITEM" ) );
     soft.rightSoft = menuItem;
     PopupItem backItem = new PopupItem( Localization.getMessage( "CANCEL_ITEM" ) ) {
+
       public void actionPerformed() {
         if ( FileBrowserFrame.this.s_prevWindow != null ) {
           MidletMain.screen.setActiveWindow( FileBrowserFrame.this.s_prevWindow );
@@ -49,6 +51,7 @@ public class FileBrowserFrame extends Window {
     soft.rightSoft.addSubItem( backItem );
     if ( manType == 0x00 ) {
       PopupItem infoPopupItem = new PopupItem( Localization.getMessage( "INFO_ITEM" ) ) {
+
         public void actionPerformed() {
           String __selectedString;
           __selectedString = ( ( ListItem ) filesList.items.elementAt( filesList.selectedIndex ) ).title;
@@ -76,6 +79,7 @@ public class FileBrowserFrame extends Window {
     }
     if ( manType == 0x01 ) {
       PopupItem selectItem = new PopupItem( Localization.getMessage( "SELECT_ITEM" ) ) {
+
         public void actionPerformed() {
           String __selectedString = ( ( ListItem ) filesList.items.elementAt( filesList.selectedIndex ) ).title;
           if ( __selectedString.hashCode() != "...".hashCode() ) {
@@ -104,6 +108,7 @@ public class FileBrowserFrame extends Window {
     }
     filesList = new List();
     filesList.listEvent = new ListEvent() {
+
       public void actionPerformed( ListItem li ) {
         /** Action thread was been **/
         String __selectedString;
@@ -129,6 +134,7 @@ public class FileBrowserFrame extends Window {
                   directConnection.generateCookie();
                   accountRoot.getTransactionManager().addTransaction( directConnection );
                   new Thread() {
+
                     public void run() {
                       try {
                         directConnection.sendFile();

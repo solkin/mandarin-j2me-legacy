@@ -20,6 +20,7 @@ public class InfoFrame extends Window {
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
@@ -33,7 +34,6 @@ public class InfoFrame extends Window {
   }
 
   private void addLabels( String title, String descr ) {
-    pane.addItem( new Label( new RichContent( "[p][b]" + Localization
-            .getMessage( title ) + ": [/b]" + descr + "[/p]" ) ) );
+    pane.addItem( new Label( new RichContent( "[p][b]" + Localization.getMessage( title ) + ": [/b]" + descr + "[/p]" ) ) );
   }
 }

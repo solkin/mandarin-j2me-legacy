@@ -39,12 +39,14 @@ public class GroupChatUsersFrame extends Window {
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     final PopupItem infoPopupItem = new PopupItem(
             Localization.getMessage( "INFO_AFFILIATION" ) ) {
+
       public void actionPerformed() {
         if ( ( ( List ) tab.gObject ).selectedIndex != -1
                 && ( ( List ) tab.gObject ).selectedIndex < ( ( List ) tab.gObject ).items.size() ) {
@@ -53,13 +55,13 @@ public class GroupChatUsersFrame extends Window {
           String[] param = null;
           String[] value = null;
           if ( groupChatUser.affiliation != null ) {
-            param = new String[] { "AFFILIATION_JID", "NICK", "AFFILIATION_REASON", "AFFILIATION" };
-            value = new String[] { groupChatUser.jid, groupChatUser.nick,
+            param = new String[]{ "AFFILIATION_JID", "NICK", "AFFILIATION_REASON", "AFFILIATION" };
+            value = new String[]{ groupChatUser.jid, groupChatUser.nick,
               groupChatUser.reason == null ? Localization.getMessage( "NO_REASON" ) : groupChatUser.reason,
               Localization.getMessage( groupChatUser.affiliation.toUpperCase() ) };
           } else if ( groupChatUser.role != null ) {
-            param = new String[] { "AFFILIATION_JID", "NICK", "AFFILIATION_REASON", "ROLE" };
-            value = new String[] { groupChatUser.jid, groupChatUser.nick, groupChatUser.reason == null ? Localization.getMessage( "NO_REASON" ) : groupChatUser.reason,
+            param = new String[]{ "AFFILIATION_JID", "NICK", "AFFILIATION_REASON", "ROLE" };
+            value = new String[]{ groupChatUser.jid, groupChatUser.nick, groupChatUser.reason == null ? Localization.getMessage( "NO_REASON" ) : groupChatUser.reason,
               Localization.getMessage( groupChatUser.role.toUpperCase() ) };
           }
           InfoFrame infoFrame = new InfoFrame( param, value );
@@ -69,12 +71,14 @@ public class GroupChatUsersFrame extends Window {
       }
     };
     PopupItem roleItem = new PopupItem( Localization.getMessage( "ROLE_INFO" ) ) {
+
       public void actionPerformed() {
         infoPopupItem.actionPerformed();
       }
     };
     PopupItem affiliationItem = new PopupItem( Localization.getMessage( "AFFILIATION_ITEM" ) );
     affiliationItem.addSubItem( new PopupItem( Localization.getMessage( "ADD_AFFILIATION" ) ) {
+
       public void actionPerformed() {
         MidletMain.affiliationAddFrame = new AffiliationAddFrame( xmppAccountRoot, groupChatJid );
         MidletMain.affiliationAddFrame.s_prevWindow = GroupChatUsersFrame.this;
@@ -82,6 +86,7 @@ public class GroupChatUsersFrame extends Window {
       }
     } );
     affiliationItem.addSubItem( new PopupItem( Localization.getMessage( "REMOVE_AFFILIATION" ) ) {
+
       public void actionPerformed() {
         try {
           removeItem();
@@ -113,6 +118,7 @@ public class GroupChatUsersFrame extends Window {
       soft.rightSoft = affiliationItem;
     }
     tab.tabEvent = new TabEvent() {
+
       public void stateChanged( int previousIndex, int selectedIndex, int tabsCount ) {
         if ( isRole ) {
           if ( selectedIndex == 0 ) {

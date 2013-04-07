@@ -73,9 +73,8 @@ public class MmpPacketParser {
               }
             }
           }
-          System.out.println( "Group (" + mmpGroup.userId + ") flags: " + mmpGroup.flags + ") contactId: " + mmpGroup.contactId );
-          LogUtil.outMessage( "Group (" + mmpGroup.userId + ") >>" + mmpGroup.flags );
-
+          LogUtil.outMessage( "Group (" + mmpGroup.userId + ") flags: " + mmpGroup.flags + ") contactId: " + mmpGroup.contactId );
+          
           if ( ( mmpGroup.flags & PacketType.CONTACT_FLAG_REMOVED ) == 0 ) {
             LogUtil.outMessage( "name: " + mmpGroup.userId + " id: " + mmpGroup.contactId + " flags: " + mmpGroup.flags );
             buddyList.addElement( mmpGroup );
@@ -166,9 +165,6 @@ public class MmpPacketParser {
                 } else if ( buddyMask.charAt( i ) == 's' ) {
                   int length = ( int ) DataUtil.get32( packet.data.byteString,
                           offset, false );
-                  /*System.out.println( i + ": " + StringUtil.byteArrayToString(
-                   DataUtil.getByteArray( packet.data.byteString,
-                   offset += 4, length ) ) );*/
                   offset += 4;
                   offset += length;
                 }
@@ -467,7 +463,7 @@ public class MmpPacketParser {
         HttpConnection http = ( HttpConnection ) Connector.open(
                 "http://buddyicon.foto.mail.ru/" + domain + "/" + userName + "/_avatar",
                 Connector.READ, true );
-        System.out.println( "http://buddyicon.foto.mail.ru/" + domain + "/" + userName + "/_avatar" );
+        LogUtil.outMessage( "http://buddyicon.foto.mail.ru/" + domain + "/" + userName + "/_avatar" );
         http.setRequestMethod( "GET" );
         if ( http.getResponseCode() == HttpConnection.HTTP_OK ) {
           InputStream stream = http.openInputStream();

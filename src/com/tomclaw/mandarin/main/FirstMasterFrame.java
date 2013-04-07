@@ -35,6 +35,7 @@ public class FirstMasterFrame extends Window {
     /** Soft **/
     soft = new Soft( MidletMain.screen );
     soft.leftSoft = new PopupItem( "" ) {
+
       public void actionPerformed() {
         /** Checking for soft button is disabled **/
         if ( title.length() == 0 ) {
@@ -47,6 +48,7 @@ public class FirstMasterFrame extends Window {
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "NEXT" ) ) {
+
       public void actionPerformed() {
         /** Checking for soft button is disabled **/
         if ( title.length() == 0 ) {
@@ -161,6 +163,7 @@ public class FirstMasterFrame extends Window {
     if ( masterStep == 4 ) {
       MidletMain.screen.repaint();
       new Thread() {
+
         public void run() {
           String retreivedData = null;
           try {

@@ -49,18 +49,21 @@ public class PhotoPreparingFrame extends Window {
     soft = new Soft( MidletMain.screen );
 
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
 
     soft.rightSoft = new PopupItem( Localization.getMessage( "SNAPSHOT" ) ) {
+
       public void actionPerformed() {
         MidletMain.isPhotoActive = true;
         try {
           VideoControl mVideoControl = ( VideoControl ) mPlayer.getControl( "VideoControl" );
           //Display.getDisplay(this).setCurrent(new CameraCanvas(mPlayer, mVideoControl, "png"));
           final Canvas canvas = new Canvas() {
+
             protected void paint( Graphics g ) {
               g.setColor( 0xFFFFFF );
               g.fillRect( 0, 0, getWidth(), getHeight() );
@@ -89,6 +92,7 @@ public class PhotoPreparingFrame extends Window {
           canvas.addCommand( cancelCommand );
 
           canvas.setCommandListener( new CommandListener() {
+
             public void commandAction( Command c, Displayable d ) {
               if ( c.getCommandType() == Command.OK ) {
                 /** Snapping **/
@@ -150,6 +154,7 @@ public class PhotoPreparingFrame extends Window {
           mPlayer.start();
 
           mPlayer.addPlayerListener( new PlayerListener() {
+
             public void playerUpdate( Player player, String event, Object eventData ) {
               LogUtil.outMessage( "event = " + event );
               if ( event.equals( SnapshotControl.SHOOTING_STOPPED ) ) {
@@ -184,6 +189,7 @@ public class PhotoPreparingFrame extends Window {
                     accountRoot.getTransactionManager().addTransaction( directConnection );
 
                     new Thread() {
+
                       public void run() {
                         try {
                           directConnection.sendFile();

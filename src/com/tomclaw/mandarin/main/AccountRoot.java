@@ -239,7 +239,8 @@ public abstract class AccountRoot {
     isStatusReadable = ( statusData.indexOf( "&rdb" ) == -1 ) ? false
             : statusData.substring( statusData.indexOf( "&rdb" ) + 4 )
             .equals( "true" );
-    System.out.println("loadStatus: " + statusText + " [" + isStatusReadable + "]");
+    LogUtil.outMessage( "loadStatus: " + statusText 
+            + " [" + isStatusReadable + "]" );
   }
 
   public void setShowGroups( boolean isShowGroups ) {
@@ -310,4 +311,6 @@ public abstract class AccountRoot {
   public abstract int getNextBuddyId();
 
   public abstract int getNextGroupId();
+
+  public abstract String getStatusDescr( int statusIndex );
 }

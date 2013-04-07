@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public class AuthRequestFrame extends Window {
 
-  public Field requestTextField;
+  private Field requestTextField;
 
   public AuthRequestFrame( final AccountRoot accountRoot, final BuddyItem buddyItem ) {
     super( MidletMain.screen );
@@ -22,11 +22,13 @@ public class AuthRequestFrame extends Window {
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "CANCEL" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "REQUEST" ) ) {
+
       public void actionPerformed() {
         if ( !StringUtil.isFill( requestTextField.getText() ) ) {
           ActionExec.showNotify( Localization.getMessage( "EMPTY_FIELD" ) );

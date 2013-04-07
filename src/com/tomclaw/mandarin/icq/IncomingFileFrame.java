@@ -15,8 +15,11 @@ public class IncomingFileFrame extends Window {
 
   private Pane pane;
 
-  public IncomingFileFrame( final IcqAccountRoot icqAccountRoot, final int ch2msgType, final String buddyId, final int[] externalIp, final int dcTcpPort, final boolean isViaRendezvousServer,
-          final long fileLength, final byte[] fileName, final byte[] cookie ) {
+  public IncomingFileFrame( final IcqAccountRoot icqAccountRoot,
+          final int ch2msgType, final String buddyId,
+          final int[] externalIp, final int dcTcpPort,
+          final boolean isViaRendezvousServer, final long fileLength,
+          final byte[] fileName, final byte[] cookie ) {
     super( MidletMain.screen );
 
     header = new Header( Localization.getMessage( "INC_FILE" ) );
@@ -24,14 +27,17 @@ public class IncomingFileFrame extends Window {
     soft = new Soft( MidletMain.screen );
 
     soft.leftSoft = new PopupItem( Localization.getMessage( "CANCEL" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "ACCEPT" ) ) {
+
       public void actionPerformed() {
         /** Accepting file **/
         new Thread() {
+
           public void run() {
             ActionExec.performTransferAction( icqAccountRoot, ch2msgType,
                     buddyId, externalIp, dcTcpPort, isViaRendezvousServer,
@@ -44,8 +50,7 @@ public class IncomingFileFrame extends Window {
 
     pane = new Pane( null, false );
 
-    Label label = new Label( Localization.getMessage( "INC_FILE_FROM" )
-            .concat( " " ).concat( buddyId ) );
+    Label label = new Label( Localization.getMessage( "INC_FILE_FROM" ).concat( " " ).concat( buddyId ) );
     label.setHeader( true );
     pane.addItem( label );
 
@@ -71,7 +76,8 @@ public class IncomingFileFrame extends Window {
   }
 
   private void addLabels( String title, String descr ) {
-    pane.addItem( new Label( new RichContent( "[p][b]" + Localization
-            .getMessage( title ) + ": [/b]" + descr + "[/p]" ) ) );
+    pane.addItem( new Label( new RichContent( "[p][b]"
+            + Localization.getMessage( title ) + ": [/b]"
+            + descr + "[/p]" ) ) );
   }
 }

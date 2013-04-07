@@ -14,12 +14,12 @@ import java.io.IOException;
  */
 public class StatusReaderFrame extends Window {
 
-  public Label statusText;
-  public Label xStatusDescr;
-  public Pane pane;
+  private Label statusText;
+  private Label xStatusDescr;
+  private Pane pane;
+  private Capability capability;
   public byte[] plainCookie = new byte[ 8 ];
   public byte[] xStatCookie = new byte[ 8 ];
-  private Capability capability;
 
   public StatusReaderFrame( final IcqAccountRoot icqAccountRoot,
           final IcqItem icqItem ) {

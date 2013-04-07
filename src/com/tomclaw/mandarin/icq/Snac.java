@@ -209,8 +209,8 @@ public class Snac {
   }
 
   /**
-   Creates a channel 2 FLAP packet with this SNAC packet inside,
-   and sends it immediately using a given connection conn.
+   * Creates a channel 2 FLAP packet with this SNAC packet inside,
+   * and sends it immediately using a given connection conn.
    */
   public void send( NetConnection netConnection, int seq ) throws IOException {
     if ( netConnection == null ) {
@@ -229,7 +229,6 @@ public class Snac {
 
     netConnection.write( bas.toByteArray() );
 
-    // Logger.outMessage("<< SNAC (" + HexUtil.toHexString(family) + ", " + HexUtil.toHexString(subtype) + ")");
     if ( MidletMain.logLevel == 1 ) {
       HexUtil.dump_( System.out, bas.toByteArray(), "<< SNAC (" + HexUtil.toHexString( family ) + ", " + HexUtil.toHexString( subtype ) + "): " );
     }

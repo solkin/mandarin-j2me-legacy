@@ -21,7 +21,8 @@ public class CapUtil {
   public static void loadCaps() {
     try {
       dataCaps = new BinGear();
-      dataCaps.readFromDat( new DataInputStream( MidletMain.clazz.getResourceAsStream( "/res/caps.dat" ) ) );
+      dataCaps.readFromDat( new DataInputStream( 
+              MidletMain.clazz.getResourceAsStream( "/res/caps.dat" ) ) );
       LogUtil.outMessage( "caps.dat successfully been read" );
     } catch ( IOException ex ) {
       LogUtil.outMessage( "caps.dat: IOException" );
@@ -43,9 +44,7 @@ public class CapUtil {
         capability.capName = null;
         return capability;
       } else {
-        /**
-         * This is plain capability
-         */
+        /** This is plain capability **/
         capability.capIcon = dataCaps.getValue( capString, "icon", false );
         capability.capName = dataCaps.getValue( capString, "name", false );
         type = dataCaps.getValue( capString, "type", false );

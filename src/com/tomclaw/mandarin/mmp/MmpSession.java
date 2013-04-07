@@ -88,7 +88,7 @@ public class MmpSession implements Runnable {
       public void run() {
         while ( isAlive ) {
           try {
-            sleep( MmpSession.this.pingDelay );
+            sleep( MmpSession.this.pingDelay / 2 );
             Packet packet = new Packet();
             packet.seq = seqNum++;
             packet.msg = PacketType.MRIM_CS_PING;

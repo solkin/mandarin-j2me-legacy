@@ -11,7 +11,7 @@ import com.tomclaw.tcuilite.localization.Localization;
 public class ServiceMessagesFrame extends Window {
 
   public Pane pane;
-  public ServiceMessages serviceMessages;
+  private ServiceMessages serviceMessages;
 
   public ServiceMessagesFrame() {
     super( MidletMain.screen );
@@ -21,6 +21,7 @@ public class ServiceMessagesFrame extends Window {
     soft = new Soft( MidletMain.screen );
 
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
@@ -28,6 +29,7 @@ public class ServiceMessagesFrame extends Window {
     soft.rightSoft = new PopupItem( Localization.getMessage( "MENU" ) );
 
     soft.rightSoft.addSubItem( new PopupItem( Localization.getMessage( "APPEND" ) ) {
+
       public void actionPerformed() {
         ChatItem chatItem = ( ( ChatItem ) pane.getFocusedPaneObject() );
         if ( chatItem == null ) {
@@ -37,6 +39,7 @@ public class ServiceMessagesFrame extends Window {
       }
     } );
     soft.rightSoft.addSubItem( new PopupItem( Localization.getMessage( "COPY" ) ) {
+
       public void actionPerformed() {
         ChatItem chatItem = ( ( ChatItem ) pane.getFocusedPaneObject() );
         if ( chatItem == null ) {
@@ -47,6 +50,7 @@ public class ServiceMessagesFrame extends Window {
       }
     } );
     soft.rightSoft.addSubItem( new PopupItem( Localization.getMessage( "CLEAR" ) ) {
+
       public void actionPerformed() {
         serviceMessages.clearMessages();
       }

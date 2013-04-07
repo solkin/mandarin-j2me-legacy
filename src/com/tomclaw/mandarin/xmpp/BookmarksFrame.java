@@ -17,10 +17,10 @@ import java.util.Vector;
  */
 public class BookmarksFrame extends Window {
 
-  public XmppAccountRoot xmppAccountRoot;
-  public List bookmarksList;
-  public String requestId = "";
-  public Bookmark bookmark;
+  private XmppAccountRoot xmppAccountRoot;
+  private List bookmarksList;
+  private String requestId = "";
+  private Bookmark bookmark;
 
   public BookmarksFrame( final XmppAccountRoot xmppAccountRoot ) {
     super( MidletMain.screen );
@@ -31,6 +31,7 @@ public class BookmarksFrame extends Window {
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
@@ -38,6 +39,7 @@ public class BookmarksFrame extends Window {
     /** Right soft items **/
     soft.rightSoft = new PopupItem( Localization.getMessage( "MENU" ) );
     soft.rightSoft.addSubItem( new PopupItem( Localization.getMessage( "ADD_BOOKMARK" ) ) {
+
       public void actionPerformed() {
         BookmarkEditorFrame bookmarkEditorFrame = new BookmarkEditorFrame( null );
         bookmarkEditorFrame.s_prevWindow = BookmarksFrame.this;
@@ -45,6 +47,7 @@ public class BookmarksFrame extends Window {
       }
     } );
     soft.rightSoft.addSubItem( new PopupItem( Localization.getMessage( "EDIT_BOOKMARK" ) ) {
+
       public void actionPerformed() {
         if ( bookmarksList.selectedIndex != -1 && bookmarksList.selectedIndex < bookmarksList.items.size() ) {
           Bookmark bookmark = ( Bookmark ) bookmarksList.getElement( bookmarksList.selectedIndex );
@@ -55,6 +58,7 @@ public class BookmarksFrame extends Window {
       }
     } );
     soft.rightSoft.addSubItem( new PopupItem( Localization.getMessage( "REMOVE_BOOKMARK" ) ) {
+
       public void actionPerformed() {
         if ( bookmarksList.selectedIndex != -1 && bookmarksList.selectedIndex < bookmarksList.items.size() ) {
           bookmarksList.items.removeElementAt( bookmarksList.selectedIndex );
@@ -63,6 +67,7 @@ public class BookmarksFrame extends Window {
       }
     } );
     soft.rightSoft.addSubItem( new PopupItem( Localization.getMessage( "INFO_BOOKMARK" ) ) {
+
       public void actionPerformed() {
         if ( bookmarksList.selectedIndex != -1 && bookmarksList.selectedIndex < bookmarksList.items.size() ) {
           Bookmark bookmark = ( Bookmark ) bookmarksList.getElement( bookmarksList.selectedIndex );
@@ -87,6 +92,7 @@ public class BookmarksFrame extends Window {
       }
     } );
     soft.rightSoft.addSubItem( new PopupItem( Localization.getMessage( "JOIN_BOOKMARK" ) ) {
+
       public void actionPerformed() {
         joinBookmark();
       }
@@ -94,6 +100,7 @@ public class BookmarksFrame extends Window {
     /** List **/
     bookmarksList = new List();
     bookmarksList.listEvent = new ListEvent() {
+
       public void actionPerformed( ListItem li ) {
         joinBookmark();
       }
@@ -122,6 +129,7 @@ public class BookmarksFrame extends Window {
   public final void requestBookmarks() {
     MidletMain.screen.setWaitScreenState( true );
     new Thread() {
+
       public void run() {
         String id = requestId;
         try {

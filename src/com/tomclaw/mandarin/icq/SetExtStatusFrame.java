@@ -11,9 +11,9 @@ import com.tomclaw.tcuilite.localization.Localization;
  */
 public class SetExtStatusFrame extends Window {
 
-  public Field titleField;
-  public Field descrField;
-  public Check readableCheck;
+  private Field titleField;
+  private Field descrField;
+  private Check readableCheck;
 
   public SetExtStatusFrame( final IcqAccountRoot icqAccountRoot, final int xStatusId ) {
     super( MidletMain.screen );
@@ -23,12 +23,14 @@ public class SetExtStatusFrame extends Window {
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "CANCEL" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     /** Right soft item **/
     soft.rightSoft = new PopupItem( Localization.getMessage( "APPLY" ) ) {
+
       public void actionPerformed() {
         try {
           String[] groups = MidletMain.statuses.listGroups();

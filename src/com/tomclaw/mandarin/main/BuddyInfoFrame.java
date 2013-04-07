@@ -14,11 +14,11 @@ import java.util.Hashtable;
  */
 public class BuddyInfoFrame extends Window {
 
-  public Pane pane;
-  public int reqSeqNum;
+  private Pane pane;
+  private int reqSeqNum;
   public BuddyItem buddyItem;
-  public AccountRoot accountRoot;
-  public String clientBuffer = "";
+  private AccountRoot accountRoot;
+  private String clientBuffer = "";
   private Button updateNickButton;
 
   public BuddyInfoFrame( final AccountRoot accountRoot,

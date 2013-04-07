@@ -31,13 +31,12 @@ public class ActionExec {
 
   public static void setConnectionStage( AccountRoot accountRoot, int i ) {
     LogUtil.outMessage( "setConnectionStage(".concat( accountRoot.getUserId() ).concat( ": " ).concat( String.valueOf( i ) ).concat( ")" ) );
-    System.out.println( "setConnectionStage(".concat( accountRoot.getUserId() ).concat( ": " ).concat( String.valueOf( i ) ).concat( ")" ) );
     MidletMain.mainFrame.getAccountTab( accountRoot.getUserId() ).fillPercent = 100 * i / 10;
     MidletMain.screen.repaint();
   }
 
   public static void disconnectEvent( AccountRoot accountRoot ) {
-    /** Switch all buddyes to offline statusIndex **/
+    /** Switch all buddies to offline statusIndex **/
     accountRoot.offlineAllBuddyes();
     /** Update tab icons **/
     accountRoot.offlineAccount();
@@ -56,7 +55,6 @@ public class ActionExec {
     if ( icqItem != null ) {
       ChatTab chatTab = MidletMain.chatFrame.getChatTab( icqAccountRoot, buddyId, null );
       if ( chatTab != null ) {
-        // chatTab.buddyItem = icqItem;
         chatTab.updateChatCaption();
       }
     }
@@ -171,9 +169,7 @@ public class ActionExec {
           LogUtil.outMessage( "Alarm switched off cause groupChatSubject = null" );
         }
       }
-      /**
-       * Alarm
-       */
+      /** Alarm **/
       boolean isExpandedFlag;
       if ( !MidletMain.isPhotoActive && MidletMain.isExpand && ( !( Display.getDisplay( MidletMain.midletMain ).getCurrent() instanceof javax.microedition.lcdui.TextBox ) || Display.getDisplay( MidletMain.midletMain ).getCurrent() == null ) ) {
         Display.getDisplay( MidletMain.midletMain ).setCurrent( MidletMain.screen );
@@ -187,7 +183,6 @@ public class ActionExec {
           try {
             Thread.sleep( 400 );
           } catch ( InterruptedException ex ) {
-            // ex.printStackTrace();
           }
         }
         Display.getDisplay( MidletMain.midletMain ).vibrate( isUniqueNotify ? 500 : MidletMain.vibrateDelay );
@@ -265,7 +260,7 @@ public class ActionExec {
   }
 
   public static void setBuddyTypingStatus( final AccountRoot accountRoot, final String buddyId, String resource, boolean isTyping, boolean isInvertTyping ) {
-    /** Updating notify in buddylist **/
+    /** Updating notify in buddy list **/
     if ( isInvertTyping ) {
       // isTyping = MidletMain.mainFrame.typingNotify( accountRoot, buddyId );
     } else {

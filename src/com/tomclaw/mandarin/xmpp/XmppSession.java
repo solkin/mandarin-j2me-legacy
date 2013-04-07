@@ -153,7 +153,7 @@ public class XmppSession {
         try {
           while ( isAlive ) {
             XmppSession.this.netConnection.write( " ".getBytes() );
-            sleep( 5000 );
+            sleep( 20000 );
           }
         } catch ( Throwable ex ) {
           LogUtil.outMessage( "XmppSession: " + ex.getMessage() );

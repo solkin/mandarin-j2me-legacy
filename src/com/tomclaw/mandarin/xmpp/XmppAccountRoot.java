@@ -210,4 +210,8 @@ public class XmppAccountRoot extends AccountRoot {
       }
     }.start();
   }
+
+  public String getStatusDescr( int statusIndex ) {
+    return XmppStatusUtil.getStatusDescr( statusIndex );
+  }
 }

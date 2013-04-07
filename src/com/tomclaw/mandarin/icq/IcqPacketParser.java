@@ -1387,18 +1387,20 @@ public class IcqPacketParser {
   public static void ICQBuddyUserInfo( IcqAccountRoot icqAccountRoot,
           byte[] packetData, int snacSubtype, int snacFlags,
           byte[] snacRequestId ) {
-    HexUtil.dump_( packetData, "buddy info: " );
+    if ( MidletMain.logLevel == 1 ) {
+      HexUtil.dump_( packetData, "buddy info: " );
+    }
     BuddyInfo buddyInfo = new BuddyInfo();
     int offset = 10;
     int result = ( int ) DataUtil.get32( packetData, offset, true );
     offset += 4;
     if ( result == 0 ) {
-      System.out.println( "Info OK" );
+      LogUtil.outMessage( "Info OK" );
       /** Skip **/
       offset += DataUtil.get16( packetData, offset ) + 2 + 8;
       int count = ( int ) DataUtil.get32( packetData, offset, true );
       offset += 4;
-      System.out.println( "Count: " + count );
+      LogUtil.outMessage( "Count: " + count );
       for ( int n = count; --n >= 0; ) {
         int len = DataUtil.get16( packetData, offset );// setKey ( packet.readPascalUTF8 ( ) );
         offset += 2;
@@ -1501,7 +1503,7 @@ public class IcqPacketParser {
           offset += DataUtil.get16( packetData, offset ) + 2;
         }
         offset += 4;
-        System.out.println( "Info completed" );
+        LogUtil.outMessage( "Info completed" );
         buddyInfo.avatar = downloadAvatar( buddyInfo.buddyId );
         ActionExec.showUserShortInfo( icqAccountRoot, buddyInfo );
       }
@@ -1513,7 +1515,7 @@ public class IcqPacketParser {
       int atIndex = userId.indexOf( '@' );
       if ( atIndex != -1 ) {
         String domain = userId.substring( atIndex + 1 );
-        System.out.println( "Domain: " + domain );
+        LogUtil.outMessage( "Domain: " + domain );
         if ( !StringUtil.isNullOrEmpty( domain )
                 && ( domain.equals( "corp.mail.ru" )
                 || domain.equals( "mail.ru" )

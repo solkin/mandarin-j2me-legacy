@@ -24,11 +24,13 @@ public class OpinionSendFrame extends Window {
     /** Soft **/
     soft = new Soft( MidletMain.screen );
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "SEND" ) ) {
+
       public boolean isEmpty( String textData ) {
         boolean isEmpty = false;
         for ( int c = 0; c < textData.length(); c++ ) {
@@ -80,6 +82,7 @@ public class OpinionSendFrame extends Window {
         MidletMain.screen.repaint();
 
         new Thread() {
+
           public void run() {
             String retreivedData;
             try {

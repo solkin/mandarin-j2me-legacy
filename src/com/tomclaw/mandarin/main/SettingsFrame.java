@@ -70,11 +70,13 @@ public class SettingsFrame extends Window {
 
     soft = new Soft( MidletMain.screen );
     soft.leftSoft = new PopupItem( Localization.getMessage( "CANCEL" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( MidletMain.mainFrame );
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "SAVE" ) ) {
+
       public void actionPerformed() {
         try {
           if ( MidletMain.isTest ) {
@@ -172,6 +174,7 @@ public class SettingsFrame extends Window {
     }
 
     settingsTab.tabEvent = new TabEvent() {
+
       public void stateChanged( int pervIndex, int currIndex, int totalItems ) {
         settingsTab.setGObject( panes[currIndex] );
       }
@@ -186,6 +189,7 @@ public class SettingsFrame extends Window {
 
   public final void startUpdateDataThread() {
     new Thread() {
+
       public void run() {
         while ( true ) {
           try {
@@ -345,6 +349,7 @@ public class SettingsFrame extends Window {
     acceptFilesFolder.setFocusable( true );
     ( ( Pane ) panes[3] ).addItem( acceptFilesFolder );
     Button button = new Button( Localization.getMessage( "SELECT_FOLDER" ) ) {
+
       public void actionPerformed() {
         FileBrowserFrame fileBrowserFrame = new FileBrowserFrame( 0x01, null, null );
         fileBrowserFrame.s_prevWindow = SettingsFrame.this;
@@ -375,6 +380,7 @@ public class SettingsFrame extends Window {
     updateDataCount();
     ( ( Pane ) panes[4] ).addItem( dataCount );
     Button button1 = new Button( Localization.getMessage( "RESET_DATA_COUNT" ) ) {
+
       public void actionPerformed() {
         MidletMain.dataCount = 0;
         updateDataCount();
@@ -421,6 +427,7 @@ public class SettingsFrame extends Window {
     ListItem tempListItem;
     for ( int c = 0; c < keysCaption.length; c++ ) {
       tempListItem = new ListItem( Localization.getMessage( keysCaption[c] ) ) {
+
         public void actionPerformed() {
           isCancelFirstPression = true;
           ActionExec.showDialog( Localization.getMessage( keysCaption[( ( List ) panes[5] ).selectedIndex] ),
@@ -497,6 +504,7 @@ public class SettingsFrame extends Window {
 
   public void setCapEvent() {
     this.capKeyEvent = new KeyEvent( 0, "", false ) {
+
       public void actionPerformed() {
         if ( Screen.getExtGameAct( keyCode ) != Screen.FIRE
                 && Screen.getExtGameAct( keyCode ) != Screen.KEY_CODE_LEFT_MENU

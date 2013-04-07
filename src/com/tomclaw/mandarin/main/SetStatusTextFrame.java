@@ -60,7 +60,7 @@ public class SetStatusTextFrame extends Window {
     Label statusHeader = new Label( Localization.getMessage( "PLAIN_STATUS_TEXT" ) );
     statusHeader.setHeader( true );
     pane.addItem( statusHeader );
-    pane.addItem( new Label( Localization.getMessage( IcqStatusUtil.getStatusDescr( statusIndex ) ).concat( ":" ) ) );
+    pane.addItem( new Label( Localization.getMessage( accountRoot.getStatusDescr( statusIndex ) ).concat( ":" ) ) );
     /** Initializing textField with default status text **/
     String statusText = MidletMain.getString( MidletMain.statuses, groupHeader, String.valueOf( statusIndex ) );
     if ( statusText == null ) {

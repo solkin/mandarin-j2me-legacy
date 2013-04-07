@@ -13,28 +13,28 @@ import java.util.Vector;
  */
 public class GroupChatConfFrame extends Window {
 
-  public Pane pane;
-  public XmppAccountRoot xmppAccountRoot;
-  public XmppItem buddyItem;
-  public String requestId;
-  public Label notifyLabel;
-  public String FORM_TYPE;
+  private Pane pane;
+  private XmppAccountRoot xmppAccountRoot;
+  private String requestId;
+  private Label notifyLabel;
+  private String FORM_TYPE;
 
   public GroupChatConfFrame( final XmppAccountRoot xmppAccountRoot, final XmppItem buddyItem ) {
     super( MidletMain.screen );
     this.xmppAccountRoot = xmppAccountRoot;
-    this.buddyItem = buddyItem;
     /** Header **/
     header = new Header( Localization.getMessage( "GROUPCHAT_CONFIGURE_FRAME" ) );
     /** Creating soft **/
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "SAVE" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setWaitScreenState( true );
         requestId = "grconffrm_set_".concat( xmppAccountRoot.xmppSession.getId() );

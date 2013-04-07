@@ -687,6 +687,7 @@ public class IcqSession implements Runnable {
    */
   public void run() {
     Thread keepAlive = new Thread() {
+
       public void run() {
         while ( isAlive && IcqSession.this.netConnection != null ) {
           try {
@@ -700,6 +701,7 @@ public class IcqSession implements Runnable {
     keepAlive.setPriority( Thread.MIN_PRIORITY );
     keepAlive.start();
     Thread httpPing = new Thread() {
+
       public void run() {
         while ( isAlive && MidletMain.httpHiddenPing > 0 ) {
           try {

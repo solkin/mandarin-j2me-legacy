@@ -408,4 +408,8 @@ public class IcqAccountRoot extends AccountRoot {
   public int getNextGroupId() {
     return getNextBuddyId();
   }
+
+  public String getStatusDescr( int statusIndex ) {
+    return IcqStatusUtil.getStatusDescr( statusIndex );
+  }
 }

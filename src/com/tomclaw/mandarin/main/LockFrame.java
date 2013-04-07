@@ -1,14 +1,6 @@
 package com.tomclaw.mandarin.main;
 
-import com.tomclaw.tcuilite.Dialog;
-import com.tomclaw.tcuilite.DirectDraw;
-import com.tomclaw.tcuilite.Header;
-import com.tomclaw.tcuilite.Label;
-import com.tomclaw.tcuilite.Pane;
-import com.tomclaw.tcuilite.PlainContent;
-import com.tomclaw.tcuilite.PopupItem;
-import com.tomclaw.tcuilite.Soft;
-import com.tomclaw.tcuilite.Window;
+import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import java.io.IOException;
 import javax.microedition.lcdui.Graphics;
@@ -35,6 +27,7 @@ public class LockFrame extends Window {
     soft = m_soft;
 
     soft.leftSoft = new PopupItem( Localization.getMessage( "UNLOCK" ) ) {
+
       public void actionPerformed() {
         showConfirm();
       }
@@ -52,6 +45,7 @@ public class LockFrame extends Window {
       lock = Image.createImage( "/res/huge/lock.png" );
 
       directDraw_beforePopup = new DirectDraw() {
+
         int width, height;
 
         public void paint( Graphics grphcs ) {
@@ -74,12 +68,14 @@ public class LockFrame extends Window {
   private void showConfirm() {
     Soft t_soft = new Soft( MidletMain.screen );
     t_soft.leftSoft = new PopupItem( Localization.getMessage( "YES" ) ) {
+
       public void actionPerformed() {
         soft = m_soft;
         closeDialog();
       }
     };
     t_soft.rightSoft = new PopupItem( Localization.getMessage( "NO" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( MidletMain.mainFrame );
       }
@@ -92,7 +88,7 @@ public class LockFrame extends Window {
   }
 
   public void updateUnreadLabel() {
-    ( (PlainContent) unread.getContent() ).setText( getUnreadLabelText() );
+    ( ( PlainContent ) unread.getContent() ).setText( getUnreadLabelText() );
   }
 
   private String getUnreadLabelText() {

@@ -13,12 +13,12 @@ import java.io.IOException;
  */
 public class AffiliationAddFrame extends Window {
 
-  public XmppAccountRoot xmppAccountRoot;
-  public String groupChatJid;
-  public Field jidField;
-  public RadioGroup afflTypeGroup;
-  public Field reasonField;
-  String requestId = "";
+  private XmppAccountRoot xmppAccountRoot;
+  private String groupChatJid;
+  private Field jidField;
+  private RadioGroup afflTypeGroup;
+  private Field reasonField;
+  private String requestId = "";
 
   public AffiliationAddFrame( XmppAccountRoot xmppAccountRoot, 
           String groupChatJid ) {

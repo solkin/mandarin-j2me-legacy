@@ -12,13 +12,13 @@ import javax.microedition.lcdui.TextField;
  */
 public class BookmarkEditorFrame extends Window {
 
-  public Field jidField;
-  public Field nameField;
-  public Field nickField;
-  public Field passwordField;
-  public Check autojoin;
-  public Check minimize;
-  public final Bookmark bookmark;
+  private Field jidField;
+  private Field nameField;
+  private Field nickField;
+  private Field passwordField;
+  private Check autojoin;
+  private Check minimize;
+  private final Bookmark bookmark;
 
   public BookmarkEditorFrame( final Bookmark bookmark ) {
     super( MidletMain.screen );
@@ -33,12 +33,14 @@ public class BookmarkEditorFrame extends Window {
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     /** Right soft items **/
     soft.rightSoft = new PopupItem( Localization.getMessage( "SAVE" ) ) {
+
       public void actionPerformed() {
         MidletMain.bookmarksFrame.removeBookmark( bookmark );
         BookmarkEditorFrame.this.bookmark.jid = jidField.getText();

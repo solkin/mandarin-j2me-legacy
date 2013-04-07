@@ -24,11 +24,13 @@ public class AddingGroupFrame extends Window {
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "CANCEL" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "ADD" ) ) {
+
       public void actionPerformed() {
         if ( !StringUtil.isFill( groupNameField.getText() ) ) {
           ActionExec.showNotify( Localization.getMessage( "EMPTY_FIELD" ) );
@@ -39,6 +41,7 @@ public class AddingGroupFrame extends Window {
             Cookie cookie = accountRoot.addGroup( buddyGroup );
             QueueAction queueAction = new QueueAction(
                     accountRoot, buddyGroup, cookie ) {
+
               public void actionPerformed( Hashtable params ) {
                 this.accountRoot.getBuddyItems().addElement( this.buddyGroup );
                 LogUtil.outMessage( "Action Performed" );
