@@ -140,7 +140,8 @@ public class IcqPacketParser {
    * @param flapHeader
    * @param packetData
    */
-  public static void parsePacket( IcqAccountRoot icqAccountRoot, byte[] packetData ) throws ProtocolSupportBecameOld {
+  public static void parsePacket( IcqAccountRoot icqAccountRoot, 
+          byte[] packetData ) throws LegacyProtocolException {
     /**
      * Detecting SNAC family and subtype
      */
@@ -208,7 +209,7 @@ public class IcqPacketParser {
     switch ( snacSubtype ) {
       case 0x000b: {
         /**
-         * User online notfication
+         * User online notification
          */
         Capability[] caps = null;
         ClientInfo clientInfo = new ClientInfo();
@@ -382,7 +383,9 @@ public class IcqPacketParser {
     }
   }
 
-  public static void ICBMService( IcqAccountRoot icqAccountRoot, byte[] packetData, int snacSubtype, int snacFlags, byte[] snacRequestId ) throws ProtocolSupportBecameOld {
+  public static void ICBMService( IcqAccountRoot icqAccountRoot, 
+          byte[] packetData, int snacSubtype, int snacFlags, 
+          byte[] snacRequestId ) throws LegacyProtocolException {
     switch ( snacSubtype ) {
       case 0x000b: {
         /**
@@ -605,11 +608,11 @@ public class IcqPacketParser {
                   point += tlvLength;
                   /** Using fragData */
                   if ( fragVer > 0x01 ) {
-                    throw new ProtocolSupportBecameOld();
+                    throw new LegacyProtocolException();
                   }
                   switch ( fragId ) {
                     case 0x05: {
-                      /** byte array of requered capabilities */
+                      /** byte array of required capabilities */
                       break;
                     }
                     case 0x01: {
@@ -968,7 +971,9 @@ public class IcqPacketParser {
     }
   }
 
-  private static void SSIServiceSnacParser( IcqAccountRoot icqAccountRoot, byte[] packetData, int snacSubtype, int snacFlags, byte[] snacRequestId ) throws ProtocolSupportBecameOld {
+  private static void SSIServiceSnacParser( IcqAccountRoot icqAccountRoot, 
+          byte[] packetData, int snacSubtype, int snacFlags, 
+          byte[] snacRequestId ) throws LegacyProtocolException {
     try {
       switch ( snacSubtype ) {
         case 0x0006: {
@@ -987,7 +992,7 @@ public class IcqPacketParser {
           /** SSI Version **/
           int ssiVersion = ( DataUtil.get8int( packetData, offset ) );
           if ( ssiVersion > 1 ) {
-            throw new ProtocolSupportBecameOld();
+            throw new LegacyProtocolException();
           }
           offset++;
 

@@ -11,6 +11,7 @@ public class Capability {
   public static final int CAP_CLIENTID = 0x02;
   public static final int CAP_XSTATUS = 0x03;
   public static final int CAP_ASTATUS = 0x01;
+  
   public byte[] capBytes = null;
   public String capName = null;
   public int capType = -1;

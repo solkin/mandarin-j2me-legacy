@@ -112,11 +112,11 @@ public class IcqAccountRoot extends AccountRoot {
               MidletMain.mainFrame.updateAccountsStatus();
               isConnecting = false;
               return;
-            } catch ( LoginFailed ex ) {
+            } catch ( LoginFailedException ex ) {
               LogUtil.outMessage( "Failed" );
               errorCause = Localization.getMessage( "FAILED" );
               isFail = true;
-            } catch ( ProtocolSupportBecameOld ex ) {
+            } catch ( LegacyProtocolException ex ) {
               LogUtil.outMessage( "Protocol support became old" );
               errorCause = Localization.getMessage( "PROTOCOL_SUPPORT_BECAME_OLD" );
               isFail = true;

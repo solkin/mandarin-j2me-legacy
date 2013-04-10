@@ -18,18 +18,12 @@ public class ClientInfo {
   public long dcAuthCookie = 0;
   public long webFrontPort = 0;
   public long clientFeatures = 0;
-  /**
-   * Flags
-   */
+  /** Flags **/
   public long lastInfoUpdateTime = 0;
   public long lastExtInfoUpdateTime = 0;
   public long lastExtStatusUpdateTime = 0;
-  /**
-   * Unknown
-   */
+  /** Unknown **/
   public int unk = 0;
-  /**
-   * Other
-   */
+  /** Other **/
   public long onLineTime = 0;
 }

@@ -48,16 +48,16 @@ public class IcqSession implements Runnable {
    * @throws UnknownHostException
    * @throws IncorrectAddressException
    */
-  public void loginMd5( int initStatus ) throws IOException, InterruptedException, IncorrectAddressException, ProtocolSupportBecameOld, LoginFailed {
+  public void loginMd5( int initStatus ) throws IOException, InterruptedException, IncorrectAddressException, LegacyProtocolException, LoginFailedException {
     boolean authSuccess = false;
     LogUtil.outMessage( "MD5 method" );
-    /** Reading protocol verstion from server **/
+    /** Reading protocol version from server **/
     byte[] packetData = receivePacket();
     LogUtil.outMessage( "Protocol received" );
-    /** Sending protocol verstion to server **/
-    FlapHeader flap = new FlapHeader( 0x01, getNextSeq(), 4 );
-    ByteArrayOutputStream bas = new ByteArrayOutputStream( flap.byteArray.length + 4 );
-    bas.write( flap.byteArray );
+    /** Sending protocol version to server **/
+    byte[] flapHeader = Snac.createFlapHeader( 0x01, getNextSeq(), 0x04 );
+    ByteArrayOutputStream bas = new ByteArrayOutputStream( flapHeader.length + 4 );
+    bas.write( flapHeader );
     bas.write( packetData );
     bas.flush();
     netConnection.write( bas.toByteArray() );
@@ -197,7 +197,7 @@ public class IcqSession implements Runnable {
     }
 
     LogUtil.outMessage( "Login failed" );
-    throw new LoginFailed();
+    throw new LoginFailedException();
 
   }
 
@@ -211,7 +211,8 @@ public class IcqSession implements Runnable {
    * @throws UnknownHostException
    * @throws IncorrectAddressException
    */
-  public void login( int initStatus ) throws IOException, InterruptedException, IncorrectAddressException, ProtocolSupportBecameOld, LoginFailed {
+  public void login( int initStatus ) throws IOException, InterruptedException,
+          IncorrectAddressException, LegacyProtocolException, LoginFailedException {
     // icqAccountRoot.userId = "610334831";
     isAlive = true;
     if ( icqAccountRoot.userId.indexOf( '@' ) == -1 ) {
@@ -219,15 +220,8 @@ public class IcqSession implements Runnable {
       return;
     }
     boolean authSuccess = false;
-    /** Reading protocol verstion from server **/
+    /** Reading protocol version from server **/
     receivePacket();
-    /** Sending protocol verstion to server **/
-    /*FlapHeader flap = new FlapHeader(0x01, getNextSeq(), 4);
-     ByteArrayOutputStream bas = new ByteArrayOutputStream(flap.byteArray.length + 4);
-     bas.write(flap.byteArray);
-     bas.write(packetData);
-     bas.flush();
-     netConnection.write(bas.toByteArray());*/
     /** XORing password **/
     byte[] password_b = DataUtil.string2byteArray( icqAccountRoot.userPassword );
     final byte[] xor_table = { ( byte ) 0xf3, ( byte ) 0x26, ( byte ) 0x81, ( byte ) 0xc4, ( byte ) 0x39, ( byte ) 0x86, ( byte ) 0xdb, ( byte ) 0x92 };
@@ -253,25 +247,21 @@ public class IcqSession implements Runnable {
     snac.addWord( password_b.length );
     snac.addByteArray( password_b );
 
-    FlapHeader flap = new FlapHeader( 0x01, getNextSeq(), snac.getByteArray().size() );
-    ByteArrayOutputStream bas = new ByteArrayOutputStream( flap.byteArray.length + snac.getByteArray().size() );
-    bas.write( flap.byteArray );
+    byte[] flapHeader = Snac.createFlapHeader( 0x01, getNextSeq(), snac.getByteArray().size() );
+    ByteArrayOutputStream bas = new ByteArrayOutputStream( flapHeader.length + snac.getByteArray().size() );
+    bas.write( flapHeader );
     bas.write( snac.getByteArray().toByteArray() );
     bas.flush();
     netConnection.write( bas.toByteArray() );
 
-    // netConnection.write(snac.getByteArray().toByteArray());
-
     /** Reading and parsing server data **/
     String bosHostPort = new String();
     byte[] cookie = new byte[ 0 ];
-    byte[] authResponse; // = new byte[flap.data_field_length];
+    byte[] authResponse;
 
     authResponse = receivePacket();
 
     LogUtil.outMessage( "Auth: " + HexUtil.bytesToString( authResponse ) );
-
-    // AimTlvList resp = new AimTlvList(authResponse);
 
     int offset = 0;
 
@@ -287,9 +277,7 @@ public class IcqSession implements Runnable {
 
       switch ( respType ) {
         case 0x0001: {
-          /**
-           * TLV.Type(0x01) - screen name (uin)
-           */
+          /** TLV.Type(0x01) - screen name (uin) **/
           LogUtil.outMessage( "Screen name (UIN)" );
           MidletMain.mainFrame.getAccountTab( icqAccountRoot.getUserId() ).accountUserId = StringUtil.byteArrayToString( respValue );
           icqAccountRoot.userId = StringUtil.byteArrayToString( respValue );
@@ -297,40 +285,30 @@ public class IcqSession implements Runnable {
           break;
         }
         case 0x0004: {
-          /**
-           * TLV.Type(0x04) - error page description url
-           */
+          /** TLV.Type(0x04) - error page description URL **/
           LogUtil.outMessage( "Error page description url" );
           LogUtil.outMessage( new String( respValue ) );
           break;
         }
         case 0x0008: {
-          /**
-           * TLV.Type(0x08) - authorization error
-           */
+          /** TLV.Type(0x08) - authorization error **/
           LogUtil.outMessage( "Authorization error" );
           break;
         }
         case 0x000C: {
-          /**
-           * TLV.Type(0x0C) - unknown
-           */
+          /** TLV.Type(0x0C) - unknown **/
           LogUtil.outMessage( "Unknown error" );
           break;
         }
         case 0x0005: {
-          /**
-           * TLV.Type(0x05) - BOS server address
-           */
+          /** TLV.Type(0x05) - BOS server address **/
           LogUtil.outMessage( "BOS server address" );
           bosHostPort = new String( respValue );
           authSuccess = true;
           break;
         }
         case 0x0006: {
-          /**
-           * TLV.Type(0x06) - authorization cookie
-           */
+          /** TLV.Type(0x06) - authorization cookie **/
           LogUtil.outMessage( "Authorization cookie" );
           cookie = respValue;
           authSuccess &= true;
@@ -339,9 +317,7 @@ public class IcqSession implements Runnable {
       }
     }
     if ( authSuccess ) {
-      /**
-       * Closing auth connection & connecting to BOS
-       */
+      /** Closing auth connection & connecting to BOS **/
       netConnection.disconnect();
       LogUtil.outMessage( "Auth disconnected. Connecting to BOS: " + bosHostPort );
       ActionExec.setConnectionStage( icqAccountRoot, 4 );
@@ -351,24 +327,18 @@ public class IcqSession implements Runnable {
       return;
     }
 
-
     LogUtil.outMessage( "Login failed" );
-    throw new LoginFailed();
+    throw new LoginFailedException();
   }
 
-  public void protocolNegotation( byte[] cookie, int initStatus ) throws IOException, InterruptedException, ProtocolSupportBecameOld {
-    /*******************************************************
-     ************** Protocol negotiation *******************
-     *******************************************************/
+  public void protocolNegotation( byte[] cookie, int initStatus )
+          throws IOException, InterruptedException, LegacyProtocolException {
+    /** Protocol negotiation **/
     ActionExec.setConnectionStage( icqAccountRoot, 5 );
-    /**
-     * Reading hello packet
-     */
+    /** Reading hello packet **/
     receiveAllPackets();
-    /**
-     * Sending auth data
-     */
-    byte[] chipsa_flapHeader = new FlapHeader( 0x01, ++seq, 4 + 4 + cookie.length ).byteArray;
+    /** Sending auth data **/
+    byte[] chipsa_flapHeader = Snac.createFlapHeader( 0x01, ++seq, 4 + 4 + cookie.length );
     byte[] xxx = new byte[ 8 ];
     int offset = 0;
     offset += DataUtil.put16( xxx, offset, 0x0000 );
@@ -416,20 +386,6 @@ public class IcqSession implements Runnable {
               0x00, 0x24, 0x00, 0x01,
               0x00, 0x25, 0x00, 0x01
             } );
-
-    /*
-     0x00, 0x22, 0x00, 0x01,
-     0x00, 0x01, 0x00, 0x04,
-     0x00, 0x13, 0x00, 0x04,
-     0x00, 0x02, 0x00, 0x01,
-     0x00, 0x03, 0x00, 0x01,
-     0x00, 0x15, 0x00, 0x01,
-     0x00, 0x04, 0x00, 0x01,
-     0x00, 0x06, 0x00, 0x01,
-     0x00, 0x09, 0x00, 0x01,
-     0x00, 0x0A, 0x00, 0x01,
-     0x00, 0x0B, 0x00, 0x01
-     */
 
     snac.send( netConnection, ++seq );
 
@@ -538,17 +494,13 @@ public class IcqSession implements Runnable {
     /** Client activates server SSI data **/
     snac = new Snac( 0x0013, 0x0007, 0, 0, 16 );
     snac.send( netConnection, ++seq );
-    /*****************************************************
-     ************** Final actions ************************
-     *****************************************************/
+    /** Final actions **/
     finalActions( initStatus );
   }
 
-  public void finalActions( int initStatus ) throws IOException, IOException, InterruptedException {
-
-    /*****************************************************
-     ************** Final actions ************************
-     *****************************************************/
+  public void finalActions( int initStatus ) 
+          throws IOException, IOException, InterruptedException {
+    /** Final actions **/
     /** Client sends its DC info and status to server **/
     Snac snac = new Snac( 0x0001, 0x001e, 0, 0, 6 );
     snac.addByteArray( new byte[]{
@@ -639,10 +591,9 @@ public class IcqSession implements Runnable {
     Thread thread = new Thread( this );
     thread.start();
     ActionExec.setConnectionStage( icqAccountRoot, 10 );
-    // run();
   }
 
-  public void receiveAllPackets() throws IOException, InterruptedException, ProtocolSupportBecameOld {
+  public void receiveAllPackets() throws IOException, InterruptedException, LegacyProtocolException {
     while ( isAlive ) {
       receivePacket();
       if ( netConnection.getAvailable() < 6 ) {
@@ -651,15 +602,20 @@ public class IcqSession implements Runnable {
     }
   }
 
-  public byte[] receivePacket() throws IOException, InterruptedException, ProtocolSupportBecameOld {
+  public byte[] receivePacket()
+          throws IOException, InterruptedException, LegacyProtocolException {
     byte[] flapData = netConnection.read( 6 );
     if ( flapData == null || !isAlive ) {
       LogUtil.outMessage( "Disconnected. Flap reading aborted." );
       disconnect();
       return null;
     }
-    FlapHeader flapHeader = new FlapHeader( flapData );
-    byte[] data = netConnection.read( flapHeader.data_field_length );
+    /** Reading FLAP header **/
+    // int channel = DataUtil.get16( flapData, 0 );
+    // int seqnum = DataUtil.get16( flapData, 2 );
+    int dataFieldLength = DataUtil.get16( flapData, 4 );
+    /** Reading body **/
+    byte[] data = netConnection.read( dataFieldLength );
     if ( data != null && isAlive ) {
       IcqPacketParser.parsePacket( icqAccountRoot, data );
     } else {

@@ -5,8 +5,5 @@ package com.tomclaw.mandarin.icq;
  * http://www.tomclaw.com/
  * @author Solkin
  */
-public class ProtocolSupportBecameOld extends Exception {
-
-  public ProtocolSupportBecameOld() {
-  }
+public class LegacyProtocolException extends Exception {
 }

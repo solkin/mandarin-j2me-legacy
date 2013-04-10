@@ -26,16 +26,6 @@ public class Snac {
    * SNAC
    * @param family
    * @param subtype
-   * @throws IOException 
-   */
-  public Snac( int family, int subtype ) throws IOException {
-    this( family, subtype, 0, 0 );
-  }
-
-  /**
-   * SNAC
-   * @param family
-   * @param subtype
    * @param flag1
    * @param flag2
    * @throws IOException 
@@ -143,49 +133,6 @@ public class Snac {
 
   /**
    * Adding type, length, value
-   * @param type
-   * @param value
-   * @throws IOException 
-   */
-  public final void addTlv( int type, String value ) throws IOException {
-    addTlv( type, DataUtil.string2byteArray( value ) );
-  }
-
-  /**
-   * Adding type, length, value
-   * @param type
-   * @param byt
-   * @throws IOException 
-   */
-  public final void addTlvByte( int type, int byt ) throws IOException {
-    addWord( type );
-    addWord( 1 );
-    addWord( byt );
-  }
-
-  /**
-   * Adding type, length, value
-   * @param type
-   * @param dword
-   * @throws IOException 
-   */
-  public final void addTlvDWord( int type, long dword ) throws IOException {
-    addWord( type );
-    addWord( 4 );
-    addDWord( dword );
-  }
-
-  /**
-   * SNAC constructor comment.
-   */
-  public final void addTlvWord( int type, int word ) throws IOException {
-    addWord( type );
-    addWord( 2 );
-    addWord( word );
-  }
-
-  /**
-   * Adding type, length, value
    * @param x
    * @throws IOException 
    */
@@ -199,15 +146,6 @@ public class Snac {
     byteArray.write( ( byte ) ( ( x >> 8 ) & 0xff ) );
   }
 
-  public final void addIcqUin( long uin ) throws IOException {
-    addByteArray( new byte[] {
-              ( byte ) ( uin & 0xff ), //
-              ( byte ) ( ( uin >> 8 ) & 0xff ), //
-              ( byte ) ( ( uin >> 16 ) & 0xff ), //
-              ( byte ) ( ( uin >> 24 ) & 0xff )
-            } );
-  }
-
   /**
    * Creates a channel 2 FLAP packet with this SNAC packet inside,
    * and sends it immediately using a given connection conn.
@@ -216,11 +154,11 @@ public class Snac {
     if ( netConnection == null ) {
       throw new IOException();
     }
+    
     byteArray.flush();
     byte[] flapData = byteArray.toByteArray();
     byteArray.close();
-    byte[] flapHeader = new FlapHeader( 2, seq,
-            flapData.length ).byteArray;
+    byte[] flapHeader = Snac.createFlapHeader( 2, seq, flapData.length );
     ByteArrayOutputStream bas = new ByteArrayOutputStream( flapData.length
             + flapHeader.length );
     bas.write( flapHeader );
@@ -239,5 +177,16 @@ public class Snac {
 
   public ByteArrayOutputStream getByteArray() {
     return byteArray;
+  }
+  
+  public static byte[] createFlapHeader(int channel, int seqNum, 
+          int dataFieldLength) {
+    return new byte[]{
+      ( byte ) 0x2a, ( byte ) channel,
+      ( byte ) ( ( seqNum >> 8 ) & 0xff ),
+      ( byte ) ( ( seqNum ) & 0xff ),
+      ( byte ) ( ( dataFieldLength >> 8 ) & 0xff ),
+      ( byte ) ( ( dataFieldLength ) & 0xff )
+    };
   }
 }

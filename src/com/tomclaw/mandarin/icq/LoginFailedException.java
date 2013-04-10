@@ -5,8 +5,5 @@ package com.tomclaw.mandarin.icq;
  * http://www.tomclaw.com/
  * @author Solkin
  */
-public class LoginFailed extends Exception {
-
-  public LoginFailed() {
-  }
+public class LoginFailedException extends Exception {
 }

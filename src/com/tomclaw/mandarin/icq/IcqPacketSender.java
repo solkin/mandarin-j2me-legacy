@@ -257,12 +257,11 @@ public class IcqPacketSender {
   }
 
   public static void sendKeepAlive( IcqSession icqSession ) {
-    FlapHeader flapHeader = new FlapHeader( 0x05, icqSession.getNextSeq(), 0 );
+    byte[] flapHeader = Snac.createFlapHeader( 0x05, icqSession.getNextSeq(), 0 );
     try {
-      flapHeader.send( icqSession.getNetworkConnection() );
+      icqSession.getNetworkConnection().write( flapHeader );
     } catch ( IOException ex ) {
       LogUtil.outMessage( "Couldn't send keep alive FLAP", true );
-      // ex.printStackTrace();
     }
   }
 

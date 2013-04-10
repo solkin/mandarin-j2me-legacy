@@ -1,13 +1,10 @@
 package com.tomclaw.mandarin.icq;
 
 import com.tomclaw.bingear.BinGear;
-import com.tomclaw.bingear.GroupNotFoundException;
-import com.tomclaw.bingear.IncorrectValueException;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.utils.HexUtil;
 import com.tomclaw.utils.LogUtil;
 import java.io.DataInputStream;
-import java.io.IOException;
 
 /**
  * Solkin Igor Viktorovich, TomClaw Software, 2003-2013
@@ -24,12 +21,8 @@ public class CapUtil {
       dataCaps.readFromDat( new DataInputStream( 
               MidletMain.clazz.getResourceAsStream( "/res/caps.dat" ) ) );
       LogUtil.outMessage( "caps.dat successfully been read" );
-    } catch ( IOException ex ) {
-      LogUtil.outMessage( "caps.dat: IOException" );
-    } catch ( IncorrectValueException ex ) {
-      LogUtil.outMessage( "caps.dat: IncorrectValueException" );
-    } catch ( GroupNotFoundException ex ) {
-      LogUtil.outMessage( "caps.dat: GroupNotFoundException" );
+    } catch ( Throwable ex ) {
+      LogUtil.outMessage( "caps.dat: reading error" );
     }
   }
 
@@ -79,8 +72,8 @@ public class CapUtil {
                   && String.valueOf( dataCaps.getValue( headers[c], "icon" ) ).equals( "xstatus" + xStatusIndex ) ) {
             return HexUtil.stringToBytes( headers[c] );
           }
-        } catch ( GroupNotFoundException ex ) {
-        } catch ( IncorrectValueException ex ) {
+        } catch ( Throwable ex ) {
+          // Nothing to be done
         }
       }
     }
