@@ -1,14 +1,13 @@
-package com.tomclaw.mandarin.main;
+package com.tomclaw.mandarin.core;
 
 import com.tomclaw.mandarin.icq.*;
+import com.tomclaw.mandarin.main.ChatTab;
+import com.tomclaw.mandarin.main.LockFrame;
+import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.mandarin.mmp.MmpAccountRoot;
 import com.tomclaw.mandarin.mmp.MmpItem;
 import com.tomclaw.mandarin.mmp.MmpStatusUtil;
-import com.tomclaw.mandarin.xmpp.Resource;
-import com.tomclaw.mandarin.xmpp.XmppAccountRoot;
-import com.tomclaw.mandarin.xmpp.XmppItem;
-import com.tomclaw.mandarin.xmpp.XmppSession;
-import com.tomclaw.mandarin.xmpp.XmppStatusUtil;
+import com.tomclaw.mandarin.xmpp.*;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.*;
@@ -18,7 +17,6 @@ import java.util.Hashtable;
 import java.util.Vector;
 import javax.microedition.lcdui.Display;
 import javax.microedition.media.Manager;
-import javax.microedition.media.MediaException;
 import javax.microedition.media.Player;
 import javax.microedition.media.control.VolumeControl;
 
@@ -27,7 +25,7 @@ import javax.microedition.media.control.VolumeControl;
  * http://www.tomclaw.com/
  * @author Solkin
  */
-public class ActionExec {
+public class Handler {
 
   public static void setConnectionStage( AccountRoot accountRoot, int i ) {
     LogUtil.outMessage( "setConnectionStage(".concat( accountRoot.getUserId() ).concat( ": " ).concat( String.valueOf( i ) ).concat( ")" ) );
@@ -148,7 +146,6 @@ public class ActionExec {
           chatTab.updateChatCaption();
         }
       }
-
       boolean isAlarm = true;
       if ( groupChatNick != null && accountRoot instanceof XmppAccountRoot ) {
         LogUtil.outMessage( "GroupChat detected" );
@@ -180,12 +177,10 @@ public class ActionExec {
       boolean isUniqueNotify = MidletMain.getBoolean( MidletMain.uniquest, accountRoot.getAccType() + screenName.hashCode(), "NOTIF_MESSAGES" );
       if ( ( MidletMain.vibrateDelay > 0 || isUniqueNotify ) && isAlarm ) {
         if ( isExpandedFlag ) {
-          try {
-            Thread.sleep( 400 );
-          } catch ( InterruptedException ex ) {
-          }
+          Thread.sleep( 400 );
         }
-        Display.getDisplay( MidletMain.midletMain ).vibrate( isUniqueNotify ? 500 : MidletMain.vibrateDelay );
+        Display.getDisplay( MidletMain.midletMain ).vibrate(
+                isUniqueNotify ? 500 : MidletMain.vibrateDelay );
       }
       MidletMain.screen.repaint();
       if ( ( MidletMain.isSound || isUniqueNotify ) && isAlarm ) {
@@ -194,8 +189,8 @@ public class ActionExec {
     } catch ( Throwable ex1 ) {
     }
     /** Checking for current frame is lock **/
-    if(Screen.screen.activeWindow.getClass() == LockFrame.class) {
-      ((LockFrame)Screen.screen.activeWindow).updateUnreadLabel();
+    if ( Screen.screen.activeWindow.getClass() == LockFrame.class ) {
+      ( ( LockFrame ) Screen.screen.activeWindow ).updateUnreadLabel();
       MidletMain.screen.repaint();
     }
   }
@@ -205,23 +200,30 @@ public class ActionExec {
     icqAccountRoot.getServiceMessages().addMessage( screenName, icqItem != null ? icqItem.getUserNick() : screenName,
             Localization.getMessage( "REQUEST_XSTATUS" ) + " " + ( icqAccountRoot.isXStatusReadable ? Localization.getMessage( "XSTATUS_SENT" ) : Localization.getMessage( "XSTATUS_NOT_SENT" ) ),
             ServiceMessages.TYPE_XSTATUS_READ );
-    if ( icqAccountRoot.isXStatusReadable && ( !MidletMain.getBoolean( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "DISABLE_XSTATUS_READING" ) ) || ( MidletMain.getBoolean( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "SEND_SPECIAL_XSTATUS" ) && ( !MidletMain.getBoolean( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "DISABLE_XSTATUS_READING" ) ) ) ) {
-      try {
-        String xTitle;
-        String xDescr;
-        if ( MidletMain.getBoolean( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "SEND_SPECIAL_XSTATUS" ) ) {
-          xTitle = MidletMain.getString( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "FLD_SPECIAL_XTITLE" );
-          xDescr = MidletMain.getString( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "FLD_SPECIAL_XDESCR" );
-        } else {
-          xTitle = icqAccountRoot.xTitle;
-          xDescr = icqAccountRoot.xText;
-        }
-        LogUtil.outMessage( "xTitle == " + xTitle );
-        LogUtil.outMessage( "xDescr == " + xDescr );
-        IcqPacketSender.sendXStatusText( icqAccountRoot.session, icqAccountRoot.userId, msgCookie, screenName, StringUtil.stringToByteArray( xTitle, true ), StringUtil.stringToByteArray( xDescr, true ) );
-      } catch ( IOException ex ) {
-        LogUtil.outMessage( "Cannot send status message", true );
+    if ( icqAccountRoot.isXStatusReadable
+            && ( !MidletMain.getBoolean( MidletMain.uniquest,
+            icqAccountRoot.getAccType() + screenName.hashCode(),
+            "DISABLE_XSTATUS_READING" ) ) || ( MidletMain.getBoolean(
+            MidletMain.uniquest, icqAccountRoot.getAccType()
+            + screenName.hashCode(), "SEND_SPECIAL_XSTATUS" )
+            && ( !MidletMain.getBoolean( MidletMain.uniquest,
+            icqAccountRoot.getAccType() + screenName.hashCode(),
+            "DISABLE_XSTATUS_READING" ) ) ) ) {
+      String xTitle;
+      String xDescr;
+      if ( MidletMain.getBoolean( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "SEND_SPECIAL_XSTATUS" ) ) {
+        xTitle = MidletMain.getString( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "FLD_SPECIAL_XTITLE" );
+        xDescr = MidletMain.getString( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "FLD_SPECIAL_XDESCR" );
+      } else {
+        xTitle = icqAccountRoot.xTitle;
+        xDescr = icqAccountRoot.xText;
       }
+      LogUtil.outMessage( "xTitle == " + xTitle );
+      LogUtil.outMessage( "xDescr == " + xDescr );
+      IcqPacketSender.sendXStatusText( icqAccountRoot.session,
+              icqAccountRoot.userId, msgCookie, screenName,
+              StringUtil.stringToByteArray( xTitle, true ),
+              StringUtil.stringToByteArray( xDescr, true ) );
     }
   }
 
@@ -231,19 +233,19 @@ public class ActionExec {
             Localization.getMessage( "REQUEST_STATUS" ) + " " + ( icqAccountRoot.isStatusReadable ? Localization.getMessage( "STATUS_SENT" ) : Localization.getMessage( "STATUS_NOT_SENT" ) ),
             ServiceMessages.TYPE_MSTATUS_READ );
     if ( icqAccountRoot.isStatusReadable && !MidletMain.getBoolean( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "DISABLE_PSTATUS_READING" )
-            || ( MidletMain.getBoolean( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "SEND_SPECIAL_PSTATUS" ) && ( !MidletMain.getBoolean( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "DISABLE_PSTATUS_READING" ) ) ) ) {
-      try {
-        String pStatus;
-        if ( MidletMain.getBoolean( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "SEND_SPECIAL_PSTATUS" ) ) {
-          pStatus = MidletMain.getString( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "FLD_SPECIAL_PSTATUS" );
-        } else {
-          pStatus = icqAccountRoot.statusText;
-        }
-        LogUtil.outMessage( "pStatus == " + pStatus );
-        IcqPacketSender.sendStatusMessage( icqAccountRoot.session, msgCookie, screenName, pStatus );
-      } catch ( IOException ex ) {
-        LogUtil.outMessage( "Cannot send status message", true );
+            || ( MidletMain.getBoolean( MidletMain.uniquest,
+            icqAccountRoot.getAccType() + screenName.hashCode(),
+            "SEND_SPECIAL_PSTATUS" ) && ( !MidletMain.getBoolean(
+            MidletMain.uniquest, icqAccountRoot.getAccType()
+            + screenName.hashCode(), "DISABLE_PSTATUS_READING" ) ) ) ) {
+      String pStatus;
+      if ( MidletMain.getBoolean( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "SEND_SPECIAL_PSTATUS" ) ) {
+        pStatus = MidletMain.getString( MidletMain.uniquest, icqAccountRoot.getAccType() + screenName.hashCode(), "FLD_SPECIAL_PSTATUS" );
+      } else {
+        pStatus = icqAccountRoot.statusText;
       }
+      LogUtil.outMessage( "pStatus == " + pStatus );
+      IcqPacketSender.sendStatusMessage( icqAccountRoot.session, msgCookie, screenName, pStatus );
     }
   }
 
@@ -280,8 +282,7 @@ public class ActionExec {
     LogUtil.outMessage( "nickName = " + buddyInfo.nickName );
     if ( MidletMain.mainFrame.buddyInfoFrame != null
             && ( buddyInfo.buddyId != null
-            && MidletMain.mainFrame.buddyInfoFrame.buddyItem.getUserId()
-            .equals( buddyInfo.buddyId ) ) ) {
+            && MidletMain.mainFrame.buddyInfoFrame.buddyItem.getUserId().equals( buddyInfo.buddyId ) ) ) {
       MidletMain.mainFrame.buddyInfoFrame.placeInfo( buddyInfo );
     }
   }
@@ -320,44 +321,28 @@ public class ActionExec {
     try {
       LogUtil.outMessage( "Playing: " + MidletMain.defSoundLocation
               + MidletMain.eventSound[eventType] );
-      InputStream is = Class.forName( "com.tomclaw.mandarin.main.MidletMain" )
-              .getResourceAsStream( MidletMain.defSoundLocation
+      InputStream is = Class.forName( "com.tomclaw.mandarin.main.MidletMain" ).getResourceAsStream( MidletMain.defSoundLocation
               + MidletMain.eventSound[eventType] );
-
       if ( is != null ) {
-        final Player p;
-        try {
-          p = Manager.createPlayer( is, "audio/mpeg" );
+        final Player p = Manager.createPlayer( is, "audio/mpeg" );
+        p.realize();
+        VolumeControl volumeControl = ( VolumeControl ) p.getControl( "VolumeControl" );
+        volumeControl.setLevel( MidletMain.volumeLevel );
+        p.start();
+        final long mediaTime = 1500;
+        Thread thread = new Thread() {
 
-          p.realize();
-
-          VolumeControl volumeControl = ( VolumeControl ) p.getControl( "VolumeControl" );
-          volumeControl.setLevel( MidletMain.volumeLevel );
-
-          p.start();
-          final long mediaTime = 1500; // This is default time to deallocate player
-          Thread thread = new Thread() {
-            public void run() {
-              try {
-                Thread.sleep( mediaTime );
-                try {
-                  // LogUtil.outMessage("Stop");
-                  p.stop();
-                } catch ( MediaException ex ) {
-                  LogUtil.outMessage( ex.getMessage() );
-                }
-                p.close();
-              } catch ( InterruptedException ex ) {
-                LogUtil.outMessage( ex.getMessage() );
-              }
+          public void run() {
+            try {
+              Thread.sleep( mediaTime );
+              p.stop();
+            } catch ( Throwable ex ) {
+              LogUtil.outMessage( ex.getMessage() );
             }
-          };
-          thread.start();
-        } catch ( IOException ex ) {
-          LogUtil.outMessage( ex.getMessage() );
-        } catch ( MediaException ex ) {
-          LogUtil.outMessage( ex.getMessage() );
-        }
+            p.close();
+          }
+        };
+        thread.start();
       }
     } catch ( Throwable ex1 ) {
       LogUtil.outMessage( ex1.getMessage() );
@@ -368,6 +353,7 @@ public class ActionExec {
           final String message, final boolean isError ) {
     Soft soft = new Soft( MidletMain.screen );
     soft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
+
       public void actionPerformed() {
         window.closeDialog();
         if ( isError ) {
@@ -432,8 +418,7 @@ public class ActionExec {
         }
         if ( fileName != null ) {
           directConnection.fileName = fileName;
-          LogUtil.outMessage( "Accepted fileName=".concat( StringUtil
-                  .byteArrayToString( directConnection.fileName, true ) ) );
+          LogUtil.outMessage( "Accepted fileName=".concat( StringUtil.byteArrayToString( directConnection.fileName, true ) ) );
         }
         updateTransactions( icqAccountRoot );
         if ( !ArrayUtil.equals( externalIp, new int[]{ 0x00, 0x00, 0x00, 0x00 } ) && isViaRendezvousServer ) {
@@ -455,6 +440,7 @@ public class ActionExec {
             }
           }
           Thread thread = new Thread() {
+
             public void run() {
               ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager()
                       .getTransaction( cookie ) ).sendToRemoteProxy( false );
@@ -468,9 +454,9 @@ public class ActionExec {
             directConnection.seqNumber++;
             directConnection.sendFileViaProxy();
             Thread thread = new Thread() {
+
               public void run() {
-                ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager()
-                        .getTransaction( cookie ) ).sendToRemoteProxy( true );
+                ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager().getTransaction( cookie ) ).sendToRemoteProxy( true );
               }
             };
             thread.start();
@@ -483,9 +469,9 @@ public class ActionExec {
         LogUtil.outMessage( "Ack" );
         if ( !directConnection.remoteProxyConnectionSentFlag ) {
           Thread thread = new Thread() {
+
             public void run() {
-              ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager()
-                      .getTransaction( cookie ) ).sendToRemoteProxy( true );
+              ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager().getTransaction( cookie ) ).sendToRemoteProxy( true );
             }
           };
           thread.start();
@@ -495,9 +481,9 @@ public class ActionExec {
       // Sending file
       if ( !ArrayUtil.equals( externalIp, new int[]{ 0x00, 0x00, 0x00, 0x00 } ) ) {
         Thread thread = new Thread() {
+
           public void run() {
-            ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager()
-                    .getTransaction( cookie ) ).sendToRemoteProxy( externalIp, dcTcpPort );
+            ( ( IcqDirectConnection ) icqAccountRoot.getTransactionManager().getTransaction( cookie ) ).sendToRemoteProxy( externalIp, dcTcpPort );
           }
         };
         thread.start();
@@ -515,11 +501,9 @@ public class ActionExec {
 
   public static void updateTransactionInfo( AccountRoot accountRoot,
           byte[] cookie ) {
-    if ( accountRoot.getTransactionsFrame() != null && accountRoot
-            .getTransactionsFrame().transactionItemFrame != null ) {
+    if ( accountRoot.getTransactionsFrame() != null && accountRoot.getTransactionsFrame().transactionItemFrame != null ) {
       if ( ArrayUtil.equals( accountRoot.getTransactionsFrame().transactionItemFrame.directConnection.getSessCookie(), cookie )
-              && MidletMain.screen.activeWindow.equals( accountRoot
-              .getTransactionsFrame().transactionItemFrame ) ) {
+              && MidletMain.screen.activeWindow.equals( accountRoot.getTransactionsFrame().transactionItemFrame ) ) {
         // Active frame is equals
         accountRoot.getTransactionsFrame().transactionItemFrame.updateData();
       }
@@ -569,13 +553,9 @@ public class ActionExec {
       LogUtil.outMessage( "Changing status in service messages" );
       mmpAccountRoot.getServiceMessages().addMessage( userMail, mmpItem != null
               ? mmpItem.getUserNick() : userMail,
-              Localization.getMessage( "CHANGED_STATUS" ).concat( " \"" )
-              .concat( Localization.getMessage( MmpStatusUtil.getStatusDescr(
+              Localization.getMessage( "CHANGED_STATUS" ).concat( " \"" ).concat( Localization.getMessage( MmpStatusUtil.getStatusDescr(
               MmpStatusUtil.getStatusIndex( prevBuddyStatus ) ) ) ).
-              concat( "\" " ).concat( Localization.getMessage( "TO" ) )
-              .concat( " \"" ).concat( Localization.getMessage( MmpStatusUtil
-              .getStatusDescr( MmpStatusUtil.getStatusIndex( userStatus ) ) ) )
-              .concat( "\"" ), ServiceMessages.TYPE_STATUS_CHANGE );
+              concat( "\" " ).concat( Localization.getMessage( "TO" ) ).concat( " \"" ).concat( Localization.getMessage( MmpStatusUtil.getStatusDescr( MmpStatusUtil.getStatusIndex( userStatus ) ) ) ).concat( "\"" ), ServiceMessages.TYPE_STATUS_CHANGE );
     }
     if ( MidletMain.isSound ) {
       if ( prevBuddyStatus != 0 && userStatus == 0 ) {

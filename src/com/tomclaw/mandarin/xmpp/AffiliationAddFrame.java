@@ -1,6 +1,6 @@
 package com.tomclaw.mandarin.xmpp;
 
-import com.tomclaw.mandarin.main.ActionExec;
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
@@ -113,7 +113,7 @@ public class AffiliationAddFrame extends Window {
       try {
         MidletMain.groupChatUsersFrame.requestLists();
       } catch ( IOException ex ) {
-        ActionExec.showFail( Localization.getMessage( "USERS_READING_FAILED" ) );
+        Handler.showFail( Localization.getMessage( "USERS_READING_FAILED" ) );
       }
     }
   }

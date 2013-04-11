@@ -1,9 +1,11 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.AccountRoot;
+import com.tomclaw.mandarin.core.BuddyItem;
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.StringUtil;
-import java.io.IOException;
 
 /**
  * Solkin Igor Viktorovich, TomClaw Software, 2003-2013
@@ -31,14 +33,10 @@ public class AuthRequestFrame extends Window {
 
       public void actionPerformed() {
         if ( !StringUtil.isFill( requestTextField.getText() ) ) {
-          ActionExec.showNotify( Localization.getMessage( "EMPTY_FIELD" ) );
+          Handler.showNotify( Localization.getMessage( "EMPTY_FIELD" ) );
         } else {
-          try {
-            accountRoot.requestAuth( requestTextField.getText(), buddyItem );
-            MidletMain.screen.setActiveWindow( s_prevWindow );
-          } catch ( IOException ex ) {
-            ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
-          }
+          accountRoot.requestAuth( requestTextField.getText(), buddyItem );
+          MidletMain.screen.setActiveWindow( s_prevWindow );
         }
       }
     };

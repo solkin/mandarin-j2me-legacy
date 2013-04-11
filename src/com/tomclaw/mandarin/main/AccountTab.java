@@ -1,5 +1,7 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.AccountRoot;
+import com.tomclaw.mandarin.core.IconsType;
 import com.tomclaw.tcuilite.ChatItem;
 import com.tomclaw.tcuilite.TabItem;
 

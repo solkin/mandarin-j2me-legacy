@@ -7,6 +7,7 @@ import com.tomclaw.utils.DataUtil;
 import com.tomclaw.utils.HexUtil;
 import com.tomclaw.utils.LogUtil;
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Solkin Igor Viktorovich, TomClaw Software, 2003-2013
@@ -45,7 +46,7 @@ public class Packet {
     return true;
   }
 
-  public void send( NetConnection netConnection ) throws IOException {
+  public void send( OutputStream outputStream ) throws IOException {
     byte[] header = new byte[ 44 ];
     dlen = data.byteString.length;
     DataUtil.put32_reversed( header, 0, PacketType.CS_MAGIC );
@@ -56,9 +57,9 @@ public class Packet {
     DataUtil.put32_reversed( header, 20, from );
     DataUtil.put32_reversed( header, 24, fromport );
     DataUtil.putArray_reversed( header, 28, reserved );
-    netConnection.write( header );
-    netConnection.write( data.byteString );
-    netConnection.flush();
+    outputStream.write( header );
+    outputStream.write( data.byteString );
+    outputStream.flush();
   }
 
   public void dumpPacketData() {

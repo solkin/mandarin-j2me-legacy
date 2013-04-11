@@ -1,8 +1,8 @@
 package com.tomclaw.mandarin.mmp;
 
-import com.tomclaw.mandarin.main.ActionExec;
-import com.tomclaw.mandarin.main.BuddyInfo;
-import com.tomclaw.mandarin.main.Cookie;
+import com.tomclaw.mandarin.core.Handler;
+import com.tomclaw.mandarin.core.BuddyInfo;
+import com.tomclaw.mandarin.core.Cookie;
 import com.tomclaw.tcuilite.ChatItem;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.*;
@@ -200,7 +200,7 @@ public class MmpPacketParser {
           }
         }
         /** Showing all the list **/
-        ActionExec.setBuddyList( mmpAccountRoot, buddyList, null, -1, 0, null );
+        Handler.setBuddyList( mmpAccountRoot, buddyList, null, -1, 0, null );
       }
     } else if ( packet.msg == PacketType.MRIM_CS_CONNECTION_PARAMS ) {
       mmpAccountRoot.session.pingDelay = DataUtil.get32_reversed( packet.data.byteString, 0, true );
@@ -242,7 +242,7 @@ public class MmpPacketParser {
       LogUtil.outMessage( "clientFlags = " + clientFlags );
       LogUtil.outMessage( "clientIdString = " + clientIdString );
       try {
-        ActionExec.setMailStatus( mmpAccountRoot, userMail, MmpStatusUtil
+        Handler.setMailStatus( mmpAccountRoot, userMail, MmpStatusUtil
                 .getStatus( MmpStatusUtil.getStatusIndex( statusIdString ) ) );
       } catch ( Throwable ex1 ) {
       }
@@ -298,7 +298,7 @@ public class MmpPacketParser {
       } else if ( ( flags & 0x000000ff ) == PacketType.MESSAGE_FLAG_SYSTEM ) {
         msgType = ChatItem.TYPE_ERROR_MSG;
       } else if ( ( flags & 0x0000ff00 ) == PacketType.MESSAGE_FLAG_NOTIFY ) {
-        ActionExec.setBuddyTypingStatus( mmpAccountRoot, userMail, null, false, true );
+        Handler.setBuddyTypingStatus( mmpAccountRoot, userMail, null, false, true );
         return;
       } else if ( ( flags & 0x0000ff00 ) == PacketType.MESSAGE_FLAG_WAKEUP ) {
         msgType = ChatItem.TYPE_INFO_MSG;
@@ -313,7 +313,7 @@ public class MmpPacketParser {
           }
         }
       }
-      ActionExec.recMess( mmpAccountRoot, userMail, null, null, messageText, cookie, msgType );
+      Handler.recMess( mmpAccountRoot, userMail, null, null, messageText, cookie, msgType );
     } else if ( packet.msg == PacketType.MRIM_CS_MESSAGE_STATUS ) {
       long status = DataUtil.get32_reversed( packet.data.byteString, offset, true );
       offset += 4;
@@ -321,7 +321,7 @@ public class MmpPacketParser {
         LogUtil.outMessage( "Message delivered" );
         byte[] temp = new byte[ 8 ];
         DataUtil.put32( temp, 0, packet.seq );
-        ActionExec.msgAck( mmpAccountRoot, null, null, temp );
+        Handler.msgAck( mmpAccountRoot, null, null, temp );
       } else if ( status == PacketType.MESSAGE_REJECTED_INTERR ) {
       } else if ( status == PacketType.MESSAGE_REJECTED_NOUSER ) {
       } else if ( status == PacketType.MESSAGE_REJECTED_LIMIT_EXCEEDED ) {
@@ -334,19 +334,19 @@ public class MmpPacketParser {
       String errorString = null;
       Cookie cookie = new Cookie( packet.seq );
       if ( status == PacketType.CONTACT_OPER_SUCCESS ) {
-        ActionExec.setMainFrameAction( mmpAccountRoot, Localization.getMessage( "CONTACT_OPER_SUCCESS" ) );
+        Handler.setMainFrameAction( mmpAccountRoot, Localization.getMessage( "CONTACT_OPER_SUCCESS" ) );
         if ( packet.data.byteString.length >= offset + 4 ) {
           long contactId = DataUtil.get32_reversed( packet.data.byteString, offset, true );
           offset += 4;
           Hashtable params = new Hashtable();
           params.put( "contactId", new Long( contactId ) );
-          ActionExec.processQueueAction( mmpAccountRoot, cookie, params );
+          Handler.processQueueAction( mmpAccountRoot, cookie, params );
           return;
         }
         if ( packet.msg == PacketType.MRIM_CS_MODIFY_CONTACT_ACK ) {
           Hashtable params = new Hashtable();
           params.put( "contactId", new Long( 0 ) );
-          ActionExec.processQueueAction( mmpAccountRoot, cookie, params );
+          Handler.processQueueAction( mmpAccountRoot, cookie, params );
           return;
         }
       } else if ( status == PacketType.CONTACT_OPER_ERROR ) {
@@ -364,7 +364,7 @@ public class MmpPacketParser {
       } else {
         errorString = "CONTACT_OPER_ERROR";
       }
-      ActionExec.cancelQueueAction( mmpAccountRoot, cookie, errorString );
+      Handler.cancelQueueAction( mmpAccountRoot, cookie, errorString );
     } else if ( packet.msg == PacketType.MRIM_CS_ANKETA_INFO ) {
       long status = DataUtil.get32_reversed( packet.data.byteString, offset, true );
       offset += 4;
@@ -446,7 +446,7 @@ public class MmpPacketParser {
           }
         }
         buddyInfo.avatar = downloadAvatar( buddyInfo.buddyId );
-        ActionExec.showUserShortInfo( mmpAccountRoot, buddyInfo );
+        Handler.showUserShortInfo( mmpAccountRoot, buddyInfo );
       } else if ( status == PacketType.MRIM_ANKETA_INFO_STATUS_NOUSER ) {
       } else if ( status == PacketType.MRIM_ANKETA_INFO_STATUS_RATELIMERR ) {
       }

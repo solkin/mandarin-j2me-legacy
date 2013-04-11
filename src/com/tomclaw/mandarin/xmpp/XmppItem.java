@@ -1,6 +1,6 @@
 package com.tomclaw.mandarin.xmpp;
 
-import com.tomclaw.mandarin.main.BuddyItem;
+import com.tomclaw.mandarin.core.BuddyItem;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.ChatItem;
 import java.util.Enumeration;

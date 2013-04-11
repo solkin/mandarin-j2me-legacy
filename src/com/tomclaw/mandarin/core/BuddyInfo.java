@@ -1,4 +1,4 @@
-package com.tomclaw.mandarin.main;
+package com.tomclaw.mandarin.core;
 
 import java.util.Vector;
 import javax.microedition.lcdui.Image;
@@ -37,7 +37,7 @@ public class BuddyInfo {
     return ( KeyValue ) extInfo.elementAt( i );
   }
 
-  class KeyValue {
+  public class KeyValue {
 
     public String key;
     public String value;

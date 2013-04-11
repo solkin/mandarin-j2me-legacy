@@ -1,5 +1,6 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.LogUtil;
@@ -131,7 +132,7 @@ public class HistoryFrame extends Window {
         } catch ( Throwable ex ) {
           LogUtil.outMessage( "Export error: " + ex.getMessage() );
         }
-        ActionExec.showDialog( Localization.getMessage( cmplTitle ),
+        Handler.showDialog( Localization.getMessage( cmplTitle ),
                 Localization.getMessage( cmplMessage ) + " " + filePath );
       }
     } );

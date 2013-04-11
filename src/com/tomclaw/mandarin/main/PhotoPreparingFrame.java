@@ -1,5 +1,7 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.AccountRoot;
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.mandarin.dc.DirectConnection;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
@@ -131,7 +133,7 @@ public class PhotoPreparingFrame extends Window {
                 } catch ( Throwable ex1 ) {
                   Display.getDisplay( MidletMain.midletMain ).setCurrent( MidletMain.screen );
                   closePlayer();
-                  ActionExec.showError( Localization.getMessage( "LOCAL_FILE_IO_EXCEPTION" ) );
+                  Handler.showError( Localization.getMessage( "LOCAL_FILE_IO_EXCEPTION" ) );
                 }
 
               } else if ( c.getCommandType() == Command.CANCEL ) {
@@ -163,7 +165,7 @@ public class PhotoPreparingFrame extends Window {
                     Display.getDisplay( MidletMain.midletMain ).setCurrent( MidletMain.screen );
                     closePlayer();
                     MidletMain.screen.setActiveWindow( PhotoPreparingFrame.this.s_prevWindow );
-                    ActionExec.showError( Localization.getMessage( "PHONE_SUPPORT_EXCEPTION" ) );
+                    Handler.showError( Localization.getMessage( "PHONE_SUPPORT_EXCEPTION" ) );
                     return;
                   }
                   String fileName = ( String ) eventData;
@@ -211,13 +213,13 @@ public class PhotoPreparingFrame extends Window {
                   Display.getDisplay( MidletMain.midletMain ).setCurrent( MidletMain.screen );
                   closePlayer();
                   MidletMain.screen.setActiveWindow( PhotoPreparingFrame.this.s_prevWindow );
-                  ActionExec.showError( Localization.getMessage( "LOCAL_FILE_IO_EXCEPTION" ).concat( " " ).concat( ex.getMessage() ) );
+                  Handler.showError( Localization.getMessage( "LOCAL_FILE_IO_EXCEPTION" ).concat( " " ).concat( ex.getMessage() ) );
                 }
               } else if ( event.equals( SnapshotControl.STORAGE_ERROR ) ) {
                 Display.getDisplay( MidletMain.midletMain ).setCurrent( MidletMain.screen );
                 closePlayer();
                 MidletMain.screen.setActiveWindow( PhotoPreparingFrame.this.s_prevWindow );
-                ActionExec.showError( Localization.getMessage( "LOCAL_FILE_IO_EXCEPTION" ).concat( " STORAGE_EXCEPTION" ) );
+                Handler.showError( Localization.getMessage( "LOCAL_FILE_IO_EXCEPTION" ).concat( " STORAGE_EXCEPTION" ) );
               } else if ( event.equals( SnapshotControl.WAITING_UNFREEZE ) ) {
                 canvas.removeCommand( okCommand );
                 canvas.removeCommand( cancelCommand );

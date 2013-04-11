@@ -1,6 +1,6 @@
 package com.tomclaw.mandarin.icq;
 
-import com.tomclaw.mandarin.main.ActionExec;
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
@@ -39,7 +39,7 @@ public class IncomingFileFrame extends Window {
         new Thread() {
 
           public void run() {
-            ActionExec.performTransferAction( icqAccountRoot, ch2msgType,
+            Handler.performTransferAction( icqAccountRoot, ch2msgType,
                     buddyId, externalIp, dcTcpPort, isViaRendezvousServer,
                     fileLength, fileName, cookie, true );
           }

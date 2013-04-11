@@ -1,5 +1,7 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.IconsType;
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.bingear.GroupNotFoundException;
 import com.tomclaw.bingear.IncorrectValueException;
 import com.tomclaw.tcuilite.*;
@@ -430,7 +432,7 @@ public class SettingsFrame extends Window {
 
         public void actionPerformed() {
           isCancelFirstPression = true;
-          ActionExec.showDialog( Localization.getMessage( keysCaption[( ( List ) panes[5] ).selectedIndex] ),
+          Handler.showDialog( Localization.getMessage( keysCaption[( ( List ) panes[5] ).selectedIndex] ),
                   Localization.getMessage( "PRESS_KEY" ) );
           setCapEvent();
         }

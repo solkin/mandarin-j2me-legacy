@@ -1,7 +1,7 @@
 package com.tomclaw.mandarin.xmpp;
 
 import com.tomclaw.mandarin.dc.DirectConnection;
-import com.tomclaw.mandarin.main.ActionExec;
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.utils.ArrayUtil;
 import com.tomclaw.utils.LogUtil;
@@ -116,8 +116,8 @@ public class XmppIBBytestream implements DirectConnection {
 
   public void sendFile() throws IOException, InterruptedException {
     statusString = "SENDING_REQUEST";
-    ActionExec.updateTransactions( xmppAccountRoot );
-    ActionExec.updateTransactionInfo( xmppAccountRoot, icbmCookie );
+    Handler.updateTransactions( xmppAccountRoot );
+    Handler.updateTransactionInfo( xmppAccountRoot, icbmCookie );
     LogUtil.outMessage( "Sending file thru XMPP" );
     XmlWriter xmlWriter = xmppAccountRoot.xmppSession.xmlWriter;
     String sid = StringUtil.byteArrayToString( icbmCookie );
@@ -168,8 +168,8 @@ public class XmppIBBytestream implements DirectConnection {
     xmlWriter.flush();
 
     statusString = "ACK_WAITING";
-    ActionExec.updateTransactions( xmppAccountRoot );
-    ActionExec.updateTransactionInfo( xmppAccountRoot, icbmCookie );
+    Handler.updateTransactions( xmppAccountRoot );
+    Handler.updateTransactionInfo( xmppAccountRoot, icbmCookie );
   }
 
   public void setTransactionInfo( byte[] fileName, String fileLocation, long fileByteSize, String buddyId ) {
@@ -194,8 +194,8 @@ public class XmppIBBytestream implements DirectConnection {
       statusString = "IO_EXCEPTION";
       this.isError = true;
     }
-    ActionExec.updateTransactions( xmppAccountRoot );
-    ActionExec.updateTransactionInfo( xmppAccountRoot, icbmCookie );
+    Handler.updateTransactions( xmppAccountRoot );
+    Handler.updateTransactionInfo( xmppAccountRoot, icbmCookie );
   }
 
   public void startTransfer() {
@@ -210,8 +210,8 @@ public class XmppIBBytestream implements DirectConnection {
         LogUtil.outMessage( "File not exist", true );
         statusString = "FILE_NOT_EXIST";
         this.isError = true;
-        ActionExec.updateTransactions( xmppAccountRoot );
-        ActionExec.updateTransactionInfo( xmppAccountRoot, icbmCookie );
+        Handler.updateTransactions( xmppAccountRoot );
+        Handler.updateTransactionInfo( xmppAccountRoot, icbmCookie );
         return;
       }
       inputStream = fileConnection.openInputStream();
@@ -222,8 +222,8 @@ public class XmppIBBytestream implements DirectConnection {
       startTime = System.currentTimeMillis();
       int seq = 0;
       statusString = "TRANSFERING_FILE";
-      ActionExec.updateTransactions( xmppAccountRoot );
-      ActionExec.updateTransactionInfo( xmppAccountRoot, icbmCookie );
+      Handler.updateTransactions( xmppAccountRoot );
+      Handler.updateTransactionInfo( xmppAccountRoot, icbmCookie );
       while ( fileSentBytes < fileByteSize ) {
         bufferRead = inputStream.read( buffer );
         if ( seq > 65535 ) {
@@ -237,14 +237,14 @@ public class XmppIBBytestream implements DirectConnection {
         if ( System.currentTimeMillis() - startTime > 1000 ) {
           speed = ( int ) ( 8 * 1000 * fileSentBytes / ( System.currentTimeMillis() - startTime ) ) / 1024;
         }
-        ActionExec.updateTransactionInfo( xmppAccountRoot, icbmCookie );
+        Handler.updateTransactionInfo( xmppAccountRoot, icbmCookie );
         if ( isStop ) {
           inputStream.close();
           fileConnection.close();
           isError = true;
           statusString = "STOPPED";
-          ActionExec.updateTransactions( xmppAccountRoot );
-          ActionExec.updateTransactionInfo( xmppAccountRoot, icbmCookie );
+          Handler.updateTransactions( xmppAccountRoot );
+          Handler.updateTransactionInfo( xmppAccountRoot, icbmCookie );
           return;
         }
       }
@@ -253,30 +253,30 @@ public class XmppIBBytestream implements DirectConnection {
       LogUtil.outMessage( "Local file error: " + ex1.getMessage(), true );
       statusString = "LOCAL_ERROR";
       this.isError = true;
-      ActionExec.updateTransactions( xmppAccountRoot );
-      ActionExec.updateTransactionInfo( xmppAccountRoot, icbmCookie );
+      Handler.updateTransactions( xmppAccountRoot );
+      Handler.updateTransactionInfo( xmppAccountRoot, icbmCookie );
       return;
     }
     LogUtil.outMessage( "Transfering complete" );
     statusString = "TRANSFERING_COMPLETE";
     isComplete = true;
-    ActionExec.updateTransactionInfo( xmppAccountRoot, icbmCookie );
-    ActionExec.updateTransactions( xmppAccountRoot );
+    Handler.updateTransactionInfo( xmppAccountRoot, icbmCookie );
+    Handler.updateTransactions( xmppAccountRoot );
     try {
       XmppSender.ibbClose( xmppAccountRoot.xmppSession, buddyId, "tansactioncomplete_".concat( xmppAccountRoot.xmppSession.getId() ), sid );
     } catch ( IOException ex ) {
       LogUtil.outMessage( "Couldn't complete transaction by final packet" );
       statusString = "IO_EXCEPTION";
       this.isError = true;
-      ActionExec.updateTransactions( xmppAccountRoot );
-      ActionExec.updateTransactionInfo( xmppAccountRoot, icbmCookie );
+      Handler.updateTransactions( xmppAccountRoot );
+      Handler.updateTransactionInfo( xmppAccountRoot, icbmCookie );
     }
   }
 
   public void receiveFile( String id ) throws IOException {
     statusString = "SENDING_PARAMS";
-    ActionExec.updateTransactions( xmppAccountRoot );
-    ActionExec.updateTransactionInfo( xmppAccountRoot, icbmCookie );
+    Handler.updateTransactions( xmppAccountRoot );
+    Handler.updateTransactionInfo( xmppAccountRoot, icbmCookie );
     isReceivingFile = true;
     XmlWriter xmlWriter = xmppAccountRoot.xmppSession.xmlWriter;
 
@@ -306,8 +306,8 @@ public class XmppIBBytestream implements DirectConnection {
 
     xmlWriter.flush();
     statusString = "RECEIVE_READY";
-    ActionExec.updateTransactions( xmppAccountRoot );
-    ActionExec.updateTransactionInfo( xmppAccountRoot, icbmCookie );
+    Handler.updateTransactions( xmppAccountRoot );
+    Handler.updateTransactionInfo( xmppAccountRoot, icbmCookie );
   }
 
   public void setParamsAndAck( String blockSize, String id ) throws IOException {
@@ -337,8 +337,8 @@ public class XmppIBBytestream implements DirectConnection {
       statusString = "LOCAL_ERROR";
       this.isError = true;
     }
-    ActionExec.updateTransactions( xmppAccountRoot );
-    ActionExec.updateTransactionInfo( xmppAccountRoot, icbmCookie );
+    Handler.updateTransactions( xmppAccountRoot );
+    Handler.updateTransactionInfo( xmppAccountRoot, icbmCookie );
   }
 
   public void storeData( String seq, byte[] decode ) {
@@ -350,13 +350,13 @@ public class XmppIBBytestream implements DirectConnection {
       if ( System.currentTimeMillis() - startTime > 1000 ) {
         speed = ( int ) ( 8 * 1000 * fileRecvBytes / ( System.currentTimeMillis() - startTime ) ) / 1024;
       }
-      ActionExec.updateTransactionInfo( xmppAccountRoot, icbmCookie );
+      Handler.updateTransactionInfo( xmppAccountRoot, icbmCookie );
       if ( isStop ) {
         outputStream.close();
         fileConnection.close();
         isError = true;
         statusString = "STOPPED";
-        ActionExec.updateTransactions( xmppAccountRoot );
+        Handler.updateTransactions( xmppAccountRoot );
       } else {
         statusString = "STORING_BLOCK";
       }
@@ -364,8 +364,8 @@ public class XmppIBBytestream implements DirectConnection {
       statusString = "LOCAL_ERROR";
       this.isError = true;
     }
-    ActionExec.updateTransactions( xmppAccountRoot );
-    ActionExec.updateTransactionInfo( xmppAccountRoot, icbmCookie );
+    Handler.updateTransactions( xmppAccountRoot );
+    Handler.updateTransactionInfo( xmppAccountRoot, icbmCookie );
   }
 
   public void closeFileAndAck( String id ) throws IOException {
@@ -376,8 +376,8 @@ public class XmppIBBytestream implements DirectConnection {
     LogUtil.outMessage( "Transfering complete" );
     statusString = "TRANSFERING_COMPLETE";
     isComplete = true;
-    ActionExec.updateTransactionInfo( xmppAccountRoot, icbmCookie );
-    ActionExec.updateTransactions( xmppAccountRoot );
+    Handler.updateTransactionInfo( xmppAccountRoot, icbmCookie );
+    Handler.updateTransactions( xmppAccountRoot );
 
     XmlWriter xmlWriter = xmppAccountRoot.xmppSession.xmlWriter;
 

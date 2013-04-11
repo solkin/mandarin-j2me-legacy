@@ -1,5 +1,6 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.mandarin.net.NetConnection;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
@@ -140,7 +141,7 @@ public class FirstMasterFrame extends Window {
     if ( masterStep == 3 && !declineInfoSend.getState() ) {
       if ( genderGroup.getCombed() == -1 || yearsGroup.getCombed() == -1 ) {
         masterStep--;
-        ActionExec.showError( Localization.getMessage( "FILL_SMALL_FORM" ) );
+        Handler.showError( Localization.getMessage( "FILL_SMALL_FORM" ) );
         return;
       } else {
         masterStep++;

@@ -5,6 +5,7 @@ import com.tomclaw.mandarin.net.NetConnection;
 import com.tomclaw.utils.HexUtil;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Hashtable;
 
 /**
@@ -45,7 +46,7 @@ public class PacketBuilder {
     return packet;
   }
 
-  public static void sendPacket( NetConnection netConnection, String fileName,
+  public static void writePacket( OutputStream outputStream, String fileName,
           Hashtable data ) throws IOException {
     PacketBuilder.setup( data );
     Packet packet = null;
@@ -57,8 +58,8 @@ public class PacketBuilder {
     } catch ( Throwable ex ) {
     }
     if ( packet != null ) {
-      netConnection.write( packet.getData() );
-      netConnection.flush();
+      outputStream.write( packet.getData() );
+      outputStream.flush();
     }
   }
 

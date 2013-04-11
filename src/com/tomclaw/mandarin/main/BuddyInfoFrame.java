@@ -1,10 +1,10 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.*;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.LogUtil;
 import com.tomclaw.utils.StringUtil;
-import java.io.IOException;
 import java.util.Hashtable;
 
 /**
@@ -34,6 +34,7 @@ public class BuddyInfoFrame extends Window {
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
@@ -52,11 +53,7 @@ public class BuddyInfoFrame extends Window {
       String waitText;
       LogUtil.outMessage( "Dialog with reqSeqNum = " + reqSeqNum );
       waitText = "WAIT_LABEL";
-      try {
-        accountRoot.requestInfo( buddyItem.getUserId(), reqSeqNum );
-      } catch ( IOException ex ) {
-        waitText = "IO_EXCEPTION";
-      }
+      accountRoot.requestInfo( buddyItem.getUserId(), reqSeqNum );
       Label waitLabel = new Label( Localization.getMessage( waitText ) );
       pane.addItem( waitLabel );
     }
@@ -65,29 +62,27 @@ public class BuddyInfoFrame extends Window {
   }
 
   public void updateNickAction( final BuddyInfo buddyInfo ) {
-    try {
-      /** This is buddy, not group **/
-      Cookie cookie = accountRoot.renameBuddy( buddyInfo.nickName, buddyItem,
-              buddyItem.getUserPhone() );
-      LogUtil.outMessage( "Request queued, cookie received" );
-      QueueAction queueAction = new QueueAction(
-              accountRoot, buddyItem, cookie ) {
-        public void actionPerformed( Hashtable params ) {
-          LogUtil.outMessage( "Action Performed" );
-          this.buddyItem.setUserNick( buddyInfo.nickName );
-          this.buddyItem.updateUiData();
-          this.accountRoot.updateOfflineBuddylist();
-        }
-      };
-      LogUtil.outMessage( "QueueAction created" );
-      Queue.pushQueueAction( queueAction );
-      LogUtil.outMessage( "queueAction: "
-              + queueAction.getCookie().cookieString );
+    /** This is buddy, not group **/
+    Cookie cookie = accountRoot.renameBuddy( buddyInfo.nickName, buddyItem,
+            buddyItem.getUserPhone() );
+    LogUtil.outMessage( "Request queued, cookie received" );
+    QueueAction queueAction = new QueueAction(
+            accountRoot, buddyItem, cookie ) {
 
-      BuddyInfoFrame.this.pane.items.removeElement( updateNickButton );
-      MidletMain.screen.repaint();
-    } catch ( IOException ex ) {
-    }
+      public void actionPerformed( Hashtable params ) {
+        LogUtil.outMessage( "Action Performed" );
+        this.buddyItem.setUserNick( buddyInfo.nickName );
+        this.buddyItem.updateUiData();
+        this.accountRoot.updateOfflineBuddylist();
+      }
+    };
+    LogUtil.outMessage( "QueueAction created" );
+    Queue.pushQueueAction( queueAction );
+    LogUtil.outMessage( "queueAction: "
+            + queueAction.getCookie().cookieString );
+
+    BuddyInfoFrame.this.pane.items.removeElement( updateNickButton );
+    MidletMain.screen.repaint();
   }
 
   public void placeInfo( final BuddyInfo buddyInfo ) {
@@ -122,6 +117,7 @@ public class BuddyInfoFrame extends Window {
           if ( !buddyInfo.nickName.equals( buddyItem.getUserNick() ) ) {
             updateNickButton = new Button(
                     Localization.getMessage( "UPDATE_NICKNAME" ) ) {
+
               public void actionPerformed() {
                 updateNickAction( buddyInfo );
               }
@@ -151,6 +147,7 @@ public class BuddyInfoFrame extends Window {
       pane.addItem( infoLabel );
     }
     soft.rightSoft = new PopupItem( Localization.getMessage( "COPY" ) ) {
+
       public void actionPerformed() {
         MidletMain.buffer = clientBuffer;
       }

@@ -1,5 +1,6 @@
-package com.tomclaw.mandarin.main;
+package com.tomclaw.mandarin.core;
 
+import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.GroupChild;
 import com.tomclaw.utils.StringUtil;
 import java.util.Timer;

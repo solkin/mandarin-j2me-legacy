@@ -25,31 +25,27 @@ public class StatusReaderFrame extends Window {
           final IcqItem icqItem ) {
     super( MidletMain.screen );
     /** Header **/
-    header = new Header( Localization.getMessage( "STATUS_OF" ).concat( " " )
-            .concat( icqItem.getUserNick() ) );
+    header = new Header( Localization.getMessage( "STATUS_OF" ).concat( " " ).concat( icqItem.getUserNick() ) );
     /** Creating soft **/
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "CLOSE" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     /** Right soft item **/
     soft.rightSoft = new PopupItem( Localization.getMessage( "COPY" ) ) {
+
       public void actionPerformed() {
-        MidletMain.buffer = Localization.getMessage( "STATUS_OF" )
-                .concat( " " ).concat( icqItem.getUserNick() ).concat( "\n" )
-                .concat( Localization.getMessage( "PLAIN_STATUS" ) )
-                .concat( "\n" ).concat( Localization.getMessage( IcqStatusUtil
-                .getStatusDescr( icqItem.getStatusIndex() ) ) );
+        MidletMain.buffer = Localization.getMessage( "STATUS_OF" ).concat( " " ).concat( icqItem.getUserNick() ).concat( "\n" ).concat( Localization.getMessage( "PLAIN_STATUS" ) ).concat( "\n" ).concat( Localization.getMessage( IcqStatusUtil.getStatusDescr( icqItem.getStatusIndex() ) ) );
         if ( icqAccountRoot.statusIndex != 0 ) {
           MidletMain.buffer += "\n".concat( statusText.getContent().getText() );
         }
         if ( capability != null ) {
           MidletMain.buffer += "\n".concat(
-                  Localization.getMessage( "X_STATUS" ) ).concat( "\n" )
-                  .concat( Localization.getMessage( capability.capIcon ) );
+                  Localization.getMessage( "X_STATUS" ) ).concat( "\n" ).concat( Localization.getMessage( capability.capIcon ) );
           if ( icqAccountRoot.statusIndex != 0 ) {
             MidletMain.buffer += "\n".concat( xStatusDescr.getContent().getText() );
           }
@@ -61,8 +57,7 @@ public class StatusReaderFrame extends Window {
     Label statusHeader = new Label( Localization.getMessage( "PLAIN_STATUS" ) );
     statusHeader.setTitle( true );
     pane.addItem( statusHeader );
-    Label statusLabel = new Label( Localization.getMessage( IcqStatusUtil
-            .getStatusDescr( icqItem.getStatusIndex() ) ) );
+    Label statusLabel = new Label( Localization.getMessage( IcqStatusUtil.getStatusDescr( icqItem.getStatusIndex() ) ) );
     //! Setting status icon
     pane.addItem( statusLabel );
     if ( icqAccountRoot.statusIndex != 0 ) {
@@ -93,20 +88,12 @@ public class StatusReaderFrame extends Window {
 
   public final void startStatusReading( final IcqAccountRoot icqAccountRoot,
           final IcqItem icqItem ) {
-    new Thread() {
-      public void run() {
-        try {
-          DataUtil.nextBytes( plainCookie );
-          IcqPacketSender.requestStatusMessage( icqAccountRoot.session,
-                  plainCookie, icqItem.userId );
-          DataUtil.nextBytes( xStatCookie );
-          IcqPacketSender.requestXStatusText( icqAccountRoot.session,
-                  icqAccountRoot.userId, xStatCookie, icqItem.userId );
-        } catch ( IOException ex ) {
-          LogUtil.outMessage( "Cannot send status request", true );
-        }
-      }
-    }.start();
+    DataUtil.nextBytes( plainCookie );
+    IcqPacketSender.requestStatusMessage( icqAccountRoot.session,
+            plainCookie, icqItem.userId );
+    DataUtil.nextBytes( xStatCookie );
+    IcqPacketSender.requestXStatusText( icqAccountRoot.session,
+            icqAccountRoot.userId, xStatCookie, icqItem.userId );
   }
 
   public void setPlainStatusText( String text ) {

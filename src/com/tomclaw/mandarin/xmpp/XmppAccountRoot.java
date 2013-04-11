@@ -1,5 +1,10 @@
 package com.tomclaw.mandarin.xmpp;
 
+import com.tomclaw.mandarin.core.BuddyGroup;
+import com.tomclaw.mandarin.core.BuddyItem;
+import com.tomclaw.mandarin.core.AccountRoot;
+import com.tomclaw.mandarin.core.Cookie;
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.mandarin.dc.DirectConnection;
 import com.tomclaw.mandarin.main.*;
 import com.tomclaw.tcuilite.GroupHeader;
@@ -58,7 +63,7 @@ public class XmppAccountRoot extends AccountRoot {
   public void sendTypingStatus( String userId, boolean b ) {
   }
 
-  public byte[] sendMessage( BuddyItem buddyItem, String string, String resource ) throws IOException {
+  public byte[] sendMessage( BuddyItem buddyItem, String string, String resource ) {
     String fullJid = buddyItem.getUserId();
     if ( resource.length() > 0 ) {
       fullJid += "/".concat( resource );
@@ -131,40 +136,37 @@ public class XmppAccountRoot extends AccountRoot {
     return new XmppItem();
   }
 
-  public Cookie addGroup( BuddyGroup buddyGroup ) throws IOException {
+  public Cookie addGroup( BuddyGroup buddyGroup ) {
     return null;
   }
 
-  public Cookie addBuddy( BuddyItem buddyItem, BuddyGroup buddyGroup )
-          throws IOException {
+  public Cookie addBuddy( BuddyItem buddyItem, BuddyGroup buddyGroup ) {
     return null;
   }
 
   public Cookie renameBuddy( String itemName, BuddyItem buddyItem,
-          String phones ) throws IOException {
+          String phones ) {
     return null;
   }
 
-  public Cookie renameGroup( String text, BuddyGroup buddyGroup )
-          throws IOException {
+  public Cookie renameGroup( String text, BuddyGroup buddyGroup ){
     return null;
   }
 
-  public void requestAuth( String text, BuddyItem buddyItem )
-          throws IOException {
+  public void requestAuth( String text, BuddyItem buddyItem ){
   }
 
-  public void acceptAuthorization( BuddyItem buddyItem ) throws IOException {
+  public void acceptAuthorization( BuddyItem buddyItem ) {
   }
 
-  public void requestInfo( String userId, int reqSeqNum ) throws IOException {
+  public void requestInfo( String userId, int reqSeqNum ) {
   }
 
-  public Cookie removeBuddy( BuddyItem buddyItem ) throws IOException {
+  public Cookie removeBuddy( BuddyItem buddyItem ) {
     return null;
   }
 
-  public Cookie removeGroup( BuddyGroup buddyGroup ) throws IOException {
+  public Cookie removeGroup( BuddyGroup buddyGroup ) {
     return null;
   }
 
@@ -197,10 +199,10 @@ public class XmppAccountRoot extends AccountRoot {
               return;
             } catch ( IOException ex ) {
               LogUtil.outMessage( "IO Exception" );
-              ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
+              Handler.showError( Localization.getMessage( "IO_EXCEPTION" ) );
             } catch ( Throwable ex ) {
               LogUtil.outMessage( "Throwable" );
-              ActionExec.showError( Localization.getMessage( "THROWABLE" ) );
+              Handler.showError( Localization.getMessage( "THROWABLE" ) );
             }
             sleep( MidletMain.reconnectTime );
           } while ( MidletMain.autoReconnect );

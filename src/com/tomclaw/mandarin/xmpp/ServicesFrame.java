@@ -1,6 +1,6 @@
 package com.tomclaw.mandarin.xmpp;
 
-import com.tomclaw.mandarin.main.ActionExec;
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.mandarin.main.InfoFrame;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.*;
@@ -134,14 +134,14 @@ public class ServicesFrame extends Window {
           parentService = ( ServiceItem ) gc;
           requestItems();
         } else {
-          ActionExec.showNotify( Localization.getMessage( "ITEM_EMPTY" ) );
+          Handler.showNotify( Localization.getMessage( "ITEM_EMPTY" ) );
         }
       }
     };
     /** Applying pane **/
     setGObject( hostChangePane );
     if ( accountRoot.statusIndex == XmppStatusUtil.offlineIndex ) {
-      ActionExec.showFail( Localization.getMessage( "NO_CONNECTION" ) );
+      Handler.showFail( Localization.getMessage( "NO_CONNECTION" ) );
     }
   }
 
@@ -161,12 +161,12 @@ public class ServicesFrame extends Window {
           }
           MidletMain.screen.setWaitScreenState( false );
           if ( id.equals( requestId ) ) {
-            ActionExec.showNotify( Localization.getMessage( "SOME_SERVICES_UNAVAILABLE" ) );
+            Handler.showNotify( Localization.getMessage( "SOME_SERVICES_UNAVAILABLE" ) );
           }
         }
       }.start();
     } else {
-      ActionExec.showNotify( Localization.getMessage( "ITEM_EMPTY" ) );
+      Handler.showNotify( Localization.getMessage( "ITEM_EMPTY" ) );
     }
   }
 

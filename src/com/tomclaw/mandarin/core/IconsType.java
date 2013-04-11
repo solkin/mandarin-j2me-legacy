@@ -1,4 +1,4 @@
-package com.tomclaw.mandarin.main;
+package com.tomclaw.mandarin.core;
 
 /**
  * Solkin Igor Viktorovich, TomClaw Software, 2003-2013
