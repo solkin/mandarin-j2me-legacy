@@ -1,5 +1,6 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.UpdateChecker;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.TagUtil;

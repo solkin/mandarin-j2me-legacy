@@ -1,6 +1,6 @@
 package com.tomclaw.mandarin.mmp;
 
-import com.tomclaw.mandarin.main.BuddyGroup;
+import com.tomclaw.mandarin.core.BuddyGroup;
 
 /**
  * Solkin Igor Viktorovich, TomClaw Software, 2003-2013

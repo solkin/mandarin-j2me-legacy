@@ -19,7 +19,7 @@ import javax.microedition.io.SocketConnection;
 public class NetConnection {
 
   private SocketConnection socket = null;
-  public OutputStream outputStream = null;
+  public SporedStream outputStream = null;
   public InputStream inputStream = null;
 
   public void connectAddress( String host, int port ) throws IOException {
@@ -35,7 +35,7 @@ public class NetConnection {
       socket = ( SocketConnection ) Connector.open( "socket://" + host + ":"
               + port, Connector.READ_WRITE );
     }
-    outputStream = socket.openOutputStream();
+    outputStream = new SporedStream(socket.openOutputStream());
     inputStream = socket.openInputStream();
     LogUtil.outMessage( "Connected successfull" );
   }

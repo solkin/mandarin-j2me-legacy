@@ -1,5 +1,7 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.AccountRoot;
+import com.tomclaw.mandarin.core.BuddyItem;
 import com.tomclaw.mandarin.xmpp.XmppAccountRoot;
 import com.tomclaw.mandarin.xmpp.XmppItem;
 import com.tomclaw.mandarin.xmpp.XmppStatusUtil;
@@ -11,7 +13,6 @@ import com.tomclaw.utils.ArrayUtil;
 import com.tomclaw.utils.LogUtil;
 import com.tomclaw.utils.StringUtil;
 import com.tomclaw.utils.TimeUtil;
-import java.io.IOException;
 import java.util.Vector;
 import javax.microedition.io.ConnectionNotFoundException;
 import javax.microedition.lcdui.*;
@@ -39,6 +40,7 @@ public class ChatFrame extends Window {
     super( MidletMain.screen );
 
     this.addKeyEvent( new KeyEvent( 0, "KEY_WRITE", true ) {
+
       public void actionPerformed() {
         ChatTab chatTab = getSelectedChatTab();
         if ( chatTab == null ) {
@@ -51,6 +53,7 @@ public class ChatFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_COPY", true ) {
+
       public void actionPerformed() {
         /**
          * Message deoptimization
@@ -62,6 +65,7 @@ public class ChatFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_PASTE", true ) {
+
       public void actionPerformed() {
         ChatTab chatTab = getSelectedChatTab();
         if ( chatTab == null ) {
@@ -77,6 +81,7 @@ public class ChatFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_APPEND", true ) {
+
       public void actionPerformed() {
         if ( !chatPane.items.isEmpty() && chatPane.psvLstFocusedIndex >= 0 && chatPane.psvLstFocusedIndex < chatPane.items.size() ) {
           ChatItem chatItem = ( ( ChatItem ) chatPane.items.elementAt( chatPane.psvLstFocusedIndex ) );
@@ -85,12 +90,14 @@ public class ChatFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_CLEARCHAT", true ) {
+
       public void actionPerformed() {
         ( ( ChatTab ) ChatFrame.this.chatTabs.items.elementAt( ChatFrame.this.chatTabs.selectedIndex ) ).chatItems.removeAllElements();
         System.gc();
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_CLOSECHAT", true ) {
+
       public void actionPerformed() {
         ChatTab chatTab = ( ( ChatTab ) ChatFrame.this.chatTabs.items.elementAt( ChatFrame.this.chatTabs.selectedIndex ) );
         if ( chatTab.buddyItem instanceof XmppItem && !chatTab.resource.resource.equals( "" ) && MidletMain.isRemoveResources ) {
@@ -127,6 +134,7 @@ public class ChatFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_REPLY", true ) {
+
       public void actionPerformed() {
         if ( !chatPane.items.isEmpty() && chatPane.psvLstFocusedIndex >= 0 && chatPane.psvLstFocusedIndex < chatPane.items.size() ) {
           ChatItem chatItem = ( ( ChatItem ) chatPane.items.elementAt( chatPane.psvLstFocusedIndex ) );
@@ -144,6 +152,7 @@ public class ChatFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_CHAT_SCREEN_TOP", true ) {
+
       public void actionPerformed() {
         chatPane.yOffset = 0;
         if ( !chatPane.items.isEmpty() ) {
@@ -152,6 +161,7 @@ public class ChatFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_CHAT_SCREEN_BOTTOM", true ) {
+
       public void actionPerformed() {
         int maxOffset = chatPane.getTotalHeight() - chatPane.height;
         if ( maxOffset < 0 ) {
@@ -170,37 +180,35 @@ public class ChatFrame extends Window {
     textBox.addCommand( new Command( Localization.getMessage( "SMILES" ), Command.HELP, 2 ) );
     textBox.addCommand( new Command( Localization.getMessage( "CLEAR" ), Command.EXIT, 1 ) );
     textBox.setCommandListener( new CommandListener() {
+
       public void commandAction( Command c, Displayable d ) {
         switch ( c.getCommandType() ) {
           case Command.OK: {
-            try {
-              ChatTab chatTab = getSelectedChatTab();
-              if ( chatTab == null ) {
-                return;
-              }
-              if ( !StringUtil.isEmptyOrNull( textBox.getString() ) ) {
-                if ( chatTab.accountRoot.getStatusIndex() != -1 ) {
-                  /**
-                   * Account is online
-                   */
-                  byte[] msgCookie;
-                  msgCookie = chatTab.accountRoot.sendMessage( chatTab.buddyItem, textBox.getString(), chatTab.resource == null ? "" : chatTab.resource.resource );
-                  if ( chatTab.buddyItem instanceof XmppItem
-                          && ( ( XmppItem ) chatTab.buddyItem ).isGroupChat
-                          && ( chatTab.resource == null || chatTab.resource.resource.length() == 0 ) ) {
-                  } else {
-                    ChatFrame.this.addChatItem( chatTab, null, textBox.getString(), msgCookie, ChatItem.TYPE_PLAIN_MSG, false );
-                  }
-                  textBox.setString( "" );
-                }
-              }
-              ChatFrame.this.prepareGraphics();
-              MidletMain.screen.activeWindow = MidletMain.chatFrame;
-              Display.getDisplay( MidletMain.midletMain ).setCurrent( MidletMain.screen );
-              MidletMain.screen.setFullScreenMode( true );
-              chatTab.accountRoot.sendTypingStatus( chatTab.buddyItem.getUserId(), false );
-            } catch ( Throwable ex ) {
+            ChatTab chatTab = getSelectedChatTab();
+            if ( chatTab == null ) {
+              return;
             }
+            if ( !StringUtil.isEmptyOrNull( textBox.getString() ) ) {
+              if ( chatTab.accountRoot.getStatusIndex() != -1 ) {
+                /**
+                 * Account is online
+                 */
+                byte[] msgCookie;
+                msgCookie = chatTab.accountRoot.sendMessage( chatTab.buddyItem, textBox.getString(), chatTab.resource == null ? "" : chatTab.resource.resource );
+                if ( chatTab.buddyItem instanceof XmppItem
+                        && ( ( XmppItem ) chatTab.buddyItem ).isGroupChat
+                        && ( chatTab.resource == null || chatTab.resource.resource.length() == 0 ) ) {
+                } else {
+                  ChatFrame.this.addChatItem( chatTab, null, textBox.getString(), msgCookie, ChatItem.TYPE_PLAIN_MSG, false );
+                }
+                textBox.setString( "" );
+              }
+            }
+            ChatFrame.this.prepareGraphics();
+            MidletMain.screen.activeWindow = MidletMain.chatFrame;
+            Display.getDisplay( MidletMain.midletMain ).setCurrent( MidletMain.screen );
+            MidletMain.screen.setFullScreenMode( true );
+            chatTab.accountRoot.sendTypingStatus( chatTab.buddyItem.getUserId(), false );
             break;
           }
           case Command.EXIT: {
@@ -239,30 +247,30 @@ public class ChatFrame extends Window {
      */
     hyperlinkPopupItem = new PopupItem( Localization.getMessage( "GO_TO_HYPERLINK" ) );
     replyItem = new PopupItem( Localization.getMessage( "REPLY" ) ) {
+
       public void actionPerformed() {
         ChatFrame.this.getKeyEvent( "KEY_REPLY" ).actionPerformed();
       }
     };
     authAcceptPopupItem = new PopupItem( Localization.getMessage( "AUTH_ACCEPT" ) ) {
+
       public void actionPerformed() {
         if ( !chatPane.items.isEmpty() && chatPane.psvLstFocusedIndex >= 0 && chatPane.psvLstFocusedIndex < chatPane.items.size() ) {
           ChatTab chatTab = getSelectedChatTab();
           if ( chatTab != null ) {
-            try {
-              chatTab.accountRoot.acceptAuthorization( chatTab.buddyItem );
-            } catch ( IOException ex ) {
-              LogUtil.outMessage( ex );
-            }
+            chatTab.accountRoot.acceptAuthorization( chatTab.buddyItem );
           }
         }
       }
     };
     replyItem = new PopupItem( Localization.getMessage( "REPLY" ) ) {
+
       public void actionPerformed() {
         ChatFrame.this.getKeyEvent( "KEY_REPLY" ).actionPerformed();
       }
     };
     soft.leftSoft = new PopupItem( Localization.getMessage( "MENU" ) ) {
+
       public void actionPerformed() {
         /**
          * Links
@@ -300,6 +308,7 @@ public class ChatFrame extends Window {
             if ( hyperlink.length() < 256 ) {
               isLinkPresent = true;
               hyperlinkPopupItem.addSubItem( new PopupItem( hyperlink ) {
+
                 public void actionPerformed() {
                   try {
                     MidletMain.midletMain.platformRequest( hyperlink );
@@ -356,31 +365,37 @@ public class ChatFrame extends Window {
       }
     };
     soft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "WRITE" ) ) {
+
       public void actionPerformed() {
         ChatFrame.this.getKeyEvent( "KEY_WRITE" ).actionPerformed();
       }
     } );
     soft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "CLEAR" ) ) {
+
       public void actionPerformed() {
         ChatFrame.this.getKeyEvent( "KEY_CLEARCHAT" ).actionPerformed();
       }
     } );
     soft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "COPY" ) ) {
+
       public void actionPerformed() {
         ChatFrame.this.getKeyEvent( "KEY_COPY" ).actionPerformed();
       }
     } );
     soft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "APPEND" ) ) {
+
       public void actionPerformed() {
         ChatFrame.this.getKeyEvent( "KEY_APPEND" ).actionPerformed();
       }
     } );
     soft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "PASTE" ) ) {
+
       public void actionPerformed() {
         ChatFrame.this.getKeyEvent( "KEY_PASTE" ).actionPerformed();
       }
     } );
     soft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "CLOSE" ) ) {
+
       public void actionPerformed() {
         ChatFrame.this.getKeyEvent( "KEY_CLOSECHAT" ).actionPerformed();
       }
@@ -389,6 +404,7 @@ public class ChatFrame extends Window {
      * Right soft items
      */
     soft.rightSoft = new PopupItem( Localization.getMessage( "BACK" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( MidletMain.mainFrame );
       }
@@ -396,6 +412,7 @@ public class ChatFrame extends Window {
 
     chatTabs = new Tab( screen );
     chatTabs.tabEvent = new TabEvent() {
+
       public void stateChanged( int prevIndex, int currIndex, int totlItems ) {
         try {
           /**
@@ -453,6 +470,7 @@ public class ChatFrame extends Window {
     chatPane.setTouchOrientation( MidletMain.screen.isPointerEvents );
     chatPane.moveStep = Theme.font.getHeight() * 3;
     chatPane.actionPerformedEvent = new PaneEvent() {
+
       public void actionPerformed( PaneObject po ) {
         ChatTab chatTab = getSelectedChatTab();
         if ( chatTab == null ) {

@@ -1,7 +1,7 @@
 package com.tomclaw.mandarin.icq;
 
-import com.tomclaw.mandarin.main.BuddyItem;
-import com.tomclaw.mandarin.main.IconsType;
+import com.tomclaw.mandarin.core.BuddyItem;
+import com.tomclaw.mandarin.core.IconsType;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.ChatItem;
 

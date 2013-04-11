@@ -1,10 +1,10 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.*;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.LogUtil;
 import com.tomclaw.utils.StringUtil;
-import java.io.IOException;
 import java.util.Hashtable;
 
 /**
@@ -37,7 +37,7 @@ public class RenameItemFrame extends Window {
         LogUtil.outMessage( "Rename pressed" );
         if ( !StringUtil.isFill( itemNameField.getText() ) ) {
           LogUtil.outMessage( "Empty field" );
-          ActionExec.showNotify( Localization.getMessage( "EMPTY_FIELD" ) );
+          Handler.showNotify( Localization.getMessage( "EMPTY_FIELD" ) );
         } else {
           try {
             LogUtil.outMessage( "Rename start" );
@@ -61,7 +61,7 @@ public class RenameItemFrame extends Window {
             LogUtil.outMessage( "Switching window..." );
             MidletMain.screen.setActiveWindow( s_prevWindow );
           } catch ( Throwable ex ) {
-            ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
+            Handler.showError( Localization.getMessage( "IO_EXCEPTION" ) );
           }
         }
       }
@@ -106,29 +106,25 @@ public class RenameItemFrame extends Window {
 
       public void actionPerformed() {
         if ( !StringUtil.isFill( itemNameField.getText() ) ) {
-          ActionExec.showNotify( Localization.getMessage( "EMPTY_FIELD" ) );
+          Handler.showNotify( Localization.getMessage( "EMPTY_FIELD" ) );
         } else {
-          try {
-            LogUtil.outMessage( "Rename start" );
-            Cookie cookie = accountRoot.renameGroup( itemNameField.getText(), buddyGroup );
-            LogUtil.outMessage( "Request queued, cookie received" );
-            QueueAction queueAction = new QueueAction( accountRoot, buddyGroup, cookie ) {
+          LogUtil.outMessage( "Rename start" );
+          Cookie cookie = accountRoot.renameGroup( itemNameField.getText(), buddyGroup );
+          LogUtil.outMessage( "Request queued, cookie received" );
+          QueueAction queueAction = new QueueAction( accountRoot, buddyGroup, cookie ) {
 
-              public void actionPerformed( Hashtable params ) {
-                LogUtil.outMessage( "Action Performed" );
-                this.buddyGroup.setUserId( itemNameField.getText() );
-                this.buddyGroup.updateUiData();
-                this.accountRoot.updateOfflineBuddylist();
-              }
-            };
-            LogUtil.outMessage( "QueueAction created" );
-            Queue.pushQueueAction( queueAction );
-            LogUtil.outMessage( "queueAction: " + queueAction.getCookie().cookieString );
-            LogUtil.outMessage( "Switching window..." );
-            MidletMain.screen.setActiveWindow( s_prevWindow );
-          } catch ( IOException ex ) {
-            ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
-          }
+            public void actionPerformed( Hashtable params ) {
+              LogUtil.outMessage( "Action Performed" );
+              this.buddyGroup.setUserId( itemNameField.getText() );
+              this.buddyGroup.updateUiData();
+              this.accountRoot.updateOfflineBuddylist();
+            }
+          };
+          LogUtil.outMessage( "QueueAction created" );
+          Queue.pushQueueAction( queueAction );
+          LogUtil.outMessage( "queueAction: " + queueAction.getCookie().cookieString );
+          LogUtil.outMessage( "Switching window..." );
+          MidletMain.screen.setActiveWindow( s_prevWindow );
         }
       }
     };

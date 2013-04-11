@@ -1,5 +1,6 @@
-package com.tomclaw.mandarin.main;
+package com.tomclaw.mandarin.core;
 
+import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.ChatItem;
 import com.tomclaw.utils.TimeUtil;
 import java.util.Stack;

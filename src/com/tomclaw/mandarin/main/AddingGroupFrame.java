@@ -1,10 +1,10 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.*;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.LogUtil;
 import com.tomclaw.utils.StringUtil;
-import java.io.IOException;
 import java.util.Hashtable;
 
 /**
@@ -33,28 +33,24 @@ public class AddingGroupFrame extends Window {
 
       public void actionPerformed() {
         if ( !StringUtil.isFill( groupNameField.getText() ) ) {
-          ActionExec.showNotify( Localization.getMessage( "EMPTY_FIELD" ) );
+          Handler.showNotify( Localization.getMessage( "EMPTY_FIELD" ) );
         } else {
-          try {
-            BuddyGroup buddyGroup = accountRoot.getGroupInstance();
-            buddyGroup.setUserId( groupNameField.getText() );
-            Cookie cookie = accountRoot.addGroup( buddyGroup );
-            QueueAction queueAction = new QueueAction(
-                    accountRoot, buddyGroup, cookie ) {
+          BuddyGroup buddyGroup = accountRoot.getGroupInstance();
+          buddyGroup.setUserId( groupNameField.getText() );
+          Cookie cookie = accountRoot.addGroup( buddyGroup );
+          QueueAction queueAction = new QueueAction(
+                  accountRoot, buddyGroup, cookie ) {
 
-              public void actionPerformed( Hashtable params ) {
-                this.accountRoot.getBuddyItems().addElement( this.buddyGroup );
-                LogUtil.outMessage( "Action Performed" );
-                this.buddyGroup.updateUiData();
-                this.accountRoot.updateOfflineBuddylist();
-              }
-            };
-            LogUtil.outMessage( "QueueAction created" );
-            Queue.pushQueueAction( queueAction );
-            MidletMain.screen.setActiveWindow( s_prevWindow );
-          } catch ( IOException ex ) {
-            ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
-          }
+            public void actionPerformed( Hashtable params ) {
+              this.accountRoot.getBuddyItems().addElement( this.buddyGroup );
+              LogUtil.outMessage( "Action Performed" );
+              this.buddyGroup.updateUiData();
+              this.accountRoot.updateOfflineBuddylist();
+            }
+          };
+          LogUtil.outMessage( "QueueAction created" );
+          Queue.pushQueueAction( queueAction );
+          MidletMain.screen.setActiveWindow( s_prevWindow );
         }
       }
     };

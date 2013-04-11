@@ -1,5 +1,7 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.BuddyItem;
+import com.tomclaw.mandarin.core.AccountRoot;
 import com.tomclaw.mandarin.xmpp.Resource;
 import com.tomclaw.mandarin.xmpp.XmppItem;
 import com.tomclaw.tcuilite.TabItem;

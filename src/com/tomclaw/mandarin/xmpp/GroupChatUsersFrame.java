@@ -1,6 +1,6 @@
 package com.tomclaw.mandarin.xmpp;
 
-import com.tomclaw.mandarin.main.ActionExec;
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.mandarin.main.InfoFrame;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.tcuilite.*;
@@ -91,7 +91,7 @@ public class GroupChatUsersFrame extends Window {
         try {
           removeItem();
         } catch ( IOException ex ) {
-          ActionExec.showFail( Localization.getMessage( "IO_EXCEPTION" ) );
+          Handler.showFail( Localization.getMessage( "IO_EXCEPTION" ) );
         }
       }
     } );
@@ -146,7 +146,7 @@ public class GroupChatUsersFrame extends Window {
     try {
       requestLists();
     } catch ( IOException ex ) {
-      ActionExec.showFail( Localization.getMessage( "USERS_READING_FAILED" ) );
+      Handler.showFail( Localization.getMessage( "USERS_READING_FAILED" ) );
     }
   }
 
@@ -200,7 +200,7 @@ public class GroupChatUsersFrame extends Window {
     if ( this.xmppAccountRoot.equals( xmppAccountRoot )
             && id.startsWith( requestId ) ) {
       MidletMain.screen.setWaitScreenState( false );
-      ActionExec.showFail( Localization.getMessage( "PERMISSION_DENIED" ) );
+      Handler.showFail( Localization.getMessage( "PERMISSION_DENIED" ) );
       requestId = "";
     }
   }

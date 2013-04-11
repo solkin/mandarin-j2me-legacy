@@ -1,7 +1,8 @@
 package com.tomclaw.mandarin.mmp;
 
-import com.tomclaw.mandarin.main.ActionExec;
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.mandarin.main.MidletMain;
+import com.tomclaw.mandarin.net.BinarySpore;
 import com.tomclaw.mandarin.net.IncorrectAddressException;
 import com.tomclaw.mandarin.net.NetConnection;
 import com.tomclaw.utils.DataUtil;
@@ -49,20 +50,20 @@ public class MmpSession implements Runnable {
     netConnection = new NetConnection();
     LogUtil.outMessage( "Connecting..." );
     netConnection.connectAddress( hostPort );
-    ActionExec.setConnectionStage( mmpAccountRoot, 1 );
+    Handler.setConnectionStage( mmpAccountRoot, 1 );
     LogUtil.outMessage( "Connected to: " + hostPort );
     byte[] header = netConnection.readTo( ( byte ) 0x0a );
-    ActionExec.setConnectionStage( mmpAccountRoot, 2 );
+    Handler.setConnectionStage( mmpAccountRoot, 2 );
     if ( MidletMain.logLevel == 1 ) {
       HexUtil.dump_( header, "MRIM_CS_HELLO_ACK: " );
     }
     hostPort = new String( header, 0, header.length - 1 );
     LogUtil.outMessage( "Closing connection..." );
     netConnection.disconnect();
-    ActionExec.setConnectionStage( mmpAccountRoot, 3 );
+    Handler.setConnectionStage( mmpAccountRoot, 3 );
     LogUtil.outMessage( "Connecting to RCS: " + hostPort );
     netConnection.connectAddress( hostPort );
-    ActionExec.setConnectionStage( mmpAccountRoot, 4 );
+    Handler.setConnectionStage( mmpAccountRoot, 4 );
     LogUtil.outMessage( "Conneced" );
     /**
      * MRIM_CS_HELLO
@@ -70,8 +71,8 @@ public class MmpSession implements Runnable {
     Packet packet = new Packet();
     packet.seq = seqNum++;
     packet.msg = PacketType.MRIM_CS_HELLO;
-    packet.send( netConnection );
-    ActionExec.setConnectionStage( mmpAccountRoot, 5 );
+    packet.send( netConnection.outputStream );
+    Handler.setConnectionStage( mmpAccountRoot, 5 );
     LogUtil.outMessage( "Hello packet sent" );
     /**
      * MRIM_CS_HELLO_ACK
@@ -85,24 +86,29 @@ public class MmpSession implements Runnable {
      * MRIM_CS_PING
      */
     Thread thread = new Thread() {
+
       public void run() {
         while ( isAlive ) {
-          try {
-            sleep( MmpSession.this.pingDelay / 2 );
-            Packet packet = new Packet();
-            packet.seq = seqNum++;
-            packet.msg = PacketType.MRIM_CS_PING;
-            packet.send( netConnection );
-          } catch ( Throwable ex ) {
-            LogUtil.outMessage( ex.getMessage() );
-          }
+
+          BinarySpore binarySpore = new BinarySpore() {
+
+            public void onRun() throws Throwable {
+              sleep( MmpSession.this.pingDelay / 2 );
+              Packet packet = new Packet();
+              packet.seq = seqNum++;
+              packet.msg = PacketType.MRIM_CS_PING;
+              packet.send( this );
+            }
+          };
+          netConnection.outputStream.releaseSpore( binarySpore );
         }
       }
     };
     thread.setPriority( Thread.MIN_PRIORITY );
     thread.start();
-    ActionExec.setConnectionStage( mmpAccountRoot, 6 );
+    Handler.setConnectionStage( mmpAccountRoot, 6 );
     Thread httpPing = new Thread() {
+
       public void run() {
         while ( isAlive && MidletMain.httpHiddenPing > 0 ) {
           try {
@@ -117,7 +123,7 @@ public class MmpSession implements Runnable {
     };
     httpPing.setPriority( Thread.MIN_PRIORITY );
     httpPing.start();
-    ActionExec.setConnectionStage( mmpAccountRoot, 7 );
+    Handler.setConnectionStage( mmpAccountRoot, 7 );
     /** MRIM_CS_LOGIN2 **/
     packet = new Packet();
     packet.seq = seqNum++;
@@ -128,9 +134,9 @@ public class MmpSession implements Runnable {
     /** Appending status chunk **/
     MmpPacketSender.appendStatusChunk( packet, statusId, statusString, true );
     // MmpPacketSender.MRIM_CS_CHANGE_STATUS( mmpAccountRoot, statusId, statusString );
-    packet.send( netConnection );
+    packet.send( netConnection.outputStream );
     LogUtil.outMessage( "Login sent" );
-    ActionExec.setConnectionStage( mmpAccountRoot, 8 );
+    Handler.setConnectionStage( mmpAccountRoot, 8 );
     /** MRIM_CS_LOGIN_ACK **/
     packet = receivePacket();
     if ( packet.msg == PacketType.MRIM_CS_LOGIN_ACK ) {
@@ -141,7 +147,7 @@ public class MmpSession implements Runnable {
     } else if ( packet.msg == PacketType.MRIM_CS_LOGIN_REJ ) {
       LogUtil.outMessage( "Login rejected" );
     }
-    ActionExec.setConnectionStage( mmpAccountRoot, 9 );
+    Handler.setConnectionStage( mmpAccountRoot, 9 );
     return false;
   }
 
@@ -195,7 +201,7 @@ public class MmpSession implements Runnable {
       LogUtil.outMessage( "Disconnect failed: " + this.toString(), true );
     }
     int prevStatus = mmpAccountRoot.statusIndex;
-    ActionExec.disconnectEvent( mmpAccountRoot );
+    Handler.disconnectEvent( mmpAccountRoot );
     if ( MidletMain.autoReconnect && isError ) {
       try {
         Thread.sleep( MidletMain.reconnectTime );

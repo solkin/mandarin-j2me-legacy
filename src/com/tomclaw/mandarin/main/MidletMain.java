@@ -1,5 +1,8 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.AccountRoot;
+import com.tomclaw.mandarin.core.HistoryRmsRenderer;
+import com.tomclaw.mandarin.core.RmsRenderer;
 import com.tomclaw.bingear.BinGear;
 import com.tomclaw.bingear.GroupNotFoundException;
 import com.tomclaw.images.Splitter;
@@ -526,11 +529,7 @@ public class MidletMain extends MIDlet {
         long prevDataCount = 0;
         while ( true ) {
           try {
-            Thread.sleep( 3000 );
-          } catch ( InterruptedException ex ) {
-            continue;
-          }
-          try {
+            Thread.sleep( 5000 );
             if ( dataCount == prevDataCount ) {
               continue;
             }

@@ -7,6 +7,7 @@ import com.tomclaw.utils.HexUtil;
 import com.tomclaw.utils.StringUtil;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Solkin Igor Viktorovich, TomClaw Software, 2003-2013
@@ -150,11 +151,7 @@ public class Snac {
    * Creates a channel 2 FLAP packet with this SNAC packet inside,
    * and sends it immediately using a given connection conn.
    */
-  public void send( NetConnection netConnection, int seq ) throws IOException {
-    if ( netConnection == null ) {
-      throw new IOException();
-    }
-    
+  public void send( OutputStream outputStream, int seq ) throws IOException {
     byteArray.flush();
     byte[] flapData = byteArray.toByteArray();
     byteArray.close();
@@ -165,14 +162,14 @@ public class Snac {
     bas.write( flapData );
     bas.flush();
 
-    netConnection.write( bas.toByteArray() );
+    outputStream.write( bas.toByteArray() );
+    outputStream.flush();
 
     if ( MidletMain.logLevel == 1 ) {
       HexUtil.dump_( System.out, bas.toByteArray(), "<< SNAC (" + HexUtil.toHexString( family ) + ", " + HexUtil.toHexString( subtype ) + "): " );
     }
 
     bas.close();
-    netConnection.flush();
   }
 
   public ByteArrayOutputStream getByteArray() {

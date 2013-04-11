@@ -1,5 +1,6 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.mandarin.icq.IcqAccountRoot;
 import com.tomclaw.mandarin.mmp.MmpAccountRoot;
 import com.tomclaw.mandarin.xmpp.XmppAccountRoot;
@@ -145,7 +146,7 @@ public class AccountEditorFrame extends Window {
               MidletMain.mainFrame.switchAccountRoot( MidletMain.mainFrame.getActiveAccountRoot() );
               MidletMain.screen.setActiveWindow( MidletMain.mainFrame );
             } catch ( Throwable ex ) {
-              ActionExec.showError( "UNDEF_ACCOUNT_CREATING_ERROR" );
+              Handler.showError( "UNDEF_ACCOUNT_CREATING_ERROR" );
             }
             MidletMain.screen.setWaitScreenState( false );
           }

@@ -1,7 +1,7 @@
 package com.tomclaw.mandarin.icq;
 
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.mandarin.dc.DirectConnection;
-import com.tomclaw.mandarin.main.ActionExec;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.mandarin.net.NetConnection;
 import com.tomclaw.utils.*;
@@ -130,7 +130,7 @@ public class IcqDirectConnection implements DirectConnection {
 
   public void sendMessageType( byte msgType ) throws IOException {
     statusString = "SEND_FILE_ACCEPT";
-    ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+    Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
     LogUtil.outMessage( "sendFileAccept" );
     LogUtil.outMessage( "buddyId=" + buddyId );
     LogUtil.outMessage( "icbmCookie=" + HexUtil.bytesToString( icbmCookie ) );
@@ -158,25 +158,25 @@ public class IcqDirectConnection implements DirectConnection {
     p.addByteArray( buffer.byteString );
 
     try {
-      p.send( icqAccountRoot.session.getNetworkConnection(), icqAccountRoot.session.getNextSeq() );
+      p.send( icqAccountRoot.session.getNetworkConnection().outputStream, icqAccountRoot.session.getNextSeq() );
       if ( msgType == 0x02 ) {
         statusString = "FILE_ACCEPT_SENT";
       } else if ( msgType == 0x01 ) {
         statusString = "STOPPED";
         isStop = true;
       }
-      ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+      Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
     } catch ( IOException ex1 ) {
       statusString = "IO_EXCEPTION";
       isError = true;
-      ActionExec.updateTransactions( icqAccountRoot );
-      ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+      Handler.updateTransactions( icqAccountRoot );
+      Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
     }
   }
 
   public void requestProxyIpPort() throws IOException, InterruptedException {
     statusString = "REQUEST_PROXY";
-    ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+    Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
 
     localProxyConnection = new NetConnection();
     localProxyConnection.connectAddress( "ars.icq.com", 5190 ); //dcTcpPort
@@ -227,20 +227,20 @@ public class IcqDirectConnection implements DirectConnection {
       proxyIpBytes = DataUtil.getByteArray( proxyServerPacket, offset += 2, 4 );
       proxyIp = DataUtil.get8int( proxyIpBytes, 0 ) + "." + DataUtil.get8int( proxyIpBytes, 1 ) + "." + DataUtil.get8int( proxyIpBytes, 2 ) + "." + DataUtil.get8int( proxyIpBytes, 3 );
       statusString = "REQUEST_RETREIVED"; // Needs to be tested
-      ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+      Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
     } else {
       // ERROR
       statusString = "PROXY_ERROR";
       isError = true;
-      ActionExec.updateTransactions( icqAccountRoot );
-      ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+      Handler.updateTransactions( icqAccountRoot );
+      Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
     }
     // dcConnection.disconnect();
   }
 
   public void sendFileViaProxy() throws IOException, InterruptedException {
     statusString = "SENDING_REQUEST";
-    ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+    Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
 
     Snac p = new Snac( 0x0004, 0x0006, 0, 0, 7 );
     requestProxyIpPort();
@@ -335,12 +335,13 @@ public class IcqDirectConnection implements DirectConnection {
     p.addByteArray( buffer.byteString );
 
     try {
-      p.send( icqAccountRoot.session.getNetworkConnection(), icqAccountRoot.session.getNextSeq() );
+      p.send( icqAccountRoot.session.getNetworkConnection().outputStream, 
+              icqAccountRoot.session.getNextSeq() );
     } catch ( IOException ex1 ) {
       statusString = "IO_EXCEPTION";
       isError = true;
-      ActionExec.updateTransactions( icqAccountRoot );
-      ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+      Handler.updateTransactions( icqAccountRoot );
+      Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
     }
   }
 
@@ -352,7 +353,7 @@ public class IcqDirectConnection implements DirectConnection {
 
       // Ready packet to proxy server
       statusString = "PROCESSING_FILEXFER";
-      ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+      Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
 
       processCoolFileXfer( localProxyConnection );
       return;
@@ -366,8 +367,8 @@ public class IcqDirectConnection implements DirectConnection {
     }
     statusString = "IO_EXCEPTION";
     isError = true;
-    ActionExec.updateTransactions( icqAccountRoot );
-    ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+    Handler.updateTransactions( icqAccountRoot );
+    Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
   }
 
   public void sendToRemoteProxy( int[] externalIp, int dcTcpPort ) {
@@ -383,7 +384,7 @@ public class IcqDirectConnection implements DirectConnection {
   public void sendToRemoteProxy( boolean isUseLocalConnection ) {
     // Updating proxy data
     statusString = "CONNECTING_PROXY";
-    ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+    Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
 
     LogUtil.outMessage( "sendToRemoteProxy " + proxyIp + " and buddy " + buddyId );
     remoteProxyConnectionSentFlag = true;
@@ -447,8 +448,8 @@ public class IcqDirectConnection implements DirectConnection {
           LogUtil.outMessage( "errCode=" + cmdType );
           statusString = "PROXY_ERROR";
           isError = true;
-          ActionExec.updateTransactions( icqAccountRoot );
-          ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+          Handler.updateTransactions( icqAccountRoot );
+          Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
           return;
         } else {
           sendMessageType( ( byte ) 0x02 );
@@ -473,13 +474,13 @@ public class IcqDirectConnection implements DirectConnection {
     }
     statusString = "IO_EXCEPTION";
     isError = true;
-    ActionExec.updateTransactions( icqAccountRoot );
-    ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+    Handler.updateTransactions( icqAccountRoot );
+    Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
   }
 
   public void processFileReceive( NetConnection dcConnection ) throws IOException, InterruptedException {
     statusString = "RECEIVING_FILE";
-    ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+    Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
 
     LogUtil.outMessage( "Ready to receive" );
     byte[] proxyServerPacket = dcConnection.read( 256 );
@@ -507,8 +508,8 @@ public class IcqDirectConnection implements DirectConnection {
       LogUtil.outMessage( "Local file error: " + ex1.getMessage(), true );
       statusString = "LOCAL_ERROR";
       this.isError = true;
-      ActionExec.updateTransactions( icqAccountRoot );
-      ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+      Handler.updateTransactions( icqAccountRoot );
+      Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
       return;
     }
 
@@ -542,13 +543,13 @@ public class IcqDirectConnection implements DirectConnection {
       if ( System.currentTimeMillis() - startTime > 1000 ) {
         speed = ( int ) ( 8 * 1000 * dataBytesRead / ( System.currentTimeMillis() - startTime ) ) / 1024;
       }
-      ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+      Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
       if ( isStop ) {
         outputStream.close();
         fileConnection.close();
         dcConnection.disconnect();
         isError = true;
-        ActionExec.updateTransactions( icqAccountRoot );
+        Handler.updateTransactions( icqAccountRoot );
         //ActionExec.updateTransactions();
         return;
       }
@@ -571,14 +572,14 @@ public class IcqDirectConnection implements DirectConnection {
     LogUtil.outMessage( "Receiving complete" );
     statusString = "RECEIVING_COMPLETE";
     isComplete = true;
-    ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
-    ActionExec.updateTransactions( icqAccountRoot );
+    Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
+    Handler.updateTransactions( icqAccountRoot );
     dcConnection.disconnect();
   }
 
   public void waitForProxyReady() {
     statusString = "WAITING_FOR_PROXY_READY";
-    ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+    Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
     try {
       byte[] lengthData = localProxyConnection.read( 2 );
       int offset = 0;
@@ -603,8 +604,8 @@ public class IcqDirectConnection implements DirectConnection {
         // ERROR
         statusString = "PROXY_ERROR";
         isError = true;
-        ActionExec.updateTransactions( icqAccountRoot );
-        ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+        Handler.updateTransactions( icqAccountRoot );
+        Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
       } else if ( cmdType == 0x0005 ) {
         sendToCreatedProxy();
       }
@@ -621,13 +622,13 @@ public class IcqDirectConnection implements DirectConnection {
     }
     statusString = "IO_EXCEPTION";
     isError = true;
-    ActionExec.updateTransactions( icqAccountRoot );
-    ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+    Handler.updateTransactions( icqAccountRoot );
+    Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
   }
 
   public void processCoolFileXfer( NetConnection dcConnection ) throws IOException, InterruptedException {
     statusString = "SENDING_HEADER";
-    ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+    Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
 
     Snac snac = new Snac( 0, 0, 0, 0 );
     snac.addDWord( 0x4f465432 ); // Protocol version
@@ -712,7 +713,7 @@ public class IcqDirectConnection implements DirectConnection {
     }
 
     statusString = "TRANSFERING_FILE";
-    ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+    Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
 
     FileConnection fileConnection;
     InputStream inputStream;
@@ -723,8 +724,8 @@ public class IcqDirectConnection implements DirectConnection {
         LogUtil.outMessage( "File not exist", true );
         statusString = "FILE_NOT_EXIST";
         this.isError = true;
-        ActionExec.updateTransactions( icqAccountRoot );
-        ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+        Handler.updateTransactions( icqAccountRoot );
+        Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
         return;
       }
       inputStream = fileConnection.openInputStream();
@@ -732,8 +733,8 @@ public class IcqDirectConnection implements DirectConnection {
       LogUtil.outMessage( "Local file error: " + ex1.getMessage(), true );
       statusString = "LOCAL_ERROR";
       this.isError = true;
-      ActionExec.updateTransactions( icqAccountRoot );
-      ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+      Handler.updateTransactions( icqAccountRoot );
+      Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
       return;
     }
 
@@ -751,13 +752,13 @@ public class IcqDirectConnection implements DirectConnection {
       if ( System.currentTimeMillis() - startTime > 1000 ) {
         speed = ( int ) ( 8 * 1000 * fileSentBytes / ( System.currentTimeMillis() - startTime ) ) / 1024;
       }
-      ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
+      Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
       if ( isStop ) {
         inputStream.close();
         fileConnection.close();
         dcConnection.disconnect();
         isError = true;
-        ActionExec.updateTransactions( icqAccountRoot );
+        Handler.updateTransactions( icqAccountRoot );
         //ActionExec.updateTransactions(icqAccountRoot);
         return;
       }
@@ -766,8 +767,8 @@ public class IcqDirectConnection implements DirectConnection {
     LogUtil.outMessage( "Transfering complete" );
     statusString = "TRANSFERING_COMPLETE";
     isComplete = true;
-    ActionExec.updateTransactionInfo( icqAccountRoot, icbmCookie );
-    ActionExec.updateTransactions( icqAccountRoot );
+    Handler.updateTransactionInfo( icqAccountRoot, icbmCookie );
+    Handler.updateTransactions( icqAccountRoot );
 
     proxyServerPacket = dcConnection.read( 256 );
     if ( MidletMain.logLevel == 1 ) {

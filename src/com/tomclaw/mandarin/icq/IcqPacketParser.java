@@ -1,14 +1,13 @@
 package com.tomclaw.mandarin.icq;
 
-import com.tomclaw.mandarin.main.ActionExec;
-import com.tomclaw.mandarin.main.BuddyInfo;
-import com.tomclaw.mandarin.main.Cookie;
+import com.tomclaw.mandarin.core.BuddyInfo;
+import com.tomclaw.mandarin.core.Cookie;
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.mandarin.mmp.MmpPacketParser;
 import com.tomclaw.tcuilite.ChatItem;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.*;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Vector;
 import javax.microedition.io.Connector;
@@ -140,7 +139,7 @@ public class IcqPacketParser {
    * @param flapHeader
    * @param packetData
    */
-  public static void parsePacket( IcqAccountRoot icqAccountRoot, 
+  public static void parsePacket( IcqAccountRoot icqAccountRoot,
           byte[] packetData ) throws LegacyProtocolException {
     /**
      * Detecting SNAC family and subtype
@@ -302,10 +301,10 @@ public class IcqPacketParser {
               /*
                * TLV.Type(0x0C) - user DC info [ICQ only]
                */
-              clientInfo.internalIp = new byte[]{ 
-                ( byte ) DataUtil.get8int( value, 0 ), 
-                ( byte ) DataUtil.get8int( value, 1 ), 
-                ( byte ) DataUtil.get8int( value, 2 ), 
+              clientInfo.internalIp = new byte[]{
+                ( byte ) DataUtil.get8int( value, 0 ),
+                ( byte ) DataUtil.get8int( value, 1 ),
+                ( byte ) DataUtil.get8int( value, 2 ),
                 ( byte ) DataUtil.get8int( value, 3 ) };
 
               clientInfo.dcTcpPort = DataUtil.get32( value, 4, true );
@@ -363,7 +362,7 @@ public class IcqPacketParser {
             }
           }
         }
-        ActionExec.setBuddyStatus( icqAccountRoot, buddyId, buddyStatus, caps, clientInfo );
+        Handler.setBuddyStatus( icqAccountRoot, buddyId, buddyStatus, caps, clientInfo );
         break;
       }
       case 0x000c: {
@@ -376,15 +375,15 @@ public class IcqPacketParser {
         String buddyId = DataUtil.byteArray2string( packetData, offset,
                 buddyIdLength );
 
-        ActionExec.setBuddyStatus( icqAccountRoot, buddyId, IcqStatusUtil.getStatus( 0 ), null, null );
+        Handler.setBuddyStatus( icqAccountRoot, buddyId, IcqStatusUtil.getStatus( 0 ), null, null );
 
         break;
       }
     }
   }
 
-  public static void ICBMService( IcqAccountRoot icqAccountRoot, 
-          byte[] packetData, int snacSubtype, int snacFlags, 
+  public static void ICBMService( IcqAccountRoot icqAccountRoot,
+          byte[] packetData, int snacSubtype, int snacFlags,
           byte[] snacRequestId ) throws LegacyProtocolException {
     switch ( snacSubtype ) {
       case 0x000b: {
@@ -408,7 +407,7 @@ public class IcqPacketParser {
           case 0x0003: {
             LogUtil.outMessage( "Reason 0x0003" );
             if ( messageChannel == 1 ) {
-              ActionExec.msgAck( icqAccountRoot, screenName, null, msgCookie );
+              Handler.msgAck( icqAccountRoot, screenName, null, msgCookie );
             } else {
               int length = DataUtil.get16_reversed( packetData, offset );
               offset += 2;
@@ -454,7 +453,7 @@ public class IcqPacketParser {
                   int textLength = DataUtil.get16_reversed( packetData, offset );
                   offset += 2;
                   byte[] msgText = DataUtil.getByteArray( packetData, offset, textLength );
-                  ActionExec.setStatusMessage( icqAccountRoot, msgCookie, msgText );
+                  Handler.setStatusMessage( icqAccountRoot, msgCookie, msgText );
                 } else {
                   if ( msgType == 0x1a ) {
                     // Here comes X-Text
@@ -471,7 +470,7 @@ public class IcqPacketParser {
                       xText.byteString = xText.subarray( 0, xText.indexOf( "&lt;".getBytes() ) );
                       LogUtil.outMessage( "xText = " + xText.getString() );
                       LogUtil.outMessage( "XTRAZ_RESPONSE: " + xTitle + ": " + xText );
-                      ActionExec.setXStatusMessage( icqAccountRoot, msgCookie, xTitle.byteString, xText.byteString );
+                      Handler.setXStatusMessage( icqAccountRoot, msgCookie, xTitle.byteString, xText.byteString );
                     } catch ( Throwable ex1 ) {
                       LogUtil.outMessage( "Error in parsing XStatus: " + ex1.getMessage() );
                       // Do nothing
@@ -652,17 +651,17 @@ public class IcqPacketParser {
                   point += 2;
                   int insLength = DataUtil.get16( value, point );
                   point += 2;
-                  byte[] insValue = ArrayUtil.copyOfRange( value, point, 
+                  byte[] insValue = ArrayUtil.copyOfRange( value, point,
                           point + insLength );
                   point += insLength;
                   switch ( insType ) {
                     case 0x0002: {
                       /** Proxy ip */
-                      proxyIp = new int[]{ DataUtil.get8int( insValue, 0 ), 
-                        DataUtil.get8int( insValue, 1 ), 
-                        DataUtil.get8int( insValue, 2 ), 
+                      proxyIp = new int[]{ DataUtil.get8int( insValue, 0 ),
+                        DataUtil.get8int( insValue, 1 ),
+                        DataUtil.get8int( insValue, 2 ),
                         DataUtil.get8int( insValue, 3 ) };
-                      LogUtil.outMessage( "ip addr proxy: " + proxyIp[0] + "." 
+                      LogUtil.outMessage( "ip addr proxy: " + proxyIp[0] + "."
                               + proxyIp[1] + "." + proxyIp[2] + "." + proxyIp[3] );
                       break;
                     }
@@ -821,10 +820,10 @@ public class IcqPacketParser {
           LogUtil.outMessage( "Type: " + HexUtil.toHexString0x( ch2msgType ) );
           //if (proxyIp[0] != 0 && dcTcpPort != -1) {
           // Connecting to another proxy
-          ActionExec.performTransferAction( icqAccountRoot, ch2msgType, screenName, proxyIp, dcTcpPort, isViaRendezvousServer, fileLength, fileName, msgCookie, false );
+          Handler.performTransferAction( icqAccountRoot, ch2msgType, screenName, proxyIp, dcTcpPort, isViaRendezvousServer, fileLength, fileName, msgCookie, false );
           //} else {
           // Connect to myself proxy
-          //    ActionExec.sendToCreatedProxy(ch2msgType, screenName, fileLength, fileName, msgCookie);
+          //    Handler.sendToCreatedProxy(ch2msgType, screenName, fileLength, fileName, msgCookie);
           //}
           break;
         }
@@ -852,15 +851,9 @@ public class IcqPacketParser {
         switch ( messageType ) {
           case MTYPE_PLAIN: {
             LogUtil.outMessage( "Plain message" );
-            ActionExec.recMess( icqAccountRoot, screenName, null, null, decodedString, msgCookie, ChatItem.TYPE_PLAIN_MSG );
-            try {
-              /**
-               * Sending ack
-               */
-              IcqPacketSender.sendMsgAck( icqAccountRoot.session, messageChannel, screenName, msgCookie );
-            } catch ( IOException ex ) {
-              // ex.printStackTrace();
-            }
+            Handler.recMess( icqAccountRoot, screenName, null, null, decodedString, msgCookie, ChatItem.TYPE_PLAIN_MSG );
+            /** Sending ack **/
+            IcqPacketSender.sendMsgAck( icqAccountRoot.session, messageChannel, screenName, msgCookie );
             break;
           }
           case MTYPE_CHAT: {
@@ -870,19 +863,19 @@ public class IcqPacketParser {
             break;
           }
           case MTYPE_URL: {
-            ActionExec.recMess( icqAccountRoot, screenName, null, null, decodedString, msgCookie, ChatItem.TYPE_HYPERLINK_MSG );
+            Handler.recMess( icqAccountRoot, screenName, null, null, decodedString, msgCookie, ChatItem.TYPE_HYPERLINK_MSG );
             break;
           }
           case MTYPE_AUTHREQ: {
-            ActionExec.recMess( icqAccountRoot, screenName, null, null, decodedString, msgCookie, ChatItem.TYPE_AUTH_REQ_MSG );
+            Handler.recMess( icqAccountRoot, screenName, null, null, decodedString, msgCookie, ChatItem.TYPE_AUTH_REQ_MSG );
             break;
           }
           case MTYPE_AUTHDENY: {
-            ActionExec.recMess( icqAccountRoot, screenName, null, null, decodedString, msgCookie, ChatItem.TYPE_AUTH_DENY_MSG );
+            Handler.recMess( icqAccountRoot, screenName, null, null, decodedString, msgCookie, ChatItem.TYPE_AUTH_DENY_MSG );
             break;
           }
           case MTYPE_AUTHOK: {
-            ActionExec.recMess( icqAccountRoot, screenName, null, null, decodedString, msgCookie, ChatItem.TYPE_AUTH_OK_MSG );
+            Handler.recMess( icqAccountRoot, screenName, null, null, decodedString, msgCookie, ChatItem.TYPE_AUTH_OK_MSG );
             break;
           }
           case MTYPE_SERVER: {
@@ -903,7 +896,7 @@ public class IcqPacketParser {
           case MTYPE_PLUGIN: {
             // Here comes requests
             // Rewrite
-            ActionExec.sendXStatusMessage( icqAccountRoot, msgCookie, screenName );
+            Handler.sendXStatusMessage( icqAccountRoot, msgCookie, screenName );
             break;
           }
           case MTYPE_AUTOAWAY: {
@@ -915,7 +908,7 @@ public class IcqPacketParser {
           case MTYPE_AUTODND: {
           }
           case MTYPE_AUTOFFC: {
-            ActionExec.sendStatusMessage( icqAccountRoot, msgCookie, screenName );
+            Handler.sendStatusMessage( icqAccountRoot, msgCookie, screenName );
             break;
           }
         }
@@ -947,7 +940,7 @@ public class IcqPacketParser {
         /**
          * Sending to UI
          */
-        ActionExec.msgAck( icqAccountRoot, uinString, null, msgCookie );
+        Handler.msgAck( icqAccountRoot, uinString, null, msgCookie );
         break;
       }
       case 0x0014: {
@@ -965,14 +958,14 @@ public class IcqPacketParser {
         int notificationType = DataUtil.get16( packetData, offset );
         LogUtil.outMessage( "buddyName: " + buddyName );
         LogUtil.outMessage( "notificationType: " + notificationType );
-        ActionExec.setBuddyTypingStatus( icqAccountRoot, buddyName, null, ( notificationType == 0x0000 ? false : true ), false );
+        Handler.setBuddyTypingStatus( icqAccountRoot, buddyName, null, ( notificationType == 0x0000 ? false : true ), false );
         break;
       }
     }
   }
 
-  private static void SSIServiceSnacParser( IcqAccountRoot icqAccountRoot, 
-          byte[] packetData, int snacSubtype, int snacFlags, 
+  private static void SSIServiceSnacParser( IcqAccountRoot icqAccountRoot,
+          byte[] packetData, int snacSubtype, int snacFlags,
           byte[] snacRequestId ) throws LegacyProtocolException {
     try {
       switch ( snacSubtype ) {
@@ -1290,7 +1283,7 @@ public class IcqPacketParser {
           LogUtil.outMessage( "Final private buddy id: " + privateBuddyId );
           if ( !buddyList.isEmpty() ) {
             LogUtil.outMessage( "snacFlags = " + snacFlags );
-            ActionExec.setBuddyList( icqAccountRoot, buddyList, privateList, privateBuddyId, snacFlags, snacRequestId );
+            Handler.setBuddyList( icqAccountRoot, buddyList, privateList, privateBuddyId, snacFlags, snacRequestId );
           }
           LogUtil.outMessage( "Buddy added count: " + buddyCount );
           break;
@@ -1310,7 +1303,7 @@ public class IcqPacketParser {
            0x000D	  Trying to add ICQ contact to an AIM list
            0x000E	  Can't add this contact because it requires authorization
            */
-          // ActionExec.ssiComplete(icqAccountRoot, resultCode);
+          // Handler.ssiComplete(icqAccountRoot, resultCode);
           long requestIdLong = DataUtil.get32( snacRequestId, 0, true );
           Cookie cookie = new Cookie( requestIdLong );
           LogUtil.outMessage( "cookieString = " + cookie.cookieString );
@@ -1318,7 +1311,7 @@ public class IcqPacketParser {
           String errorString = null;
           switch ( resultCode ) {
             case IcqPacketParser.SSI_NO_ERRORS: {
-              ActionExec.processQueueAction( icqAccountRoot, cookie, null );
+              Handler.processQueueAction( icqAccountRoot, cookie, null );
               break;
             }
             case IcqPacketParser.SSI_NOT_FOUND: {
@@ -1351,7 +1344,7 @@ public class IcqPacketParser {
             }
           }
           if ( errorString != null ) {
-            ActionExec.cancelQueueAction( icqAccountRoot, cookie, errorString );
+            Handler.cancelQueueAction( icqAccountRoot, cookie, errorString );
           }
           break;
         }
@@ -1367,7 +1360,7 @@ public class IcqPacketParser {
           String reason = StringUtil.byteArrayToString( packetData, offset, reasonLength, true );
           LogUtil.outMessage( "reason: " + reason );
           offset += reasonLength;
-          ActionExec.recMess( icqAccountRoot, userId, null, null, reason, snacRequestId, ChatItem.TYPE_AUTH_REQ_MSG );
+          Handler.recMess( icqAccountRoot, userId, null, null, reason, snacRequestId, ChatItem.TYPE_AUTH_REQ_MSG );
           break;
         }
       }
@@ -1467,7 +1460,7 @@ public class IcqPacketParser {
             }
             /*112*/ case UMD_PROFILE_BIRTH_DATE: {
               long date = DataUtil.get32( packetData, offset + 2, true );
-              if(date > 0) {
+              if ( date > 0 ) {
                 /** Plus one day - really don't know, why **/
                 date += 24 * 60 * 60;
                 buddyInfo.addKeyValue( "BIRTH_DATE_LABEL", TimeUtil.getDateString(
@@ -1510,7 +1503,7 @@ public class IcqPacketParser {
         offset += 4;
         LogUtil.outMessage( "Info completed" );
         buddyInfo.avatar = downloadAvatar( buddyInfo.buddyId );
-        ActionExec.showUserShortInfo( icqAccountRoot, buddyInfo );
+        Handler.showUserShortInfo( icqAccountRoot, buddyInfo );
       }
     }
   }

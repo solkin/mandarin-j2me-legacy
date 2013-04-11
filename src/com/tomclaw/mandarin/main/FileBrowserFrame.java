@@ -1,5 +1,8 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.AccountRoot;
+import com.tomclaw.mandarin.core.IconsType;
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.mandarin.dc.DirectConnection;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
@@ -66,7 +69,7 @@ public class FileBrowserFrame extends Window {
                   return;
                 }
                 final String fileInfoString = Localization.getMessage( "FILE_NAME" ).concat( ":" ).concat( __selectedString ).concat( "\n " ).concat( Localization.getMessage( "FILE_SIZE" ) ).concat( ":" ).concat( fileConnection.fileSize() + " KiB" ).concat( "\n" ).concat( Localization.getMessage( "MOD_DATETIME" ) ).concat( ":" ).concat( TimeUtil.getDateString( fileConnection.lastModified(), true ) ).concat( "\n " ).concat( Localization.getMessage( "FILE_FOLDER" ) ).concat( ":" ).concat( filePath ).concat( "\n" );
-                ActionExec.showInfo( fileInfoString );
+                Handler.showInfo( fileInfoString );
               } catch ( IOException ex ) {
                 LogUtil.outMessage( "Local file error: " + ex.getMessage(), true );
               }
@@ -138,10 +141,8 @@ public class FileBrowserFrame extends Window {
                     public void run() {
                       try {
                         directConnection.sendFile();
-                      } catch ( IOException ex ) {
+                      } catch ( Throwable ex ) {
                         LogUtil.outMessage( "IOException: " + ex.getMessage(), true );
-                      } catch ( InterruptedException ex ) {
-                        LogUtil.outMessage( "InterruptedException: " + ex.getMessage(), true );
                       }
                     }
                   }.start();

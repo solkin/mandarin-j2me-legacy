@@ -1,6 +1,8 @@
-package com.tomclaw.mandarin.main;
+package com.tomclaw.mandarin.core;
 
 import com.tomclaw.mandarin.dc.DirectConnection;
+import com.tomclaw.mandarin.main.MidletMain;
+import com.tomclaw.mandarin.main.TransactionsFrame;
 import com.tomclaw.tcuilite.GroupHeader;
 import com.tomclaw.utils.LogUtil;
 import java.io.IOException;
@@ -19,10 +21,10 @@ public abstract class AccountRoot {
   public String userPassword;
   public String host = "";
   public String port = "";
-  protected Vector buddyItems = new Vector();
+  public Vector buddyItems = new Vector();
   public int statusIndex = 0;
-  public String statusText = "Mandarin ".concat( MidletMain.version ).concat( " [" ).concat( MidletMain.build.concat( "]" ) );
-  ;
+  public String statusText = "Mandarin ".concat( MidletMain.version )
+          .concat( " [" ).concat( MidletMain.build.concat( "]" ) );
   public boolean isStatusReadable = true;
   private String buddyListFile = null;
   public boolean isUseSsl = false;
@@ -59,10 +61,6 @@ public abstract class AccountRoot {
     port = MidletMain.getString( MidletMain.accounts, userId, "port" );
     if ( isStart ) {
       loadStatus( statusIndex );
-      /*String statusData = MidletMain.getString( MidletMain.statuses, "PStatus", String.valueOf( statusIndex ) );
-       statusText = statusData.substring( 0, ( statusData.indexOf( "&rdb" ) == -1 ) ? statusData.length() : statusData.indexOf( "&rdb" ) );
-       isStatusReadable = ( statusData.indexOf( "&rdb" ) == -1 )
-       ? false : statusData.substring( statusData.indexOf( "&rdb" ) + 4 ).equals( "true" );*/
       /** Settings **/
       isShowGroups = MidletMain.getBoolean( MidletMain.accounts, userId, "isShowGroups" );
       isShowOffline = MidletMain.getBoolean( MidletMain.accounts, userId, "isShowOffline" );
@@ -171,7 +169,7 @@ public abstract class AccountRoot {
 
   public abstract void saveSpecialSettings() throws Throwable;
 
-  public abstract byte[] sendMessage( BuddyItem buddyItem, String string, String resource ) throws IOException;
+  public abstract byte[] sendMessage( BuddyItem buddyItem, String string, String resource );
 
   public void updateMainFrameBuddyList() {
     for ( int c = 0; c < buddyItems.size(); c++ ) {
@@ -259,23 +257,23 @@ public abstract class AccountRoot {
     return isShowOffline;
   }
 
-  public abstract Cookie addGroup( BuddyGroup buddyGroup ) throws IOException;
+  public abstract Cookie addGroup( BuddyGroup buddyGroup );
 
-  public abstract Cookie addBuddy( BuddyItem buddyItem, BuddyGroup buddyGroup ) throws IOException;
+  public abstract Cookie addBuddy( BuddyItem buddyItem, BuddyGroup buddyGroup );
 
-  public abstract Cookie renameBuddy( String itemName, BuddyItem buddyItem, String phones ) throws IOException;
+  public abstract Cookie renameBuddy( String itemName, BuddyItem buddyItem, String phones );
 
-  public abstract Cookie renameGroup( String text, BuddyGroup buddyGroup ) throws IOException;
+  public abstract Cookie renameGroup( String text, BuddyGroup buddyGroup );
 
-  public abstract void requestAuth( String text, BuddyItem buddyItem ) throws IOException;
+  public abstract void requestAuth( String text, BuddyItem buddyItem );
 
-  public abstract void acceptAuthorization( BuddyItem buddyItem ) throws IOException;
+  public abstract void acceptAuthorization( BuddyItem buddyItem );
 
-  public abstract void requestInfo( String userId, int reqSeqNum ) throws IOException;
+  public abstract void requestInfo( String userId, int reqSeqNum );
 
-  public abstract Cookie removeBuddy( BuddyItem buddyItem ) throws IOException;
+  public abstract Cookie removeBuddy( BuddyItem buddyItem );
 
-  public abstract Cookie removeGroup( BuddyGroup buddyGroup ) throws IOException;
+  public abstract Cookie removeGroup( BuddyGroup buddyGroup );
 
   public abstract BuddyItem getBuddyInstance();
 

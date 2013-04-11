@@ -1,6 +1,6 @@
 package com.tomclaw.mandarin.xmpp;
 
-import com.tomclaw.mandarin.main.ActionExec;
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.mandarin.main.ChatTab;
 import com.tomclaw.mandarin.main.InfoFrame;
 import com.tomclaw.mandarin.main.MidletMain;
@@ -121,7 +121,7 @@ public class BookmarksFrame extends Window {
         XmppSender.joinConfrence( xmppAccountRoot.xmppSession, requestId, bookmark.jid, bookmark.nick, bookmark.password );
       } catch ( IOException ex ) {
         LogUtil.outMessage( "Error while conference join: " + ex.getMessage() );
-        ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
+        Handler.showError( Localization.getMessage( "IO_EXCEPTION" ) );
       }
     }
   }
@@ -138,7 +138,7 @@ public class BookmarksFrame extends Window {
         }
         MidletMain.screen.setWaitScreenState( false );
         if ( id.equals( requestId ) ) {
-          ActionExec.showError( Localization.getMessage( "NO_RESPONSE" ) );
+          Handler.showError( Localization.getMessage( "NO_RESPONSE" ) );
         }
       }
     }.start();
@@ -182,7 +182,7 @@ public class BookmarksFrame extends Window {
       MidletMain.screen.setWaitScreenState( false );
       switch ( errorId ) {
         case 0x01: {
-          ActionExec.showError( Localization.getMessage( errorText ) );
+          Handler.showError( Localization.getMessage( errorText ) );
           bookmark = null;
         }
       }

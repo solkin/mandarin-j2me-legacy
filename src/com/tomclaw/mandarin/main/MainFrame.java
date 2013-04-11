@@ -1,5 +1,13 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.BuddyGroup;
+import com.tomclaw.mandarin.core.BuddyItem;
+import com.tomclaw.mandarin.core.AccountRoot;
+import com.tomclaw.mandarin.core.Cookie;
+import com.tomclaw.mandarin.core.IconsType;
+import com.tomclaw.mandarin.core.Queue;
+import com.tomclaw.mandarin.core.QueueAction;
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.bingear.BinGear;
 import com.tomclaw.bingear.GroupNotFoundException;
 import com.tomclaw.bingear.IncorrectValueException;
@@ -75,12 +83,13 @@ public class MainFrame extends Window {
     super( screen );
     /** Hotkeys **/
     this.addKeyEvent( new KeyEvent( 0, "KEY_CLIENTINFO", true ) {
+
       public void actionPerformed() {
         AccountRoot accountRoot = getActiveAccountRoot();
         if ( accountRoot instanceof IcqAccountRoot ) {
           BuddyItem buddyItem = getSelectedBuddyItem();
-          if ( buddyItem != null && ( (IcqItem) buddyItem ).clientInfo != null ) {
-            ClientInfoFrame clientInfoFrame = new ClientInfoFrame( (IcqAccountRoot) accountRoot, (IcqItem) buddyItem );
+          if ( buddyItem != null && ( ( IcqItem ) buddyItem ).clientInfo != null ) {
+            ClientInfoFrame clientInfoFrame = new ClientInfoFrame( ( IcqAccountRoot ) accountRoot, ( IcqItem ) buddyItem );
             clientInfoFrame.s_prevWindow = MainFrame.this;
             MidletMain.screen.setActiveWindow( clientInfoFrame );
           }
@@ -88,6 +97,7 @@ public class MainFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_BUDDYINFO", true ) {
+
       public void actionPerformed() {
         AccountRoot accountRoot = getActiveAccountRoot();
         BuddyItem buddyItem = getSelectedBuddyItem();
@@ -99,25 +109,26 @@ public class MainFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_DIALOG", true ) {
+
       public void actionPerformed() {
         BuddyItem buddyItem = getSelectedBuddyItem();
         if ( buddyItem != null ) {
           Resource resource = null;
           String resourceTitle = "";
           if ( buddyItem instanceof XmppItem ) {
-            if ( ( (XmppItem) buddyItem ).getUnreadCount() > 0 ) {
-              resource = ( (XmppItem) buddyItem ).getUnreadResource();
+            if ( ( ( XmppItem ) buddyItem ).getUnreadCount() > 0 ) {
+              resource = ( ( XmppItem ) buddyItem ).getUnreadResource();
               resourceTitle = resource.resource;
             } else {
-              resource = ( (XmppItem) buddyItem ).getDefaultResource();
+              resource = ( ( XmppItem ) buddyItem ).getDefaultResource();
               resourceTitle = resource.resource;
             }
           }
-          ChatTab chatTab = MidletMain.chatFrame.getChatTab( getActiveAccountRoot(), ( (BuddyItem) buddyItem ).getUserId(), resourceTitle, true );
+          ChatTab chatTab = MidletMain.chatFrame.getChatTab( getActiveAccountRoot(), ( ( BuddyItem ) buddyItem ).getUserId(), resourceTitle, true );
           if ( chatTab == null ) {
             /** There is no opened chat tab **/
             chatTab = new ChatTab( getActiveAccountRoot(),
-                    ( (BuddyItem) buddyItem ),
+                    ( ( BuddyItem ) buddyItem ),
                     resource,
                     getActiveAccountRoot().getStatusImages().hashCode(), "/res/groups/img_chat.png".hashCode() );
             MidletMain.chatFrame.addChatTab( chatTab, true );
@@ -127,12 +138,13 @@ public class MainFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_STATUSES", true ) {
+
       public void actionPerformed() {
         AccountRoot accountRoot = getActiveAccountRoot();
         if ( accountRoot instanceof IcqAccountRoot ) {
           BuddyItem buddyItem = getSelectedBuddyItem();
           if ( buddyItem != null ) {
-            statusReaderFrame = new StatusReaderFrame( (IcqAccountRoot) getActiveAccountRoot(), (IcqItem) buddyItem );
+            statusReaderFrame = new StatusReaderFrame( ( IcqAccountRoot ) getActiveAccountRoot(), ( IcqItem ) buddyItem );
             statusReaderFrame.s_prevWindow = MainFrame.this;
             MidletMain.screen.setActiveWindow( statusReaderFrame );
           }
@@ -140,6 +152,7 @@ public class MainFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_UNIQUE", true ) {
+
       public void actionPerformed() {
         AccountRoot accountRoot = getActiveAccountRoot();
         if ( accountRoot instanceof IcqAccountRoot ) {
@@ -158,6 +171,7 @@ public class MainFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_REMOVE", true ) {
+
       public void actionPerformed() {
         try {
           AccountRoot accountRoot = getActiveAccountRoot();
@@ -165,6 +179,7 @@ public class MainFrame extends Window {
           if ( buddyItem != null ) {
             Cookie cookie = accountRoot.removeBuddy( buddyItem );
             QueueAction queueAction = new QueueAction( accountRoot, buddyItem, cookie ) {
+
               public void actionPerformed( Hashtable params ) {
                 // Removing buddyItem
                 LogUtil.outMessage( "Action Performed" );
@@ -172,7 +187,7 @@ public class MainFrame extends Window {
                 if ( buddyItems != null && !buddyItems.isEmpty() ) {
                   LogUtil.outMessage( "BuddyItems present" );
                   for ( int c = 0; c < buddyItems.size(); c++ ) {
-                    GroupHeader groupHeader = (GroupHeader) buddyItems.elementAt( c );
+                    GroupHeader groupHeader = ( GroupHeader ) buddyItems.elementAt( c );
                     if ( groupHeader == null || groupHeader.getChildsCount() == 0 ) {
                       continue;
                     }
@@ -195,6 +210,7 @@ public class MainFrame extends Window {
               Cookie cookie = accountRoot.removeGroup( buddyGroup );
 
               QueueAction queueAction = new QueueAction( accountRoot, buddyGroup, cookie ) {
+
                 public void actionPerformed( Hashtable params ) {
                   // Removing buddyGroup
                   this.accountRoot.getBuddyItems().removeElement( this.buddyGroup );
@@ -212,6 +228,7 @@ public class MainFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_SENDFILE", true ) {
+
       public void actionPerformed() {
         AccountRoot accountRoot = getActiveAccountRoot();
         BuddyItem buddyItem = getSelectedBuddyItem();
@@ -223,6 +240,7 @@ public class MainFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_SENDPHOTO", true ) {
+
       public void actionPerformed() {
         if ( System.getProperty( "supports.video.capture" ).equals( "true" ) ) {
           AccountRoot accountRoot = getActiveAccountRoot();
@@ -243,6 +261,7 @@ public class MainFrame extends Window {
     } );
 
     this.addKeyEvent( new KeyEvent( 0, "KEY_HISTORY", true ) {
+
       public void actionPerformed() {
         AccountRoot accountRoot = getActiveAccountRoot();
         BuddyItem buddyItem = getSelectedBuddyItem();
@@ -254,6 +273,7 @@ public class MainFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_RENAME", true ) {
+
       public void actionPerformed() {
         AccountRoot accountRoot = getActiveAccountRoot();
         BuddyItem buddyItem = getSelectedBuddyItem();
@@ -272,6 +292,7 @@ public class MainFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_SOUNDS", true ) {
+
       public void actionPerformed() {
         MidletMain.isSound = !MidletMain.isSound;
         MidletMain.settingsFrame.soundEnabled.setState( MidletMain.isSound );
@@ -284,44 +305,47 @@ public class MainFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_FILTERGROUPS", true ) {
+
       public void actionPerformed() {
         AccountRoot accountRoot = getActiveAccountRoot();
         if ( accountRoot instanceof IcqAccountRoot ) {
-          buddyList.isShowGroups = ( ( (IcqAccountRoot) accountRoot ).isShowGroups = !( (IcqAccountRoot) accountRoot ).isShowGroups );
-          ( (IcqAccountRoot) accountRoot ).saveAllSettings();
+          buddyList.isShowGroups = ( ( ( IcqAccountRoot ) accountRoot ).isShowGroups = !( ( IcqAccountRoot ) accountRoot ).isShowGroups );
+          ( ( IcqAccountRoot ) accountRoot ).saveAllSettings();
         } else {
           if ( accountRoot instanceof MmpAccountRoot ) {
-            buddyList.isShowGroups = ( ( (MmpAccountRoot) accountRoot ).isShowGroups = !( (MmpAccountRoot) accountRoot ).isShowGroups );
-            ( (MmpAccountRoot) accountRoot ).saveAllSettings();
+            buddyList.isShowGroups = ( ( ( MmpAccountRoot ) accountRoot ).isShowGroups = !( ( MmpAccountRoot ) accountRoot ).isShowGroups );
+            ( ( MmpAccountRoot ) accountRoot ).saveAllSettings();
           } else {
             if ( accountRoot instanceof XmppAccountRoot ) {
-              buddyList.isShowGroups = ( ( (XmppAccountRoot) accountRoot ).isShowGroups = !( (XmppAccountRoot) accountRoot ).isShowGroups );
-              ( (XmppAccountRoot) accountRoot ).saveAllSettings();
+              buddyList.isShowGroups = ( ( ( XmppAccountRoot ) accountRoot ).isShowGroups = !( ( XmppAccountRoot ) accountRoot ).isShowGroups );
+              ( ( XmppAccountRoot ) accountRoot ).saveAllSettings();
             }
           }
         }
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_FILTEROFFLINE", true ) {
+
       public void actionPerformed() {
         AccountRoot accountRoot = getActiveAccountRoot();
         if ( accountRoot instanceof IcqAccountRoot ) {
-          buddyList.maxWeight = ( ( (IcqAccountRoot) getActiveAccountRoot() ).isShowOffline = !( (IcqAccountRoot) getActiveAccountRoot() ).isShowOffline ) ? 0 : -1;
-          ( (IcqAccountRoot) getActiveAccountRoot() ).saveAllSettings();
+          buddyList.maxWeight = ( ( ( IcqAccountRoot ) getActiveAccountRoot() ).isShowOffline = !( ( IcqAccountRoot ) getActiveAccountRoot() ).isShowOffline ) ? 0 : -1;
+          ( ( IcqAccountRoot ) getActiveAccountRoot() ).saveAllSettings();
         } else {
           if ( accountRoot instanceof MmpAccountRoot ) {
-            buddyList.maxWeight = ( ( (MmpAccountRoot) getActiveAccountRoot() ).isShowOffline = !( (MmpAccountRoot) getActiveAccountRoot() ).isShowOffline ) ? 0 : -1;
-            ( (MmpAccountRoot) getActiveAccountRoot() ).saveAllSettings();
+            buddyList.maxWeight = ( ( ( MmpAccountRoot ) getActiveAccountRoot() ).isShowOffline = !( ( MmpAccountRoot ) getActiveAccountRoot() ).isShowOffline ) ? 0 : -1;
+            ( ( MmpAccountRoot ) getActiveAccountRoot() ).saveAllSettings();
           } else {
             if ( accountRoot instanceof XmppAccountRoot ) {
-              buddyList.maxWeight = ( ( (XmppAccountRoot) getActiveAccountRoot() ).isShowOffline = !( (XmppAccountRoot) getActiveAccountRoot() ).isShowOffline ) ? 0 : -1;
-              ( (XmppAccountRoot) getActiveAccountRoot() ).saveAllSettings();
+              buddyList.maxWeight = ( ( ( XmppAccountRoot ) getActiveAccountRoot() ).isShowOffline = !( ( XmppAccountRoot ) getActiveAccountRoot() ).isShowOffline ) ? 0 : -1;
+              ( ( XmppAccountRoot ) getActiveAccountRoot() ).saveAllSettings();
             }
           }
         }
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_SERVMESSAGES", true ) {
+
       public void actionPerformed() {
         AccountRoot accountRoot = getActiveAccountRoot();
         if ( accountRoot != null ) {
@@ -331,11 +355,13 @@ public class MainFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_MINIMIZE", true ) {
+
       public void actionPerformed() {
         Display.getDisplay( MidletMain.midletMain ).setCurrent( null );
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_REQUESTAUTH", true ) {
+
       public void actionPerformed() {
         BuddyItem buddyItem = getSelectedBuddyItem();
         if ( buddyItem != null ) {
@@ -346,18 +372,16 @@ public class MainFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_ACCEPTAUTH", true ) {
+
       public void actionPerformed() {
         BuddyItem buddyItem = getSelectedBuddyItem();
         if ( buddyItem != null ) {
-          try {
-            getActiveAccountRoot().acceptAuthorization( buddyItem );
-          } catch ( IOException ex ) {
-            LogUtil.outMessage( ex );
-          }
+          getActiveAccountRoot().acceptAuthorization( buddyItem );
         }
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_DIALOGS", true ) {
+
       public void actionPerformed() {
         if ( s_nextWindow != null ) {
           MidletMain.screen.setActiveWindow( MidletMain.chatFrame );
@@ -378,11 +402,12 @@ public class MainFrame extends Window {
           MidletMain.chatFrame.chatTabs.tabEvent.stateChanged( MidletMain.chatFrame.chatTabs.selectedIndex, MidletMain.chatFrame.chatTabs.selectedIndex, MidletMain.chatFrame.chatTabs.items.size() - 1 );
           MidletMain.chatFrame.prepareGraphics();
         } else {
-          ActionExec.showNotify( Localization.getMessage( "NO_DIALOGS_OPEN" ) );
+          Handler.showNotify( Localization.getMessage( "NO_DIALOGS_OPEN" ) );
         }
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_BUDDYLIST_TOP", true ) {
+
       public void actionPerformed() {
         buddyList.yOffset = 0;
         buddyList.selectedColumn = 0;
@@ -390,6 +415,7 @@ public class MainFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_BUDDYLIST_BOTTOM", true ) {
+
       public void actionPerformed() {
         int maxOffset = buddyList.totalItemsCount * buddyList.itemHeight - buddyList.height;
         if ( maxOffset < 0 ) {
@@ -401,6 +427,7 @@ public class MainFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_BUDDYLIST_SCREEN_HIGHER", true ) {
+
       public void actionPerformed() {
         int maxOffset = buddyList.yOffset - buddyList.height;
         int selRow = buddyList.selectedRow - buddyList.height / buddyList.itemHeight - 1;
@@ -416,6 +443,7 @@ public class MainFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_BUDDYLIST_SCREEN_LOWER", true ) {
+
       public void actionPerformed() {
         int selOffset = buddyList.yOffset + buddyList.height;
         int maxOffset = buddyList.totalItemsCount * buddyList.itemHeight - buddyList.height;
@@ -438,6 +466,7 @@ public class MainFrame extends Window {
       }
     } );
     this.addKeyEvent( new KeyEvent( 0, "KEY_LOCKSCREEN", true ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( new LockFrame() );
       }
@@ -447,6 +476,7 @@ public class MainFrame extends Window {
     /** Tabs **/
     accountTabs = new Tab( screen );
     accountTabs.tabEvent = new TabEvent() {
+
       public void stateChanged( int previousIndex, int selectedIndex, int tabsCount ) {
         AccountRoot accountRoot = checkAccountRoot( previousIndex );
         if ( accountRoot != null ) {
@@ -464,14 +494,16 @@ public class MainFrame extends Window {
     /** Static popup **/
     accountPopupItem = new PopupItem( Localization.getMessage( "ACCOUNT" ), IconsType.HASH_MAIN, 7 );
     accountPopupItem.addSubItem( new PopupItem( Localization.getMessage( "CREATE" ), IconsType.HASH_MAIN, 8 ) {
+
       public void actionPerformed() {
         AccountEditorFrame accountEditorFrame = new AccountEditorFrame( null, null, null, null, null, true, null, false );
         MidletMain.screen.setActiveWindow( accountEditorFrame );
       }
     } );
     accountPopupItem.addSubItem( new PopupItem( Localization.getMessage( "EDIT" ), IconsType.HASH_MAIN, 9 ) {
+
       public void actionPerformed() {
-        AccountRoot tempIcqAccountRoot = (AccountRoot) getActiveAccountRoot();
+        AccountRoot tempIcqAccountRoot = ( AccountRoot ) getActiveAccountRoot();
         AccountEditorFrame accountEditorFrame = new AccountEditorFrame(
                 tempIcqAccountRoot.getUserId(),
                 tempIcqAccountRoot.getUserNick(),
@@ -481,10 +513,11 @@ public class MainFrame extends Window {
       }
     } );
     accountPopupItem.addSubItem( new PopupItem( Localization.getMessage( "REMOVE" ), IconsType.HASH_MAIN, 10 ) {
+
       public void actionPerformed() {
-        AccountRoot tempIcqAccountRoot = (AccountRoot) getActiveAccountRoot();
+        AccountRoot tempIcqAccountRoot = ( AccountRoot ) getActiveAccountRoot();
         for ( int c = 0; c < accountTabs.items.size(); c++ ) {
-          if ( ( (AccountTab) accountTabs.items.elementAt( c ) ).accountRoot.equals( tempIcqAccountRoot ) ) {
+          if ( ( ( AccountTab ) accountTabs.items.elementAt( c ) ).accountRoot.equals( tempIcqAccountRoot ) ) {
             accountTabs.items.removeElementAt( c );
             MidletMain.accounts.removeGroup( tempIcqAccountRoot.getUserId() );
             MidletMain.saveRmsData( true, false, false );
@@ -496,12 +529,14 @@ public class MainFrame extends Window {
     } );
     /** Settings **/
     settingsPopupItem = new PopupItem( Localization.getMessage( "SETTINGS" ), IconsType.HASH_MAIN, 12 ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( MidletMain.settingsFrame );
       }
     };
     /** Service messages **/
     servicePopupItem = new PopupItem( Localization.getMessage( "SERVICE_MESSAGES" ), IconsType.HASH_MAIN, 11 ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_SERVMESSAGES" ).actionPerformed();
       }
@@ -509,6 +544,7 @@ public class MainFrame extends Window {
     /** Services popup **/
     servicesPopupItem = new PopupItem( Localization.getMessage( "SERVICES" ), IconsType.HASH_MAIN, 13 );
     servicesPopupItem.addSubItem( new PopupItem( Localization.getMessage( "UPDATE_CHECK" ), IconsType.HASH_MAIN, 14 ) {
+
       public void actionPerformed() {
         UpdateCheckFrame updateCheckFrame = new UpdateCheckFrame( false );
         updateCheckFrame.s_prevWindow = MainFrame.this;
@@ -516,6 +552,7 @@ public class MainFrame extends Window {
       }
     } );
     servicesPopupItem.addSubItem( new PopupItem( Localization.getMessage( "SEND_OPINION" ), IconsType.HASH_MAIN, 15 ) {
+
       public void actionPerformed() {
         OpinionSendFrame opinionSendFrame = new OpinionSendFrame();
         opinionSendFrame.s_prevWindow = MainFrame.this;
@@ -523,6 +560,7 @@ public class MainFrame extends Window {
       }
     } );
     servicesPopupItem.addSubItem( new PopupItem( Localization.getMessage( "CONNECTION_TEST" ), IconsType.HASH_MAIN, 16 ) {
+
       public void actionPerformed() {
         NetTestFrame netTestFrame = new NetTestFrame();
         netTestFrame.s_prevWindow = MainFrame.this;
@@ -530,6 +568,7 @@ public class MainFrame extends Window {
       }
     } );
     donatePopupItem = new PopupItem( Localization.getMessage( "DONATE" ), IconsType.HASH_MAIN, 17 ) {
+
       public void actionPerformed() {
         DonateFrame donateFrame = new DonateFrame();
         donateFrame.s_prevWindow = MainFrame.this;
@@ -539,6 +578,7 @@ public class MainFrame extends Window {
     /** Info popup **/
     infoPopupItem = new PopupItem( Localization.getMessage( "INFO" ), IconsType.HASH_MAIN, 18 );
     infoPopupItem.addSubItem( new PopupItem( Localization.getMessage( "ABOUT" ), IconsType.HASH_MAIN, 19 ) {
+
       public void actionPerformed() {
         AboutFrame aboutFrame = new AboutFrame();
         aboutFrame.s_prevWindow = MainFrame.this;
@@ -546,6 +586,7 @@ public class MainFrame extends Window {
       }
     } );
     infoPopupItem.addSubItem( new PopupItem( Localization.getMessage( "TRAFFIC" ), IconsType.HASH_MAIN, 20 ) {
+
       public void actionPerformed() {
         TrafficInfoFrame trafficInfoFrame = new TrafficInfoFrame();
         trafficInfoFrame.s_prevWindow = MainFrame.this;
@@ -555,16 +596,19 @@ public class MainFrame extends Window {
     infoPopupItem.addSubItem( donatePopupItem );
     /** Minimize & Exit popups **/
     lockPopupItem = new PopupItem( Localization.getMessage( "LOCK_SCREEN" ), IconsType.HASH_MAIN, 28 ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_LOCKSCREEN" ).actionPerformed();
       }
     };
     minimizePopupItem = new PopupItem( Localization.getMessage( "MINIMIZE" ), IconsType.HASH_MAIN, 21 ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_MINIMIZE" ).actionPerformed();
       }
     };
     exitPopupItem = new PopupItem( Localization.getMessage( "EXIT" ), IconsType.HASH_MAIN, 22 ) {
+
       public void actionPerformed() {
         MidletMain.midletMain.notifyDestroyed();
       }
@@ -574,6 +618,7 @@ public class MainFrame extends Window {
     buddyList.columnCount = 1;
     buddyList.setTouchOrientation( screen.isPointerEvents );
     buddyList.actionPerformedEvent = new GroupEvent() {
+
       public void actionPerformed( GroupChild buddyItem ) {
         MainFrame.this.getKeyEvent( "KEY_DIALOG" ).actionPerformed();
       }
@@ -585,7 +630,7 @@ public class MainFrame extends Window {
     /** Load offline buddy list **/
     if ( !accountTabs.items.isEmpty() ) {
       checkAccountRoot( 0 );
-      switchAccountRoot( ( (AccountTab) accountTabs.items.firstElement() ).accountRoot );
+      switchAccountRoot( ( ( AccountTab ) accountTabs.items.firstElement() ).accountRoot );
     } else {
       if ( pane == null ) {
         initPane();
@@ -635,7 +680,7 @@ public class MainFrame extends Window {
         buddyList.imageLeftFileHash = new int[]{ "/res/groups/img_chat.png".hashCode(), "/res/groups/img_icqstatus.png".hashCode(), "/res/groups/img_xstatus.png".hashCode() };
         buddyList.imageRightFileHash = new int[]{ IconsType.HASH_PLIST, IconsType.HASH_PLIST, IconsType.HASH_PLIST, IconsType.HASH_CLIENTS, IconsType.HASH_MAIN };
         LogUtil.outMessage( "Preparing items" );
-        buddyList.items = ( (IcqAccountRoot) accountRoot ).buddyItems;
+        buddyList.items = ( ( IcqAccountRoot ) accountRoot ).buddyItems;
         /** Loading ICQ account data **/
         LogUtil.outMessage( "Checkong caps" );
         if ( CapUtil.dataCaps == null ) {
@@ -663,32 +708,32 @@ public class MainFrame extends Window {
         soft = icqSoft;
         /** Runtime settings **/
         LogUtil.outMessage( "Runtime settings" );
-        buddyList.yOffset = ( (IcqAccountRoot) accountRoot ).yOffset;
-        buddyList.selectedColumn = ( (IcqAccountRoot) accountRoot ).selectedColumn;
-        buddyList.selectedRow = ( (IcqAccountRoot) accountRoot ).selectedRow;
+        buddyList.yOffset = ( ( IcqAccountRoot ) accountRoot ).yOffset;
+        buddyList.selectedColumn = ( ( IcqAccountRoot ) accountRoot ).selectedColumn;
+        buddyList.selectedRow = ( ( IcqAccountRoot ) accountRoot ).selectedRow;
         LogUtil.outMessage( "Complete." );
       } else if ( accountRoot instanceof MmpAccountRoot ) {
         buddyList.imageLeftFileHash = new int[]{ "/res/groups/img_chat.png".hashCode(), "/res/groups/img_mmpstatus.png".hashCode() };
-        buddyList.items = ( (MmpAccountRoot) accountRoot ).buddyItems;
+        buddyList.items = ( ( MmpAccountRoot ) accountRoot ).buddyItems;
         if ( mmpSoft == null ) {
           initMmpSoft();
         }
         soft = mmpSoft;
         /** Runtime settings **/
-        buddyList.yOffset = ( (MmpAccountRoot) accountRoot ).yOffset;
-        buddyList.selectedColumn = ( (MmpAccountRoot) accountRoot ).selectedColumn;
-        buddyList.selectedRow = ( (MmpAccountRoot) accountRoot ).selectedRow;
+        buddyList.yOffset = ( ( MmpAccountRoot ) accountRoot ).yOffset;
+        buddyList.selectedColumn = ( ( MmpAccountRoot ) accountRoot ).selectedColumn;
+        buddyList.selectedRow = ( ( MmpAccountRoot ) accountRoot ).selectedRow;
       } else if ( accountRoot instanceof XmppAccountRoot ) {
         buddyList.imageLeftFileHash = new int[]{ "/res/groups/img_chat.png".hashCode(), "/res/groups/img_xmppstatus.png".hashCode() };
-        buddyList.items = ( (XmppAccountRoot) accountRoot ).buddyItems;
+        buddyList.items = ( ( XmppAccountRoot ) accountRoot ).buddyItems;
         if ( xmppSoft == null ) {
           initXmppSoft();
         }
         soft = xmppSoft;
         /** Runtime settings **/
-        buddyList.yOffset = ( (XmppAccountRoot) accountRoot ).yOffset;
-        buddyList.selectedColumn = ( (XmppAccountRoot) accountRoot ).selectedColumn;
-        buddyList.selectedRow = ( (XmppAccountRoot) accountRoot ).selectedRow;
+        buddyList.yOffset = ( ( XmppAccountRoot ) accountRoot ).yOffset;
+        buddyList.selectedColumn = ( ( XmppAccountRoot ) accountRoot ).selectedColumn;
+        buddyList.selectedRow = ( ( XmppAccountRoot ) accountRoot ).selectedRow;
       }
       buddyList.maxWeight = ( accountRoot.getShowOffline() ? 0 : -1 );
       buddyList.isShowGroups = accountRoot.getShowGroups();
@@ -701,8 +746,7 @@ public class MainFrame extends Window {
     BinGear dataGear = null;
     try {
       RecordUtil.readFile( "/icq/".concat(
-              String.valueOf( accountRoot.getUserId().hashCode() ) )
-              .concat( "/buddylist.dat" ), dataGear );
+              String.valueOf( accountRoot.getUserId().hashCode() ) ).concat( "/buddylist.dat" ), dataGear );
       Vector buddyItems = new Vector();
       /** Loading buddyItems from dataGear **/
       accountRoot.setBuddyItems( buddyItems );
@@ -730,7 +774,7 @@ public class MainFrame extends Window {
   public final void updateAccountsStatus() {
     for ( int c = 0; c < accountTabs.items.size(); c++ ) {
       try {
-        ( (AccountTab) accountTabs.items.elementAt( c ) ).updateAccountStatus();
+        ( ( AccountTab ) accountTabs.items.elementAt( c ) ).updateAccountStatus();
       } catch ( Throwable ex ) {
       }
     }
@@ -739,8 +783,8 @@ public class MainFrame extends Window {
   public int getUnreadCount() {
     int totalUnread = 0;
     for ( int c = 0; c < accountTabs.items.size(); c++ ) {
-      if ( ( (AccountTab) accountTabs.items.elementAt( c ) ).accountRoot != null ) {
-        totalUnread += ( (AccountTab) accountTabs.items.elementAt( c ) ).accountRoot.getUnrMsgs();
+      if ( ( ( AccountTab ) accountTabs.items.elementAt( c ) ).accountRoot != null ) {
+        totalUnread += ( ( AccountTab ) accountTabs.items.elementAt( c ) ).accountRoot.getUnrMsgs();
       }
     }
     return totalUnread;
@@ -755,19 +799,22 @@ public class MainFrame extends Window {
     final PopupItem pStatusItem = new PopupItem( Localization.getMessage( "PSTATUS" ) );
 
     final PopupItem groupsPopup = new PopupItem( Localization.getMessage( "GROUPS" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_FILTERGROUPS" ).actionPerformed();
       }
     };
     final PopupItem offlinePopup = new PopupItem( Localization.getMessage( "OFFLINE_BUDDYES" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_FILTEROFFLINE" ).actionPerformed();
       }
     };
 
     icqSoft.leftSoft = new PopupItem( Localization.getMessage( "MENU" ) ) {
+
       public void actionPerformed() {
-        IcqAccountRoot icqAccountRoot = ( (IcqAccountRoot) getActiveAccountRoot() );
+        IcqAccountRoot icqAccountRoot = ( ( IcqAccountRoot ) getActiveAccountRoot() );
         /** Checking statusIndex icons **/
         statusItem.imageFileHash = "/res/groups/img_icqstatus.png".hashCode();
         statusItem.imageIndex = icqAccountRoot.getStatusIndex();
@@ -791,8 +838,9 @@ public class MainFrame extends Window {
       final int statusId = IcqStatusUtil.getStatus( c );
       final int statusIndex = c;
       tempPopupItem = new PopupItem( Localization.getMessage( IcqStatusUtil.getStatusDescr( c ) ) ) {
+
         public void actionPerformed() {
-          final IcqAccountRoot icqAccountRoot = (IcqAccountRoot) ( (AccountTab) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
+          final IcqAccountRoot icqAccountRoot = ( IcqAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
           /** Status is selected **/
           if ( icqAccountRoot.statusIndex == 0 && statusIndex != -1 ) {
             /** Need to connect **/
@@ -801,19 +849,15 @@ public class MainFrame extends Window {
           } else {
             if ( icqAccountRoot.statusIndex != 0 && statusIndex == 0 ) {
               /** Need go offline **/
-              ActionExec.disconnectEvent( icqAccountRoot );
+              Handler.disconnectEvent( icqAccountRoot );
               icqAccountRoot.session.disconnect();
             } else if ( icqAccountRoot.statusIndex != 0 ) {
-              try {
-                /** Plain statusIndex changing **/
-                icqAccountRoot.statusIndex = statusIndex;
-                icqAccountRoot.loadStatus( statusIndex );
-                IcqPacketSender.setStatus( icqAccountRoot.session, ( statusId < 0x1000 ) ? statusId : 0x0000 );
-                IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, statusId );
-                updateAccountsStatus();
-              } catch ( IOException ex ) {
-                LogUtil.outMessage( "Can't set status", true );
-              }
+              /** Plain statusIndex changing **/
+              icqAccountRoot.statusIndex = statusIndex;
+              icqAccountRoot.loadStatus( statusIndex );
+              IcqPacketSender.setStatus( icqAccountRoot.session, ( statusId < 0x1000 ) ? statusId : 0x0000 );
+              IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, statusId );
+              updateAccountsStatus();
               SetStatusTextFrame setStatusTextFrame = new SetStatusTextFrame( icqAccountRoot, statusIndex );
               setStatusTextFrame.s_prevWindow = MainFrame.this;
               MidletMain.screen.setActiveWindow( setStatusTextFrame );
@@ -829,20 +873,16 @@ public class MainFrame extends Window {
     icqSoft.leftSoft.addSubItem( xStatusItem );
     /** X-Status None **/
     tempPopupItem = new PopupItem( Localization.getMessage( "xstatus36" ) ) {
+
       public void actionPerformed() {
-        final IcqAccountRoot icqAccountRoot = (IcqAccountRoot) ( (AccountTab) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
+        final IcqAccountRoot icqAccountRoot = ( IcqAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
         icqAccountRoot.xStatusId = -1;
         icqAccountRoot.xTitle = "";
         icqAccountRoot.xText = "";
         icqAccountRoot.isXStatusReadable = false;
         icqAccountRoot.saveAllSettings();
         if ( icqAccountRoot.statusIndex != 0 ) {
-          try {
-            IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, IcqStatusUtil.getStatus( icqAccountRoot.statusIndex ) );
-            //! MidletMain.saveStatusSettings(accountRoot, accountRoot.xStatusId, accountRoot.pStatusId, accountRoot.privateBuddyId);
-          } catch ( IOException ex ) {
-            LogUtil.outMessage( "Can't set xstatus", true );
-          }
+          IcqPacketSender.sendCapabilities( icqAccountRoot.session, icqAccountRoot.xStatusId, IcqStatusUtil.getStatus( icqAccountRoot.statusIndex ) );
         }
       }
     };
@@ -858,21 +898,18 @@ public class MainFrame extends Window {
         if ( tempString != null && Integer.parseInt( tempString ) == Capability.CAP_XSTATUS ) {
           final int iconIndex = Integer.parseInt( CapUtil.dataCaps.getValue( capGroups[c], "icon" ).substring( 7 ) );
           tempPopupItem = new PopupItem( Localization.getMessage( CapUtil.dataCaps.getValue( capGroups[c], "icon" ) ) ) {
+
             public void actionPerformed() {
-              final IcqAccountRoot icqAccountRoot = (IcqAccountRoot) ( (AccountTab) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
+              final IcqAccountRoot icqAccountRoot = ( IcqAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
               icqAccountRoot.xStatusId = iconIndex;
               icqAccountRoot.xTitle = "";
               icqAccountRoot.xText = "";
               icqAccountRoot.isXStatusReadable = false;
               icqAccountRoot.saveAllSettings();
               if ( icqAccountRoot.statusIndex != 0 ) {
-                try {
-                  IcqPacketSender.sendCapabilities( icqAccountRoot.session,
-                          icqAccountRoot.xStatusId,
-                          IcqStatusUtil.getStatus( icqAccountRoot.statusIndex ) );
-                } catch ( IOException ex ) {
-                  LogUtil.outMessage( "Can't set xstatus", true );
-                }
+                IcqPacketSender.sendCapabilities( icqAccountRoot.session,
+                        icqAccountRoot.xStatusId,
+                        IcqStatusUtil.getStatus( icqAccountRoot.statusIndex ) );
               }
               SetExtStatusFrame setExtStatusFrame = new SetExtStatusFrame( icqAccountRoot, icqAccountRoot.xStatusId );
               setExtStatusFrame.s_prevWindow = MainFrame.this;
@@ -883,8 +920,7 @@ public class MainFrame extends Window {
           tempPopupItem.imageIndex = iconIndex;
           xStatusItem.addSubItem( tempPopupItem );
         }
-      } catch ( GroupNotFoundException ex ) {
-      } catch ( IncorrectValueException ex ) {
+      } catch ( Throwable ex ) {
       }
     }
 
@@ -915,8 +951,9 @@ public class MainFrame extends Window {
         }
       }
       PopupItem _privateStatusItem = new PopupItem( popupTitle ) {
+
         public void actionPerformed() {
-          ( (IcqAccountRoot) ( (AccountTab) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot ).setUpdatePrivacy( pStatusIndex );
+          ( ( IcqAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot ).setUpdatePrivacy( pStatusIndex );
         }
       };
       _privateStatusItem.imageFileHash = "/res/groups/img_pstatus.png".hashCode();
@@ -931,11 +968,13 @@ public class MainFrame extends Window {
     icqSoft.leftSoft.addSubItem( filterPopup );
 
     icqSoft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "DIALOGS" ), IconsType.HASH_MAIN, 1 ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_DIALOGS" ).actionPerformed();
       }
     } );
     icqSoft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "FILETRANFSER" ), IconsType.HASH_MAIN, 2 ) {
+
       public void actionPerformed() {
         AccountRoot accountRoot = getActiveAccountRoot();
         accountRoot.getTransactionsFrame().s_prevWindow = MainFrame.this;
@@ -944,15 +983,17 @@ public class MainFrame extends Window {
     } );
     PopupItem buddyListItem = ( new PopupItem( Localization.getMessage( "BUDDYLIST" ), IconsType.HASH_MAIN, 3 ) );
     buddyListItem.addSubItem( new PopupItem( Localization.getMessage( "ADD_GROUP" ), IconsType.HASH_MAIN, 4 ) {
+
       public void actionPerformed() {
-        AddingGroupFrame addingGroupFrame = new AddingGroupFrame( (IcqAccountRoot) getActiveAccountRoot() );
+        AddingGroupFrame addingGroupFrame = new AddingGroupFrame( ( IcqAccountRoot ) getActiveAccountRoot() );
         addingGroupFrame.s_prevWindow = MainFrame.this;
         MidletMain.screen.setActiveWindow( addingGroupFrame );
       }
     } );
     buddyListItem.addSubItem( new PopupItem( Localization.getMessage( "ADD_BUDDY" ), IconsType.HASH_MAIN, 5 ) {
+
       public void actionPerformed() {
-        AddingBuddyFrame addingBuddyFrame = new AddingBuddyFrame( (IcqAccountRoot) getActiveAccountRoot(), 0 );
+        AddingBuddyFrame addingBuddyFrame = new AddingBuddyFrame( ( IcqAccountRoot ) getActiveAccountRoot(), 0 );
         addingBuddyFrame.s_prevWindow = MainFrame.this;
         MidletMain.screen.setActiveWindow( addingBuddyFrame );
       }
@@ -975,144 +1016,142 @@ public class MainFrame extends Window {
 
     PopupItem privacyPopupItem = new PopupItem( Localization.getMessage( "PRIVACY" ) );
     final PopupItem visiblePopupItem = new PopupItem( Localization.getMessage( "PRI_VISIBLE_ADD" ) ) {
+
       public void actionPerformed() {
         BuddyItem buddyItem = getSelectedBuddyItem();
         if ( buddyItem != null ) {
-          try {
-            if ( ( (IcqItem) buddyItem ).isInPermitList ) {
-              LogUtil.outMessage( buddyItem.getUserId() + " is in visible list: permitBuddyId = " + ( (IcqItem) buddyItem ).permitBuddyId );
-              Cookie cookie = IcqPacketSender.deletePrivacy( ( (IcqAccountRoot) getActiveAccountRoot() ).session, ( (IcqItem) buddyItem ).userId, ( (IcqItem) buddyItem ).groupId, ( (IcqItem) buddyItem ).permitBuddyId, 0x0002 );
-              QueueAction queueAction = new QueueAction( getActiveAccountRoot(), buddyItem, cookie ) {
-                public void actionPerformed( Hashtable params ) {
-                  // Removing buddyItem
-                  LogUtil.outMessage( "Action Performed" );
-                  ( (IcqItem) this.buddyItem ).isInPermitList = false;
-                  this.buddyItem.updateUiData();
-                  this.accountRoot.updateOfflineBuddylist();
-                }
-              };
-              LogUtil.outMessage( "QueueAction created" );
-              Queue.pushQueueAction( queueAction );
-            } else {
-              LogUtil.outMessage( buddyItem.getUserId() + " is not yet in visible list" );
-              final int permitBuddyId = (int) ( (IcqAccountRoot) getActiveAccountRoot() ).getNextBuddyId();
-              Cookie cookie = IcqPacketSender.addPrivacy( ( (IcqAccountRoot) getActiveAccountRoot() ).session, ( (IcqItem) buddyItem ).userId, ( (IcqItem) buddyItem ).groupId, permitBuddyId, 0x0002 );
-              QueueAction queueAction = new QueueAction( getActiveAccountRoot(), buddyItem, cookie ) {
-                public void actionPerformed( Hashtable params ) {
-                  // Removing buddyItem
-                  LogUtil.outMessage( "Action Performed" );
-                  ( (IcqItem) this.buddyItem ).isInPermitList = true;
-                  ( (IcqItem) this.buddyItem ).permitBuddyId = permitBuddyId;
-                  this.buddyItem.updateUiData();
-                  this.accountRoot.updateOfflineBuddylist();
-                }
-              };
-              LogUtil.outMessage( "QueueAction created" );
-              Queue.pushQueueAction( queueAction );
-            }
-          } catch ( IOException ex ) {
-            LogUtil.outMessage( "Can not change private status" );
+          if ( ( ( IcqItem ) buddyItem ).isInPermitList ) {
+            LogUtil.outMessage( buddyItem.getUserId() + " is in visible list: permitBuddyId = " + ( ( IcqItem ) buddyItem ).permitBuddyId );
+            Cookie cookie = IcqPacketSender.deletePrivacy( ( ( IcqAccountRoot ) getActiveAccountRoot() ).session, ( ( IcqItem ) buddyItem ).userId, ( ( IcqItem ) buddyItem ).groupId, ( ( IcqItem ) buddyItem ).permitBuddyId, 0x0002 );
+            QueueAction queueAction = new QueueAction( getActiveAccountRoot(), buddyItem, cookie ) {
+
+              public void actionPerformed( Hashtable params ) {
+                // Removing buddyItem
+                LogUtil.outMessage( "Action Performed" );
+                ( ( IcqItem ) this.buddyItem ).isInPermitList = false;
+                this.buddyItem.updateUiData();
+                this.accountRoot.updateOfflineBuddylist();
+              }
+            };
+            LogUtil.outMessage( "QueueAction created" );
+            Queue.pushQueueAction( queueAction );
+          } else {
+            LogUtil.outMessage( buddyItem.getUserId() + " is not yet in visible list" );
+            final int permitBuddyId = ( int ) ( ( IcqAccountRoot ) getActiveAccountRoot() ).getNextBuddyId();
+            Cookie cookie = IcqPacketSender.addPrivacy( ( ( IcqAccountRoot ) getActiveAccountRoot() ).session, ( ( IcqItem ) buddyItem ).userId, ( ( IcqItem ) buddyItem ).groupId, permitBuddyId, 0x0002 );
+            QueueAction queueAction = new QueueAction( getActiveAccountRoot(), buddyItem, cookie ) {
+
+              public void actionPerformed( Hashtable params ) {
+                // Removing buddyItem
+                LogUtil.outMessage( "Action Performed" );
+                ( ( IcqItem ) this.buddyItem ).isInPermitList = true;
+                ( ( IcqItem ) this.buddyItem ).permitBuddyId = permitBuddyId;
+                this.buddyItem.updateUiData();
+                this.accountRoot.updateOfflineBuddylist();
+              }
+            };
+            LogUtil.outMessage( "QueueAction created" );
+            Queue.pushQueueAction( queueAction );
           }
         }
       }
     };
     final PopupItem invisiblePopupItem = new PopupItem( Localization.getMessage( "PRI_INVISIBLE_ADD" ) ) {
+
       public void actionPerformed() {
         BuddyItem buddyItem = getSelectedBuddyItem();
         if ( buddyItem != null ) {
-          try {
-            if ( ( (IcqItem) buddyItem ).isInDenyList ) {
-              Cookie cookie = IcqPacketSender.deletePrivacy( ( (IcqAccountRoot) getActiveAccountRoot() ).session, ( (IcqItem) buddyItem ).userId, ( (IcqItem) buddyItem ).groupId, ( (IcqItem) buddyItem ).denyBuddyId, 0x0003 );
-              QueueAction queueAction = new QueueAction( getActiveAccountRoot(), buddyItem, cookie ) {
-                public void actionPerformed( Hashtable params ) {
-                  // Removing buddyItem
-                  LogUtil.outMessage( "Action Performed" );
-                  ( (IcqItem) this.buddyItem ).isInDenyList = false;
-                  this.buddyItem.updateUiData();
-                  this.accountRoot.updateOfflineBuddylist();
-                }
-              };
-              LogUtil.outMessage( "QueueAction created" );
-              Queue.pushQueueAction( queueAction );
-            } else {
-              final int denyBuddyId = (int) ( (IcqAccountRoot) getActiveAccountRoot() ).getNextBuddyId();
-              Cookie cookie = IcqPacketSender.addPrivacy( ( (IcqAccountRoot) getActiveAccountRoot() ).session, ( (IcqItem) buddyItem ).userId, ( (IcqItem) buddyItem ).groupId, denyBuddyId, 0x0003 );
-              QueueAction queueAction = new QueueAction( getActiveAccountRoot(), buddyItem, cookie ) {
-                public void actionPerformed( Hashtable params ) {
-                  // Removing buddyItem
-                  LogUtil.outMessage( "Action Performed" );
-                  ( (IcqItem) this.buddyItem ).isInDenyList = true;
-                  ( (IcqItem) this.buddyItem ).denyBuddyId = denyBuddyId;
-                  this.buddyItem.updateUiData();
-                  this.accountRoot.updateOfflineBuddylist();
-                }
-              };
-              LogUtil.outMessage( "QueueAction created" );
-              Queue.pushQueueAction( queueAction );
-            }
-          } catch ( IOException ex ) {
-            LogUtil.outMessage( "Can not change private status" );
+          if ( ( ( IcqItem ) buddyItem ).isInDenyList ) {
+            Cookie cookie = IcqPacketSender.deletePrivacy( ( ( IcqAccountRoot ) getActiveAccountRoot() ).session, ( ( IcqItem ) buddyItem ).userId, ( ( IcqItem ) buddyItem ).groupId, ( ( IcqItem ) buddyItem ).denyBuddyId, 0x0003 );
+            QueueAction queueAction = new QueueAction( getActiveAccountRoot(), buddyItem, cookie ) {
+
+              public void actionPerformed( Hashtable params ) {
+                // Removing buddyItem
+                LogUtil.outMessage( "Action Performed" );
+                ( ( IcqItem ) this.buddyItem ).isInDenyList = false;
+                this.buddyItem.updateUiData();
+                this.accountRoot.updateOfflineBuddylist();
+              }
+            };
+            LogUtil.outMessage( "QueueAction created" );
+            Queue.pushQueueAction( queueAction );
+          } else {
+            final int denyBuddyId = ( int ) ( ( IcqAccountRoot ) getActiveAccountRoot() ).getNextBuddyId();
+            Cookie cookie = IcqPacketSender.addPrivacy( ( ( IcqAccountRoot ) getActiveAccountRoot() ).session, ( ( IcqItem ) buddyItem ).userId, ( ( IcqItem ) buddyItem ).groupId, denyBuddyId, 0x0003 );
+            QueueAction queueAction = new QueueAction( getActiveAccountRoot(), buddyItem, cookie ) {
+
+              public void actionPerformed( Hashtable params ) {
+                // Removing buddyItem
+                LogUtil.outMessage( "Action Performed" );
+                ( ( IcqItem ) this.buddyItem ).isInDenyList = true;
+                ( ( IcqItem ) this.buddyItem ).denyBuddyId = denyBuddyId;
+                this.buddyItem.updateUiData();
+                this.accountRoot.updateOfflineBuddylist();
+              }
+            };
+            LogUtil.outMessage( "QueueAction created" );
+            Queue.pushQueueAction( queueAction );
           }
         }
       }
     };
     final PopupItem ignorePopupItem = new PopupItem( Localization.getMessage( "PRI_IGNORE_ADD" ) ) {
+
       public void actionPerformed() {
         BuddyItem buddyItem = getSelectedBuddyItem();
         if ( buddyItem != null ) {
-          try {
-            if ( ( (IcqItem) buddyItem ).isInIgnoreList ) {
-              Cookie cookie = IcqPacketSender.deletePrivacy( ( (IcqAccountRoot) getActiveAccountRoot() ).session, ( (IcqItem) buddyItem ).userId, ( (IcqItem) buddyItem ).groupId, ( (IcqItem) buddyItem ).ignoreBuddyId, 0x000e );
-              QueueAction queueAction = new QueueAction( getActiveAccountRoot(), buddyItem, cookie ) {
-                public void actionPerformed( Hashtable params ) {
-                  // Removing buddyItem
-                  LogUtil.outMessage( "Action Performed" );
-                  ( (IcqItem) this.buddyItem ).isInIgnoreList = false;
-                  this.buddyItem.updateUiData();
-                  this.accountRoot.updateOfflineBuddylist();
-                }
-              };
-              LogUtil.outMessage( "QueueAction created" );
-              Queue.pushQueueAction( queueAction );
-            } else {
-              final int ignoreBuddyId = (int) ( (IcqAccountRoot) getActiveAccountRoot() ).getNextBuddyId();
-              Cookie cookie = IcqPacketSender.addPrivacy( ( (IcqAccountRoot) getActiveAccountRoot() ).session, ( (IcqItem) buddyItem ).userId, ( (IcqItem) buddyItem ).groupId, ignoreBuddyId, 0x000e );
-              QueueAction queueAction = new QueueAction( getActiveAccountRoot(), buddyItem, cookie ) {
-                public void actionPerformed( Hashtable params ) {
-                  // Removing buddyItem
-                  LogUtil.outMessage( "Action Performed" );
-                  ( (IcqItem) this.buddyItem ).isInIgnoreList = true;
-                  ( (IcqItem) this.buddyItem ).ignoreBuddyId = ignoreBuddyId;
-                  this.buddyItem.updateUiData();
-                  this.accountRoot.updateOfflineBuddylist();
-                }
-              };
-              LogUtil.outMessage( "QueueAction created" );
-              Queue.pushQueueAction( queueAction );
-            }
-          } catch ( IOException ex ) {
-            LogUtil.outMessage( "Can not change private status" );
+          if ( ( ( IcqItem ) buddyItem ).isInIgnoreList ) {
+            Cookie cookie = IcqPacketSender.deletePrivacy( ( ( IcqAccountRoot ) getActiveAccountRoot() ).session, ( ( IcqItem ) buddyItem ).userId, ( ( IcqItem ) buddyItem ).groupId, ( ( IcqItem ) buddyItem ).ignoreBuddyId, 0x000e );
+            QueueAction queueAction = new QueueAction( getActiveAccountRoot(), buddyItem, cookie ) {
+
+              public void actionPerformed( Hashtable params ) {
+                // Removing buddyItem
+                LogUtil.outMessage( "Action Performed" );
+                ( ( IcqItem ) this.buddyItem ).isInIgnoreList = false;
+                this.buddyItem.updateUiData();
+                this.accountRoot.updateOfflineBuddylist();
+              }
+            };
+            LogUtil.outMessage( "QueueAction created" );
+            Queue.pushQueueAction( queueAction );
+          } else {
+            final int ignoreBuddyId = ( int ) ( ( IcqAccountRoot ) getActiveAccountRoot() ).getNextBuddyId();
+            Cookie cookie = IcqPacketSender.addPrivacy( ( ( IcqAccountRoot ) getActiveAccountRoot() ).session, ( ( IcqItem ) buddyItem ).userId, ( ( IcqItem ) buddyItem ).groupId, ignoreBuddyId, 0x000e );
+            QueueAction queueAction = new QueueAction( getActiveAccountRoot(), buddyItem, cookie ) {
+
+              public void actionPerformed( Hashtable params ) {
+                // Removing buddyItem
+                LogUtil.outMessage( "Action Performed" );
+                ( ( IcqItem ) this.buddyItem ).isInIgnoreList = true;
+                ( ( IcqItem ) this.buddyItem ).ignoreBuddyId = ignoreBuddyId;
+                this.buddyItem.updateUiData();
+                this.accountRoot.updateOfflineBuddylist();
+              }
+            };
+            LogUtil.outMessage( "QueueAction created" );
+            Queue.pushQueueAction( queueAction );
           }
         }
       }
     };
 
     Thread rightAction = new Thread() {
+
       public void run() {
         BuddyItem buddyItem = getSelectedBuddyItem();
         if ( buddyItem != null ) {
           icqSoft.rightSoft = icqBuddyRightPopupItem;
-          if ( ( (IcqItem) buddyItem ).isInPermitList ) {
+          if ( ( ( IcqItem ) buddyItem ).isInPermitList ) {
             visiblePopupItem.title = Localization.getMessage( "PRI_VISIBLE_DELETE" );
           } else {
             visiblePopupItem.title = Localization.getMessage( "PRI_VISIBLE_ADD" );
           }
-          if ( ( (IcqItem) buddyItem ).isInDenyList ) {
+          if ( ( ( IcqItem ) buddyItem ).isInDenyList ) {
             invisiblePopupItem.title = Localization.getMessage( "PRI_INVISIBLE_DELETE" );
           } else {
             invisiblePopupItem.title = Localization.getMessage( "PRI_INVISIBLE_ADD" );
           }
-          if ( ( (IcqItem) buddyItem ).isInIgnoreList ) {
+          if ( ( ( IcqItem ) buddyItem ).isInIgnoreList ) {
             ignorePopupItem.title = Localization.getMessage( "PRI_IGNORE_DELETE" );
           } else {
             ignorePopupItem.title = Localization.getMessage( "PRI_IGNORE_ADD" );
@@ -1132,48 +1171,57 @@ public class MainFrame extends Window {
     icqSoft.rightSoft = icqBuddyRightPopupItem;
 
     icqBuddyRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "DIALOG" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_DIALOG" ).actionPerformed();
       }
     } );
     icqBuddyRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "INFO" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_BUDDYINFO" ).actionPerformed();
       }
     } );
     icqBuddyRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "CLIENT" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_CLIENTINFO" ).actionPerformed();
       }
     } );
     icqBuddyRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "STATUSES" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_STATUSES" ).actionPerformed();
       }
     } );
     icqBuddyRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "UNIQUE" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_UNIQUE" ).actionPerformed();
       }
     } );
     icqBuddyRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "SENDFILE" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_SENDFILE" ).actionPerformed();
       }
     } );
     if ( System.getProperty( "supports.video.capture" ) != null && System.getProperty( "supports.video.capture" ).equals( "true" ) ) {
       icqBuddyRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "SENDPHOTO" ) ) {
+
         public void actionPerformed() {
           MainFrame.this.getKeyEvent( "KEY_SENDPHOTO" ).actionPerformed();
         }
       } );
     }
     icqBuddyRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "HISTORY" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_HISTORY" ).actionPerformed();
       }
     } );
     PopupItem renameItem = new PopupItem( Localization.getMessage( "RENAME" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_RENAME" ).actionPerformed();
       }
@@ -1181,6 +1229,7 @@ public class MainFrame extends Window {
     icqBuddyRightPopupItem.addSubItem( renameItem );
     icqGroupRightPopupItem.addSubItem( renameItem );
     PopupItem removeItem = new PopupItem( Localization.getMessage( "REMOVE" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_REMOVE" ).actionPerformed();
       }
@@ -1189,23 +1238,23 @@ public class MainFrame extends Window {
     icqGroupRightPopupItem.addSubItem( removeItem );
     PopupItem authPopupItem = new PopupItem( Localization.getMessage( "AUTH" ) );
     authPopupItem.addSubItem( new PopupItem( Localization.getMessage( "AUTH_REQUEST" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_REQUESTAUTH" ).actionPerformed();
       }
     } );
     authPopupItem.addSubItem( new PopupItem( Localization.getMessage( "AUTH_ACCEPT" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_ACCEPTAUTH" ).actionPerformed();
       }
     } );
     authPopupItem.addSubItem( new PopupItem( Localization.getMessage( "AUTH_DENY" ) ) {
+
       public void actionPerformed() {
         BuddyItem buddyItem = getSelectedBuddyItem();
         if ( buddyItem != null ) {
-          try {
-            IcqPacketSender.authReply( ( (IcqAccountRoot) getActiveAccountRoot() ).session, buddyItem.getUserId(), false, StringUtil.stringToByteArray( Localization.getMessage( "DEFAULT_REJECT" ), true ) );
-          } catch ( IOException ex ) {
-          }
+          IcqPacketSender.authReply( ( ( IcqAccountRoot ) getActiveAccountRoot() ).session, buddyItem.getUserId(), false, StringUtil.stringToByteArray( Localization.getMessage( "DEFAULT_REJECT" ), true ) );
         }
       }
     } );
@@ -1220,8 +1269,8 @@ public class MainFrame extends Window {
   public BuddyItem getSelectedBuddyItem() {
     try {
       if ( buddyList.selectedRealGroup >= 0 && buddyList.selectedRealGroup < buddyList.items.size() ) {
-        if ( buddyList.selectedRealIndex >= 0 && buddyList.selectedRealIndex < ( (GroupHeader) buddyList.items.elementAt( buddyList.selectedRealGroup ) ).getChildsCount() ) {
-          return (BuddyItem) ( (GroupHeader) buddyList.items.elementAt( buddyList.selectedRealGroup ) ).getChilds().elementAt( buddyList.selectedRealIndex );
+        if ( buddyList.selectedRealIndex >= 0 && buddyList.selectedRealIndex < ( ( GroupHeader ) buddyList.items.elementAt( buddyList.selectedRealGroup ) ).getChildsCount() ) {
+          return ( BuddyItem ) ( ( GroupHeader ) buddyList.items.elementAt( buddyList.selectedRealGroup ) ).getChilds().elementAt( buddyList.selectedRealIndex );
         }
       }
     } catch ( java.lang.ClassCastException ex1 ) {
@@ -1233,7 +1282,7 @@ public class MainFrame extends Window {
     try {
       if ( buddyList.selectedRealGroup >= 0 && buddyList.selectedRealGroup < buddyList.items.size() ) {
         if ( buddyList.selectedRealIndex == -1 ) {
-          return (BuddyGroup) ( (GroupHeader) buddyList.items.elementAt( buddyList.selectedRealGroup ) );
+          return ( BuddyGroup ) ( ( GroupHeader ) buddyList.items.elementAt( buddyList.selectedRealGroup ) );
         }
       }
     } catch ( java.lang.ClassCastException ex1 ) {
@@ -1248,19 +1297,22 @@ public class MainFrame extends Window {
     final PopupItem statusItem = new PopupItem( Localization.getMessage( "MSTATUS" ) );
 
     final PopupItem groupsPopup = new PopupItem( Localization.getMessage( "GROUPS" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_FILTERGROUPS" ).actionPerformed();
       }
     };
     final PopupItem offlinePopup = new PopupItem( Localization.getMessage( "OFFLINE_BUDDYES" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_FILTEROFFLINE" ).actionPerformed();
       }
     };
 
     mmpSoft.leftSoft = new PopupItem( Localization.getMessage( "MENU" ) ) {
+
       public void actionPerformed() {
-        MmpAccountRoot mmpAccountRoot = ( (MmpAccountRoot) getActiveAccountRoot() );
+        MmpAccountRoot mmpAccountRoot = ( ( MmpAccountRoot ) getActiveAccountRoot() );
         /** Checking statusIndex icons **/
         statusItem.imageFileHash = "/res/groups/img_mmpstatus.png".hashCode();
         statusItem.imageIndex = mmpAccountRoot.getStatusIndex();
@@ -1280,6 +1332,7 @@ public class MainFrame extends Window {
     mmpSoft.leftSoft.addSubItem( filterPopup );
 
     mmpSoft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "DIALOGS" ), IconsType.HASH_MAIN, 1 ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_DIALOGS" ).actionPerformed();
       }
@@ -1287,6 +1340,7 @@ public class MainFrame extends Window {
 
     PopupItem buddyListItem = ( new PopupItem( Localization.getMessage( "BUDDYLIST" ), IconsType.HASH_MAIN, 3 ) );
     buddyListItem.addSubItem( new PopupItem( Localization.getMessage( "ADD_GROUP" ), IconsType.HASH_MAIN, 4 ) {
+
       public void actionPerformed() {
         AddingGroupFrame addingGroupFrame = new AddingGroupFrame( getActiveAccountRoot() );
         addingGroupFrame.s_prevWindow = MainFrame.this;
@@ -1294,6 +1348,7 @@ public class MainFrame extends Window {
       }
     } );
     buddyListItem.addSubItem( new PopupItem( Localization.getMessage( "ADD_BUDDY" ), IconsType.HASH_MAIN, 5 ) {
+
       public void actionPerformed() {
         AddingBuddyFrame addingBuddyFrame = new AddingBuddyFrame( getActiveAccountRoot(), 1 );
         addingBuddyFrame.s_prevWindow = MainFrame.this;
@@ -1301,6 +1356,7 @@ public class MainFrame extends Window {
       }
     } );
     buddyListItem.addSubItem( new PopupItem( Localization.getMessage( "ADD_PHONE" ), IconsType.HASH_MAIN, 5 ) {
+
       public void actionPerformed() {
         AddingBuddyFrame addingBuddyFrame = new AddingBuddyFrame( getActiveAccountRoot(), 2 );
         addingBuddyFrame.s_prevWindow = MainFrame.this;
@@ -1309,8 +1365,9 @@ public class MainFrame extends Window {
     } );
     mmpSoft.leftSoft.addSubItem( buddyListItem );
     mmpSoft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "SEND_FREE_SMS" ), IconsType.HASH_CHAT, 7 ) {
+
       public void actionPerformed() {
-        MmpSmsSendFrame mmpSmsSendFrame = new MmpSmsSendFrame( (MmpAccountRoot) getActiveAccountRoot() );
+        MmpSmsSendFrame mmpSmsSendFrame = new MmpSmsSendFrame( ( MmpAccountRoot ) getActiveAccountRoot() );
         mmpSmsSendFrame.s_prevWindow = MainFrame.this;
         MidletMain.screen.setActiveWindow( mmpSmsSendFrame );
       }
@@ -1327,8 +1384,9 @@ public class MainFrame extends Window {
         continue;
       }
       tempPopupItem = new PopupItem( Localization.getMessage( MmpStatusUtil.getStatusDescr( c ) ) ) {
+
         public void actionPerformed() {
-          final MmpAccountRoot mmpAccountRoot = (MmpAccountRoot) ( (AccountTab) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
+          final MmpAccountRoot mmpAccountRoot = ( MmpAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
           /** Status is selected **/
           if ( mmpAccountRoot.statusIndex == 0 && statusIndex != 0 ) {
             /** Need to connect **/
@@ -1337,7 +1395,7 @@ public class MainFrame extends Window {
           } else {
             if ( mmpAccountRoot.statusIndex != 0 && statusIndex == 0 ) {
               /** Need go offline **/
-              ActionExec.disconnectEvent( mmpAccountRoot );
+              Handler.disconnectEvent( mmpAccountRoot );
               mmpAccountRoot.session.disconnect();
             } else {
               if ( mmpAccountRoot.statusIndex != 0 ) {
@@ -1379,6 +1437,7 @@ public class MainFrame extends Window {
     mmpSoft.leftSoft.addSubItem( exitPopupItem );
 
     Thread rightAction = new Thread() {
+
       public void run() {
         BuddyItem buddyItem = getSelectedBuddyItem();
         if ( buddyItem != null ) {
@@ -1404,6 +1463,7 @@ public class MainFrame extends Window {
     mmpSoft.rightSoft = mmpBuddyRightPopupItem;
 
     PopupItem dialogItem = new PopupItem( Localization.getMessage( "DIALOG" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_DIALOG" ).actionPerformed();
       }
@@ -1412,6 +1472,7 @@ public class MainFrame extends Window {
     mmpPhoneRightPopupItem.addSubItem( dialogItem );
 
     PopupItem infoItem = new PopupItem( Localization.getMessage( "INFO" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_BUDDYINFO" ).actionPerformed();
       }
@@ -1421,13 +1482,14 @@ public class MainFrame extends Window {
     mmpPhoneRightPopupItem.addSubItem( infoItem );
 
     PopupItem wakeupItem = new PopupItem( Localization.getMessage( "WAKEUP" ) ) {
+
       public void actionPerformed() {
         AccountRoot accountRoot = getActiveAccountRoot();
         if ( accountRoot instanceof MmpAccountRoot ) {
           BuddyItem buddyItem = getSelectedBuddyItem();
           if ( buddyItem != null ) {
             try {
-              ( (MmpAccountRoot) accountRoot ).sendWakeup( buddyItem );
+              ( ( MmpAccountRoot ) accountRoot ).sendWakeup( buddyItem );
             } catch ( IOException ex ) {
             }
           }
@@ -1438,6 +1500,7 @@ public class MainFrame extends Window {
     mmpBuddyRightPopupItem.addSubItem( wakeupItem );
 
     PopupItem historyItem = new PopupItem( Localization.getMessage( "HISTORY" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_HISTORY" ).actionPerformed();
       }
@@ -1447,6 +1510,7 @@ public class MainFrame extends Window {
     mmpPhoneRightPopupItem.addSubItem( historyItem );
 
     PopupItem renameItem = new PopupItem( Localization.getMessage( "RENAME" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_RENAME" ).actionPerformed();
       }
@@ -1457,6 +1521,7 @@ public class MainFrame extends Window {
     mmpGroupRightPopupItem.addSubItem( renameItem );
 
     PopupItem removeItem = new PopupItem( Localization.getMessage( "REMOVE" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_REMOVE" ).actionPerformed();
       }
@@ -1468,11 +1533,13 @@ public class MainFrame extends Window {
 
     PopupItem authPopupItem = new PopupItem( Localization.getMessage( "AUTH" ) );
     authPopupItem.addSubItem( new PopupItem( Localization.getMessage( "AUTH_REQUEST" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_REQUESTAUTH" ).actionPerformed();
       }
     } );
     authPopupItem.addSubItem( new PopupItem( Localization.getMessage( "AUTH_ACCEPT" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_ACCEPTAUTH" ).actionPerformed();
       }
@@ -1487,19 +1554,22 @@ public class MainFrame extends Window {
     final PopupItem statusItem = new PopupItem( Localization.getMessage( "MSTATUS" ) );
 
     final PopupItem groupsPopup = new PopupItem( Localization.getMessage( "GROUPS" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_FILTERGROUPS" ).actionPerformed();
       }
     };
     final PopupItem offlinePopup = new PopupItem( Localization.getMessage( "OFFLINE_BUDDYES" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_FILTEROFFLINE" ).actionPerformed();
       }
     };
 
     xmppSoft.leftSoft = new PopupItem( Localization.getMessage( "MENU" ) ) {
+
       public void actionPerformed() {
-        XmppAccountRoot xmppAccountRoot = ( (XmppAccountRoot) getActiveAccountRoot() );
+        XmppAccountRoot xmppAccountRoot = ( ( XmppAccountRoot ) getActiveAccountRoot() );
         /** Checking statusIndex icons **/
         statusItem.imageFileHash = "/res/groups/img_xmppstatus.png".hashCode();
         statusItem.imageIndex = xmppAccountRoot.getStatusIndex();
@@ -1518,28 +1588,32 @@ public class MainFrame extends Window {
     xmppSoft.leftSoft.addSubItem( filterPopup );
 
     xmppSoft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "DIALOGS" ), IconsType.HASH_MAIN, 1 ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_DIALOGS" ).actionPerformed();
       }
     } );
 
     xmppSoft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "SERVICES" ), IconsType.HASH_MAIN, 27 ) {
+
       public void actionPerformed() {
-        MidletMain.servicesFrame = new ServicesFrame( (XmppAccountRoot) getActiveAccountRoot() );
+        MidletMain.servicesFrame = new ServicesFrame( ( XmppAccountRoot ) getActiveAccountRoot() );
         MidletMain.servicesFrame.s_prevWindow = MainFrame.this;
         MidletMain.screen.setActiveWindow( MidletMain.servicesFrame );
       }
     } );
 
     xmppSoft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "BOOKMARKS" ), IconsType.HASH_MAIN, 26 ) {
+
       public void actionPerformed() {
-        MidletMain.bookmarksFrame = new BookmarksFrame( (XmppAccountRoot) getActiveAccountRoot() );
+        MidletMain.bookmarksFrame = new BookmarksFrame( ( XmppAccountRoot ) getActiveAccountRoot() );
         MidletMain.bookmarksFrame.s_prevWindow = MainFrame.this;
         MidletMain.screen.setActiveWindow( MidletMain.bookmarksFrame );
       }
     } );
 
     xmppSoft.leftSoft.addSubItem( new PopupItem( Localization.getMessage( "FILETRANFSER" ), IconsType.HASH_MAIN, 2 ) {
+
       public void actionPerformed() {
         AccountRoot accountRoot = getActiveAccountRoot();
         accountRoot.getTransactionsFrame().s_prevWindow = MainFrame.this;
@@ -1549,6 +1623,7 @@ public class MainFrame extends Window {
 
     PopupItem buddyListItem = ( new PopupItem( Localization.getMessage( "BUDDYLIST" ), IconsType.HASH_MAIN, 3 ) );
     buddyListItem.addSubItem( new PopupItem( Localization.getMessage( "ADD_BUDDY" ), IconsType.HASH_MAIN, 5 ) {
+
       public void actionPerformed() {
         AddingBuddyFrame addingBuddyFrame = new AddingBuddyFrame( getActiveAccountRoot(), 1 );
         addingBuddyFrame.s_prevWindow = MainFrame.this;
@@ -1560,8 +1635,9 @@ public class MainFrame extends Window {
     for ( int c = 0; c < XmppStatusUtil.getStatusCount(); c++ ) {
       final int statusIndex = c;
       tempPopupItem = new PopupItem( Localization.getMessage( XmppStatusUtil.getStatusDescr( c ) ) ) {
+
         public void actionPerformed() {
-          final XmppAccountRoot xmppAccountRoot = (XmppAccountRoot) ( (AccountTab) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
+          final XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
           /** Status is selected **/
           if ( xmppAccountRoot.statusIndex == 0 && statusIndex != 0 ) {
             xmppAccountRoot.connectAction( statusIndex );
@@ -1571,7 +1647,7 @@ public class MainFrame extends Window {
               try {
                 xmppAccountRoot.xmppSession.disconnect();
                 xmppAccountRoot.statusIndex = statusIndex;
-                ActionExec.disconnectEvent( xmppAccountRoot );
+                Handler.disconnectEvent( xmppAccountRoot );
               } catch ( IOException ex ) {
                 LogUtil.outMessage( "Can't disconnect", true );
               }
@@ -1584,7 +1660,7 @@ public class MainFrame extends Window {
                   xmppAccountRoot.statusIndex = statusIndex;
                   if ( xmppAccountRoot.conferenceGroup != null && xmppAccountRoot.conferenceGroup.getChildsCount() > 0 ) {
                     for ( int c = 0; c < xmppAccountRoot.conferenceGroup.getChilds().size(); c++ ) {
-                      XmppItem groupChatItem = (XmppItem) xmppAccountRoot.conferenceGroup.getChilds().elementAt( c );
+                      XmppItem groupChatItem = ( XmppItem ) xmppAccountRoot.conferenceGroup.getChilds().elementAt( c );
                       if ( groupChatItem.getStatusIndex() != XmppStatusUtil.offlineIndex ) {
                         XmppSender.sendPresence( xmppAccountRoot.xmppSession.xmlWriter, null, groupChatItem.userId,
                                 null, XmppStatusUtil.statuses[statusIndex], "", xmppAccountRoot.priority, false, null, null );
@@ -1618,6 +1694,7 @@ public class MainFrame extends Window {
     final PopupItem dialogsPopup = new PopupItem( Localization.getMessage( "DIALOG" ) );
     final PopupItem sendFilePopup = new PopupItem( Localization.getMessage( "SENDFILE" ) );
     Thread xmppRightPopupAction = new Thread() {
+
       public void run() {
         if ( !dialogsPopup.isEmpty() ) {
           dialogsPopup.subPopup.items.removeAllElements();
@@ -1629,15 +1706,16 @@ public class MainFrame extends Window {
           sendFilePopup.subPopup.yOffset = 0;
           sendFilePopup.subPopup.selectedIndex = 0;
         }
-        final XmppItem xmppItem = (XmppItem) getSelectedBuddyItem();
+        final XmppItem xmppItem = ( XmppItem ) getSelectedBuddyItem();
         if ( xmppItem != null ) {
           Enumeration resources = xmppItem.resources.elements();
           if ( xmppItem.resources.size() <= 1 ) {
             final Resource resource = xmppItem.getDefaultResource();
             dialogsPopup.setActionPerformed( new Thread() {
+
               public void run() {
                 LogUtil.outMessage( "One resource: " + resource.resource );
-                XmppAccountRoot xmppAccountRoot = (XmppAccountRoot) getActiveAccountRoot();
+                XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) getActiveAccountRoot();
                 ChatTab chatTab = MidletMain.chatFrame.getChatTab( xmppAccountRoot, xmppItem.getUserId(), resource.resource, true );
                 if ( chatTab == null ) {
                   /** There is no opened chat tab **/
@@ -1648,9 +1726,10 @@ public class MainFrame extends Window {
               }
             } );
             sendFilePopup.setActionPerformed( new Thread() {
+
               public void run() {
                 LogUtil.outMessage( "One resource: " + resource.resource );
-                XmppAccountRoot xmppAccountRoot = (XmppAccountRoot) getActiveAccountRoot();
+                XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) getActiveAccountRoot();
                 FileBrowserFrame fileBrowserFrame = new FileBrowserFrame( 0, xmppAccountRoot, xmppItem.getUserId().concat( "/" ).concat( resource.resource ) );
                 fileBrowserFrame.s_prevWindow = MainFrame.this;
                 MidletMain.screen.setActiveWindow( fileBrowserFrame );
@@ -1658,14 +1737,15 @@ public class MainFrame extends Window {
             } );
           } else {
             while ( resources.hasMoreElements() ) {
-              final Resource resource = (Resource) resources.nextElement();
+              final Resource resource = ( Resource ) resources.nextElement();
               dialogsPopup.addSubItem( new PopupItem(
                       ( ( resource.resource.length() == 0 && xmppItem.isGroupChat ) ? Localization.getMessage( "XMPP_ROOM" ) : ( resource.resource.length() == 0 ? Localization.getMessage( "XMPP_ALL_RESOURCES" ) : resource.resource ) ),
                       "/res/groups/img_xmppstatus.png".hashCode(),
                       ( ( resource.resource.length() == 0 && xmppItem.isGroupChat ) ? XmppStatusUtil.groupChatIndex : ( ( resource.resource.length() == 0 ) ? XmppStatusUtil.onlineIndex : resource.statusIndex ) ) ) {
+
                 public void actionPerformed() {
                   LogUtil.outMessage( "Of multiple resource: " + resource.resource );
-                  XmppAccountRoot xmppAccountRoot = (XmppAccountRoot) getActiveAccountRoot();
+                  XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) getActiveAccountRoot();
                   ChatTab chatTab = MidletMain.chatFrame.getChatTab( xmppAccountRoot, xmppItem.getUserId(), resource.resource, true );
                   if ( chatTab == null ) {
                     /** There is no opened chat tab **/
@@ -1679,9 +1759,10 @@ public class MainFrame extends Window {
                       ( ( resource.resource.length() == 0 && xmppItem.isGroupChat ) ? Localization.getMessage( "XMPP_ROOM" ) : ( resource.resource.length() == 0 ? Localization.getMessage( "XMPP_ALL_RESOURCES" ) : resource.resource ) ),
                       "/res/groups/img_xmppstatus.png".hashCode(),
                       ( ( resource.resource.length() == 0 && xmppItem.isGroupChat ) ? XmppStatusUtil.groupChatIndex : ( ( resource.resource.length() == 0 ) ? XmppStatusUtil.onlineIndex : resource.statusIndex ) ) ) {
+
                 public void actionPerformed() {
                   LogUtil.outMessage( "Of multiple resource: " + resource.resource );
-                  XmppAccountRoot xmppAccountRoot = (XmppAccountRoot) getActiveAccountRoot();
+                  XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) getActiveAccountRoot();
                   FileBrowserFrame fileBrowserFrame = new FileBrowserFrame( 0, xmppAccountRoot, xmppItem.getUserId().concat( "/" ).concat( resource.resource ) );
                   fileBrowserFrame.s_prevWindow = MainFrame.this;
                   MidletMain.screen.setActiveWindow( fileBrowserFrame );
@@ -1715,6 +1796,7 @@ public class MainFrame extends Window {
     xmppBuddyRightPopupItem.addSubItem( dialogsPopup );
 
     xmppBuddyRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "HISTORY" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_HISTORY" ).actionPerformed();
       }
@@ -1725,14 +1807,16 @@ public class MainFrame extends Window {
     xmppConfrRightPopupItem.addSubItem( dialogsPopup );
 
     xmppConfrRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "HISTORY" ) ) {
+
       public void actionPerformed() {
         MainFrame.this.getKeyEvent( "KEY_HISTORY" ).actionPerformed();
       }
     } );
     xmppConfrRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "EDIT_TOPIC" ) ) {
+
       public void actionPerformed() {
-        final XmppAccountRoot xmppAccountRoot = (XmppAccountRoot) ( (AccountTab) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
-        final XmppItem xmppItem = (XmppItem) getSelectedBuddyItem();
+        final XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
+        final XmppItem xmppItem = ( XmppItem ) getSelectedBuddyItem();
         if ( xmppItem != null ) {
           LogUtil.outMessage( "JID: " + xmppItem.userId );
           LogUtil.outMessage( "Subject: " + xmppItem.groupChatSubject );
@@ -1743,9 +1827,10 @@ public class MainFrame extends Window {
       }
     } );
     xmppConfrRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "EDIT_NICK" ) ) {
+
       public void actionPerformed() {
-        final XmppAccountRoot xmppAccountRoot = (XmppAccountRoot) ( (AccountTab) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
-        final XmppItem xmppItem = (XmppItem) getSelectedBuddyItem();
+        final XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
+        final XmppItem xmppItem = ( XmppItem ) getSelectedBuddyItem();
         if ( xmppItem != null ) {
           GroupChatNickEditFrame groupChatNickEditFrame = new GroupChatNickEditFrame( xmppAccountRoot, xmppItem );
           groupChatNickEditFrame.s_prevWindow = MidletMain.mainFrame;
@@ -1754,9 +1839,10 @@ public class MainFrame extends Window {
       }
     } );
     xmppConfrRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "CONFIGURE_CONFR" ) ) {
+
       public void actionPerformed() {
-        final XmppAccountRoot xmppAccountRoot = (XmppAccountRoot) ( (AccountTab) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
-        final XmppItem xmppItem = (XmppItem) getSelectedBuddyItem();
+        final XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
+        final XmppItem xmppItem = ( XmppItem ) getSelectedBuddyItem();
         if ( xmppItem != null ) {
           MidletMain.groupChatConfFrame = new GroupChatConfFrame( xmppAccountRoot, xmppItem );
           MidletMain.groupChatConfFrame.s_prevWindow = MidletMain.mainFrame;
@@ -1765,9 +1851,10 @@ public class MainFrame extends Window {
       }
     } );
     xmppConfrRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "ROLE_LIST" ) ) {
+
       public void actionPerformed() {
-        final XmppAccountRoot xmppAccountRoot = (XmppAccountRoot) ( (AccountTab) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
-        final XmppItem xmppItem = (XmppItem) getSelectedBuddyItem();
+        final XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
+        final XmppItem xmppItem = ( XmppItem ) getSelectedBuddyItem();
         if ( xmppItem != null ) {
           MidletMain.groupChatUsersFrame = new GroupChatUsersFrame( xmppAccountRoot, xmppItem.userId, true );
           MidletMain.groupChatUsersFrame.s_prevWindow = MidletMain.mainFrame;
@@ -1776,9 +1863,10 @@ public class MainFrame extends Window {
       }
     } );
     xmppConfrRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "AFFILIATION_LIST" ) ) {
+
       public void actionPerformed() {
-        final XmppAccountRoot xmppAccountRoot = (XmppAccountRoot) ( (AccountTab) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
-        final XmppItem xmppItem = (XmppItem) getSelectedBuddyItem();
+        final XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
+        final XmppItem xmppItem = ( XmppItem ) getSelectedBuddyItem();
         if ( xmppItem != null ) {
           MidletMain.groupChatUsersFrame = new GroupChatUsersFrame( xmppAccountRoot, xmppItem.userId, false );
           MidletMain.groupChatUsersFrame.s_prevWindow = MidletMain.mainFrame;
@@ -1787,9 +1875,10 @@ public class MainFrame extends Window {
       }
     } );
     xmppConfrRightPopupItem.addSubItem( new PopupItem( Localization.getMessage( "EXIT_CONFR" ) ) {
+
       public void actionPerformed() {
-        final XmppAccountRoot xmppAccountRoot = (XmppAccountRoot) ( (AccountTab) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
-        final XmppItem xmppItem = (XmppItem) getSelectedBuddyItem();
+        final XmppAccountRoot xmppAccountRoot = ( XmppAccountRoot ) ( ( AccountTab ) accountTabs.items.elementAt( accountTabs.selectedIndex ) ).accountRoot;
+        final XmppItem xmppItem = ( XmppItem ) getSelectedBuddyItem();
         if ( xmppItem != null ) {
           xmppItem.offlineResources();
           XmppSender.exitConfrence( xmppAccountRoot.xmppSession, xmppItem.userId, xmppItem.groupChatNick );
@@ -1813,7 +1902,7 @@ public class MainFrame extends Window {
   }
 
   public final AccountRoot checkAccountRoot( int index ) {
-    AccountTab tempAccountTab = ( (AccountTab) accountTabs.items.elementAt( index ) );
+    AccountTab tempAccountTab = ( ( AccountTab ) accountTabs.items.elementAt( index ) );
     try {
       if ( tempAccountTab.accountRoot == null ) {
         /** Load account root **/
@@ -1837,6 +1926,7 @@ public class MainFrame extends Window {
     pane = new Pane( null, false );
     pane.addItem( new Label( Localization.getMessage( "INTRO_MSG" ) ) );
     Button button = new Button( Localization.getMessage( "ADD_ACCOUNT" ) ) {
+
       public void actionPerformed() {
         AccountEditorFrame accountEditorFrame = new AccountEditorFrame( null, null, null, null, null, true, null, false );
         MidletMain.screen.setActiveWindow( accountEditorFrame );
@@ -1850,6 +1940,7 @@ public class MainFrame extends Window {
   public final void initEmptySoft() {
     soft = new Soft( MidletMain.screen );
     soft.leftSoft = new PopupItem( Localization.getMessage( "EXIT" ) ) {
+
       public void actionPerformed() {
         MidletMain.midletMain.notifyDestroyed();
       }
@@ -1860,7 +1951,7 @@ public class MainFrame extends Window {
   public AccountTab getAccountTab( String loginId ) {
     AccountTab tempAccountTab;
     for ( int c = 0; c < accountTabs.items.size(); c++ ) {
-      tempAccountTab = ( (AccountTab) accountTabs.items.elementAt( c ) );
+      tempAccountTab = ( ( AccountTab ) accountTabs.items.elementAt( c ) );
       if ( tempAccountTab.accountUserId.equals( loginId ) ) {
         return tempAccountTab;
       }
@@ -1876,12 +1967,12 @@ public class MainFrame extends Window {
     GroupHeader buddyGroup;
     BuddyItem buddyItem;
     for ( int i = 0; i < buddyItems.size(); i++ ) {
-      buddyGroup = (GroupHeader) buddyItems.elementAt( i );
+      buddyGroup = ( GroupHeader ) buddyItems.elementAt( i );
       if ( buddyGroup.getChilds() == null || buddyGroup.getChildsCount() == 0 ) {
         continue;
       }
       for ( int j = 0; j < buddyGroup.getChilds().size(); j++ ) {
-        buddyItem = (BuddyItem) buddyGroup.getChilds().elementAt( j );
+        buddyItem = ( BuddyItem ) buddyGroup.getChilds().elementAt( j );
         if ( buddyItem != null && buddyItem.getUserId() != null && buddyItem.getUserId().equals( buddyId ) ) {
           return buddyItem;
         }

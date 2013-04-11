@@ -1,5 +1,7 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.BuddyItem;
+import com.tomclaw.mandarin.core.AccountRoot;
 import com.tomclaw.bingear.GroupNotFoundException;
 import com.tomclaw.bingear.IncorrectValueException;
 import com.tomclaw.tcuilite.*;

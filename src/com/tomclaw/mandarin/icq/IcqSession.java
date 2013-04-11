@@ -1,6 +1,6 @@
 package com.tomclaw.mandarin.icq;
 
-import com.tomclaw.mandarin.main.ActionExec;
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.mandarin.net.IncorrectAddressException;
 import com.tomclaw.mandarin.net.NetConnection;
@@ -75,7 +75,7 @@ public class IcqSession implements Runnable {
     snac.addWord( 0x0000 );
 
     LogUtil.outMessage( "sending auth key request" );
-    snac.send( getNetworkConnection(), getNextSeq() );
+    snac.send( getNetworkConnection().outputStream, getNextSeq() );
     /** Reading auth key from server **/
     packetData = receivePacket();
     int snacFamily = DataUtil.get16( packetData, 0 );
@@ -91,7 +91,7 @@ public class IcqSession implements Runnable {
       int keyLength = DataUtil.get16( packetData, 10 );
       String key = DataUtil.byteArray2string( packetData, 12, keyLength );
       LogUtil.outMessage( "Key: " + key );
-      ActionExec.setConnectionStage( icqAccountRoot, 2 );
+      Handler.setConnectionStage( icqAccountRoot, 2 );
       /** Generating MD5 hash **/
       String aol = "AOL Instant Messenger (SM)";
       MD5 md5 = new MD5( key.concat( icqAccountRoot.userPassword ).concat( aol ).getBytes() );
@@ -105,7 +105,7 @@ public class IcqSession implements Runnable {
       snac.addWord( md5hash.length );
       snac.addByteArray( md5hash );
       LogUtil.outMessage( "sending MD5 hash" );
-      snac.send( getNetworkConnection(), getNextSeq() );
+      snac.send( getNetworkConnection().outputStream, getNextSeq() );
       /** Reading and parsing server data **/
       String bosHostPort = new String();
       byte[] cookie = new byte[ 0 ];
@@ -185,7 +185,7 @@ public class IcqSession implements Runnable {
          */
         netConnection.disconnect();
         LogUtil.outMessage( "Auth disconnected. Connecting to BOS: " + bosHostPort );
-        ActionExec.setConnectionStage( icqAccountRoot, 4 );
+        Handler.setConnectionStage( icqAccountRoot, 4 );
         netConnection.connectAddress( bosHostPort );
         LogUtil.outMessage( "Connected to BOS" );
 
@@ -320,7 +320,7 @@ public class IcqSession implements Runnable {
       /** Closing auth connection & connecting to BOS **/
       netConnection.disconnect();
       LogUtil.outMessage( "Auth disconnected. Connecting to BOS: " + bosHostPort );
-      ActionExec.setConnectionStage( icqAccountRoot, 4 );
+      Handler.setConnectionStage( icqAccountRoot, 4 );
       netConnection.connectAddress( bosHostPort );
       LogUtil.outMessage( "Connected to BOS" );
       protocolNegotation( cookie, initStatus );
@@ -334,7 +334,7 @@ public class IcqSession implements Runnable {
   public void protocolNegotation( byte[] cookie, int initStatus )
           throws IOException, InterruptedException, LegacyProtocolException {
     /** Protocol negotiation **/
-    ActionExec.setConnectionStage( icqAccountRoot, 5 );
+    Handler.setConnectionStage( icqAccountRoot, 5 );
     /** Reading hello packet **/
     receiveAllPackets();
     /** Sending auth data **/
@@ -359,7 +359,7 @@ public class IcqSession implements Runnable {
      * Login to BOS is complete
      */
     LogUtil.outMessage( "Login to BOS is complete" );
-    ActionExec.setConnectionStage( icqAccountRoot, 6 );
+    Handler.setConnectionStage( icqAccountRoot, 6 );
 
     /**
      * Receiving supported services list
@@ -387,7 +387,7 @@ public class IcqSession implements Runnable {
               0x00, 0x25, 0x00, 0x01
             } );
 
-    snac.send( netConnection, ++seq );
+    snac.send( netConnection.outputStream, ++seq );
 
     /**
      * Server sends its services version numbers
@@ -400,7 +400,7 @@ public class IcqSession implements Runnable {
      * Client ask server for rate limits info
      */
     snac = new Snac( 0x0001, 0x0006, 0, 0, 7 );
-    snac.send( netConnection, ++seq );
+    snac.send( netConnection.outputStream, ++seq );
 
     /**
      * Server sends rate limits information
@@ -416,9 +416,9 @@ public class IcqSession implements Runnable {
     snac.addWord( 0x0003 );
     snac.addWord( 0x0004 );
     snac.addWord( 0x0005 );
-    snac.send( netConnection, ++seq );
+    snac.send( netConnection.outputStream, ++seq );
 
-    ActionExec.setConnectionStage( icqAccountRoot, 7 );
+    Handler.setConnectionStage( icqAccountRoot, 7 );
     /**
      * Services setup
      */
@@ -426,7 +426,7 @@ public class IcqSession implements Runnable {
      * Client ask server location service limitations
      */
     snac = new Snac( 0x0002, 0x0002, 0, 0, 9 );
-    snac.send( netConnection, ++seq );
+    snac.send( netConnection.outputStream, ++seq );
     /**
      * Server replies via location service limitations
      */
@@ -439,8 +439,8 @@ public class IcqSession implements Runnable {
      * Client ask server BLM service limitations
      */
     snac = new Snac( 0x0003, 0x0002, 0, 0, 10 );
-    snac.send( netConnection, ++seq );
-    ActionExec.setConnectionStage( icqAccountRoot, 8 );
+    snac.send( netConnection.outputStream, ++seq );
+    Handler.setConnectionStage( icqAccountRoot, 8 );
     /**
      * Server replies via BLM service limitations
      */
@@ -449,7 +449,7 @@ public class IcqSession implements Runnable {
      * Client ask server ICBM service parameters
      */
     snac = new Snac( 0x0004, 0x0004, 0, 0, 11 );
-    snac.send( netConnection, ++seq );
+    snac.send( netConnection.outputStream, ++seq );
     /**
      * Server sends ICBM service parameters to client
      */
@@ -472,33 +472,33 @@ public class IcqSession implements Runnable {
     snac.addWord( 0x0000 );
     // Unknown parameter 0x0000
     snac.addWord( 0x0000 );
-    snac.send( netConnection, ++seq );
+    snac.send( netConnection.outputStream, ++seq );
     /** Server sends ICBM service parameters to client **/
     // receiveAllPackets();
     /** Client ask server PRM service limitations **/
     snac = new Snac( 0x0009, 0x0002, 0, 0, 13 );
-    snac.send( netConnection, ++seq );
+    snac.send( netConnection.outputStream, ++seq );
     /** Server sends PRM service limitations to client **/
     // REMOVED: receiveAllPackets();
     /** Client ask server for SSI service limitations **/
     snac = new Snac( 0x0013, 0x0002, 0, 0, 14 );
-    snac.send( netConnection, ++seq );
+    snac.send( netConnection.outputStream, ++seq );
     /** Server sends SSI service limitations to client **/
     // REMOVED: receiveAllPackets();
-    ActionExec.setConnectionStage( icqAccountRoot, 9 );
+    Handler.setConnectionStage( icqAccountRoot, 9 );
     /** Client requests SSI **/
     snac = new Snac( 0x0013, 0x0004, 0, 0, 15 );
-    snac.send( netConnection, ++seq );
+    snac.send( netConnection.outputStream, ++seq );
     /** Server sends client SSI **/
     receiveAllPackets();
     /** Client activates server SSI data **/
     snac = new Snac( 0x0013, 0x0007, 0, 0, 16 );
-    snac.send( netConnection, ++seq );
+    snac.send( netConnection.outputStream, ++seq );
     /** Final actions **/
     finalActions( initStatus );
   }
 
-  public void finalActions( int initStatus ) 
+  public void finalActions( int initStatus )
           throws IOException, IOException, InterruptedException {
     /** Final actions **/
     /** Client sends its DC info and status to server **/
@@ -542,7 +542,7 @@ public class IcqSession implements Runnable {
               ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00, ( byte ) 0x00,
               ( byte ) 0x00, ( byte ) 0x00
             } );
-    snac.send( netConnection, ++seq );
+    snac.send( netConnection.outputStream, ++seq );
     /** Setting/Update private status **/
     IcqPacketSender.setUpdatePrivacy( icqAccountRoot.session, icqAccountRoot.privateBuddyId, icqAccountRoot.pStatusId );
     /** Client READY command **/
@@ -584,13 +584,12 @@ public class IcqSession implements Runnable {
     snac.addWord( 0x0002 );
     snac.addDWord( 69636 );
 
-    snac.send( netConnection, ++seq );
+    snac.send( netConnection.outputStream, ++seq );
     /** Requesting offline messages **/
     IcqPacketSender.requestOfflineMessages( icqAccountRoot.session, icqAccountRoot.userId );
     /** Looking for some stuff on server **/
-    Thread thread = new Thread( this );
-    thread.start();
-    ActionExec.setConnectionStage( icqAccountRoot, 10 );
+    new Thread( this ).start();
+    Handler.setConnectionStage( icqAccountRoot, 10 );
   }
 
   public void receiveAllPackets() throws IOException, InterruptedException, LegacyProtocolException {
@@ -699,7 +698,7 @@ public class IcqSession implements Runnable {
     }
     int prevStatus = icqAccountRoot.statusIndex;
     icqAccountRoot.statusIndex = 0;
-    ActionExec.disconnectEvent( icqAccountRoot );
+    Handler.disconnectEvent( icqAccountRoot );
     if ( MidletMain.autoReconnect && isError ) {
       try {
         Thread.sleep( MidletMain.reconnectTime );

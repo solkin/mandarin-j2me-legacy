@@ -1,5 +1,6 @@
-package com.tomclaw.mandarin.main;
+package com.tomclaw.mandarin.core;
 
+import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.utils.ArrayUtil;
 import com.tomclaw.utils.LogUtil;
 import com.tomclaw.utils.StringUtil;

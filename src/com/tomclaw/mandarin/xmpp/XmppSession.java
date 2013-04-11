@@ -1,6 +1,6 @@
 package com.tomclaw.mandarin.xmpp;
 
-import com.tomclaw.mandarin.main.ActionExec;
+import com.tomclaw.mandarin.core.Handler;
 import com.tomclaw.mandarin.main.MidletMain;
 import com.tomclaw.mandarin.main.TransactionItemFrame;
 import com.tomclaw.mandarin.net.NetConnection;
@@ -35,12 +35,12 @@ public class XmppSession {
   }
 
   public void connect( int status ) throws IOException, Throwable {
-    ActionExec.setConnectionStage( xmppAccountRoot, 0 );
+    Handler.setConnectionStage( xmppAccountRoot, 0 );
     netConnection.connectAddress( xmppAccountRoot.host, Integer.parseInt( xmppAccountRoot.port ) );
-    ActionExec.setConnectionStage( xmppAccountRoot, 2 );
+    Handler.setConnectionStage( xmppAccountRoot, 2 );
     xmlReader = new XmlReader(/*new VirtualInputStream*/ ( netConnection.inputStream ) );
     xmlWriter = new XmlWriter(/*new VirtualOutputStream*/ ( netConnection.outputStream ) );
-    ActionExec.setConnectionStage( xmppAccountRoot, 4 );
+    Handler.setConnectionStage( xmppAccountRoot, 4 );
 
     LogUtil.outMessage( "host=" + xmppAccountRoot.host );
     LogUtil.outMessage( "username=" + xmppAccountRoot.username );
@@ -53,7 +53,7 @@ public class XmppSession {
       do {
         xmlReader.nextTag();
       } while ( ( xmlReader.tagType != XmlReader.TAG_CLOSING ) || ( !xmlReader.tagName.equals( "stream:features" ) ) );
-      ActionExec.setConnectionStage( xmppAccountRoot, 6 );
+      Handler.setConnectionStage( xmppAccountRoot, 6 );
       LogUtil.outMessage( "SASL phase1" );
 
       msg = "<auth xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='PLAIN'>";
@@ -74,7 +74,7 @@ public class XmppSession {
         return;
       }
       LogUtil.outMessage( "SASL phase2" );
-      ActionExec.setConnectionStage( xmppAccountRoot, 7 );
+      Handler.setConnectionStage( xmppAccountRoot, 7 );
       msg = "<stream:stream xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams' to='" + xmppAccountRoot.host + "' version='1.0'>";
       xmlWriter.writeDirect( msg.getBytes() );
 
@@ -101,7 +101,7 @@ public class XmppSession {
     } else {
       netConnection.write( "<?xml version=\"1.0\"?>".getBytes() );
 
-      ActionExec.setConnectionStage( xmppAccountRoot, 6 );
+      Handler.setConnectionStage( xmppAccountRoot, 6 );
       // start stream
       xmlWriter.startTag( "stream:stream" );
       xmlWriter.attribute( "from", xmppAccountRoot.userId.concat( "/" ).concat( xmppAccountRoot.resource ) );
@@ -110,7 +110,7 @@ public class XmppSession {
       xmlWriter.attribute( "xmlns:stream", "http://etherx.jabber.org/streams" );
       xmlWriter.flush();
 
-      ActionExec.setConnectionStage( xmppAccountRoot, 7 );
+      Handler.setConnectionStage( xmppAccountRoot, 7 );
 
       // log in
       xmlWriter.startTag( "iq" );
@@ -134,18 +134,18 @@ public class XmppSession {
       xmlWriter.flush();
     }
 
-    ActionExec.setConnectionStage( xmppAccountRoot, 8 );
+    Handler.setConnectionStage( xmppAccountRoot, 8 );
 
     XmppSender.sendRosterRequest( this );
 
-    ActionExec.setConnectionStage( xmppAccountRoot, 9 );
+    Handler.setConnectionStage( xmppAccountRoot, 9 );
 
     XmppSender.setStatus( xmlWriter, xmppAccountRoot.userId.concat( "/" ).concat( xmppAccountRoot.resource ),
             XmppStatusUtil.statuses[status], "", 5 );
 
     xmppAccountRoot.statusIndex = status;
 
-    ActionExec.setConnectionStage( xmppAccountRoot, 10 );
+    Handler.setConnectionStage( xmppAccountRoot, 10 );
     isAlive = true;
 
     new Thread() {
@@ -172,7 +172,7 @@ public class XmppSession {
         }
         LogUtil.outMessage( "XMPP parsing completed" );
         xmppAccountRoot.statusIndex = XmppStatusUtil.offlineIndex;
-        ActionExec.disconnectEvent( xmppAccountRoot );
+        Handler.disconnectEvent( xmppAccountRoot );
         if ( isAlive ) {
           int prevStatus = xmppAccountRoot.getStatusIndex();
 
@@ -311,12 +311,12 @@ public class XmppSession {
       }
       LogUtil.outMessage( "Searching for... " + getClearJid( from ) );
       if ( t_id != null && t_id.startsWith( "groupchat_join_" ) && type.equals( "error" ) ) {
-        ActionExec.setBookmarkError( xmppAccountRoot, t_id, errorText, errorId );
+        Handler.setBookmarkError( xmppAccountRoot, t_id, errorText, errorId );
       } else if ( !type.equals( "error" ) ) {
         if ( MidletMain.bookmarksFrame != null ) {
           MidletMain.bookmarksFrame.setBookmarkStatus( xmppAccountRoot, getClearJid( from ) );
         }
-        ActionExec.setXmppStatus( xmppAccountRoot, from, t_show, t_status, capsNode, capsVer );
+        Handler.setXmppStatus( xmppAccountRoot, from, t_show, t_status, capsNode, capsVer );
       }
     } catch ( Throwable ex1 ) {
       LogUtil.outMessage( "XmppSession: " + ex1.getMessage() );
@@ -351,14 +351,14 @@ public class XmppSession {
           if ( xmlReader.tagName.equals( "body" ) && xmlReader.tagType == XmlReader.TAG_CLOSING ) {
             LogUtil.outMessage( "Message or subject from " + from + ": " + xmlReader.body );
             if ( type.equals( "chat" ) ) {
-              ActionExec.recMess( xmppAccountRoot, getClearJid( from ), getJidResource( from ), null, xmlReader.body, t_id.getBytes(), com.tomclaw.tcuilite.ChatItem.TYPE_PLAIN_MSG );
+              Handler.recMess( xmppAccountRoot, getClearJid( from ), getJidResource( from ), null, xmlReader.body, t_id.getBytes(), com.tomclaw.tcuilite.ChatItem.TYPE_PLAIN_MSG );
             } else if ( type.equals( "groupchat" ) ) {
               if ( MidletMain.bookmarksFrame != null ) {
                 MidletMain.bookmarksFrame.setBookmarkStatus( xmppAccountRoot, getClearJid( from ) );
               }
               String messageText = xmlReader.body;
               String nick = ( ( getJidResource( from ).length() == 0 ) ? Localization.getMessage( "SYSTEM_MSG" ) : getJidResource( from ) );
-              ActionExec.recMess(
+              Handler.recMess(
                       xmppAccountRoot, getClearJid( from ), "",
                       nick,
                       messageText, t_id.getBytes(),
@@ -460,7 +460,7 @@ public class XmppSession {
                 LogUtil.outMessage( "unclassified appended" );
               }
               LogUtil.outMessage( "Roster parsed." );
-              ActionExec.setBuddyList( xmppAccountRoot, buddyItems, null, 0, 0, new byte[]{} );
+              Handler.setBuddyList( xmppAccountRoot, buddyItems, null, 0, 0, new byte[]{} );
               // Main.mainFrame.updateRoster();
             } else if ( xmlReader.getAttrValue( "xmlns", false ).equals( "http://jabber.org/protocol/disco#items" )
                     && xmlReader.tagType == XmlReader.TAG_PLAIN ) {
@@ -475,7 +475,7 @@ public class XmppSession {
               }
               if ( id.startsWith( "srvfrm_items" ) ) {
                 LogUtil.outMessage( "Services list" );
-                ActionExec.setServicesList( this.xmppAccountRoot, discoItems, id );
+                Handler.setServicesList( this.xmppAccountRoot, discoItems, id );
               }
             } else if ( xmlReader.getAttrValue( "xmlns", false ).equals( "http://jabber.org/protocol/disco#info" )
                     && xmlReader.tagType == XmlReader.TAG_PLAIN ) {
@@ -494,10 +494,10 @@ public class XmppSession {
               }
               if ( id.startsWith( "srvfrm_host" ) ) {
                 LogUtil.outMessage( "Host info" );
-                ActionExec.setHostInfo( this.xmppAccountRoot, id, identityes, features );
+                Handler.setHostInfo( this.xmppAccountRoot, id, identityes, features );
               } else if ( id.startsWith( "srvfrm_info" ) ) {
                 LogUtil.outMessage( "Service info" );
-                ActionExec.setServiceInfo( this.xmppAccountRoot, from, id, identityes, features );
+                Handler.setServiceInfo( this.xmppAccountRoot, from, id, identityes, features );
               }
             } else if ( xmlReader.getAttrValue( "xmlns", false ).equals( "jabber:iq:private" ) ) {
               Vector bookmarks = null;
@@ -533,9 +533,9 @@ public class XmppSession {
               LogUtil.outMessage( "id: " + id );
               if ( id.startsWith( "bookmrksfrm_get" ) ) {
                 LogUtil.outMessage( "Host info" );
-                ActionExec.setBookmarks( this.xmppAccountRoot, id, bookmarks );
+                Handler.setBookmarks( this.xmppAccountRoot, id, bookmarks );
               } else if ( id.startsWith( "bookmrksfrm_set" ) ) {
-                ActionExec.setBookmarks( this.xmppAccountRoot, id, null );
+                Handler.setBookmarks( this.xmppAccountRoot, id, null );
               }
             } else if ( xmlReader.getAttrValue( "xmlns", false ).equals( "http://jabber.org/protocol/muc#owner" ) ) {
               Vector objects = new Vector();
@@ -669,10 +669,10 @@ public class XmppSession {
               LogUtil.outMessage( "id: " + id );
               if ( id.startsWith( "grconffrm_get" ) ) {
                 LogUtil.outMessage( "Settings info" );
-                ActionExec.setGroupChatSettings( this.xmppAccountRoot, id, objects, FORM_TYPE );
+                Handler.setGroupChatSettings( this.xmppAccountRoot, id, objects, FORM_TYPE );
               } else if ( id.startsWith( "grconffrm_set" ) ) {
                 LogUtil.outMessage( "Settings info set" );
-                ActionExec.setGroupChatResult( this.xmppAccountRoot, id );
+                Handler.setGroupChatResult( this.xmppAccountRoot, id );
               }
             } else if ( xmlReader.getAttrValue( "xmlns", false ).equals( "http://jabber.org/protocol/muc#admin" ) ) {
               LogUtil.outMessage( "http://jabber.org/protocol/muc#admin" );
@@ -700,10 +700,10 @@ public class XmppSession {
               }
               if ( id.startsWith( "grchus_frm_" ) ) {
                 LogUtil.outMessage( "Setting users list" );
-                ActionExec.setGroupChatResult( this.xmppAccountRoot, id, items );
+                Handler.setGroupChatResult( this.xmppAccountRoot, id, items );
               } else if ( id.startsWith( "afladd_frm_" ) ) {
                 LogUtil.outMessage( "Affiliation add result" );
-                ActionExec.setAffiliationAddResult( xmppAccountRoot, id );
+                Handler.setAffiliationAddResult( xmppAccountRoot, id );
               }
             }
           } else if ( xmlReader.tagName.equals( "si" )/* && xmlReader.tagType == XmlReader.TAG_PLAIN*/ ) {

@@ -1,12 +1,12 @@
 package com.tomclaw.mandarin.main;
 
+import com.tomclaw.mandarin.core.*;
 import com.tomclaw.mandarin.mmp.MmpAccountRoot;
 import com.tomclaw.mandarin.mmp.MmpItem;
 import com.tomclaw.tcuilite.*;
 import com.tomclaw.tcuilite.localization.Localization;
 import com.tomclaw.utils.LogUtil;
 import com.tomclaw.utils.StringUtil;
-import java.io.IOException;
 import java.util.Hashtable;
 import javax.microedition.lcdui.TextField;
 
@@ -34,54 +34,52 @@ public class AddingBuddyFrame extends Window {
     soft = new Soft( MidletMain.screen );
     /** Left soft items **/
     soft.leftSoft = new PopupItem( Localization.getMessage( "CANCEL" ) ) {
+
       public void actionPerformed() {
         MidletMain.screen.setActiveWindow( s_prevWindow );
       }
     };
     soft.rightSoft = new PopupItem( Localization.getMessage( "ADD" ) ) {
+
       public void actionPerformed() {
         if ( !StringUtil.isFill( buddyIdField.getText() )
                 || !StringUtil.isFill( buddyNickField.getText() ) ) {
-          ActionExec.showNotify( Localization.getMessage( "EMPTY_FIELDS" ) );
+          Handler.showNotify( Localization.getMessage( "EMPTY_FIELDS" ) );
         } else {
-          try {
-            BuddyGroup groupItem = ( winType == TYPE_PHONE
-                    ? ( ( MmpAccountRoot ) accountRoot ).phoneGroup
-                    : ( BuddyGroup ) accountRoot.getBuddyItems()
-                    .elementAt( buddyGroup.getCombed() ) );
+          BuddyGroup groupItem = ( winType == TYPE_PHONE
+                  ? ( ( MmpAccountRoot ) accountRoot ).phoneGroup
+                  : ( BuddyGroup ) accountRoot.getBuddyItems().elementAt( buddyGroup.getCombed() ) );
 
-            BuddyItem buddyItem = accountRoot.getBuddyInstance();
-            buddyItem.setIsPhone( winType == TYPE_PHONE );
-            buddyItem.setUserId( buddyIdField.getText() );
-            buddyItem.setUserNick( buddyNickField.getText() );
+          BuddyItem buddyItem = accountRoot.getBuddyInstance();
+          buddyItem.setIsPhone( winType == TYPE_PHONE );
+          buddyItem.setUserId( buddyIdField.getText() );
+          buddyItem.setUserNick( buddyNickField.getText() );
 
-            Cookie cookie = accountRoot.addBuddy( buddyItem, groupItem );
+          Cookie cookie = accountRoot.addBuddy( buddyItem, groupItem );
 
-            QueueAction queueAction = new QueueAction( accountRoot,
-                    buddyItem, cookie ) {
-              public void actionPerformed( Hashtable params ) {
-                switch ( winType ) {
-                  case TYPE_MMP:
-                  case TYPE_PHONE: {
-                    ( ( MmpItem ) this.buddyItem ).contactId =
-                            ( ( Long ) params.get( "contactId" ) ).longValue();
-                    break;
-                  }
+          QueueAction queueAction = new QueueAction( accountRoot,
+                  buddyItem, cookie ) {
+
+            public void actionPerformed( Hashtable params ) {
+              switch ( winType ) {
+                case TYPE_MMP:
+                case TYPE_PHONE: {
+                  ( ( MmpItem ) this.buddyItem ).contactId =
+                          ( ( Long ) params.get( "contactId" ) ).longValue();
+                  break;
                 }
-                getBuddyGroup().addChild( this.buddyItem );
-                LogUtil.outMessage( "Action Performed" );
-                this.buddyItem.updateUiData();
-                this.accountRoot.updateOfflineBuddylist();
               }
-            };
-            queueAction.setBuddyGroup( groupItem );
-            LogUtil.outMessage( "QueueAction created" );
-            Queue.pushQueueAction( queueAction );
+              getBuddyGroup().addChild( this.buddyItem );
+              LogUtil.outMessage( "Action Performed" );
+              this.buddyItem.updateUiData();
+              this.accountRoot.updateOfflineBuddylist();
+            }
+          };
+          queueAction.setBuddyGroup( groupItem );
+          LogUtil.outMessage( "QueueAction created" );
+          Queue.pushQueueAction( queueAction );
 
-            MidletMain.screen.setActiveWindow( s_prevWindow );
-          } catch ( IOException ex ) {
-            ActionExec.showError( Localization.getMessage( "IO_EXCEPTION" ) );
-          }
+          MidletMain.screen.setActiveWindow( s_prevWindow );
         }
       }
     };
@@ -126,7 +124,7 @@ public class AddingBuddyFrame extends Window {
       pane.addItem( new Label( Localization.getMessage( "SELECT_GROUP" ) ) );
       buddyGroup = new RadioGroup();
       if ( accountRoot.getBuddyItems().isEmpty() ) {
-        ActionExec.showFail( Localization.getMessage( "NO_GROUPS" ) );
+        Handler.showFail( Localization.getMessage( "NO_GROUPS" ) );
       } else {
         BuddyGroup groupItem;
         for ( int c = 0; c < accountRoot.getBuddyItems().size(); c++ ) {

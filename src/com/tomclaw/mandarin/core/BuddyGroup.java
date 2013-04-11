@@ -1,4 +1,4 @@
-package com.tomclaw.mandarin.main;
+package com.tomclaw.mandarin.core;
 
 import com.tomclaw.tcuilite.GroupHeader;
 
