@@ -177,6 +177,11 @@ public class MmpSession implements Runnable {
 
   public void disconnect() {
     isAlive = false;
+    try {
+      netConnection.disconnect();
+    } catch ( IOException ex ) {
+      LogUtil.outMessage( "Couldn't disconnect from MMP" );
+    }
   }
 
   public void run() {
@@ -190,7 +195,6 @@ public class MmpSession implements Runnable {
         }
         MidletMain.pack_count++;
       } catch ( Throwable ex ) {
-        ex.printStackTrace();
         if ( isAlive ) {
           isError = true;
           isAlive = false;

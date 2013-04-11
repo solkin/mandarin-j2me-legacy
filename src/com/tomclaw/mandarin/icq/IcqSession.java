@@ -631,6 +631,11 @@ public class IcqSession implements Runnable {
 
   public void disconnect() {
     isAlive = false;
+    try {
+      netConnection.disconnect();
+    } catch ( Throwable ex ) {
+      LogUtil.outMessage( "Coulnd't disconnect from ICQ!", true );
+    }
   }
 
   public boolean getAlive() {
