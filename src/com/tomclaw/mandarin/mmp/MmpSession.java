@@ -89,18 +89,21 @@ public class MmpSession implements Runnable {
 
       public void run() {
         while ( isAlive ) {
+          try {
+            sleep( MmpSession.this.pingDelay );
+            BinarySpore binarySpore = new BinarySpore() {
 
-          BinarySpore binarySpore = new BinarySpore() {
-
-            public void onRun() throws Throwable {
-              sleep( MmpSession.this.pingDelay / 2 );
-              Packet packet = new Packet();
-              packet.seq = seqNum++;
-              packet.msg = PacketType.MRIM_CS_PING;
-              packet.send( this );
-            }
-          };
-          netConnection.outputStream.releaseSpore( binarySpore );
+              public void onRun() throws Throwable {
+                Packet packet = new Packet();
+                packet.seq = seqNum++;
+                packet.msg = PacketType.MRIM_CS_PING;
+                packet.send( this );
+              }
+            };
+            netConnection.outputStream.releaseSpore( binarySpore );
+          } catch ( InterruptedException ex ) {
+            LogUtil.outMessage( "Can't send ping due to interrupt exception!" );
+          }
         }
       }
     };
